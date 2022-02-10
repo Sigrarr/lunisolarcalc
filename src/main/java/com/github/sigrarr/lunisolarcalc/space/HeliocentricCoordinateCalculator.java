@@ -3,13 +3,19 @@ package com.github.sigrarr.lunisolarcalc.space;
 import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public class HeliocentricEclipticCoordinateCalculator {
+public class HeliocentricCoordinateCalculator {
 
-    private final static double UNIT_RADIANS = 0.00000001;
+    public static enum Unit {
+        RADIAN, ASTRONOMICAL_UNIT
+    }
+
+    private final static double SCALE = 0.00000001;
     protected PeriodicTermsForHeliocentricCoordinate periodicTerms;
+    protected Unit unit;
 
-    public HeliocentricEclipticCoordinateCalculator(PeriodicTermsForHeliocentricCoordinate periodicTerms) {
+    public HeliocentricCoordinateCalculator(PeriodicTermsForHeliocentricCoordinate periodicTerms, Unit unit) {
         this.periodicTerms = periodicTerms;
+        this.unit = unit;
     }
 
     /**
@@ -21,7 +27,7 @@ public class HeliocentricEclipticCoordinateCalculator {
         for (int n = 0; n < seriesCount; n++) {
             total += periodicTerms.evaluateSeries(tau, n) * Math.pow(tau, n);
         }
-        double longitudeRadians = total * UNIT_RADIANS;
-        return Calcs.normalizeAngle(longitudeRadians);
+        double value = total * SCALE;
+        return unit == Unit.RADIAN ? Calcs.normalizeAngle(value) : value;
     }
 }

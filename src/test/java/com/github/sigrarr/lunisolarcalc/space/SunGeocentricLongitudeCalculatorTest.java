@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 
-public class SunGeocentricEclipticLongitudeCalculatorTest {
+public class SunGeocentricLongitudeCalculatorTest {
 
-    private SunGeocentricEclipticLongitudeCalculator calculator = new SunGeocentricEclipticLongitudeCalculator();
+    private SunGeocentricLongitudeCalculator calculator = new SunGeocentricLongitudeCalculator();
 
     @Test
     public void shouldCalculateFK5GeometricLongitude() {
