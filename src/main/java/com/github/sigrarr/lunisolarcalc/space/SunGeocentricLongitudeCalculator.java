@@ -1,6 +1,5 @@
 package com.github.sigrarr.lunisolarcalc.space;
 
-import com.github.sigrarr.lunisolarcalc.space.HeliocentricCoordinateCalculator.Unit;
 import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
@@ -11,14 +10,14 @@ public class SunGeocentricLongitudeCalculator {
      */
     public static final double BASIC_TO_FK5_DELTA = Math.toRadians(Calcs.arcsecondsToDegrees(-0.09033));
     private static final double HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND = Math.PI + BASIC_TO_FK5_DELTA;
-    private HeliocentricCoordinateCalculator heliocentricCalculator = new HeliocentricCoordinateCalculator(new PeriodicTermsForEarthLongitude(), Unit.RADIAN);
+    private HeliocentricLongitudeCalculator heliocentricCalculator = new HeliocentricLongitudeCalculator();
     private EarthNutuationCalculator deltaPsiCalculator = new EarthNutuationCalculator(new PeriodicTermsForNutuationInLongitude());
 
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
      */
     public double calculateGeometricLongitude(double tau) {
-        return heliocentricCalculator.calculateCoordinate(tau) + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND;
+        return heliocentricCalculator.calculate(tau) + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND;
     } 
 
     /**

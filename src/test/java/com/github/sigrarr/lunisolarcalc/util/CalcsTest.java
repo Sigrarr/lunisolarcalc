@@ -7,11 +7,20 @@ import org.junit.Test;
 public class CalcsTest {
 
     @Test
-    public void shouldNormalizeAngleToSubRound() {
-        assertEquals(0.0, Calcs.normalizeAngle(0.0), Calcs.EPSILON_12);
-        assertEquals(0.5 * Math.PI, Calcs.normalizeAngle(0.5 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(Math.PI, Calcs.normalizeAngle(3 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(0.1 * Math.PI, Calcs.normalizeAngle(12.1 * Math.PI), Calcs.EPSILON_12);
+    public void shouldNormalizeLongitudinallyToSubRound() {
+        assertEquals(0.0, Calcs.normalizeLongitudinally(0.0), Calcs.EPSILON_12);
+        assertEquals(0.5 * Math.PI, Calcs.normalizeLongitudinally(0.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(0.1 * Math.PI, Calcs.normalizeLongitudinally( 12.1 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(1.9 * Math.PI, Calcs.normalizeLongitudinally(-12.1 * Math.PI), Calcs.EPSILON_12);
+    }
+
+    @Test
+    public void shouldNormalizeLatitudinallyToSubHalfRounds() {
+        assertEquals( 0.0, Calcs.normalizeLatitudinally(0.0), Calcs.EPSILON_12);
+        assertEquals( 0.5 * Math.PI, Calcs.normalizeLatitudinally( 0.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(-0.5 * Math.PI, Calcs.normalizeLatitudinally( 1.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals( 0.5 * Math.PI, Calcs.normalizeLatitudinally(-1.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(-0.25 * Math.PI, Calcs.normalizeLatitudinally(-0.25 * Math.PI), Calcs.EPSILON_12);
     }
 
     @Test

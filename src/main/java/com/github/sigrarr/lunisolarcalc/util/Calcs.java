@@ -39,12 +39,20 @@ public class Calcs {
         return equal(a, b) ? 0 : (a < b ? -1 : 1);
     }
 
-    public static double normalizeAngle(double radians) {
+    public static double normalizeLongitudinally(double radians) {
         return radians - (TWO_PI * Math.floor(radians / TWO_PI));
     }
 
-    public static double toNormalizedRadians(double degrees) {
-        return normalizeAngle(Math.toRadians(degrees));
+    public static double normalizeLatitudinally(double radians) {
+        return radians - TWO_PI * Math.floor((radians + Math.PI) / TWO_PI);
+    }
+
+    public static double toLongitudinallyNormalRadians(double degrees) {
+        return normalizeLongitudinally(Math.toRadians(degrees));
+    }
+
+    public static double toLatidudinallyNormalRadians(double degrees) {
+        return normalizeLatitudinally(Math.toRadians(degrees));
     }
 
     public static double toArcminutes(double degrees) {

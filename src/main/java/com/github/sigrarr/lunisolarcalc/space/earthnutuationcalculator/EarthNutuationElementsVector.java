@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.space.earthnutuationcalculator;
 
-import com.github.sigrarr.lunisolarcalc.util.Calcs;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.toLongitudinallyNormalRadians;
 
 public class EarthNutuationElementsVector {
 
@@ -19,11 +19,21 @@ public class EarthNutuationElementsVector {
     public void calculate(double centurialT) {
         double cT2 = centurialT * centurialT;
         double cT3 = cT2 * centurialT;
-        values[DIMENSION_MEAN_ELONGATION_OF_MOON_FROM_SUN] = Calcs.toNormalizedRadians(297.85036 + (445267.11148 * centurialT) - (0.0019142 * cT2) + (cT3 / 189474.0));
-        values[DIMENSION_MEAN_ANOMALY_OF_SUN] = Calcs.toNormalizedRadians(357.52772 + (35999.05034 * centurialT) - (0.0001603 * cT2) - (cT3 / 300000.0));
-        values[DIMENSION_MEAN_ANOMALY_OF_MOON] = Calcs.toNormalizedRadians(134.96298 + (477198.867398 * centurialT) + (0.0086972 * cT2) + (cT3 / 56250.0));
-        values[DIMENSION_ARGUMENT_OF_LATITUDE_OF_MOON] = Calcs.toNormalizedRadians(93.27191 + (483202.017538 * centurialT) - (0.0036825 * cT2) + (cT3 / 327270.0));
-        values[DIMENSION_LONGITUDE_OF_ASCENDING_NODE_OF_MEAN_ORBIT_OF_MOON] = Calcs.toNormalizedRadians(125.04452 - (1934.136261 * centurialT) + (0.0020708 * cT2) + (cT3 / 450000.0));
+        values[DIMENSION_MEAN_ELONGATION_OF_MOON_FROM_SUN] = toLongitudinallyNormalRadians(
+            297.85036 + (445267.11148 * centurialT) - (0.0019142 * cT2) + (cT3 / 189474.0)
+        );
+        values[DIMENSION_MEAN_ANOMALY_OF_SUN] = toLongitudinallyNormalRadians(
+            357.52772 + (35999.05034 * centurialT) - (0.0001603 * cT2) - (cT3 / 300000.0)
+        );
+        values[DIMENSION_MEAN_ANOMALY_OF_MOON] = toLongitudinallyNormalRadians(
+            134.96298 + (477198.867398 * centurialT) + (0.0086972 * cT2) + (cT3 / 56250.0)
+        );
+        values[DIMENSION_ARGUMENT_OF_LATITUDE_OF_MOON] = toLongitudinallyNormalRadians(
+            93.27191 + (483202.017538 * centurialT) - (0.0036825 * cT2) + (cT3 / 327270.0)
+        );
+        values[DIMENSION_LONGITUDE_OF_ASCENDING_NODE_OF_MEAN_ORBIT_OF_MOON] = toLongitudinallyNormalRadians(
+            125.04452 - (1934.136261 * centurialT) + (0.0020708 * cT2) + (cT3 / 450000.0)
+        );
     }
 
     public EarthNutuationElementsVector() {}
