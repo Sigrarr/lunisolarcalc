@@ -11,10 +11,10 @@ public class EarthNutuationApproximator {
         double basicOmega = Calcs.toNormalizedRadians(125.04452 - (1934.136261 * centurialT));
         double l = Calcs.toNormalizedRadians(280.4665 + (36000.7698 * centurialT));
         double lPrim = Calcs.toNormalizedRadians(218.3165 + (481267.8813 * centurialT));
-        double resultArcSeconds = (-17.2 * Math.sin(basicOmega))
+        double resultArcseconds = (-17.2 * Math.sin(basicOmega))
             - (1.32 * Math.sin(-2.0 * l))
             - (0.23 * Math.sin(2.0 * lPrim))
             + (0.21 * Math.sin(2.0 * basicOmega));
-        return Calcs.toNormalizedRadians(Calcs.arcSecondsToDegrees(resultArcSeconds));
+        return Calcs.toNormalizedRadians(Calcs.arcsecondsToDegrees(resultArcseconds));
     }
 }

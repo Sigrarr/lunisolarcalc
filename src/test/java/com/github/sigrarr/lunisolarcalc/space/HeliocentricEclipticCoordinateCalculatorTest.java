@@ -25,7 +25,7 @@ public class HeliocentricEclipticCoordinateCalculatorTest {
     public void shouldCalculateLongitude() {
         for (Map.Entry<Double, Double> entry : JD_TO_EARTH_LONGITUDE_DEGREES.entrySet()) {
             double tau = Timeline.julianDayToMillenialTau(entry.getKey());
-            double actualLongitude = earthLongitudeCalculator.calculateLongitude(tau);
+            double actualLongitude = earthLongitudeCalculator.calculateCoordinate(tau);
             assertEquals(entry.getValue(), Math.toDegrees(actualLongitude), autoDelta(entry.getValue()));
         }
     }

@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 
 public class PeriodicTermsForNutuationInLongitude extends PeriodicTermsForNutuation {
     /**
-     * Meeus 1998, ch. 22, Table 22.A: Delta Psi \ Coefficient of the sine..., pp. 145-146
+     * Meeus 1998, Ch. 22, Table 22.A: Delta Psi \ Coefficient of the sine..., pp. 145-146
      */
     protected static final double[][] COEFFICIENTS = {
         { -171996.0 , -174.2 },

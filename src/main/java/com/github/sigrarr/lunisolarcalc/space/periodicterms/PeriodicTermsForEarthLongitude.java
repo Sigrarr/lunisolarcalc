@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 
 /**
- * Meeus 1998, App. III, Earth, pp. 419-420
+ * Meeus 1998, App. III, Earth, L0-L5, pp. 419-420
  */
 public final class PeriodicTermsForEarthLongitude extends PeriodicTermsForHeliocentricCoordinate {
     protected static final double[][][] SERIES_ARRAY = {

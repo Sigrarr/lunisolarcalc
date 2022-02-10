@@ -23,9 +23,9 @@ public class EarthNutuationCalculatorTest {
     public void shouldCalculateDeltaPsi() {
         // Meeus 1998, Example 22.a, p. 148
         double actualDeltaPsi = deltaPsiCalculator.calculateNutuation(-0.127296372348);
-        assertEquals(-3.788, Calcs.toArcSeconds(Math.toDegrees(actualDeltaPsi)), 0.002);
+        assertEquals(-3.788, Calcs.toArcseconds(Math.toDegrees(actualDeltaPsi)), 0.002);
         // Meeus 1998, Example 25.b, p. 169
         actualDeltaPsi = deltaPsiCalculator.calculateNutuation(Timeline.julianDayToCenturialT(2448908.5));
-        assertEquals(15.908, Calcs.toArcSeconds(Math.toDegrees(actualDeltaPsi)), 0.01);
+        assertEquals(15.908, Calcs.toArcseconds(Math.toDegrees(actualDeltaPsi)), 0.01);
     }
 }

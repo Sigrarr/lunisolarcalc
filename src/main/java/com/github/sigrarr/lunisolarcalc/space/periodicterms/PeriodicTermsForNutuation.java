@@ -116,7 +116,7 @@ abstract public class PeriodicTermsForNutuation {
     }
 
     protected double scale(double rawValue) {
-        return Math.toRadians(Calcs.arcSecondsToDegrees(rawValue * UNIT_ARCSECONDS));
+        return Math.toRadians(Calcs.arcsecondsToDegrees(rawValue * UNIT_ARCSECONDS));
     }
 
     abstract protected double[] getCoefficientRow(int n);

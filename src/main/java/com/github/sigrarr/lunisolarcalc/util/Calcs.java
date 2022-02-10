@@ -47,20 +47,20 @@ public class Calcs {
         return normalizeAngle(Math.toRadians(degrees));
     }
 
-    public static double toArcMinutes(double degrees) {
+    public static double toArcminutes(double degrees) {
         return degrees * DEGREE_TO_ARC_MINUTE;
     }
 
-    public static double toArcSeconds(double degrees) {
+    public static double toArcseconds(double degrees) {
         return degrees * DEGREE_TO_ARC_SECOND;
     }
 
-    public static double arcMinutesToDegrees(double arcMinutes) {
-        return arcMinutes * ARC_MINUTE_TO_DEGREE;
+    public static double arcminutesToDegrees(double arcminutes) {
+        return arcminutes * ARC_MINUTE_TO_DEGREE;
     }
 
-    public static double arcSecondsToDegrees(double arcSeconds) {
-        return arcSeconds * ARC_SECOND_TO_DEGREE;
+    public static double arcsecondsToDegrees(double arcseconds) {
+        return arcseconds * ARC_SECOND_TO_DEGREE;
     }
 
     public static double autoDelta(double expectedValue) {

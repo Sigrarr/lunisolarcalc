@@ -15,7 +15,7 @@ public class HeliocentricEclipticCoordinateCalculator {
     /**
      * Meeus 1998, 32.2, p. 218
      */
-    public double calculateLongitude(double tau) {
+    public double calculateCoordinate(double tau) {
         double total = 0.0;
         int seriesCount = periodicTerms.getSeriesCount();
         for (int n = 0; n < seriesCount; n++) {
