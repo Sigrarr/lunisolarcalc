@@ -12,6 +12,7 @@ public class SunGeocentricLongitudeCalculator {
     private static final double HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND = Math.PI + BASIC_TO_FK5_DELTA;
     private HeliocentricLongitudeCalculator heliocentricCalculator = new HeliocentricLongitudeCalculator();
     private EarthNutuationCalculator deltaPsiCalculator = new EarthNutuationCalculator(new PeriodicTermsForNutuationInLongitude());
+    private AberrationCalculator aberrationCalculator = new AberrationCalculator();
 
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
@@ -26,7 +27,7 @@ public class SunGeocentricLongitudeCalculator {
     public double calculateApparentLongitude(double tau) {
         double value = calculateGeometricLongitude(tau);
         value += deltaPsiCalculator.calculateNutuation(Timeline.millenialTauToCenturialT(tau));
-        // TODO add aberration
+        value += aberrationCalculator.calculateAberration(tau);
         return value;
     }
 }
