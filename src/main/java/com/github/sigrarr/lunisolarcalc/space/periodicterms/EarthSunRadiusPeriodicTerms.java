@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 /**
  * Meeus 1998, App. III, Earth, R0-R4, pp. 420-421
  */
-public final class PeriodicTermsForEarthRadius extends PeriodicTermsForHeliocentricCoordinate {
+public final class EarthSunRadiusPeriodicTerms extends HeliocentricCoordinatePeriodicTerms {
     protected static final double[][][] SERIES_ARRAY = {
         {
             { 100013989.0 , 0.0 , 0.0 },

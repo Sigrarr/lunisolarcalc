@@ -4,10 +4,10 @@ import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 
 public abstract class HeliocentricCoordinateCalculator {
 
-    private final static double SCALE = 0.00000001;
-    protected PeriodicTermsForHeliocentricCoordinate periodicTerms;
+    protected final static double SCALE = 0.00000001;
+    protected HeliocentricCoordinatePeriodicTerms periodicTerms;
 
-    public HeliocentricCoordinateCalculator(PeriodicTermsForHeliocentricCoordinate periodicTerms) {
+    public HeliocentricCoordinateCalculator(HeliocentricCoordinatePeriodicTerms periodicTerms) {
         this.periodicTerms = periodicTerms;
     }
 

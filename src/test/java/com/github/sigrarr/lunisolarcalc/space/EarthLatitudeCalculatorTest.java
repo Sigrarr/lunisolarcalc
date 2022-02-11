@@ -8,9 +8,9 @@ import org.junit.Test;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 
 
-public class HeliocentricLatitudeCalculatorTest {
+public class EarthLatitudeCalculatorTest {
 
-    private HeliocentricLatitudeCalculator calculator = new HeliocentricLatitudeCalculator();
+    private EarthLatitudeCalculator calculator = new EarthLatitudeCalculator();
 
     @Test
     public void shouldCalculateLatitude() {

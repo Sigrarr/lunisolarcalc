@@ -3,11 +3,11 @@ package com.github.sigrarr.lunisolarcalc.space;
 import com.github.sigrarr.lunisolarcalc.space.earthnutuationcalculator.*;
 import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 
-public class EarthNutuationCalculator {
+public abstract class EarthNutuationCalculator {
 
-    private PeriodicTermsForNutuation periodicTerms;
+    protected EarthNutuationPeriodicTerms periodicTerms;
 
-    public EarthNutuationCalculator(PeriodicTermsForNutuation periodicTerms) {
+    public EarthNutuationCalculator(EarthNutuationPeriodicTerms periodicTerms) {
         this.periodicTerms = periodicTerms;
     }
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 
 
-public class RadiusCalculatorTest {
+public class EarthSunRadiusCalculatorTest {
     /**
      * Meeus 1998: Example 25.b, p. 169; Example 27.b, pp. 180-181
      */
@@ -19,7 +19,7 @@ public class RadiusCalculatorTest {
         put(2437837.38589,  1.0163018);
     }};
 
-    private RadiusCalculator calculator = new RadiusCalculator();
+    private EarthSunRadiusCalculator calculator = new EarthSunRadiusCalculator();
 
     @Test
     public void shouldCalculateRadius() {

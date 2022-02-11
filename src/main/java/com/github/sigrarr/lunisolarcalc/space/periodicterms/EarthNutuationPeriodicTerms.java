@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 import com.github.sigrarr.lunisolarcalc.space.earthnutuationcalculator.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-abstract public class PeriodicTermsForNutuation {
+public abstract class EarthNutuationPeriodicTerms {
     /**
      * Meeus 1998, Table 22.A, pp. 145-146
      */

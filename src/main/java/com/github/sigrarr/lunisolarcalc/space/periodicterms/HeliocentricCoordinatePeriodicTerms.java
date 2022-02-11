@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 /**
  * Meeus 1998, Ch. 32, p. 218
  */
-public abstract class PeriodicTermsForHeliocentricCoordinate {
+public abstract class HeliocentricCoordinatePeriodicTerms {
 
     public double evaluateSeries(double tau, int seriesIndex) {
         return evaluateSeries(tau, getSeries(seriesIndex));

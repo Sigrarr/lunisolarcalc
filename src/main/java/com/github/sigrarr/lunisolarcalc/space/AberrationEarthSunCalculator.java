@@ -1,12 +1,12 @@
 package com.github.sigrarr.lunisolarcalc.space;
 
-import com.github.sigrarr.lunisolarcalc.space.periodicterms.PeriodicTermsForSunLongitudeVariation;
+import com.github.sigrarr.lunisolarcalc.space.periodicterms.SunLongitudeVariationPeriodicTerms;
 
-public class AberrationCalculator {
+public final class AberrationEarthSunCalculator {
 
     private static final double AU_LIGHT_TIME_DAYS = 0.005775518;
-    private PeriodicTermsForSunLongitudeVariation periodicTerms = new PeriodicTermsForSunLongitudeVariation(); 
-    private RadiusCalculator radiusCalculator = new RadiusCalculator();
+    private SunLongitudeVariationPeriodicTerms periodicTerms = new SunLongitudeVariationPeriodicTerms(); 
+    private EarthSunRadiusCalculator radiusCalculator = new EarthSunRadiusCalculator();
     
     public double calculateAberration(double tau) {
         double radius = radiusCalculator.calculate(tau);

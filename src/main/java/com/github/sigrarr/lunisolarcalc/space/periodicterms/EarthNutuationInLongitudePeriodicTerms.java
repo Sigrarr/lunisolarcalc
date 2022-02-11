@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 
-public class PeriodicTermsForNutuationInLongitude extends PeriodicTermsForNutuation {
+public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriodicTerms {
     /**
      * Meeus 1998, Ch. 22, Table 22.A: Delta Psi \ Coefficient of the sine..., pp. 145-146
      */

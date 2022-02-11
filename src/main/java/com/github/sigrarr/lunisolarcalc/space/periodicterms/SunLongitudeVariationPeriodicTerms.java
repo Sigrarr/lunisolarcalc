@@ -5,7 +5,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 /**
  * Meeus 1998, Ch. 25, Daily variation..., p. 168
  */
-public final class PeriodicTermsForSunLongitudeVariation {
+public final class SunLongitudeVariationPeriodicTerms {
 
     public static final double INITIAL_TERM = 3548.193;
     protected static final double COEFFICIENT_EARTH_ORBIT_A =  359993.7286;

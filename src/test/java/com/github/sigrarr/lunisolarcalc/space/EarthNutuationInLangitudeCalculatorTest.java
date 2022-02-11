@@ -4,14 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public class EarthNutuationCalculatorTest {
+public class EarthNutuationInLangitudeCalculatorTest {
 
-    private PeriodicTermsForNutuation periodicTermsForDeltaPsi = new PeriodicTermsForNutuationInLongitude();
-    private EarthNutuationCalculator deltaPsiCalculator = new EarthNutuationCalculator(periodicTermsForDeltaPsi);
+    private EarthNutuationCalculator deltaPsiCalculator = new EarthNutuationInLongitudeCalculator();
 
     /**
      * Note: the test fails with more precise assertions.
