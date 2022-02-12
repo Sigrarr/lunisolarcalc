@@ -14,6 +14,7 @@ public class AberrationCalculatorTest {
     
     @Test
     public void shouldCalculateAberration() {
+        // Meeus 1998, Example 25.a-b, pp. 165, 169
         double tau = Timeline.julianDayToMillenialTau(2448908.5);
         double actualAberration = calculator.calculateAberration(tau);
 
@@ -27,5 +28,10 @@ public class AberrationCalculatorTest {
         double deltaPsiDegrees = Math.toDegrees(deltaPsiCalculator.calculateNutuation(Timeline.millenialTauToCenturialT(tau)));
         double implicitAberrationDegrees = trueVSOP87ApparentLongitudeDegrees - trueVSOP87GeometricLongitudeDegrees - deltaPsiDegrees;
         assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), Calcs.arcsecondsToDegrees(0.01));
+
+        // Meeus 1998, Example 27.b, pp. 180-181
+        tau = Timeline.julianDayToMillenialTau(2437837.38589);
+        actualAberration = calculator.calculateAberration(tau);
+        assertEquals(-20.161, Calcs.toArcseconds(Math.toDegrees(actualAberration)), 0.01);
     }
 }

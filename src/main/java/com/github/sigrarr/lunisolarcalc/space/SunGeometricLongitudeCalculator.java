@@ -14,6 +14,6 @@ public final class SunGeometricLongitudeCalculator {
      * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
      */
     public double calculateGeometricLongitude(double tau) {
-        return heliocentricCalculator.calculate(tau) + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND;
+        return Calcs.normalizeLongitudinally(heliocentricCalculator.calculate(tau) + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);
     } 
 }

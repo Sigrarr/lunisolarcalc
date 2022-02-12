@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 public class TimelineTest
 {
     /**
-     * Meeus 1998, Example 7.a-b, p. 61; Ch. 7, pp. 62, 64
+     * Meeus 1998, Example 7.a-b, 47.a, p. 61, 342; Ch. 7, pp. 62, 64
      */ 
     private static final Map<RomanCalendarPoint, Double> ROMAN_CALENDAR_TO_JD = new HashMap<RomanCalendarPoint, Double>() {{
         put(new RomanCalendarPoint( 1957, 10,  4.81), 2436116.31);
@@ -33,6 +33,7 @@ public class TimelineTest
         put(new RomanCalendarPoint(-1001,  8, 17.9 ), 1355671.4 );
         put(new RomanCalendarPoint(-4712,  1,  1.5 ),       0.0 );
         put(new RomanCalendarPoint( -584,  5, 28.63), 1507900.13);
+        put(new RomanCalendarPoint( 1992,  4, 12.0 ), 2448724.5 );
     }};
 
     @Test
@@ -55,6 +56,8 @@ public class TimelineTest
     public void shouldCovertJDtoT() {
         // Meeus 1998, Example 22.a, p. 148
         assertEquals(-0.127296372348, Timeline.julianDayToCenturialT(2446895.5), autoDelta(-0.127296372348));
+        // Meeus 1998, Example 47.a, p. 342
+        assertEquals(-0.077221081451, Timeline.julianDayToCenturialT(2448724.5), autoDelta(-0.077221081451));
     }
 
     @Test
