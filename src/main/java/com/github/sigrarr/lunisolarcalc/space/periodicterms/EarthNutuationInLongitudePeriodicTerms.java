@@ -1,8 +1,79 @@
 package com.github.sigrarr.lunisolarcalc.space.periodicterms;
 
+/**
+ * Meeus 1998, Ch. 22, Table 22.A
+ */
 public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriodicTerms {
     /**
-     * Meeus 1998, Ch. 22, Table 22.A: Delta Psi \ Coefficient of the sine..., pp. 145-146
+     * : Argument \ multiple of
+     */
+    protected final static short[][] ELEMENTS_MULTIPLIERS = {
+        { 0 , 0 , 0 , 0 , 1 },
+        { -2 , 0 , 0 , 2 , 2 },
+        { 0 , 0 , 0 , 2 , 2 },
+        { 0 , 0 , 0 , 0 , 2 },
+        { 0 , 1 , 0 , 0 , 0 },
+        { 0 , 0 , 1 , 0 , 0 },
+        { -2 , 1 , 0 , 2 , 2 },
+        { 0 , 0 , 0 , 2 , 1 },
+        { 0 , 0 , 1 , 2 , 2 },
+        { -2 , -1 , 0 , 2 , 2 },
+        { -2 , 0 , 1 , 0 , 0 },
+        { -2 , 0 , 0 , 2 , 1 },
+        { 0 , 0 , -1 , 2 , 2 },
+        { 2 , 0 , 0 , 0 , 0 },
+        { 0 , 0 , 1 , 0 , 1 },
+        { 2 , 0 , -1 , 2 , 2 },
+        { 0 , 0 , -1 , 0 , 1 },
+        { 0 , 0 , 1 , 2 , 2 },
+        { -2 , 0 , 2 , 0 , 0 },
+        { 0 , 0 , -2 , 2 , 1 },
+        { 2 , 0 , 0 , 2 , 2 },
+        { 0 , 0 , 2 , 2 , 2 },
+        { 0 , 0 , 2 , 0 , 0 },
+        { -2 , 0 , 1 , 2 , 2 },
+        { 0 , 0 , 0 , 2 , 0 },
+        { -2 , 0 , 0 , 2 , 0 },
+        { 0 , 0 , -1 , 2 , 1 },
+        { 0 , 2 , 0 , 0 , 0 },
+        { 2 , 0 , -1 , 0 , 1 },
+        { -2 , 2 , 0 , 2 , 2 },
+        { 0 , 1 , 0 , 0 , 1 },
+        { -2 , 0 , 1 , 0 , 1 },
+        { 0 , -1 , 0 , 0 , 1 },
+        { 0 , 0 , 2 , -2 , 0 },
+        { 2 , 0 , -1 , 2 , 1 },
+        { 2 , 0 , 1 , 2 , 2 },
+        { 0 , 1 , 0 , 2 , 2 },
+        { -2 , 1 , 1 , 0 , 0 },
+        { 0 , -1 , 0 , 2 , 2 },
+        { 2 , 0 , 0 , 2 , 1 },
+        { 2 , 0 , 1 , 0 , 0 },
+        { -2 , 0 , 2 , 2 , 2 },
+        { -2 , 0 , 1 , 2 , 1 },
+        { 2 , 0 , -2 , 0 , 1 },
+        { 2 , 0 , 0 , 0 , 1 },
+        { 0, -1 , 1 , 0 , 0 },
+        { -2 , -1 , 0 , 2 , 1 },
+        { -2 , 0 , 0 , 0 , 1 },
+        { 0 , 0 , 2 , 2 , 1 },
+        { -2 , 0 , 2 , 0 , 1 },
+        { -2 , 1 , 0 , 2 , 1 },
+        { 0 , 0 , 1 , -2 , 0 },
+        { -1 , 0  , 1 , 0 , 0 },
+        { -2 , 1 , 0 , 0 , 0 },
+        { 1 , 0 , 0 , 0 , 0 },
+        { 0 , 0 , 1 , 2 , 0 },
+        { 0 , 0 , -2 , 2 , 2 },
+        { -1 , -1 , 1 , 0 , 0 },
+        { 0 , 1 , 1 , 0 , 0 },
+        { 0 , -1 , 1 , 2 , 2 },
+        { 2 , -1 , -1 , 2 , 2 },
+        { 0 , 0 , 3 , 2 , 2 },
+        { 2 , -1 , 0 , 2 , 2 },
+    };
+    /**
+     * : Delta Psi \ Coefficient of the sine...
      */
     protected static final double[][] COEFFICIENTS = {
         { -171996.0 , -174.2 },
@@ -70,10 +141,22 @@ public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriod
         { -3.0 , 0.0 },
     };
 
+    @Override
+    protected int getSeriesLength() {
+        return ELEMENTS_MULTIPLIERS.length;
+    }
+
+    @Override
+    protected short[] getElementMultiplierRow(int n) {
+        return ELEMENTS_MULTIPLIERS[n];
+    }
+
+    @Override
     protected double[] getCoefficientRow(int n) {
         return COEFFICIENTS[n];
     }
 
+    @Override
     protected double applyTrigonometricFunction(double argument) {
         return Math.sin(argument);
     }

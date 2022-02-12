@@ -15,6 +15,6 @@ public abstract class EarthNutuationCalculator {
      * Meeus 1998, Ch. 22, p. 143-144
      */
     public double calculateNutuation(double centurialT) {
-        return periodicTerms.evaluateSeries(centurialT, new EarthNutuationElementsVector(centurialT));
+        return periodicTerms.evaluate(centurialT, new EarthNutuationElementsVector(centurialT));
     }
 }

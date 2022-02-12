@@ -4,7 +4,6 @@ import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 
 public abstract class HeliocentricCoordinateCalculator {
 
-    protected final static double SCALE = 0.00000001;
     protected HeliocentricCoordinatePeriodicTerms periodicTerms;
 
     public HeliocentricCoordinateCalculator(HeliocentricCoordinatePeriodicTerms periodicTerms) {
@@ -15,11 +14,6 @@ public abstract class HeliocentricCoordinateCalculator {
      * Meeus 1998, 32.2, p. 218
      */
     public double calculate(double tau) {
-        double total = 0.0;
-        int seriesCount = periodicTerms.getSeriesCount();
-        for (int n = 0; n < seriesCount; n++) {
-            total += periodicTerms.evaluateSeries(tau, n) * Math.pow(tau, n);
-        }
-        return total * SCALE;
+        return periodicTerms.evaluate(tau);
     }
 }

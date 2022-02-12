@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public class EarthNutuationInLangitudeCalculatorTest {
+public class EarthNutuationInLongitudeCalculatorTest {
 
     private EarthNutuationCalculator deltaPsiCalculator = new EarthNutuationInLongitudeCalculator();
 

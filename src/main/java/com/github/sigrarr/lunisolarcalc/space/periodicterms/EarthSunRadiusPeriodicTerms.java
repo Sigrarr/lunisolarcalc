@@ -76,10 +76,12 @@ public final class EarthSunRadiusPeriodicTerms extends HeliocentricCoordinatePer
         }
     };
 
-    public int getSeriesCount() {
+    @Override
+    public int getNumberOfSeries() {
         return SERIES_ARRAY.length;
     }
 
+    @Override
     protected double[][] getSeries(int n) {
         return SERIES_ARRAY[n];        
     }    

@@ -5,6 +5,17 @@ package com.github.sigrarr.lunisolarcalc.space.periodicterms;
  */
 public abstract class HeliocentricCoordinatePeriodicTerms {
 
+    protected final static double SCALE = 0.00000001;
+
+    public double evaluate(double tau) {
+        double total = 0.0;
+        int seriesCount = getNumberOfSeries();
+        for (int n = 0; n < seriesCount; n++) {
+            total += evaluateSeries(tau, n) * Math.pow(tau, n);
+        }
+        return total * SCALE;
+    }
+
     public double evaluateSeries(double tau, int seriesIndex) {
         return evaluateSeries(tau, getSeries(seriesIndex));
     }
@@ -25,6 +36,6 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return seriesRow[0] * Math.cos(seriesRow[1] + (seriesRow[2] * tau));
     }
 
-    abstract public int getSeriesCount();
+    abstract public int getNumberOfSeries();
     abstract protected double[][] getSeries(int n);
 }
