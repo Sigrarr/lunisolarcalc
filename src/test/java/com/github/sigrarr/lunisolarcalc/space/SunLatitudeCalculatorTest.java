@@ -8,9 +8,9 @@ import org.junit.Test;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public class SunGeometricLatitudeCalculatorTest {
+public class SunLatitudeCalculatorTest {
 
-    private SunGeometricLatitudeCalculator calculator = new SunGeometricLatitudeCalculator();
+    private SunLatitudeCalculator calculator = new SunLatitudeCalculator();
 
     @Test
     public void shouldCalculateFK5GeometricLatitude() {

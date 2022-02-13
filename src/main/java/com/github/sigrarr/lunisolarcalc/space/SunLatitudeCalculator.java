@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.space;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public final class SunGeometricLatitudeCalculator {
+public final class SunLatitudeCalculator {
     
     private EarthLatitudeCalculator heliocentricCalculator = new EarthLatitudeCalculator();
     private EarthLongitudeCalculator heliocentricLongitudeCalculator = new EarthLongitudeCalculator();
