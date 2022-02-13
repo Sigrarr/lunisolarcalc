@@ -1,6 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.space;
 
 import static org.junit.Assert.assertEquals;
+import static com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.SunEarthRelativeMotion.arcsecondsPerTimeMiliseconds;
 
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
@@ -17,21 +18,22 @@ public class AberrationCalculatorTest {
         // Meeus 1998, Example 25.a-b, pp. 165, 169
         double tau = Timeline.julianDayToMillenialTau(2448908.5);
         double actualAberration = calculator.calculateAberration(tau);
+        double precision = arcsecondsPerTimeMiliseconds(215);
 
         // Meeus 1998, Example 25.b, p. 169
         double aberrationCalculatedWithSimplerMethodArcseconds = -20.539;
-        assertEquals(aberrationCalculatedWithSimplerMethodArcseconds, Calcs.toArcseconds(Math.toDegrees(actualAberration)), 0.01);
+        assertEquals(aberrationCalculatedWithSimplerMethodArcseconds, Calcs.toArcseconds(Math.toDegrees(actualAberration)), precision);
 
         // Meeus 1998, Example 25.a, p. 165
         double trueVSOP87GeometricLongitudeDegrees = 199.0 + Calcs.arcminutesToDegrees(54.0) + Calcs.arcsecondsToDegrees(26.18);
         double trueVSOP87ApparentLongitudeDegrees = 199.0 + Calcs.arcminutesToDegrees(54.0) + Calcs.arcsecondsToDegrees(21.56);
         double deltaPsiDegrees = Math.toDegrees(deltaPsiCalculator.calculateNutuation(Timeline.millenialTauToCenturialT(tau)));
         double implicitAberrationDegrees = trueVSOP87ApparentLongitudeDegrees - trueVSOP87GeometricLongitudeDegrees - deltaPsiDegrees;
-        assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), Calcs.arcsecondsToDegrees(0.01));
+        assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), Calcs.arcsecondsToDegrees(precision));
 
         // Meeus 1998, Example 27.b, pp. 180-181
         tau = Timeline.julianDayToMillenialTau(2437837.38589);
         actualAberration = calculator.calculateAberration(tau);
-        assertEquals(-20.161, Calcs.toArcseconds(Math.toDegrees(actualAberration)), 0.01);
+        assertEquals(-20.161, Calcs.toArcseconds(Math.toDegrees(actualAberration)), precision);
     }
 }
