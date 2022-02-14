@@ -9,7 +9,7 @@ public final class EarthLatitudeCalculator extends HeliocentricCoordinateCalcula
         super(new EarthLatitudePeriodicTerms());
     }
 
-    public double calculate(double tau) {
-        return Calcs.normalizeLatitudinally(super.calculate(tau));
+    public double calculateCoordinate(double tau) {
+        return Calcs.normalizeLatitudinally(super.calculateCoordinate(tau));
     }
 }

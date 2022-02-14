@@ -24,7 +24,7 @@ public class EarthLongitudeCalculatorTest {
     public void shouldCalculateLongitude() {
         for (Map.Entry<Double, Double> entry : JD_TO_EARTH_LONGITUDE_DEGREES.entrySet()) {
             double tau = Timeline.julianDayToMillenialTau(entry.getKey());
-            double actualLongitude = calculator.calculate(tau);
+            double actualLongitude = calculator.calculateCoordinate(tau);
             assertEquals(entry.getValue(), Math.toDegrees(actualLongitude), autoDelta(entry.getValue()));
         }
     }

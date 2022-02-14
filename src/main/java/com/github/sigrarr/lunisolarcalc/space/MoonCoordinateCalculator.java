@@ -6,14 +6,12 @@ import com.github.sigrarr.lunisolarcalc.space.periodicterms.*;
 public abstract class MoonCoordinateCalculator {
 
     protected MoonCoordinatePeriodicTerms periodicTerms;
-    protected MoonCoordinateElements currentElements = new MoonCoordinateElements();
 
     public MoonCoordinateCalculator(MoonCoordinatePeriodicTerms periodicTerms) {
         this.periodicTerms = periodicTerms;
     }
 
-    public double calculate(double centurialT) {
-        currentElements.calculate(centurialT);
-        return periodicTerms.evaluate(centurialT, currentElements);
+    public double calculateCoordinate(double centurialT, MoonCoordinateElements elements) {
+        return periodicTerms.evaluate(centurialT, elements);
     }
 }

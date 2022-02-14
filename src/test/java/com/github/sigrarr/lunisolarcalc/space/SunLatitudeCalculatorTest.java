@@ -15,8 +15,10 @@ public class SunLatitudeCalculatorTest {
     @Test
     public void shouldCalculateFK5GeometricLatitude() {
         // Meeus 1998, Example 25b, p. 169.
-        double tau = Timeline.julianDayToMillenialTau(2448908.5);
-        double actualGeometricLatitudeArcseconds = Calcs.toArcseconds(Math.toDegrees(calculator.calculateGeometricLatitude(tau)));
-        assertEquals(0.62, actualGeometricLatitudeArcseconds, autoDelta(0.62));
+        double cT = Timeline.julianDayToCenturialT(2448908.5);
+        double heliocentricLatitude = -0.00000312;
+        double heliocentricLongitude = Math.toRadians(19.907372);
+        double actualGeometricLatitude = calculator.calculateLatitude(cT, heliocentricLatitude, heliocentricLongitude);
+        assertEquals(0.62, Calcs.toArcseconds(Math.toDegrees(actualGeometricLatitude)), autoDelta(0.62));
     }
 }

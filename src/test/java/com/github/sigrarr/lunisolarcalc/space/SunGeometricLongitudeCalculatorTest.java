@@ -6,7 +6,6 @@ import static com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.SunE
 
 import org.junit.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class SunGeometricLongitudeCalculatorTest {
@@ -16,20 +15,14 @@ public class SunGeometricLongitudeCalculatorTest {
     @Test
     public void shouldCalculateFK5GeometricLongitude() {
         // Meeus 1998, Example 25.a-b, p. 165, 169
-        double tau = Timeline.julianDayToMillenialTau(2448908.5);
-        double actualGeometricLongitudeDegrees = Math.toDegrees(calculator.calculateGeometricLongitude(tau));
+        double heliocentricLongitude = Math.toRadians(19.907372);
+        double actualGeometricLongitude = calculator.calculateGeometricLongitude(heliocentricLongitude);
 
         // Meeus 1998, Example 25.b, p. 169
-        assertEquals(199.907347, actualGeometricLongitudeDegrees, autoDelta(199.907347));
+        assertEquals(199.907347, Math.toDegrees(actualGeometricLongitude), autoDelta(199.907347));
 
         // Meeus 1998, Example 25.a, p. 165
         double trueVSOP87GeometricLongitudeDegrees = 199.0 + Calcs.arcminutesToDegrees(54.0) + Calcs.arcsecondsToDegrees(26.18);
-        assertEquals(trueVSOP87GeometricLongitudeDegrees, actualGeometricLongitudeDegrees, degreesPerTimeMiliseconds(6600));
-
-        // Meeus 1998, Example 27.b, pp. 180-181
-        tau = Timeline.julianDayToMillenialTau(2437837.38589);
-        actualGeometricLongitudeDegrees = Math.toDegrees(calculator.calculateGeometricLongitude(tau));
-        double exampleGeometricLongitudeDegrees = 270.003272 - 180.0 + Calcs.arcsecondsToDegrees(0.09033);
-        assertEquals(exampleGeometricLongitudeDegrees, actualGeometricLongitudeDegrees, degreesPerTimeMiliseconds(4450));
+        assertEquals(trueVSOP87GeometricLongitudeDegrees, Math.toDegrees(actualGeometricLongitude), degreesPerTimeMiliseconds(6550));
     }
 }

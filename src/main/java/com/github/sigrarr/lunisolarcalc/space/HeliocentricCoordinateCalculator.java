@@ -13,7 +13,7 @@ public abstract class HeliocentricCoordinateCalculator {
     /**
      * Meeus 1998, 32.2, p. 218
      */
-    public double calculate(double tau) {
+    public double calculateCoordinate(double tau) {
         return periodicTerms.evaluate(tau);
     }
 }
