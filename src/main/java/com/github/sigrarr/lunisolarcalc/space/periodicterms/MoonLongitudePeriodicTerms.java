@@ -140,9 +140,9 @@ public final class MoonLongitudePeriodicTerms extends MoonCoordinatePeriodicTerm
     @Override
     public double evaluate(double centurialT, MoonCoordinateElements elements) {
         return super.evaluate(centurialT, elements) + scale(
-              (3958.0 * Math.sin(elements.getA1()))
-            + (1962.0 * Math.sin(elements.getLPrim() - elements.getF()))
-            + ( 318.0 * Math.sin(elements.getA2()))
+              (3958 * Math.sin(elements.getA1()))
+            + (1962 * Math.sin(elements.getLPrim() - elements.getF()))
+            + ( 318 * Math.sin(elements.getA2()))
         );
     }
 
