@@ -9,4 +9,8 @@ public final class SunApparentLongitudeCalculator {
     public double calculateApparentLongitude(double geometricLongitude, double nutuationInLongitude, double aberration) {
         return Calcs.normalizeLongitudinally(geometricLongitude + nutuationInLongitude + aberration);
     }
+
+    public double calculateApparentLongitude(double aberratedLongitude, double nutuationInLongitude) {
+        return Calcs.normalizeLongitudinally(aberratedLongitude + nutuationInLongitude);
+    }
 }
