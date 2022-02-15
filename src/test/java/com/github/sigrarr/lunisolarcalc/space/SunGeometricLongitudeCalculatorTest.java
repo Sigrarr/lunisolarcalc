@@ -22,7 +22,7 @@ public class SunGeometricLongitudeCalculatorTest {
         assertEquals(199.907347, Math.toDegrees(actualGeometricLongitude), autoDelta(199.907347));
 
         // Meeus 1998, Example 25.a, p. 165
-        double trueVSOP87GeometricLongitudeDegrees = 199.0 + Calcs.arcminutesToDegrees(54.0) + Calcs.arcsecondsToDegrees(26.18);
+        double trueVSOP87GeometricLongitudeDegrees = Calcs.toSingleDegreesValue(199, 54, 26.18);
         assertEquals(trueVSOP87GeometricLongitudeDegrees, Math.toDegrees(actualGeometricLongitude), degreesPerTimeMiliseconds(6550));
     }
 }

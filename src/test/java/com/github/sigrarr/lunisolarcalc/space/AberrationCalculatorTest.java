@@ -32,8 +32,8 @@ public class AberrationCalculatorTest {
         // Meeus 1998, Example 25.a, p. 165
         double trueVSOP87Radius = 0.99760853;
         actualAberration = calculator.calculateAberration(tau, trueVSOP87Radius);
-        double trueVSOP87GeometricLongitudeDegrees = 199.0 + Calcs.arcminutesToDegrees(54.0) + Calcs.arcsecondsToDegrees(26.18);
-        double trueVSOP87ApparentLongitudeDegrees = 199.0 + Calcs.arcminutesToDegrees(54.0) + Calcs.arcsecondsToDegrees(21.56);
+        double trueVSOP87GeometricLongitudeDegrees = Calcs.toSingleDegreesValue(199, 54, 26.18);
+        double trueVSOP87ApparentLongitudeDegrees = Calcs.toSingleDegreesValue(199, 54, 21.56);
         double deltaPsiDegrees = Math.toDegrees(DELTA_PSI_CALCULATOR.calculateNutuation(cT, new EarthNutuationElements(cT)));
         double implicitAberrationDegrees = trueVSOP87ApparentLongitudeDegrees - trueVSOP87GeometricLongitudeDegrees - deltaPsiDegrees;
         assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), degreesPerTimeMiliseconds(115));

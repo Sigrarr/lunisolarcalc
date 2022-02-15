@@ -24,6 +24,15 @@ public class CalcsTest {
     }
 
     @Test
+    public void shouldDecimalizeDegreesFromDegMinSec() {
+        assertEquals( 199.0, Calcs.toSingleDegreesValue(199,  0, 0.0), Calcs.EPSILON_MIN);
+        assertEquals( 199.5, Calcs.toSingleDegreesValue(199, 30, 0.0), Calcs.EPSILON_MIN);
+        assertEquals( 199.008333333, Calcs.toSingleDegreesValue( 199,  0, 30.0 ), Calcs.autoDelta(0.000000001));
+        assertEquals( 199.508333333, Calcs.toSingleDegreesValue( 199, 30, 30.0 ), Calcs.autoDelta(0.000000001));
+        assertEquals(-199.737830556, Calcs.toSingleDegreesValue(-199, 44, 16.19), Calcs.autoDelta(0.000000001));
+    }
+
+    @Test
     public void shouldAutoDeltaBeDefaultEpsilonForZero() {
         assertEquals(Calcs.EPSILON, Calcs.autoDelta(0.0), Calcs.EPSILON_MIN);
     }

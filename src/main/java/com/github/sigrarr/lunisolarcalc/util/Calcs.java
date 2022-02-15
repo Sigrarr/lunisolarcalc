@@ -71,6 +71,10 @@ public class Calcs {
         return arcseconds * ARC_SECOND_TO_DEGREE;
     }
 
+    public static double toSingleDegreesValue(int signedDegrees, int absArcminutes, double absArcseconds) {
+        return signedDegrees + ((arcminutesToDegrees(absArcminutes) + arcsecondsToDegrees(absArcseconds)) * Math.signum(signedDegrees));
+    }
+
     public static double autoDelta(double expectedValue) {
         if (Math.abs(expectedValue) < EPSILON_MIN) {
             return EPSILON;
