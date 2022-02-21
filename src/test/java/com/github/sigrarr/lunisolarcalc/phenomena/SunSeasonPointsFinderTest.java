@@ -1,5 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.*;
@@ -12,9 +13,9 @@ import org.junit.Test;
 
 public class SunSeasonPointsFinderTest {
     /**
-     * Meeus 1998, Table 27.E, p. 182 (& Example 27.a-b, pp. 180-181)
+     * Meeus 1998, Table 27.E, p. 182
      */
-    private static final Map<RomanCalendarPoint, SunSeasonPoint> TRUE_VSOP87_SUN_SEASON_POINTS = new LinkedHashMap<RomanCalendarPoint, SunSeasonPoint>() {{
+    private static final Map<RomanCalendarPoint, SunSeasonPoint> TRUE_VSOP87_SUN_SEASON_POINTS = new HashMap<RomanCalendarPoint, SunSeasonPoint>() {{
         put(new RomanCalendarPoint(1996,  3, 20,   8,  4,  7), SunSeasonPoint.MARCH_EQUINOX);
         put(new RomanCalendarPoint(1997,  3, 20,  13, 55, 42), SunSeasonPoint.MARCH_EQUINOX);
         put(new RomanCalendarPoint(1998,  3, 20,  19, 55, 35), SunSeasonPoint.MARCH_EQUINOX);
@@ -58,8 +59,6 @@ public class SunSeasonPointsFinderTest {
         put(new RomanCalendarPoint(2003, 12, 22,   7,  4, 53), SunSeasonPoint.DECEMBER_SOLSTICE);
         put(new RomanCalendarPoint(2004, 12, 21,  12, 42, 40), SunSeasonPoint.DECEMBER_SOLSTICE);
         put(new RomanCalendarPoint(2005, 12, 21,  18, 36,  1), SunSeasonPoint.DECEMBER_SOLSTICE);
-
-        put(new RomanCalendarPoint(1962, 6, 21, 21, 24, 42), SunSeasonPoint.JUNE_SOLSTICE);
     }};
 
     private SunSeasonPointsFinder finder = new SunSeasonPointsFinder();
@@ -92,6 +91,57 @@ public class SunSeasonPointsFinderTest {
             tooManyInaccuraciesMsg(inaccuracies),
             inaccuracies.size() <= TRUE_VSOP87_SUN_SEASON_POINTS.size() / 4
         );
+    }
+
+    @Test
+    public void shouldStreamManyResults() {
+        List<String> allYMDs = TRUE_VSOP87_SUN_SEASON_POINTS.keySet().stream()
+            .sorted()
+            .map(rcp -> rcp.formatYMD())
+            .collect(Collectors.toList());
+        List<String> solsticeYMDs = allYMDs.stream()
+            .filter(ymd -> ymd.matches(".*((/06/)|(/12/)).*"))
+            .collect(Collectors.toList());
+
+        Iterator<String> allIt1 = allYMDs.listIterator();
+        finder.findMany(1996, 2005)
+            .map(r -> Timeline.julianDayToRomanCalendar(r.julianEphemerisDay).formatYMD())
+            .forEach(ymd -> assertEquals(allIt1.next(), ymd));
+
+        Iterator<String> solsticeIt1 = solsticeYMDs.listIterator();
+        finder.findMany(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
+            .map(r -> Timeline.julianDayToRomanCalendar(r.julianEphemerisDay).formatYMD())
+            .forEach(ymd -> assertEquals(solsticeIt1.next(), ymd));
+
+        Iterator<String> allIt2 = allYMDs.listIterator();
+        finder.findMany(1996, 2005, 90)
+            .map(r -> Timeline.julianDayToRomanCalendar(r.julianEphemerisDay).formatYMD())
+            .forEach(ymd -> assertEquals(allIt2.next(), ymd));
+
+        Iterator<String> solsticeIt2 = solsticeYMDs.listIterator();
+        finder.findMany(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE), 90)
+            .map(r -> Timeline.julianDayToRomanCalendar(r.julianEphemerisDay).formatYMD())
+            .forEach(ymd -> assertEquals(solsticeIt2.next(), ymd));
+
+        Iterator<String> allIt3 = allYMDs.listIterator();
+        finder.findManyJulianEphemerisDays(1996, 2005)
+            .mapToObj(jde -> Timeline.julianDayToRomanCalendar(jde).formatYMD())
+            .forEach(ymd -> assertEquals(allIt3.next(), ymd));
+
+        Iterator<String> solsticeIt3 = solsticeYMDs.listIterator();
+        finder.findManyJulianEphemerisDays(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
+            .mapToObj(jde -> Timeline.julianDayToRomanCalendar(jde).formatYMD())
+            .forEach(ymd -> assertEquals(solsticeIt3.next(), ymd));
+
+        Iterator<String> allIt4 = allYMDs.listIterator();
+        finder.findManyJulianEphemerisDays(1996, 2005, 90)
+            .mapToObj(jde -> Timeline.julianDayToRomanCalendar(jde).formatYMD())
+            .forEach(ymd -> assertEquals(allIt4.next(), ymd));
+
+        Iterator<String> solsticeIt4 = solsticeYMDs.listIterator();
+        finder.findManyJulianEphemerisDays(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE), 90)
+            .mapToObj(jde -> Timeline.julianDayToRomanCalendar(jde).formatYMD())
+            .forEach(ymd -> assertEquals(solsticeIt4.next(), ymd));
     }
 
     private String tooMuchDiffMsg(RomanCalendarPoint vsop87, RomanCalendarPoint actual) {
