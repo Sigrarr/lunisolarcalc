@@ -39,6 +39,10 @@ public class RomanCalendarPoint implements Comparable<RomanCalendarPoint> {
         this(y, m, (double) d);
     }
 
+    public RomanCalendarPoint(int y, int m, int d, int h, int min, int s) {
+        this(y, m, (double) d + Time.timeToDays(h, min, s));
+    }
+
     public Calendar getCalendar() {
         return this.compareTo(FIRST_GREGORIAN_DATE) < 0 ? Calendar.JULIAN : Calendar.GREGORIAN;
     }

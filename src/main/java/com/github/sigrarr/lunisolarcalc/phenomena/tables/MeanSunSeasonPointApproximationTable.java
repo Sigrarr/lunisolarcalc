@@ -2,6 +2,9 @@ package com.github.sigrarr.lunisolarcalc.phenomena.tables;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPoint;
 
+/**
+ * Meeus 1998, Table 27.A-B, p. 178
+ */
 public class MeanSunSeasonPointApproximationTable {
     
     private static final double[][] COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K = {
@@ -17,24 +20,25 @@ public class MeanSunSeasonPointApproximationTable {
         { 2451900.05952 , 365242.74049 , -0.06223 , -0.06223 , +0.00032 },
     };
 
+    private int currentRomanYear = Integer.MIN_VALUE;
+    private double[][] currentSubtable = null;
     private double[] yPowers = {1.0, 0.0, 0.0, 0.0, 0.0};
 
     public double evaluate(int romanYear, SunSeasonPoint point) {
-        double[] row;
-        double y1;
-        int rowIndex = point.ordinal();
-        if (romanYear > 1000) {
-            row = COEFFICIENTS_FOR_YEARS_1K_TO_3K[rowIndex];
-            y1 = 0.001 * (romanYear - 2000);
-        } else {
-            row = COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K[rowIndex];
-            y1 = 0.001 * romanYear;
+        if (romanYear != currentRomanYear) {
+            if (romanYear > 1000) {
+                currentSubtable = COEFFICIENTS_FOR_YEARS_1K_TO_3K;
+                fillYPowers(0.001 * (romanYear - 2000));
+            } else {
+                currentSubtable = COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K;
+                fillYPowers(0.001 * romanYear);
+            }
+            currentRomanYear = romanYear;
         }
-        return evaluate(row, y1);
+        return evaluate(currentSubtable[point.ordinal()]);
     }
 
-    private double evaluate(double[] row, double y1) {
-        fillYPowers(y1);
+    private double evaluate(double[] row) {
         double value = 0.0;
         for (int i = 0; i < row.length; i++) {
             value += row[i] * yPowers[i];

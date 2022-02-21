@@ -1,7 +1,5 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import com.github.sigrarr.lunisolarcalc.util.Calcs;
-
 public enum SunSeasonPoint {
 
     MARCH_EQUINOX(0.0),
@@ -13,13 +11,5 @@ public enum SunSeasonPoint {
 
     private SunSeasonPoint(double apparentLongitude) {
         this.apparentLongitude = apparentLongitude;
-    }
-
-    public boolean match(double apparentLongitude) {
-        return Calcs.equal(this.apparentLongitude, apparentLongitude);
-    }
-
-    public boolean match(double apparentLongitude, double delta) {
-        return Calcs.equal(this.apparentLongitude, apparentLongitude, delta);
     }
 }
