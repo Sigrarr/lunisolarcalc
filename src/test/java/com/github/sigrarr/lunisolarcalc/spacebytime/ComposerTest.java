@@ -28,6 +28,7 @@ public class ComposerTest {
     private MoonLatitudeCalculator moonLatitudeCalculator = new MoonLatitudeCalculator();
     private MoonEarthDistanceCalculator moonEarthDistanceCalculator = new MoonEarthDistanceCalculator();
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
+    private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
     private Map<Subject, SingleOutputComposition<Subject, Double, Double>> subjectToComposition = Arrays.stream(Subject.values())
         .collect(Collectors.toMap(s -> s, s -> Composer.get().compose(s)));
 
@@ -58,6 +59,7 @@ public class ComposerTest {
         double moonLatitude = moonLatitudeCalculator.calculateCoordinate(cT, moonCoordinateElements);
         double moonEarthDistance = moonEarthDistanceCalculator.calculateCoordinate(cT, moonCoordinateElements);
         double moonApparentLongitude = moonApparentLongitudeCalculator.calculateApparentLongitude(moonLongitude, earthNutuationInLongitude);
+        double moonOverSunApparentLongitudeExcess = moonOverSunApparentLongitudeExcessCalculator.calculateExcess(moonLongitude, sunAberratedLongitude);
 
         assertEquals(earthLongitude, getCompositionNumericResult(Subject.EARTH_LONGITUDE, cT), Calcs.EPSILON_MIN);
         assertEquals(earthSunRadius, getCompositionNumericResult(Subject.EARTH_SUN_RADIUS, cT), Calcs.EPSILON_MIN);
@@ -72,6 +74,7 @@ public class ComposerTest {
         assertEquals(moonLatitude, getCompositionNumericResult(Subject.MOON_LATITUDE, cT), Calcs.EPSILON_MIN);
         assertEquals(moonEarthDistance, getCompositionNumericResult(Subject.MOON_EARTH_DISTANCE, cT), Calcs.EPSILON_MIN);
         assertEquals(moonApparentLongitude, getCompositionNumericResult(Subject.MOON_APPARENT_LONGITUDE, cT), Calcs.EPSILON_MIN);
+        assertEquals(moonOverSunApparentLongitudeExcess, getCompositionNumericResult(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS, cT), Calcs.EPSILON_MIN);
     }
 
     private double getCompositionNumericResult(Subject subject, double cT) {

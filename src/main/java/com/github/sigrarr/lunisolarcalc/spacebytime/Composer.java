@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 public final class Composer extends CalculationComposer<Subject, Double, Double> {
 
-    protected static final List<Provider<Subject, Double, Double>> PROVIDERS = new ArrayList<Provider<Subject, Double, Double>>(15) {{
+    protected static final List<Provider<Subject, Double, Double>> PROVIDERS = new ArrayList<Provider<Subject, Double, Double>>(16) {{
         add(new AberrationEarthSunCalculator());
         add(new EarthLatitudeCalculator());
         add(new EarthLongitudeCalculator());
@@ -18,6 +18,7 @@ public final class Composer extends CalculationComposer<Subject, Double, Double>
         add(new MoonEarthDistanceCalculator());
         add(new MoonLatitudeCalculator());
         add(new MoonLongitudeCalculator());
+        add(new MoonOverSunApparentLongitudeExcessCalculator());
         add(new SunAberratedLongitudeCalculator());
         add(new SunApparentLongitudeCalculator());
         add(new SunGeometricLongitudeCalculator());
