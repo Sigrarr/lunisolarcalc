@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.*;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public abstract class HeliocentricCoordinateCalculator implements Provider<Subject, Double, Double> {
+public abstract class HeliocentricCoordinateCalculator implements Provider<Subject, Double> {
 
     protected HeliocentricCoordinatePeriodicTerms periodicTerms;
 
@@ -27,7 +27,7 @@ public abstract class HeliocentricCoordinateCalculator implements Provider<Subje
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
         return calculateCoordinate(Timeline.centurialTToMillenialTau(centurialT));
     }
 }

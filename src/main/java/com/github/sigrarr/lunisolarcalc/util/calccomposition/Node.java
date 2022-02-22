@@ -1,10 +1,10 @@
 package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
-abstract class Node<E extends Enum<E>, InT, OutT> {
+abstract class Node<SubjectT extends Enum<SubjectT>, InT> {
 
-    protected final Provider<E, InT, OutT> calculator;
+    protected final Provider<SubjectT, InT> calculator;
 
-    Node(Provider<E, InT, OutT> calculator) {
+    Node(Provider<SubjectT, InT> calculator) {
         this.calculator = calculator;
     }
 }

@@ -2,15 +2,15 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 import java.util.*;
 
-public interface Provider<Subject extends Enum<Subject>, InT, OutT> {
+public interface Provider<SubjectT extends Enum<SubjectT>, InT> {
 
-    public EnumSet<Subject> requires();
+    public EnumSet<SubjectT> requires();
 
-    public Subject provides();
+    public SubjectT provides();
 
-    public Object calculate(InT rootArgument, Map<Subject, Object> arguments);
+    public Object calculate(InT rootArgument, Map<SubjectT, Object> requiredArguments);
 
-    default public Provider<Subject, InT, OutT> getInstanceForNewComposition() {
+    default public Provider<SubjectT, InT> getInstanceForNewComposition() {
         return this;
     }
 }

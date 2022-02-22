@@ -5,17 +5,12 @@ import java.util.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Subject, Double, Double> {
+public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Subject, Double> {
     /**
      * ESAA 1992, 9.213, p. 478; cf. Meeus 1998, Ch. 49, p. 349
      */
     public double calculateExcess(double moonLongitude, double sunAberratedLongitude) {
         return Calcs.normalizeLongitudinally(moonLongitude - sunAberratedLongitude);
-    }
-
-    @Override
-    public Object calculate(Double rootArgument, Map<Subject, Object> arguments) {
-        return calculateExcess((Double) arguments.get(Subject.MOON_LONGITUDE), (Double) arguments.get(Subject.SUN_ABERRATED_LONGITUDE));
     }
 
     @Override
@@ -26,5 +21,13 @@ public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Su
     @Override
     public EnumSet<Subject> requires() {
         return EnumSet.of(Subject.MOON_LONGITUDE, Subject.SUN_ABERRATED_LONGITUDE);
+    }
+
+    @Override
+    public Object calculate(Double rootArgument, Map<Subject, Object> requiredArguments) {
+        return calculateExcess(
+            (Double) requiredArguments.get(Subject.MOON_LONGITUDE),
+            (Double) requiredArguments.get(Subject.SUN_ABERRATED_LONGITUDE)
+        );
     }
 }

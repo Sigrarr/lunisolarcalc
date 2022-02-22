@@ -2,11 +2,11 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 import java.util.*;
 
-class RegisterNode<E extends Enum<E>, InT, OutT> extends Node<E, InT, OutT> {
+final class RegisterNode<SubjectT extends Enum<SubjectT>, InT> extends Node<SubjectT, InT> {
 
-    protected final List<RegisterNode<E, InT, OutT>> directDependees;
+    protected final List<RegisterNode<SubjectT, InT>> directDependees;
 
-    RegisterNode(Provider<E, InT, OutT> calculator) {
+    RegisterNode(Provider<SubjectT, InT> calculator) {
         super(calculator);
         directDependees = new ArrayList<>(calculator.requires().size());
     }

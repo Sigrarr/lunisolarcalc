@@ -5,7 +5,7 @@ import java.util.*;
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public abstract class MoonCoordinateCalculator implements Provider<Subject, Double, Double> {
+public abstract class MoonCoordinateCalculator implements Provider<Subject, Double> {
 
     protected MoonCoordinatePeriodicTerms periodicTerms;
 
@@ -23,7 +23,7 @@ public abstract class MoonCoordinateCalculator implements Provider<Subject, Doub
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
-        return calculateCoordinate(centurialT, (MoonCoordinateElements) arguments.get(Subject.MOON_COORDINATE_ELEMENTS));
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+        return calculateCoordinate(centurialT, (MoonCoordinateElements) requiredArguments.get(Subject.MOON_COORDINATE_ELEMENTS));
     }
 }

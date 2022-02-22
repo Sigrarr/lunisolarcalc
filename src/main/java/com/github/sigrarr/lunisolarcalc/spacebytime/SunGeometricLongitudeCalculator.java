@@ -5,7 +5,7 @@ import java.util.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunGeometricLongitudeCalculator implements Provider<Subject, Double, Double> {
+public final class SunGeometricLongitudeCalculator implements Provider<Subject, Double> {
     /**
      * Meeus 1998, 25.9, p. 166
      */
@@ -30,7 +30,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
-        return calculateGeometricLongitude((Double) arguments.get(Subject.EARTH_LONGITUDE));
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+        return calculateGeometricLongitude((Double) requiredArguments.get(Subject.EARTH_LONGITUDE));
     }
 }

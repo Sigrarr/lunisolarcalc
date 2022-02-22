@@ -1,26 +1,26 @@
 package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
-class Code<E extends Enum<E>, InT, OutT> {
+class Code<SubjectT extends Enum<SubjectT>, InT> {
     
-    private final E[] subjects;
+    private final SubjectT[] subjects;
 
-    Code(Class<E> subjectEnumClass) {
+    Code(Class<SubjectT> subjectEnumClass) {
         subjects = subjectEnumClass.getEnumConstants();
     }
 
-    protected char encode(E subject) {
+    protected char encode(SubjectT subject) {
         return (char) subject.ordinal();
     }
 
-    protected char encode(Node<E, InT, OutT> node) {
+    protected char encode(Node<SubjectT, InT> node) {
         return encode(node.calculator.provides());
     }
 
-    protected E decode(char code) {
+    protected SubjectT decode(char code) {
         return decode((int) code);
     }
 
-    protected E decode(int codeValue) {
+    protected SubjectT decode(int codeValue) {
         return subjects[codeValue];
     }
 }

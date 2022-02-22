@@ -1,40 +1,32 @@
 package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class MultiOutputComposition<E extends Enum<E>, InT, OutT> extends Composition<E, InT, OutT> {
+public class MultiOutputComposition<SubjectT extends Enum<SubjectT>, InT> extends Composition<SubjectT, InT> {
 
-    private final EnumSet<E> targets;
-    private Map<E, OutT> results = new HashMap<>();
-
-    MultiOutputComposition(EnumSet<E> targets, TreeSet<CompositionNode<E, InT, OutT>> orderedNodes, Class<OutT> outputClass) {
-        super(orderedNodes, outputClass);
-        this.targets = targets;
+    MultiOutputComposition(Collection<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
+        super(orderedNodes, subjectEnumClass);
     }
 
-    public MultiOutputComposition(MultiOutputComposition<E, InT, OutT> composition) {
+    public MultiOutputComposition(MultiOutputComposition<SubjectT, InT> composition) {
         super(composition);
-        this.targets = composition.targets;
     }
 
     @Override
-    public MultiOutputComposition<E, InT, OutT> replicate() {
+    public MultiOutputComposition<SubjectT, InT> replicate() {
         return new MultiOutputComposition<>(this);
     }
 
-    public Map<E, OutT> calculate(InT inputArgument) {
-        results.clear();
+    public Map<SubjectT, Object> calculate(InT inputArgument) {
         processCalculations(inputArgument);
-        return results;
-    }
-
-    @Override
-    protected final boolean isResultSubject(E subject) {
-        return targets.contains(subject);
-    }
-
-    @Override
-    protected final void setResult(E subject, OutT value) {
-        results.put(subject, value);
+        return unmodifableOrderedNodes.stream()
+            .filter(n -> n.isTarget)
+            .collect(Collectors.toMap(
+                n -> n.calculator.provides(),
+                n -> unmodifableValues.get(n.calculator.provides()),
+                (u, v) -> { throw new UnsupportedOperationException(); },
+                () -> new EnumMap<>(subjectEnumClass)
+            ));
     }
 }

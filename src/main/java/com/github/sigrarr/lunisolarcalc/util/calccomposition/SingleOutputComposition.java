@@ -1,39 +1,27 @@
 package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
-import java.util.TreeSet;
+import java.util.*;
 
-public class SingleOutputComposition<E extends Enum<E>, InT, OutT> extends Composition<E, InT, OutT> {
+public class SingleOutputComposition<SubjectT extends Enum<SubjectT>, InT> extends Composition<SubjectT, InT> {
 
-    private final E target;
-    private OutT result;
-
-    SingleOutputComposition(E target, TreeSet<CompositionNode<E, InT, OutT>> orderedNodes, Class<OutT> outpuClass) {
-        super(orderedNodes, outpuClass);
-        this.target = target;
+    SingleOutputComposition(Collection<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
+        super(orderedNodes, subjectEnumClass);
     }
 
-    public SingleOutputComposition(SingleOutputComposition<E, InT, OutT> composition) {
+    public SingleOutputComposition(SingleOutputComposition<SubjectT, InT> composition) {
         super(composition);
-        this.target = composition.target;
     }
 
     @Override
-    public SingleOutputComposition<E, InT, OutT> replicate() {
+    public SingleOutputComposition<SubjectT, InT> replicate() {
         return new SingleOutputComposition<>(this);
     }
 
-    public OutT calculate(InT inputArgument) {
+    public Object calculate(InT inputArgument) {
         processCalculations(inputArgument);
-        return result;
-    }
-
-    @Override
-    protected final boolean isResultSubject(E subject) {
-        return target == subject;
-    }
-
-    @Override
-    protected final void setResult(E subject, OutT value) {
-        result = value;
+        return unmodifableOrderedNodes.stream()
+            .filter(n -> n.isTarget)
+            .map(n -> unmodifableValues.get(n.calculator.provides()))
+            .findFirst().get();
     }
 }

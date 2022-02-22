@@ -2,25 +2,25 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 import java.util.*;
 
-class ProvidersRegister<E extends Enum<E>, InT, OutT> {
+class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
 
-    private final Map<E, RegisterNode<E, InT, OutT>> subjectToNode = new HashMap<>();
-    private final List<RegisterNode<E, InT, OutT>> pendingNodes = new LinkedList<>();    
+    private final Map<SubjectT, RegisterNode<SubjectT, InT>> subjectToNode = new HashMap<>();
+    private final List<RegisterNode<SubjectT, InT>> pendingNodes = new LinkedList<>();    
 
-    protected RegisterNode<E, InT, OutT> getRequired(E subject) {
+    protected RegisterNode<SubjectT, InT> getRequired(SubjectT subject) {
         if (!subjectToNode.containsKey(subject)) {
             throw new IllegalStateException("No provider of " + subject + " has been registered.");
         }
         return subjectToNode.get(subject);
     }
 
-    protected void add(Provider<E, InT, OutT> calculator) {
-        E newlyProvidedSubject = calculator.provides();
+    protected void add(Provider<SubjectT, InT> calculator) {
+        SubjectT newlyProvidedSubject = calculator.provides();
         if (has(newlyProvidedSubject)) {
             throw new UnsupportedOperationException("Provider of " + newlyProvidedSubject + " has been already registered.");
         }
 
-        RegisterNode<E, InT, OutT> newNode = new RegisterNode<>(calculator);
+        RegisterNode<SubjectT, InT> newNode = new RegisterNode<>(calculator);
 
         passToDependers(newNode, newlyProvidedSubject);
         setDependees(newNode);
@@ -31,14 +31,14 @@ class ProvidersRegister<E extends Enum<E>, InT, OutT> {
         }
     }
 
-    protected boolean has(E subject) {
+    protected boolean has(SubjectT subject) {
         return subjectToNode.containsKey(subject);
     }
 
-    private void passToDependers(RegisterNode<E, InT, OutT> newNode, E newlyProvidedSubject) {
-        ListIterator<RegisterNode<E, InT, OutT>> iterator = pendingNodes.listIterator();
+    private void passToDependers(RegisterNode<SubjectT, InT> newNode, SubjectT newlyProvidedSubject) {
+        ListIterator<RegisterNode<SubjectT, InT>> iterator = pendingNodes.listIterator();
         while (iterator.hasNext()) {
-            RegisterNode<E, InT, OutT> pendingNode = iterator.next();
+            RegisterNode<SubjectT, InT> pendingNode = iterator.next();
             if (pendingNode.calculator.requires().contains(newlyProvidedSubject)) {
                 pendingNode.directDependees.add(newNode);
                 if (pendingNode.hasAllDependees()) {
@@ -48,8 +48,8 @@ class ProvidersRegister<E extends Enum<E>, InT, OutT> {
         }
     }
 
-    private void setDependees(RegisterNode<E, InT, OutT> newNode) {
-        for (E requiredSubject : newNode.calculator.requires()) {
+    private void setDependees(RegisterNode<SubjectT, InT> newNode) {
+        for (SubjectT requiredSubject : newNode.calculator.requires()) {
             if (subjectToNode.containsKey(requiredSubject)) {
                 newNode.directDependees.add(subjectToNode.get(requiredSubject));
             }

@@ -29,7 +29,7 @@ public class ComposerTest {
     private MoonEarthDistanceCalculator moonEarthDistanceCalculator = new MoonEarthDistanceCalculator();
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
     private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
-    private Map<Subject, SingleOutputComposition<Subject, Double, Double>> subjectToComposition = Arrays.stream(Subject.values())
+    private Map<Subject, SingleOutputComposition<Subject, Double>> subjectToComposition = Arrays.stream(Subject.values())
         .collect(Collectors.toMap(s -> s, s -> Composer.get().compose(s)));
 
     @Test
@@ -78,7 +78,6 @@ public class ComposerTest {
     }
 
     private double getCompositionNumericResult(Subject subject, double cT) {
-        SingleOutputComposition<Subject, Double, Double> composition = subjectToComposition.get(subject);
-        return composition.calculate(cT);
+        return (Double) subjectToComposition.get(subject).calculate(cT);
     }
 }

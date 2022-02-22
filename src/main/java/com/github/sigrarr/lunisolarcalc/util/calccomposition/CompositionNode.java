@@ -1,30 +1,33 @@
 package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
-class CompositionNode<E extends Enum<E>, InT, OutT> extends Node<E, InT, OutT> implements Comparable<CompositionNode<E, InT, OutT>> {
+final class CompositionNode<SubjectT extends Enum<SubjectT>, InT> extends Node<SubjectT, InT> implements Comparable<CompositionNode<SubjectT, InT>> {
 
-    protected final int ordinal;
+    protected final int id;
+    protected final boolean isTarget;
     protected int weight = 1;
 
-    CompositionNode(Provider<E, InT, OutT> calculator, int ordinal) {
+    CompositionNode(Provider<SubjectT, InT> calculator, int id, boolean isTarget) {
         super(calculator);
-        this.ordinal = ordinal;
+        this.id = id;
+        this.isTarget = isTarget;
     }
 
-    CompositionNode(CompositionNode<E, InT, OutT> node) {
+    CompositionNode(CompositionNode<SubjectT, InT> node) {
         super(node.calculator.getInstanceForNewComposition());
-        this.ordinal = node.ordinal;
+        this.id = node.id;
+        this.isTarget = node.isTarget;
     }
 
-    public CompositionNode<E, InT, OutT> replicate() {
+    public CompositionNode<SubjectT, InT> replicate() {
         return new CompositionNode<>(this);
     }
-
+   
     @Override
-    public int compareTo(CompositionNode<E, InT, OutT> node) {
+    public int compareTo(CompositionNode<SubjectT, InT> node) {
         int weightCmp = Integer.compare(node.weight, weight);
         if (weightCmp != 0) {
             return weightCmp;
         }
-        return Integer.compare(node.ordinal, ordinal);
+        return Integer.compare(node.id, id);
     }
 }

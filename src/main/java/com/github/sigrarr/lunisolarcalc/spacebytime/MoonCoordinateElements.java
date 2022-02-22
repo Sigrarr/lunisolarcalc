@@ -6,7 +6,7 @@ import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public class MoonCoordinateElements implements Provider<Subject, Double, Double> {
+public class MoonCoordinateElements implements Provider<Subject, Double> {
 
     public static final int INDEX_MEAN_LONGITUDE = 0;
     public static final int INDEX_MEAN_ELONGATION = 1;
@@ -106,13 +106,13 @@ public class MoonCoordinateElements implements Provider<Subject, Double, Double>
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
         calculate(centurialT);
         return this;
     }
 
     @Override
-    public Provider<Subject, Double, Double> getInstanceForNewComposition() {
+    public Provider<Subject, Double> getInstanceForNewComposition() {
         return new MoonCoordinateElements();
     }
 }

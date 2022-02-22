@@ -7,7 +7,7 @@ import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.ConstantsAndUnits;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class AberrationEarthSunCalculator implements Provider<Subject, Double, Double> {
+public final class AberrationEarthSunCalculator implements Provider<Subject, Double> {
 
     private static final double AU_LIGHT_TIME_DAYS = (
         (double) ConstantsAndUnits.ASTRONOMICAL_UNIT_METERS / (double) ConstantsAndUnits.LIGHT_SPEED_METERS_PER_SECOND
@@ -31,10 +31,10 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Dou
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
         return calculateAberration(
             Timeline.centurialTToMillenialTau(centurialT),
-            (Double) arguments.get(Subject.EARTH_SUN_RADIUS)
+            (Double) requiredArguments.get(Subject.EARTH_SUN_RADIUS)
         );
     }
 }

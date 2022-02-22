@@ -3,51 +3,36 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class Composition<E extends Enum<E>, InT, OutT> {
+public abstract class Composition<SubjectT extends Enum<SubjectT>, InT> {
 
-    private final Collection<CompositionNode<E, InT, OutT>> orderedNodes;
-    private final Class<OutT> outputClass;
-    private final Map<E, Object> values = new HashMap<>();
-    private final Map<E, Object> readonlyValues = Collections.unmodifiableMap(values);
+    protected final Collection<CompositionNode<SubjectT, InT>> unmodifableOrderedNodes;
+    protected final Class<SubjectT> subjectEnumClass;
+    private final Map<SubjectT, Object> values;
+    protected final Map<SubjectT, Object> unmodifableValues;
 
-    Composition(Collection<CompositionNode<E, InT, OutT>> orderedNodes, Class<OutT> outputClass) {
-        this.orderedNodes = orderedNodes;
-        this.outputClass = outputClass;
+    Composition(Collection<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
+        unmodifableOrderedNodes = Collections.unmodifiableCollection(orderedNodes);
+        this.subjectEnumClass = subjectEnumClass;
+        values = new EnumMap<>(subjectEnumClass);
+        unmodifableValues = Collections.unmodifiableMap(values);
     }
 
-    public Composition(Composition<E, InT, OutT> composition) {
+    public Composition(Composition<SubjectT, InT> composition) {
         this(
-            composition.orderedNodes.stream().map(node -> node.replicate()).collect(Collectors.toList()),
-            composition.outputClass
+            composition.unmodifableOrderedNodes.stream()
+                .map(node -> node.replicate())
+                .collect(Collectors.toCollection(() -> new ArrayList<>(composition.unmodifableOrderedNodes.size()))),
+            composition.subjectEnumClass
         );
     }
 
-    public abstract Composition<E, InT, OutT> replicate();
+    public abstract Composition<SubjectT, InT> replicate();
 
     protected void processCalculations(InT inputArgument) {
         values.clear();
-        for (CompositionNode<E, InT, OutT> node : orderedNodes) {
-            E subject = node.calculator.provides();
-            Object value = node.calculator.calculate(inputArgument, readonlyValues);
-            values.put(subject, value);
-            if (isResultSubject(subject)) {
-                handleResult(subject, value);
-            }
-        }
+        unmodifableOrderedNodes.stream().forEach(n -> values.put(
+            n.calculator.provides(),
+            n.calculator.calculate(inputArgument, unmodifableValues)
+        ));
     }
-
-    protected void handleResult(E subject, Object value) {
-        if (outputClass.isInstance(value)) {
-            @SuppressWarnings("unchecked") OutT resultValue = (OutT) value;
-            setResult(subject, resultValue);
-        } else {
-            throw new IllegalArgumentException(
-                subject + " is a composition target so its provider must return instances of " + outputClass.getName() + "."
-                + " " + (value == null ? "NULL" : "Instance of " + value.getClass().getName()) + " given instead."                
-            );
-        }
-    }
-
-    abstract protected void setResult(E subject, OutT value);
-    abstract protected boolean isResultSubject(E subject);
 }

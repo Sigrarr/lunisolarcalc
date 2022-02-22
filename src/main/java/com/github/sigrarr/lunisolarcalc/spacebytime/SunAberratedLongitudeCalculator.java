@@ -5,7 +5,7 @@ import java.util.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunAberratedLongitudeCalculator implements Provider <Subject, Double, Double> {
+public final class SunAberratedLongitudeCalculator implements Provider<Subject, Double> {
 
     public double calculateAberratedLongitude(double geometricLongitude, double aberration) {
         return Calcs.normalizeLongitudinally(geometricLongitude + aberration);
@@ -22,7 +22,10 @@ public final class SunAberratedLongitudeCalculator implements Provider <Subject,
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
-        return calculateAberratedLongitude((Double) arguments.get(Subject.SUN_GEOMETRIC_LONGITUDE), (Double) arguments.get(Subject.ABERRATION_EARTH_SUN));
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+        return calculateAberratedLongitude(
+            (Double) requiredArguments.get(Subject.SUN_GEOMETRIC_LONGITUDE),
+            (Double) requiredArguments.get(Subject.ABERRATION_EARTH_SUN)
+        );
     }
 }

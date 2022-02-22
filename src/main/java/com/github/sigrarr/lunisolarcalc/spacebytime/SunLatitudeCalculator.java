@@ -5,7 +5,7 @@ import java.util.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunLatitudeCalculator implements Provider<Subject, Double, Double> {
+public final class SunLatitudeCalculator implements Provider<Subject, Double> {
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
      */
@@ -31,7 +31,11 @@ public final class SunLatitudeCalculator implements Provider<Subject, Double, Do
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> arguments) {
-        return calculateLatitude(centurialT, (Double) arguments.get(Subject.EARTH_LATITUDE), (Double) arguments.get(Subject.EARTH_LONGITUDE));
+    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+        return calculateLatitude(
+            centurialT,
+            (Double) requiredArguments.get(Subject.EARTH_LATITUDE),
+            (Double) requiredArguments.get(Subject.EARTH_LONGITUDE)
+        );
     }
 }
