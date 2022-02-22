@@ -1,11 +1,11 @@
-package com.github.sigrarr.lunisolarcalc.phenomena.tables;
+package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointsfinder;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPoint;
 
 /**
  * Meeus 1998, Table 27.A-B, p. 178
  */
-public class MeanSunSeasonPointApproximationTable {
+public class MeanSunSeasonPointApproximator {
     
     private static final double[][] COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K = {
         { 1721139.29189 , 365242.13740 , +0.06134 , +0.00111 , -0.00071 },
@@ -24,7 +24,7 @@ public class MeanSunSeasonPointApproximationTable {
     private double[][] currentSubtable = null;
     private double[] yPowers = {1.0, 0.0, 0.0, 0.0, 0.0};
 
-    public double evaluate(int romanYear, SunSeasonPoint point) {
+    public double approximateJulianEphemerisDay(int romanYear, SunSeasonPoint point) {
         if (romanYear != currentRomanYear) {
             if (romanYear > 1000) {
                 currentSubtable = COEFFICIENTS_FOR_YEARS_1K_TO_3K;

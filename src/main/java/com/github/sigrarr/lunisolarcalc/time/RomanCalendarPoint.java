@@ -47,6 +47,49 @@ public class RomanCalendarPoint implements Comparable<RomanCalendarPoint> {
         return this.compareTo(FIRST_GREGORIAN_DATE) < 0 ? Calendar.JULIAN : Calendar.GREGORIAN;
     }
 
+    public boolean isYearLeap() {
+        if (y % 4 != 0) {
+            return false;
+        }
+        if (getCalendar() == Calendar.JULIAN) {
+            return true;
+        }
+        return !(y % 100 == 0 && y % 400 != 0);
+    }
+
+    public int getNumberOfDaysInYear() {
+        return isYearLeap() ? 366 : 365;
+    }
+
+    /**
+     * Meeus 1998, Ch. 7, p. 65
+     */
+    public int getDayOfYear() {
+        int k = isYearLeap() ? 1 : 2;
+        return (275 * m / 9) - (k * ((m + 9) / 12)) + (int) dt - 30;
+    }
+
+    public double toYearWithFraction() {
+        return y + ((getDayOfYear() - 1.0 + getTime()) / getNumberOfDaysInYear());
+    }
+
+    public int getDay() {
+        return (int) dt;
+    }
+
+    public double getTime() {
+        return dt - getDay();
+    }
+
+    public int getHours() {
+        return (int) (getTime() * 24);
+    }
+
+    public int getMinutes() {
+        double hoursWithFraction = getTime() * 24;
+        return (int) Math.round((hoursWithFraction - getHours()) * 60);
+    }
+
     @Override
     public int compareTo(RomanCalendarPoint rcp) {
         int cmpY = Integer.compare(y, rcp.y);
@@ -65,23 +108,6 @@ public class RomanCalendarPoint implements Comparable<RomanCalendarPoint> {
         }
         RomanCalendarPoint rcp = (RomanCalendarPoint) o;
         return y == rcp.y && m == rcp.m && Calcs.equal(dt, rcp.dt, HALF_MINUTE);
-    }
-
-    public int getDay() {
-        return (int) dt;
-    }
-
-    public double getTime() {
-        return dt - getDay();
-    }
-
-    public int getHours() {
-        return (int) (getTime() * 24);
-    }
-
-    public int getMinutes() {
-        double hoursWithFraction = getTime() * 24;
-        return (int) Math.round((hoursWithFraction - getHours()) * 60);
     }
 
     @Override

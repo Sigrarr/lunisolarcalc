@@ -1,14 +1,19 @@
 package com.github.sigrarr.lunisolarcalc.time;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.RomanCalendarPoint.Calendar;
+import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class RomanCalendarPointTest {
+
+    private static final int[] COMMON_YEARS = {750, 1429, 1700, 1800, 1900, 2100};
+    private static final int[] LEAP_YEARS = {900, 1236, 1600, 2000, 2400};
 
     private RomanCalendarPoint pointA1 = new RomanCalendarPoint(8, 1, 1.51);
     private RomanCalendarPoint pointA2 = new RomanCalendarPoint(8, 1, 1.51);
@@ -21,6 +26,27 @@ public class RomanCalendarPointTest {
         assertEquals(Calendar.JULIAN, new RomanCalendarPoint(1582, 10, 4).getCalendar());
         assertEquals(Calendar.GREGORIAN, new RomanCalendarPoint(1582, 10, 15).getCalendar());
         assertEquals(Calendar.GREGORIAN, new RomanCalendarPoint(2000, 1, 1).getCalendar());
+    }
+
+    @Test
+    public void shouldRecognizeLeapYear() {
+        Arrays.stream(COMMON_YEARS).forEach(y -> assertFalse(y + " - false leap year", new RomanCalendarPoint(y, 1, 1).isYearLeap()));
+        Arrays.stream(LEAP_YEARS).forEach(y -> assertTrue(y + " - false common year", new RomanCalendarPoint(y, 1, 1).isYearLeap()));
+    }
+
+    @Test
+    public void shouldCalculateDayOfYear() {
+        // Meeus 1998, Example 7.f, p. 65
+        assertEquals(318, new RomanCalendarPoint(1978, 11, 14).getDayOfYear());
+        // Meeus 1998, Example 7.g, p. 65
+        assertEquals(113, new RomanCalendarPoint(1988, 4, 22).getDayOfYear());
+    }
+
+    @Test
+    public void shouldConvertToYearWithFraction() {
+        assertEquals(750.0, new RomanCalendarPoint(750, 1, 1.0).toYearWithFraction(), Calcs.EPSILON);
+        assertEquals(1978.86849315, new RomanCalendarPoint(1978, 11, 14).toYearWithFraction(), autoDelta(0.86849315));
+        assertEquals(1988.9999990513, new RomanCalendarPoint(1988, 12, 31, 23, 59, 30).toYearWithFraction(), autoDelta(0.9999990513));
     }
 
     @Test

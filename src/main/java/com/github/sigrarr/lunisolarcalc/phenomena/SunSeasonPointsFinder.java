@@ -1,7 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointsfinder.*;
-import com.github.sigrarr.lunisolarcalc.phenomena.tables.MeanSunSeasonPointApproximationTable;
 
 public class SunSeasonPointsFinder extends SunSeasonPointsFinderAbstract {
 
@@ -10,7 +9,7 @@ public class SunSeasonPointsFinder extends SunSeasonPointsFinderAbstract {
     }
 
     private final ApparentLongitudeCalculator lambdaCalculator;
-    private final MeanSunSeasonPointApproximationTable approximationTable = new MeanSunSeasonPointApproximationTable();
+    private final MeanSunSeasonPointApproximator approximator = new MeanSunSeasonPointApproximator();
     private int lastLambdaCalculationIterations = -1;
 
     public SunSeasonPointsFinder() {
@@ -26,7 +25,7 @@ public class SunSeasonPointsFinder extends SunSeasonPointsFinderAbstract {
      */
     @Override
     protected double findJulianEphemerisDay(int romanYear, SunSeasonPoint point, double meanPrecisionDegrees) {
-        double jde = approximationTable.evaluate(romanYear, point);
+        double jde = approximator.approximateJulianEphemerisDay(romanYear, point);
         double lambda = lambdaCalculator.calculateLambda(jde);
 
         lastLambdaCalculationIterations = 1;

@@ -9,7 +9,8 @@ public class MeanValueApproximations {
     public static final double TROPICAL_MONTH_MEAN_DAYS = 27.321582;
     public static final double TROPICAL_MONTH_MEAN_HOURS = TROPICAL_MONTH_MEAN_DAYS * 24.0;
     public static final double TROPICAL_MONTH_MEAN_MINUTES = TROPICAL_MONTH_MEAN_HOURS * 60.0;
-    public static final double TROPICAL_MONTH_MEAN_SECONDS = TROPICAL_MONTH_MEAN_MINUTES * 60.0;    
+    public static final double TROPICAL_MONTH_MEAN_SECONDS = TROPICAL_MONTH_MEAN_MINUTES * 60.0;
+    public static final double SYNODIC_MONTH_MEAN_DAYS = 29.5305889;
 
     public static class SunEarthRelativeMotion {
         public static double ARCECONDS_PER_TIME_SECOND = Calcs.toArcseconds(360.0) / TROPICAL_YEAR_MEAN_SECONDS;
