@@ -1,9 +1,8 @@
-package com.github.sigrarr.lunisolarcalc.phenomena.tables;
+package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder;
 
 import static org.junit.Assert.assertEquals;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPoint;
-import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointsfinder.MeanSunSeasonPointApproximator;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointsfinder;
+package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPointsFinder.ApparentLongitudeCalculator;
+import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPointFinder.ApparentLongitudeCalculator;
 import com.github.sigrarr.lunisolarcalc.spacebytime.*;
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;

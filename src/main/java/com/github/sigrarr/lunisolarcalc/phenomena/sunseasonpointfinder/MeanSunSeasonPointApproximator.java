@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointsfinder;
+package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPoint;
 

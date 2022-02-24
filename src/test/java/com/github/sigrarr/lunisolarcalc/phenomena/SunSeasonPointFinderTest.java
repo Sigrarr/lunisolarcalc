@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 
 import org.junit.Test;
 
-public class SunSeasonPointsFinderTest {
+public class SunSeasonPointFinderTest {
     /**
      * Meeus 1998, Table 27.E, p. 182
      */
@@ -61,10 +61,10 @@ public class SunSeasonPointsFinderTest {
         put(new RomanCalendarPoint(2005, 12, 21,  18, 36,  1), SunSeasonPoint.DECEMBER_SOLSTICE);
     }};
 
-    private SunSeasonPointsFinder finder = new SunSeasonPointsFinder();
+    private SunSeasonPointFinder finder = new SunSeasonPointFinder();
 
     @Test
-    public void shouldFindEquinoxOrSolsticeToHalfMinuteIn3Iterations() {
+    public void shouldFindEquinoxOrSolsticeToHalfMinuteInThreeIterations() {
         Map<RomanCalendarPoint, RomanCalendarPoint> inaccuracies = new HashMap<>();
 
         for (Entry<RomanCalendarPoint, SunSeasonPoint> entry : TRUE_VSOP87_SUN_SEASON_POINTS.entrySet()) {

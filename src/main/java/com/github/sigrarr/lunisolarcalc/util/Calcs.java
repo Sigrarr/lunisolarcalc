@@ -6,6 +6,7 @@ import java.util.Locale;
 
 public class Calcs {
 
+    public static final double ROUND = 2.0 * Math.PI;
     public static final double EPSILON_9 = 0.000000001;
     public static final double EPSILON_12 = 0.000000000001;
     public static final double EPSILON_16 = 0.0000000000000001;
@@ -16,7 +17,6 @@ public class Calcs {
     private static final double DEGREE_TO_ARC_SECOND = DEGREE_TO_ARC_MINUTE * 60.0;
     private static final double ARC_MINUTE_TO_DEGREE = 1.0 / DEGREE_TO_ARC_MINUTE;
     private static final double ARC_SECOND_TO_DEGREE = 1.0 / DEGREE_TO_ARC_SECOND;
-    private static final double TWO_PI = 2.0 * Math.PI;
     private final static DecimalFormat FRACTION_PART = new DecimalFormat(".#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)) {{
         setMaximumIntegerDigits(0);
         setMaximumFractionDigits(EPSILON_DECIMALS_MAX);
@@ -40,11 +40,11 @@ public class Calcs {
     }
 
     public static double normalizeLongitudinally(double radians) {
-        return radians - (TWO_PI * Math.floor(radians / TWO_PI));
+        return radians - (ROUND * Math.floor(radians / ROUND));
     }
 
     public static double normalizeLatitudinally(double radians) {
-        return radians - TWO_PI * Math.floor((radians + Math.PI) / TWO_PI);
+        return radians - ROUND * Math.floor((radians + Math.PI) / ROUND);
     }
 
     public static double toLongitudinallyNormalRadians(double degrees) {

@@ -19,14 +19,9 @@ public class MeanMoonPhaseApproximatorTest {
         RomanCalendarPoint rcp = new RomanCalendarPoint(1977, 2, 17, 10, 48, 0);
         assertEquals(1977.13, rcp.toYearWithFraction(), Calcs.EPSILON);
         assertEquals(2443192.94102, approximator.approximateJulianEphemerisDay(rcp, MoonPhase.NEW_MOON), autoDelta(2443192.94102));
-    }
 
-    @Test
-    public void shouldConvertKToCenturialT() {
-        // Meeus 1998, Example 49.a, p. 353
-        RomanCalendarPoint rcp = new RomanCalendarPoint(1977, 2, 17, 10, 48, 0);
-        assertEquals(1977.13, rcp.toYearWithFraction(), Calcs.EPSILON);
-        double k = -283.0;
-        assertEquals(-0.22881, approximator.kToCenturialT(k), autoDelta(0.22881));
+        // Meeus 1998, Example 49.b, p. 353
+        rcp = new RomanCalendarPoint(2044, 1, 1.0);
+        assertEquals(2467636.88597, approximator.approximateJulianEphemerisDay(rcp, MoonPhase.THIRD_QUARTER), autoDelta(2467636.88597));
     }
 }

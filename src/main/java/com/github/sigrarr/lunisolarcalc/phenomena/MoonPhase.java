@@ -1,5 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
+import com.github.sigrarr.lunisolarcalc.util.Calcs;
+
 public enum MoonPhase {
 
     NEW_MOON(0.0),
@@ -12,6 +14,6 @@ public enum MoonPhase {
 
     private MoonPhase(double lunationFraction) {
         this.lunationFraction = lunationFraction;
-        this.moonOverSunApparentLongitudeExcess = lunationFraction * 2.0 * Math.PI;
+        this.moonOverSunApparentLongitudeExcess = lunationFraction * Calcs.ROUND;
     }
 }

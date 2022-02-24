@@ -107,7 +107,9 @@ public class RomanCalendarPoint implements Comparable<RomanCalendarPoint> {
             return false;
         }
         RomanCalendarPoint rcp = (RomanCalendarPoint) o;
-        return y == rcp.y && m == rcp.m && Calcs.equal(dt, rcp.dt, HALF_MINUTE);
+        return (this == rcp) || (
+            y == rcp.y && m == rcp.m && Calcs.equal(dt, rcp.dt, HALF_MINUTE)
+        );
     }
 
     @Override
