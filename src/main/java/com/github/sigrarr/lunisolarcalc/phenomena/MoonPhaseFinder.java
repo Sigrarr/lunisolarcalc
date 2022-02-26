@@ -32,7 +32,7 @@ public class MoonPhaseFinder {
 
     public double findJulianEphemerisDay(RomanCalendarPoint r, MoonPhase phase, double meanPrecisionRadians) {
         reset();
-        jde.push(approximator.approximateJulianEphemerisDay(r, phase));
+        jde.push(approximator.approximateJulianEphemerisDayAround(r, phase));
         excess.push(excessCalculator.calculateExcess(jde.getCurrent()));
         lastExcessCalculationCount++;
         setDiffAndExcessProjectingOnContinuousLine(phase);
