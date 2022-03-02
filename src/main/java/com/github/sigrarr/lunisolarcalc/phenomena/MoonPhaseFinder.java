@@ -3,56 +3,48 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.moonphasesfinder.*;
-import com.github.sigrarr.lunisolarcalc.time.RomanCalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
-public class MoonPhaseFinder {
-
-    public static interface MoonOverSunLambdaExcessCalculator {
-        public double calculateExcess(double julianEphemerisDay);
-    }
-
-    private static final double BASE_SLOPE_INVERSE = MeanValueApproximations.SYNODIC_MONTH_MEAN_DAYS / ROUND;   
-
-    private final MeanMoonPhaseApproximator approximator = new MeanMoonPhaseApproximator();
-    private final MoonOverSunLambdaExcessCalculator excessCalculator;
+public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
     private DoubleStepPair excess = new DoubleStepPair();
     private DoubleStepPair jde = new DoubleStepPair();
     private double diff;
-    private int lastExcessCalculationCount = -1;
 
     public MoonPhaseFinder() {
         this(new SeparateCompositionMoonOverSunLambdaExcessCalculator());
     }
 
-    public MoonPhaseFinder(MoonOverSunLambdaExcessCalculator excessCalculator) {
-        this.excessCalculator = excessCalculator;
+    public MoonPhaseFinder(InstantIndicatingAngleCalculator moonOverSunLambdaExcessCalculator) {
+        super(moonOverSunLambdaExcessCalculator);
     }
 
-    public double findJulianEphemerisDay(RomanCalendarPoint r, MoonPhase phase, double meanPrecisionRadians) {
-        reset();
-        jde.push(approximator.approximateJulianEphemerisDayAround(r, phase));
-        excess.push(excessCalculator.calculateExcess(jde.getCurrent()));
-        lastExcessCalculationCount++;
+    @Override
+    protected double findJulianEphemerisDay(double approximateJde, MoonPhase phase, double meanPrecisionRadians) {
+        resetFinding();
+        jde.push(approximateJde);
+        excess.push(calculateMoonOverSunLambdaExcess());
         setDiffAndExcessProjectingOnContinuousLine(phase);
 
         while (Math.abs(diff) > meanPrecisionRadians) {
-            jde.push(jde.getCurrent() + calculateJDECorrection());
-            excess.push(excessCalculator.calculateExcess(jde.getCurrent()));
-            lastExcessCalculationCount++;
+            jde.push(jde.getCurrent() + calculateJdeCorrection());
+            excess.push(calculateMoonOverSunLambdaExcess());
             setDiffAndExcessProjectingOnContinuousLine(phase);
         }
 
         return jde.getCurrent();
     }
 
-    private double calculateJDECorrection() {
-        return diff * (excess.isCompletePair() ? calculateSlopeInverseFromRecentEvaluations() : BASE_SLOPE_INVERSE);
+    protected double calculateMoonOverSunLambdaExcess() {
+        return calculateInstantIndicatingAngle(jde.getCurrent());
     }
 
-    private double calculateSlopeInverseFromRecentEvaluations() {
-        return Math.abs((jde.getCurrent() - jde.getPrevious()) / (excess.getCurrent() - excess.getPrevious()));
+    private double calculateJdeCorrection() {
+        return diff * (excess.isCompletePair() ? estimateSlopeInverseFromRecentEvaluations() : MeanValueApproximations.LUNATION_MEAN_DAYS/ ROUND);
+    }
+
+    private double estimateSlopeInverseFromRecentEvaluations() {
+        return (jde.getCurrent() - jde.getPrevious()) / (excess.getCurrent() - excess.getPrevious());
     }
 
     private void setDiffAndExcessProjectingOnContinuousLine(MoonPhase phase) {
@@ -63,16 +55,10 @@ public class MoonPhaseFinder {
         }
     }
 
-    private void reset() {
+    @Override
+    protected void resetFinding() {
+        super.resetFinding();
         jde.clear();
         excess.clear();
-        lastExcessCalculationCount = 0;
-    }
-
-    public int getLastExcessCalculationsCount() {
-        if (lastExcessCalculationCount < 0) {
-            throw new IllegalStateException();
-        }
-        return lastExcessCalculationCount;
     }
 }

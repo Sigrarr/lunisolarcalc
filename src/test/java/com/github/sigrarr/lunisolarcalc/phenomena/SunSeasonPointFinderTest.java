@@ -61,7 +61,9 @@ public class SunSeasonPointFinderTest {
         put(new RomanCalendarPoint(2005, 12, 21,  18, 36,  1), SunSeasonPoint.DECEMBER_SOLSTICE);
     }};
 
-    private SunSeasonPointFinder finder = new SunSeasonPointFinder();
+    private SunSeasonPointFinder finder = new SunSeasonPointFinder() {{
+        setCoreCalculationsLimit(3);
+    }};
 
     @Test
     public void shouldFindEquinoxOrSolsticeToHalfMinuteInThreeIterations() {
@@ -82,9 +84,6 @@ public class SunSeasonPointFinderTest {
             if (!vsop87Rcp.formatYMDHI().equals(actualRcp.formatYMDHI())) {
                 inaccuracies.put(vsop87Rcp, actualRcp);
             }
-
-            int iters = finder.getLastLambdaCalculationsCount();
-            assertTrue("Expected 3 or less lambda calculations, " + iters + " performed." , iters <= 3);
         }
 
         assertTrue(

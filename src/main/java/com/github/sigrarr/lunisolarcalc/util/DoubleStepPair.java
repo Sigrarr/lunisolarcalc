@@ -53,7 +53,11 @@ public class DoubleStepPair {
     }
 
     public boolean isCompletePair() {
-        return count >= 2;
+        return !isEmpty();
+    }
+
+    public boolean isEmpty() {
+        return count < 2;
     }
 
     public void clear() {

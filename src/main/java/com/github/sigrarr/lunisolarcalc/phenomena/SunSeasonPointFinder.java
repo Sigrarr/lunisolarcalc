@@ -4,20 +4,12 @@ import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder.*;
 
 public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
 
-    public static interface ApparentLongitudeCalculator {
-        public double calculateLambda(double julianEphemerisDay);
-    }
-
-    private final ApparentLongitudeCalculator lambdaCalculator;
-    private final MeanSunSeasonPointApproximator approximator = new MeanSunSeasonPointApproximator();
-    private int lastLambdaCalculationCount = -1;
-
     public SunSeasonPointFinder() {
         this(new SeparateCompositionApparentLongitudeCalculator());
-    }    
+    }
 
-    public SunSeasonPointFinder(ApparentLongitudeCalculator lambdaCalculator) {
-        this.lambdaCalculator = lambdaCalculator;
+    public SunSeasonPointFinder(InstantIndicatingAngleCalculator sunApparentLongitudeCalculator) {
+        super(sunApparentLongitudeCalculator);
     }
 
     /**
@@ -25,14 +17,13 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
      */
     @Override
     protected double findJulianEphemerisDay(int romanYear, SunSeasonPoint point, double meanPrecisionRadians) {
+        resetFinding();
         double jde = approximator.approximateJulianEphemerisDay(romanYear, point);
-        double lambda = lambdaCalculator.calculateLambda(jde);
-        lastLambdaCalculationCount = 1;
+        double lambda = calculateSunApparentLongitude(jde);
 
         while (Math.abs(lambda - point.apparentLongitude) > meanPrecisionRadians) {
-            jde += calculateJDECorrection(point, lambda);
-            lambda = lambdaCalculator.calculateLambda(jde);
-            lastLambdaCalculationCount++;
+            jde += calculateJdeCorrection(point, lambda);
+            lambda = calculateSunApparentLongitude(jde);
         }
 
         return jde;
@@ -41,14 +32,11 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
     /**
      * Meeus 1998, 27.1, p. 180
      */
-    protected double calculateJDECorrection(SunSeasonPoint point, double lambda) {
+    protected double calculateJdeCorrection(SunSeasonPoint point, double lambda) {
         return 58.0 * Math.sin(point.apparentLongitude - lambda);
     }
 
-    public int getLastLambdaCalculationsCount() {
-        if (lastLambdaCalculationCount < 0) {
-            throw new IllegalStateException();
-        }
-        return lastLambdaCalculationCount;
+    private double calculateSunApparentLongitude(double julianEphemerisDay) {
+        return calculateInstantIndicatingAngle(julianEphemerisDay);
     }
 }

@@ -10,10 +10,10 @@ public class MeanValueApproximations {
     public static final double TROPICAL_MONTH_MEAN_HOURS = TROPICAL_MONTH_MEAN_DAYS * 24.0;
     public static final double TROPICAL_MONTH_MEAN_MINUTES = TROPICAL_MONTH_MEAN_HOURS * 60.0;
     public static final double TROPICAL_MONTH_MEAN_SECONDS = TROPICAL_MONTH_MEAN_MINUTES * 60.0;
-    public static final double SYNODIC_MONTH_MEAN_DAYS = 29.5306;
-    public static final double SYNODIC_MONTH_MEAN_HOURS = SYNODIC_MONTH_MEAN_DAYS * 24.0;
-    public static final double SYNODIC_MONTH_MEAN_MINUTES = SYNODIC_MONTH_MEAN_HOURS * 60.0;
-    public static final double SYNODIC_MONTH_MEAN_SECONDS = SYNODIC_MONTH_MEAN_MINUTES * 60.0;
+    public static final double LUNATION_MEAN_DAYS = 29.5306;
+    public static final double LUNATION_MEAN_HOURS = LUNATION_MEAN_DAYS * 24.0;
+    public static final double LUNATION_MEAN_MINUTES = LUNATION_MEAN_HOURS * 60.0;
+    public static final double LUNATION_MEAN_SECONDS = LUNATION_MEAN_MINUTES * 60.0;
 
     public static class SunEarthRelativeMotion {
         public static double ARCECONDS_PER_TIME_SECOND = Calcs.toArcseconds(360.0) / TROPICAL_YEAR_MEAN_SECONDS;
@@ -37,8 +37,8 @@ public class MeanValueApproximations {
         }
     }
 
-    public static class MoonPhase {
-        public static double ARCECONDS_PER_TIME_SECOND = Calcs.toArcseconds(360.0) / SYNODIC_MONTH_MEAN_SECONDS;
+    public static class Lunation {
+        public static double ARCECONDS_PER_TIME_SECOND = Calcs.toArcseconds(360.0) / LUNATION_MEAN_SECONDS;
         public static double ARCECONDS_PER_TIME_MILISECOND = 0.001 * ARCECONDS_PER_TIME_SECOND;
         public static double arcsecondsPerTimeMiliseconds(int miliseconds) {
             return ARCECONDS_PER_TIME_MILISECOND * miliseconds;

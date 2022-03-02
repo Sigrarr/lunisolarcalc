@@ -44,10 +44,10 @@ public class MeanMoonPhaseApproximatorTest {
                     assertEquals(approximateJdeBackward, approximateJde, 0.01);
                 } else if (approximateJde > jde) {
                     assertEquals(approximateJdeForward, approximateJde, 0.01);
-                    assertEquals(MeanValueApproximations.SYNODIC_MONTH_MEAN_DAYS, approximateJde - approximateJdeBackward, 1.5);
+                    assertEquals(MeanValueApproximations.LUNATION_MEAN_DAYS, approximateJde - approximateJdeBackward, 1.5);
                 } else if (approximateJde < jde) {
                     assertEquals(approximateJdeBackward, approximateJde, 0.01);
-                    assertEquals(MeanValueApproximations.SYNODIC_MONTH_MEAN_DAYS, approximateJdeForward - approximateJde, 1.5);
+                    assertEquals(MeanValueApproximations.LUNATION_MEAN_DAYS, approximateJdeForward - approximateJde, 1.5);
                 }
             }
         }        

@@ -1,14 +1,18 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import java.util.*;
-import java.util.function.*;
 import java.util.stream.*;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder.MeanSunSeasonPointApproximator;
 import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.SunEarthRelativeMotion;;
 
-abstract class SunSeasonPointFinderAbstract {
+abstract class SunSeasonPointFinderAbstract extends PhenomenonFinderAbstract {
 
-    public static final int DEFAULT_MEAN_PRECISION_SECONDS = 15;
+    public final MeanSunSeasonPointApproximator approximator = new MeanSunSeasonPointApproximator();
+
+    public SunSeasonPointFinderAbstract(InstantIndicatingAngleCalculator coreCalculator) {
+        super(coreCalculator);
+    }
 
     public double findJulianEphemerisDay(int romanYear, SunSeasonPoint point) {
         return findJulianEphemerisDay(romanYear, point, DEFAULT_MEAN_PRECISION_SECONDS);
@@ -18,21 +22,20 @@ abstract class SunSeasonPointFinderAbstract {
         return findJulianEphemerisDay(romanYear, point, getMeanPrecisionRadians(meanPrecisionSeconds));
     }
 
-    public Stream<FoundSunSeasonPoint> findMany(int startRomanYear, int endRomanYear) {
+    public Stream<FoundPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear) {
         return findMany(startRomanYear, endRomanYear, EnumSet.allOf(SunSeasonPoint.class), DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundSunSeasonPoint> findMany(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points) {
+    public Stream<FoundPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points) {
         return findMany(startRomanYear, endRomanYear, points, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundSunSeasonPoint> findMany(int startRomanYear, int endRomanYear, int meanPrecisionSeconds) {
+    public Stream<FoundPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear, int meanPrecisionSeconds) {
         return findMany(startRomanYear, endRomanYear, EnumSet.allOf(SunSeasonPoint.class), meanPrecisionSeconds);
     }
 
-    public Stream<FoundSunSeasonPoint> findMany(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
-        return Stream.
-            generate(new ResultSupplier(startRomanYear, points, meanPrecisionSeconds))
+    public Stream<FoundPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
+        return Stream.generate(new ResultSupplier(startRomanYear, points, meanPrecisionSeconds))
             .limit(getLimit(startRomanYear, endRomanYear, points));
     }
 
@@ -49,8 +52,7 @@ abstract class SunSeasonPointFinderAbstract {
     }
 
     public DoubleStream findManyJulianEphemerisDays(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
-        return DoubleStream
-            .generate(new ResultSupplier(startRomanYear, points, meanPrecisionSeconds))
+        return DoubleStream.generate(new ResultSupplier(startRomanYear, points, meanPrecisionSeconds))
             .limit(getLimit(startRomanYear, endRomanYear, points));
     }
 
@@ -64,37 +66,25 @@ abstract class SunSeasonPointFinderAbstract {
         return (endRomanYear - startRomanYear + 1) * points.size();
     }
 
-    protected class ResultSupplier implements DoubleSupplier, Supplier<FoundSunSeasonPoint> {
-        protected final List<SunSeasonPoint> points;
-        protected final double meanPrecisionRadians;
-        protected Iterator<SunSeasonPoint> pIterator;
-        protected SunSeasonPoint currentPoint;
-        protected int currentYear;
+    private class ResultSupplier extends ResultSupplierAbstract<SunSeasonPoint> {
+
+        int currentYear;
 
         ResultSupplier(int startYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
-            this.points = points.stream().collect(Collectors.toList());
-            meanPrecisionRadians = getMeanPrecisionRadians(meanPrecisionSeconds);
-            this.pIterator = this.points.listIterator();
+            super(points.stream().sorted().collect(Collectors.toList()), meanPrecisionSeconds);
             currentYear = startYear;
         }
 
         @Override
         public double getAsDouble() {
             forward();
-            return findJulianEphemerisDay(currentYear, currentPoint, meanPrecisionRadians);
+            return findJulianEphemerisDay(currentYear, currentInstant, meanPrecisionRadians);
         }
 
         @Override
-        public FoundSunSeasonPoint get() {
-            return new FoundSunSeasonPoint(getAsDouble(), currentPoint);
-        }
-
-        protected void forward() {
-            if (!pIterator.hasNext()) {
-                pIterator = points.listIterator();
-                currentYear++;
-            }
-            currentPoint = pIterator.next();
+        void rewindInstant() {
+            super.rewindInstant();
+            currentYear++;
         }
     }
 }

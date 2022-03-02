@@ -69,7 +69,7 @@ public class DeltaTTable implements DeltaTResolver {
                 return findDeltaTByLinearInterpolation(requestedRomanYear, i, i + 1);
             }
         }
-        throw new IndexOutOfBoundsException();
+        throw new IndexOutOfBoundsException("" + requestedRomanYear);
     }
 
     private int findDeltaTByLinearInterpolation(int requestedRomanYear, int startIndex, int endIndex) {

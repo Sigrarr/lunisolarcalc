@@ -69,6 +69,6 @@ public class MeanMoonPhaseApproximator {
     }
 
     private double estimateDistanceToAdjacentAroundApproximationAbstractionClassCenter(MoonPhase phase, double shiftBase, double diff) {
-        return (shiftBase - phase.lunationFraction) * MeanValueApproximations.SYNODIC_MONTH_MEAN_DAYS + diff;
+        return (shiftBase - phase.lunationFraction) * MeanValueApproximations.LUNATION_MEAN_DAYS + diff;
     }
 }
