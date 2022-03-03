@@ -63,13 +63,32 @@ public class TimelineTest
     @Test
     public void shouldConvertBetweenTauAndT() {
         Random random = new Random();
-        double limitJD = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(1600, 12, 31));
+        double limitJD = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2200, 12, 31));
         for (int i = 0; i < 10; i++) {
             double jd = random.nextDouble() * limitJD;
             double cT = Timeline.julianDayToCenturialT(jd);
             double tau = Timeline.julianDayToMillenialTau(jd);
             assertEquals(cT, Timeline.millenialTauToCenturialT(tau), Calcs.EPSILON_12);
             assertEquals(tau, Timeline.centurialTToMillenialTau(cT), Calcs.EPSILON_12);            
+        }
+    }
+
+    @Test
+    public void shouldConvertBetweenUTAndTD() {
+        Random random = new Random();
+        double limitJD = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2200, 12, 31));
+        for (int i = 0; i < 10; i++) {
+            double jd = random.nextDouble() * limitJD;
+            RomanCalendarPoint rcp = Timeline.julianDayToRomanCalendar(jd);
+            double deltaTDays = Time.timeToDays(0, 0, Time.getDeltaTSeconds(rcp.y));
+            assertEquals(deltaTDays, Timeline.julianDayToEphemeris(jd, rcp.y) - jd, Calcs.EPSILON);
+            assertEquals(deltaTDays, Timeline.romanCalendarToJulianEphemerisDay(rcp) - jd, Calcs.EPSILON);
+
+            double jde = random.nextDouble() * limitJD;
+            rcp = Timeline.julianEphemerisDayToRomanCalendar(jde);
+            RomanCalendarPoint rcpTD = Timeline.julianDayToRomanCalendar(jde);
+            deltaTDays = Time.timeToDays(0, 0, Time.getDeltaTSeconds(rcp.y));
+            assertEquals(deltaTDays, Timeline.romanCalendarToJulianDay(rcpTD) - Timeline.romanCalendarToJulianDay(rcp), Calcs.EPSILON);
         }
     }
 }

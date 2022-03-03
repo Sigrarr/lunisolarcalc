@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class TimeTest {
     
-    private static final int[] YEARS = {-333, 0, 300, 345, 888, 1267};
+    private static final int[] YEARS = {-333, 0, 300, 345, 888, 1267, 1600, 2000, 2145};
     private Random random = new Random();
 
     @Test

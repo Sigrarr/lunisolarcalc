@@ -62,13 +62,14 @@ public class MoonPhaseFinderTest {
         RomanCalendarPoint[] startAroundPoints = new RomanCalendarPoint[] {
             new RomanCalendarPoint(-700,  1,  1.0),
             new RomanCalendarPoint(   0,  4,  7.0),
-            new RomanCalendarPoint(1600,  7, 19.0)
+            new RomanCalendarPoint(1600,  7, 19.0),
+            new RomanCalendarPoint(2000, 11,  3.0),
         };
-        int partLimitBase = (int) Math.round(200 * 4 * MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS / MeanValueApproximations.LUNATION_MEAN_DAYS);
+        int partLimit = (int) Math.round(200 * 4 * MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS / MeanValueApproximations.LUNATION_MEAN_DAYS);
  
         System.out.println("\tCalculations in progress...");
         for (int i = 0; i < startAroundPoints.length; i++)
-            finder.findMany(startAroundPoints[i], partLimitBase * (i + 1), 15)
+            finder.findMany(startAroundPoints[i], partLimit, 15)
                 .reduce((previous, next) -> {
                     double diff = next.julianEphemerisDay - previous.julianEphemerisDay;
                     assertTrue(

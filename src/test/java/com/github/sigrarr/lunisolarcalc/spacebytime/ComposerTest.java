@@ -34,7 +34,7 @@ public class ComposerTest {
 
     @Test
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {
-        double jdLimit = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2000, 12, 31));
+        double jdLimit = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2200, 12, 31));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
             double cT = Timeline.julianDayToCenturialT(random.nextDouble() * jdLimit);

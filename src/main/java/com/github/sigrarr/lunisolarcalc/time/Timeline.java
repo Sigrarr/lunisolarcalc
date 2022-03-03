@@ -86,4 +86,27 @@ public class Timeline {
     public static double centurialTToMillenialTau(double cT) {
         return 0.1 * cT;
     }
+
+    public static double julianDayToEphemeris(double jd, int romanYear) {
+        return jd + Time.timeToDays(0, 0, Time.getDeltaTSeconds(romanYear));
+    }
+
+    public static double julianEphemerisDaysToUniversal(double jde, int romanYear) {
+        return jde - Time.timeToDays(0, 0, Time.getDeltaTSeconds(romanYear));
+    }
+
+    public static double romanCalendarToJulianEphemerisDay(RomanCalendarPoint romanCalendarPoint) {
+        return julianDayToEphemeris(romanCalendarToJulianDay(romanCalendarPoint), romanCalendarPoint.y);
+    }
+
+    public static RomanCalendarPoint julianEphemerisDayToRomanCalendar(double jde) {
+        RomanCalendarPoint rcp = julianDayToRomanCalendar(jde);
+        int romanYear = rcp.y;
+        double jd = julianEphemerisDaysToUniversal(jde, romanYear);
+        setByJulianDay(rcp, jd);
+        if (romanYear != rcp.y) {
+            setByJulianDay(rcp, julianEphemerisDaysToUniversal(jde, rcp.y));
+        }
+        return rcp;
+    }
 }
