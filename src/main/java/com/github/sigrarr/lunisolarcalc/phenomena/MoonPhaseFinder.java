@@ -49,7 +49,7 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
     private void setDiffAndExcessProjectingOnContinuousLine(MoonPhase phase) {
         diff = phase.moonOverSunApparentLongitudeExcess - excess.getCurrent();
-        if (phase == MoonPhase.NEW_MOON && diff < -0.75 * ROUND) {
+        if (phase.moonOverSunApparentLongitudeExcess == 0.0 && diff < -0.75 * ROUND) {
             excess.setCurrent(excess.getCurrent() - ROUND);
             diff += ROUND;
         }

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
+import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations;
 
 import org.junit.Test;
 
@@ -66,7 +67,7 @@ public class SunSeasonPointFinderTest {
     }};
 
     @Test
-    public void shouldFindEquinoxOrSolsticeToHalfMinuteInThreeIterations() {
+    public void shouldFindEquinoxOrSolsticeToHalfMinute() {
         Map<RomanCalendarPoint, RomanCalendarPoint> inaccuracies = new HashMap<>();
 
         for (Entry<RomanCalendarPoint, SunSeasonPoint> entry : TRUE_VSOP87_SUN_SEASON_POINTS.entrySet()) {
@@ -90,6 +91,37 @@ public class SunSeasonPointFinderTest {
             tooManyInaccuraciesMsg(inaccuracies),
             inaccuracies.size() <= TRUE_VSOP87_SUN_SEASON_POINTS.size() / 4
         );
+    }
+
+    @Test
+    public void shouldFindManyOrderedPointsWithQuarterMinuteMeanPrecisionInMaxThreeIterationsEach() {
+        int[][] partYearScopes = new int[][] {
+            {-700, -400},
+            {-100, 200},
+            {1500, 1800},
+            {2000, 2300},
+        };
+ 
+        int total = 0;
+        System.out.println("\tCalculations in progress...");
+        for (int i = 0; i < partYearScopes.length; i++) {
+            finder.findMany(partYearScopes[i][0], partYearScopes[i][1], 15)
+                .reduce((previous, next) -> {
+                    double diff = next.julianEphemerisDay - previous.julianEphemerisDay;
+                    assertTrue(
+                        "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next),
+                        Math.signum(diff) > 0.0
+                    );
+                    assertTrue(
+                        "Wrong interval between subsequent points: " + dateFormatTD(previous) + " -> " + dateFormatTD(next),
+                        Math.abs(diff - (MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS/ 4)) < 7.0
+                    );
+                    return next;
+                });
+            total += (partYearScopes[i][1] - partYearScopes[i][0] + 1) * 4;
+        }
+
+        System.out.println("\t\t" + total + " sun season points found, no anomalies detected.");
     }
 
     @Test
@@ -150,5 +182,13 @@ public class SunSeasonPointFinderTest {
     private String tooManyInaccuraciesMsg(Map<RomanCalendarPoint, RomanCalendarPoint> inaccuracies) {
         return "More than 25% inaccuracies! [VSOP 87 value\tactual value]\n" + inaccuracies.entrySet().stream()
             .map(e -> e.getKey().formatYMDHI() + "\t" + e.getValue().formatYMDHI()).collect(Collectors.joining("\n"));
+    }
+
+    private String dateFormatTD(FoundPhenomenon<SunSeasonPoint> result) {
+        return dateFormatTD(result.julianEphemerisDay);
+    }
+
+    private String dateFormatTD(double jde) {
+        return Timeline.julianDayToRomanCalendar(jde).formatYMD() + " TD";
     }
 }

@@ -1,5 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
+
 import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder.*;
 
 public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
@@ -21,7 +23,7 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
         double jde = approximator.approximateJulianEphemerisDay(romanYear, point);
         double lambda = calculateSunApparentLongitude(jde);
 
-        while (Math.abs(lambda - point.apparentLongitude) > meanPrecisionRadians) {
+        while (calculateAbsoluteDiff(point, lambda) > meanPrecisionRadians) {
             jde += calculateJdeCorrection(point, lambda);
             lambda = calculateSunApparentLongitude(jde);
         }
@@ -36,7 +38,15 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
         return 58.0 * Math.sin(point.apparentLongitude - lambda);
     }
 
-    private double calculateSunApparentLongitude(double julianEphemerisDay) {
+    private double calculateAbsoluteDiff(SunSeasonPoint point, double lambda) {
+        double diff = point.apparentLongitude - lambda;
+        if (point.apparentLongitude == 0.0 && diff < -0.75 * ROUND) {
+            diff += ROUND;
+        }
+        return Math.abs(diff);
+    }
+
+    protected double calculateSunApparentLongitude(double julianEphemerisDay) {
         return calculateInstantIndicatingAngle(julianEphemerisDay);
     }
 }
