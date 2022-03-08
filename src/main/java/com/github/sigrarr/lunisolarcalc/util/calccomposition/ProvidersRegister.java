@@ -2,6 +2,8 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.exceptions.*;
+
 class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
 
     private final Map<SubjectT, RegisterNode<SubjectT, InT>> subjectToNode = new HashMap<>();
@@ -9,7 +11,7 @@ class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
 
     protected RegisterNode<SubjectT, InT> getRequired(SubjectT subject) {
         if (!subjectToNode.containsKey(subject)) {
-            throw new IllegalStateException("No provider of " + subject + " has been registered.");
+            throw new ProviderLackException(subject);
         }
         return subjectToNode.get(subject);
     }
@@ -17,7 +19,7 @@ class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
     protected void add(Provider<SubjectT, InT> calculator) {
         SubjectT newlyProvidedSubject = calculator.provides();
         if (has(newlyProvidedSubject)) {
-            throw new UnsupportedOperationException("Provider of " + newlyProvidedSubject + " has been already registered.");
+            throw new DoubledProviderException(newlyProvidedSubject, subjectToNode.get(newlyProvidedSubject).calculator, calculator);
         }
 
         RegisterNode<SubjectT, InT> newNode = new RegisterNode<>(calculator);

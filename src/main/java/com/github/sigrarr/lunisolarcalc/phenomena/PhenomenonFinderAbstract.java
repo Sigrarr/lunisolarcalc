@@ -3,6 +3,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import java.util.*;
 import java.util.function.*;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.phenomenonfinder.CalculationLimitExceededException;
+
 public abstract class PhenomenonFinderAbstract {
 
     public static interface InstantIndicatingAngleCalculator {
@@ -24,6 +26,10 @@ public abstract class PhenomenonFinderAbstract {
         this.coreCalculationsLimit = limit;
     }
 
+    public int getCoreCalculationsLimit() {
+        return coreCalculationsLimit;
+    }
+
     protected void resetFinding() {
         coreCalculationsCount = 0;
     }
@@ -34,11 +40,7 @@ public abstract class PhenomenonFinderAbstract {
 
     protected final double calculateInstantIndicatingAngle(double julianEphemerisDay) {
         if (!canCalculateFurther()) {
-            throw new RuntimeException("Calculation limit exceeded (" + coreCalculationsLimit + ")."
-                + " Lowen your accuracy expectation or set higher limit, and make sure that "
-                + this.getClass().getName() + " calls " + PhenomenonFinderAbstract.class.getSimpleName() + "::resetFinding"
-                + " before the first calculation for an instant."
-            );
+            throw new CalculationLimitExceededException(this);
         }
         coreCalculationsCount++;
         return coreCalculator.calculateAngle(julianEphemerisDay);

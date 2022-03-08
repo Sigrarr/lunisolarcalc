@@ -3,6 +3,8 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.exceptions.*;
+
 class CompositionBuilder<SubjectT extends Enum<SubjectT>, InT> {
 
     private final CalculationComposer<SubjectT, InT> composer;
@@ -25,7 +27,7 @@ class CompositionBuilder<SubjectT extends Enum<SubjectT>, InT> {
     }
 
     private Collection<CompositionNode<SubjectT, InT>> resolveOrderedNodes() {
-        for(SubjectT target : targets) {
+        for (SubjectT target : targets) {
             RegisterNode<SubjectT, InT> headRegisterNode = composer.register.getRequired(target);
             CompositionNode<SubjectT, InT> headNode = getCompositionNode(headRegisterNode, true);
             fillGraphFragmentRecursively(headRegisterNode, headNode, "");
@@ -60,22 +62,24 @@ class CompositionBuilder<SubjectT extends Enum<SubjectT>, InT> {
 
     private void validateRegisterNode(RegisterNode<SubjectT, InT> registerNode, String dependersPath, char nodeCode) {
         if (!registerNode.hasAllDependees()) {
-            throw new IllegalStateException(buildMissingDependeesMessage(registerNode));
+            throw new ProviderLackException(buildMissingSubjectList(registerNode));
         }
         if (dependersPath.indexOf(nodeCode) > 0) {
-            throw new IllegalStateException(buildCircularDependecyMessage(registerNode, dependersPath, nodeCode));
+            throw new CircularDependencyException(buildSubjectDependencyPath(registerNode, dependersPath, nodeCode));
         }
     }
 
-    private String buildMissingDependeesMessage(RegisterNode<SubjectT, InT> brokenNode) {
-        Set<?> okSubjects = brokenNode.directDependees.stream().map(rdn -> rdn.calculator.provides()).collect(Collectors.toSet());
-        return "No providers have been registered for the following subjects: "
-            + brokenNode.calculator.requires().stream().filter(s -> !okSubjects.contains(s)).map(Object::toString).collect(Collectors.joining(", "));
+    private Collection<Enum<?>> buildMissingSubjectList(RegisterNode<SubjectT, InT> brokenNode) {
+        Set<Enum<?>> okSubjects = brokenNode.directDependees.stream().map(n -> n.calculator.provides()).collect(Collectors.toSet());
+        return brokenNode.calculator.requires().stream()
+            .filter(s -> !okSubjects.contains(s))
+            .collect(Collectors.toList());
     }
 
-    private String buildCircularDependecyMessage(RegisterNode<SubjectT, InT> brokenNode, String dependersPath, char nodeCode) {
+    private List<Enum<?>> buildSubjectDependencyPath(RegisterNode<SubjectT, InT> brokenNode, String dependersPath, char nodeCode) {
         String cyclePath = dependersPath.substring(dependersPath.indexOf(nodeCode)) + nodeCode;
-        return "Cannot compose calculation: Circular dependency detected: "
-            + cyclePath.chars().mapToObj(cv -> code.decode(cv).toString()).collect(Collectors.joining(" -> "));
+        return cyclePath.chars()
+            .mapToObj(c -> code.decode(c))
+            .collect(Collectors.toList());
     }
 }
