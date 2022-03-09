@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SunSeasonPointFinderTest {
     /**
@@ -78,8 +78,8 @@ public class SunSeasonPointFinderTest {
 
             double diffJDE = Math.abs(actualJDE - vsop87JDE);
             assertTrue(
-                tooMuchDiffMsg(vsop87Rcp, actualRcp),
-                diffJDE <= Time.timeToDays(0, 0, 30)
+                diffJDE <= Time.timeToDays(0, 0, 30),
+                tooMuchDiffMsg(vsop87Rcp, actualRcp)
             );
 
             if (!vsop87Rcp.formatYMDHI().equals(actualRcp.formatYMDHI())) {
@@ -88,8 +88,8 @@ public class SunSeasonPointFinderTest {
         }
 
         assertTrue(
-            tooManyInaccuraciesMsg(inaccuracies),
-            inaccuracies.size() <= TRUE_VSOP87_SUN_SEASON_POINTS.size() / 4
+            inaccuracies.size() <= TRUE_VSOP87_SUN_SEASON_POINTS.size() / 4,
+            tooManyInaccuraciesMsg(inaccuracies)
         );
     }
 
@@ -109,12 +109,12 @@ public class SunSeasonPointFinderTest {
                 .reduce((previous, next) -> {
                     double diff = next.julianEphemerisDay - previous.julianEphemerisDay;
                     assertTrue(
-                        "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next),
-                        Math.signum(diff) > 0.0
+                        Math.signum(diff) > 0.0,
+                        "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     assertTrue(
-                        "Wrong interval between subsequent points: " + dateFormatTD(previous) + " -> " + dateFormatTD(next),
-                        Math.abs(diff - (MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS/ 4)) < 7.0
+                        Math.abs(diff - (MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS/ 4)) < 7.0,
+                        "Wrong interval between subsequent points: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     return next;
                 });

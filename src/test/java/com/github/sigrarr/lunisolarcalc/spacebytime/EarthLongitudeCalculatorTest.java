@@ -1,11 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
 
 import java.util.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 

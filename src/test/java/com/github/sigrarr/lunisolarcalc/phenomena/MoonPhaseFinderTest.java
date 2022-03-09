@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.Test;
 
 public class MoonPhaseFinderTest {
     /**
@@ -23,12 +23,7 @@ public class MoonPhaseFinderTest {
         put(new RomanCalendarPoint[] { new RomanCalendarPoint(1973, 12, 24), new RomanCalendarPoint(1974, 1, 23) }, 29 + Time.timeToDays(19, 55, 0));
     }};
 
-    private MeasuredMoonPhaseFinder finder;
-
-    @Before
-    public void init() {
-        finder = new MeasuredMoonPhaseFinder(5);
-    }
+    private MeasuredMoonPhaseFinder finder = new MeasuredMoonPhaseFinder(5);
 
     @Test
     public void shouldFindMoonPhase() {
@@ -73,18 +68,18 @@ public class MoonPhaseFinderTest {
                 .reduce((previous, next) -> {
                     double diff = next.julianEphemerisDay - previous.julianEphemerisDay;
                     assertTrue(
-                        "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next),
-                        Math.signum(diff) > 0.0
+                        Math.signum(diff) > 0.0,
+                        "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     assertTrue(
-                        "Wrong interval between subsequent phases: " + dateFormatTD(previous) + " -> " + dateFormatTD(next),
-                        Math.abs(diff - (MeanValueApproximations.LUNATION_MEAN_DAYS / 4)) < 1.5
+                        Math.abs(diff - (MeanValueApproximations.LUNATION_MEAN_DAYS / 4)) < 1.5,
+                        "Wrong interval between subsequent phases: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     return next;
                 });
  
         double avgIterations = ((double) finder.calcsTotal) / finder.findingsTotal;
-        assertTrue("Expected average calculation iterations < 3, was: " + avgIterations, avgIterations < 3.0);
+        assertTrue(avgIterations < 3.0, "Expected average calculation iterations < 3, was: " + avgIterations);
         System.out.println("\t\t" + finder.findingsTotal + " moon phases found, no anomalies detected.");
     }
 

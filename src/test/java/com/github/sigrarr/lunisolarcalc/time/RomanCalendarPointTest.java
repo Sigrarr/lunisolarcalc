@@ -1,11 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.time;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.RomanCalendarPoint.Calendar;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
@@ -30,8 +30,8 @@ public class RomanCalendarPointTest {
 
     @Test
     public void shouldRecognizeLeapYear() {
-        Arrays.stream(COMMON_YEARS).forEach(y -> assertFalse(y + " - false leap year", new RomanCalendarPoint(y, 1, 1).isYearLeap()));
-        Arrays.stream(LEAP_YEARS).forEach(y -> assertTrue(y + " - false common year", new RomanCalendarPoint(y, 1, 1).isYearLeap()));
+        Arrays.stream(COMMON_YEARS).forEach(y -> assertFalse(new RomanCalendarPoint(y, 1, 1).isYearLeap(), y + " - false leap year"));
+        Arrays.stream(LEAP_YEARS).forEach(y -> assertTrue(new RomanCalendarPoint(y, 1, 1).isYearLeap(), y + " - false common year"));
     }
 
     @Test
@@ -52,8 +52,8 @@ public class RomanCalendarPointTest {
     @Test
     public void shouldCompare() {
         assertEquals(0, pointA1.compareTo(pointA2));
-        assertTrue("Expected: " + pointB + " > " + pointA1,  pointB.compareTo(pointA1) > 0);
-        assertTrue("Expected: " + pointB + " < " + pointC,   pointB.compareTo(pointC)  < 0);
+        assertTrue(pointB.compareTo(pointA1) > 0, "Expected: " + pointB + " > " + pointA1);
+        assertTrue(pointB.compareTo(pointC)  < 0, "Expected: " + pointB + " < " + pointC);
     }
 
     @Test

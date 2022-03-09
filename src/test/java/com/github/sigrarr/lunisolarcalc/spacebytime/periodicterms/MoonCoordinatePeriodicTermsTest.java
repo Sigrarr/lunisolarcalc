@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
 
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MoonCoordinatePeriodicTermsTest {
 

@@ -1,11 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.MoonPhase;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MoonOverSunApparentLongitudeExcessCalculatorTest {
     /**

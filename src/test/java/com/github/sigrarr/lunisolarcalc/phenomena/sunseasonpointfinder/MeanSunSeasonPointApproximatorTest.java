@@ -1,11 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MeanSunSeasonPointApproximatorTest {
 

@@ -1,9 +1,9 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.Timeline;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
