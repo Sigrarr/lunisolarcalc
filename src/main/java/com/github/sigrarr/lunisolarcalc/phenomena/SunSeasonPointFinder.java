@@ -10,7 +10,7 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
         this(new SeparateCompositionApparentLongitudeCalculator());
     }
 
-    public SunSeasonPointFinder(InstantIndicatingAngleCalculator sunApparentLongitudeCalculator) {
+    public SunSeasonPointFinder(StageIndicatingAngleCalculator sunApparentLongitudeCalculator) {
         super(sunApparentLongitudeCalculator);
     }
 
@@ -47,6 +47,6 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
     }
 
     protected double calculateSunApparentLongitude(double julianEphemerisDay) {
-        return calculateInstantIndicatingAngle(julianEphemerisDay);
+        return calculateStageIndicatingAngle(julianEphemerisDay);
     }
 }

@@ -15,7 +15,7 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
         this(new SeparateCompositionMoonOverSunLambdaExcessCalculator());
     }
 
-    public MoonPhaseFinder(InstantIndicatingAngleCalculator moonOverSunLambdaExcessCalculator) {
+    public MoonPhaseFinder(StageIndicatingAngleCalculator moonOverSunLambdaExcessCalculator) {
         super(moonOverSunLambdaExcessCalculator);
     }
 
@@ -36,11 +36,11 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     }
 
     protected double calculateMoonOverSunLambdaExcess() {
-        return calculateInstantIndicatingAngle(jde.getCurrent());
+        return calculateStageIndicatingAngle(jde.getCurrent());
     }
 
     private double calculateJdeCorrection() {
-        return diff * (excess.isComplete() ? estimateSlopeInverseFromRecentEvaluations() : MeanValueApproximations.LUNATION_MEAN_DAYS/ ROUND);
+        return diff * (excess.isComplete() ? estimateSlopeInverseFromRecentEvaluations() : MeanValueApproximations.LUNATION_MEAN_DAYS / ROUND);
     }
 
     private double estimateSlopeInverseFromRecentEvaluations() {

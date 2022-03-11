@@ -1,12 +1,12 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.MeanPrecisionSettingTooLowException;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations;
 
@@ -72,13 +72,13 @@ public class SunSeasonPointFinderTest {
 
         for (Entry<RomanCalendarPoint, SunSeasonPoint> entry : TRUE_VSOP87_SUN_SEASON_POINTS.entrySet()) {
             RomanCalendarPoint vsop87Rcp = entry.getKey();
-            double vsop87JDE = Timeline.romanCalendarToJulianDay(vsop87Rcp);
-            double actualJDE = finder.findJulianEphemerisDay(vsop87Rcp.y, entry.getValue());
-            RomanCalendarPoint actualRcp = Timeline.julianDayToRomanCalendar(actualJDE);
+            double vsop87Jde = Timeline.romanCalendarToJulianDay(vsop87Rcp);
+            double actualJde = finder.findJulianEphemerisDay(vsop87Rcp.y, entry.getValue());
+            RomanCalendarPoint actualRcp = Timeline.julianDayToRomanCalendar(actualJde);
 
-            double diffJDE = Math.abs(actualJDE - vsop87JDE);
+            double diffJde = Math.abs(actualJde - vsop87Jde);
             assertTrue(
-                diffJDE <= Time.timeToDays(0, 0, 30),
+                diffJde <= Time.timeToDays(0, 0, 30),
                 tooMuchDiffMsg(vsop87Rcp, actualRcp)
             );
 
@@ -125,7 +125,7 @@ public class SunSeasonPointFinderTest {
     }
 
     @Test
-    public void shouldStreamManyResults() {
+    public void shouldFindManyResultsWithVariousParameterLists() {
         List<String> allYMDs = TRUE_VSOP87_SUN_SEASON_POINTS.keySet().stream()
             .sorted()
             .map(rcp -> rcp.formatYMD())
@@ -175,6 +175,14 @@ public class SunSeasonPointFinderTest {
             .forEach(ymd -> assertEquals(solsticeIt4.next(), ymd));
     }
 
+    @Test
+    public void shouldThrowMeanPrecisionSettingTooLowException() {
+        MeanPrecisionSettingTooLowException exception = assertThrows(MeanPrecisionSettingTooLowException.class, () -> finder.getMeanPrecisionRadians(0));
+        assertEquals(0, exception.getMeanPrecisionSeconds());
+        exception = assertThrows(MeanPrecisionSettingTooLowException.class, () -> finder.getMeanPrecisionRadians(-1));
+        assertEquals(-1, exception.getMeanPrecisionSeconds());
+    }
+
     private String tooMuchDiffMsg(RomanCalendarPoint vsop87, RomanCalendarPoint actual) {
         return "True VSOP 87 value: <" + vsop87.formatYMDHI() + " TD>, actual value: <" + actual.formatYMDHI() + " TD>.";
     }
@@ -184,7 +192,7 @@ public class SunSeasonPointFinderTest {
             .map(e -> e.getKey().formatYMDHI() + "\t" + e.getValue().formatYMDHI()).collect(Collectors.joining("\n"));
     }
 
-    private String dateFormatTD(FoundPhenomenon<SunSeasonPoint> result) {
+    private String dateFormatTD(FoundCyclicPhenomenon<SunSeasonPoint> result) {
         return dateFormatTD(result.julianEphemerisDay);
     }
 
