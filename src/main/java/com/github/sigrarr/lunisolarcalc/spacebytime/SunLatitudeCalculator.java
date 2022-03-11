@@ -31,11 +31,11 @@ public final class SunLatitudeCalculator implements Provider<Subject, Double> {
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateLatitude(
             centurialT,
-            (Double) requiredArguments.get(Subject.EARTH_LATITUDE),
-            (Double) requiredArguments.get(Subject.EARTH_LONGITUDE)
+            (Double) calculatedValues.get(Subject.EARTH_LATITUDE),
+            (Double) calculatedValues.get(Subject.EARTH_LONGITUDE)
         );
     }
 }

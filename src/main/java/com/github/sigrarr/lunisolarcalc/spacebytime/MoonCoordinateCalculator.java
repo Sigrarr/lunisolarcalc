@@ -23,7 +23,7 @@ public abstract class MoonCoordinateCalculator implements Provider<Subject, Doub
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
-        return calculateCoordinate(centurialT, (MoonCoordinateElements) requiredArguments.get(Subject.MOON_COORDINATE_ELEMENTS));
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+        return calculateCoordinate(centurialT, (MoonCoordinateElements) calculatedValues.get(Subject.MOON_COORDINATE_ELEMENTS));
     }
 }

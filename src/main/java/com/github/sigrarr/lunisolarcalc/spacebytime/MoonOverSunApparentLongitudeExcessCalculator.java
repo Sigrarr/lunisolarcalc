@@ -24,10 +24,10 @@ public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Su
     }
 
     @Override
-    public Object calculate(Double rootArgument, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double rootArgument, Map<Subject, Object> calculatedValues) {
         return calculateExcess(
-            (Double) requiredArguments.get(Subject.MOON_LONGITUDE),
-            (Double) requiredArguments.get(Subject.SUN_ABERRATED_LONGITUDE)
+            (Double) calculatedValues.get(Subject.MOON_LONGITUDE),
+            (Double) calculatedValues.get(Subject.SUN_ABERRATED_LONGITUDE)
         );
     }
 }

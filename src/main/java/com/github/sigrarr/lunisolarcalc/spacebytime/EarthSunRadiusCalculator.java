@@ -17,7 +17,7 @@ public final class EarthSunRadiusCalculator extends HeliocentricCoordinateCalcul
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateCoordinate(Timeline.centurialTToMillenialTau(centurialT));
     }
 }

@@ -24,10 +24,10 @@ public final class MoonApparentLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateApparentLongitude(
-            (Double) requiredArguments.get(Subject.MOON_LONGITUDE),
-            (Double) requiredArguments.get(Subject.EARTH_NUTUATION_IN_LONGITUDE)
+            (Double) calculatedValues.get(Subject.MOON_LONGITUDE),
+            (Double) calculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE)
         );
     }
 }

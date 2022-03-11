@@ -8,7 +8,7 @@ public interface Provider<SubjectT extends Enum<SubjectT>, InT> {
 
     public SubjectT provides();
 
-    public Object calculate(InT rootArgument, Map<SubjectT, Object> requiredArguments);
+    public Object calculate(InT rootArgument, Map<SubjectT, Object> calculatedValues);
 
     default public Provider<SubjectT, InT> getInstanceForNewComposition() {
         return this;

@@ -27,7 +27,7 @@ public abstract class HeliocentricCoordinateCalculator implements Provider<Subje
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateCoordinate(Timeline.centurialTToMillenialTau(centurialT));
     }
 }

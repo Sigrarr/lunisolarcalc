@@ -31,10 +31,10 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Dou
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateAberration(
             Timeline.centurialTToMillenialTau(centurialT),
-            (Double) requiredArguments.get(Subject.EARTH_SUN_RADIUS)
+            (Double) calculatedValues.get(Subject.EARTH_SUN_RADIUS)
         );
     }
 }

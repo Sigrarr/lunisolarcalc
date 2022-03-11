@@ -26,7 +26,7 @@ public abstract class EarthNutuationCalculator implements Provider<Subject, Doub
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
-        return calculateNutuation(centurialT, (EarthNutuationElements) requiredArguments.get(Subject.EARTH_NUTUATION_ELEMENTS));
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+        return calculateNutuation(centurialT, (EarthNutuationElements) calculatedValues.get(Subject.EARTH_NUTUATION_ELEMENTS));
     }
 }

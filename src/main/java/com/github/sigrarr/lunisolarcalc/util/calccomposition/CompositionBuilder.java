@@ -61,6 +61,9 @@ class CompositionBuilder<SubjectT extends Enum<SubjectT>, InT> {
     }
 
     private void validateRegisterNode(RegisterNode<SubjectT, InT> registerNode, String dependersPath, char nodeCode) {
+        if (registerNode.calculator.requires().contains(registerNode.calculator.provides())) {
+            throw new CircularDependencyException(buildSubjectDependencyPath(registerNode, "" + nodeCode, nodeCode));
+        }
         if (!registerNode.hasAllDependees()) {
             throw new ProviderLackException(buildMissingSubjectList(registerNode));
         }

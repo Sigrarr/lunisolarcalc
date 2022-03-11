@@ -24,11 +24,11 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, D
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateApparentLongitude(
-            (Double) requiredArguments.get(Subject.SUN_GEOMETRIC_LONGITUDE),
-            (Double) requiredArguments.get(Subject.EARTH_NUTUATION_IN_LONGITUDE),
-            (Double) requiredArguments.get(Subject.ABERRATION_EARTH_SUN)
+            (Double) calculatedValues.get(Subject.SUN_GEOMETRIC_LONGITUDE),
+            (Double) calculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE),
+            (Double) calculatedValues.get(Subject.ABERRATION_EARTH_SUN)
         );
     }
 }

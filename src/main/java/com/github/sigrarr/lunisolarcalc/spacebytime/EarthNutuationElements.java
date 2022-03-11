@@ -81,7 +81,7 @@ public class EarthNutuationElements implements Provider<Subject, Double> {
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         calculate(centurialT);
         return this;
     }

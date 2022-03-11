@@ -22,10 +22,10 @@ public final class SunAberratedLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
         return calculateAberratedLongitude(
-            (Double) requiredArguments.get(Subject.SUN_GEOMETRIC_LONGITUDE),
-            (Double) requiredArguments.get(Subject.ABERRATION_EARTH_SUN)
+            (Double) calculatedValues.get(Subject.SUN_GEOMETRIC_LONGITUDE),
+            (Double) calculatedValues.get(Subject.ABERRATION_EARTH_SUN)
         );
     }
 }

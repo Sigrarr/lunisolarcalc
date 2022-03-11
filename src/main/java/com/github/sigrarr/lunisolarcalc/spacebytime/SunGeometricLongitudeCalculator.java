@@ -30,7 +30,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> requiredArguments) {
-        return calculateGeometricLongitude((Double) requiredArguments.get(Subject.EARTH_LONGITUDE));
+    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+        return calculateGeometricLongitude((Double) calculatedValues.get(Subject.EARTH_LONGITUDE));
     }
 }
