@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +14,6 @@ public class MoonLongitudeCalculatorTest {
         // Meeus 1998, Example 47.a, p. 342-343
         double cT = -0.077221081451;
         double actualLongitude = calculator.calculateCoordinate(cT, new MoonCoordinateElements(cT));
-        assertEquals(133.162655, Math.toDegrees(actualLongitude), autoDelta(133.162655));
+        assertEquals(133.162655, Math.toDegrees(actualLongitude), decimalAutoDelta(133.162655));
     }
 }

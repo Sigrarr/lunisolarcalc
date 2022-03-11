@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -26,7 +26,7 @@ public class MoonCoordinatePeriodicTermsTest {
     public void shouldCalculateE() {
         // Meeus 1998, Example 47.a, p. 342
         double actualE = periodicTerms.calculateEarthOrbitEccentricityElement(-0.077221081451);
-        assertEquals(1.000194, actualE, autoDelta(1.000194));
+        assertEquals(1.000194, actualE, decimalAutoDelta(1.000194));
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import java.util.*;
 
@@ -25,7 +25,7 @@ public class EarthLongitudeCalculatorTest {
         for (Map.Entry<Double, Double> entry : JD_TO_EARTH_LONGITUDE_DEGREES.entrySet()) {
             double tau = Timeline.julianDayToMillenialTau(entry.getKey());
             double actualLongitude = calculator.calculateCoordinate(tau);
-            assertEquals(entry.getValue(), Math.toDegrees(actualLongitude), autoDelta(entry.getValue()));
+            assertEquals(entry.getValue(), Math.toDegrees(actualLongitude), decimalAutoDelta(entry.getValue()));
         }
     }
 }

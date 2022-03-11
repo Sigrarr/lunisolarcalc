@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -13,10 +13,10 @@ public class EarthNutuationElementsTest {
     public void shouldCalculateElements() {
         // Meeus 1998, Example 22.a, p. 148
         elements.calculate(-0.127296372348);
-        assertEquals(136.9623, Math.toDegrees(elements.getD()),       autoDelta(0.0001));
-        assertEquals( 94.9792, Math.toDegrees(elements.getM()),       autoDelta(0.0001));
-        assertEquals(229.2784, Math.toDegrees(elements.getMPrim()),   autoDelta(0.0001));
-        assertEquals(143.4079, Math.toDegrees(elements.getF()),       autoDelta(0.0001));
-        assertEquals( 11.2531, Math.toDegrees(elements.getOmega()),   autoDelta(0.0001));
+        assertEquals(136.9623, Math.toDegrees(elements.getD()),       decimalAutoDelta(0.0001));
+        assertEquals( 94.9792, Math.toDegrees(elements.getM()),       decimalAutoDelta(0.0001));
+        assertEquals(229.2784, Math.toDegrees(elements.getMPrim()),   decimalAutoDelta(0.0001));
+        assertEquals(143.4079, Math.toDegrees(elements.getF()),       decimalAutoDelta(0.0001));
+        assertEquals( 11.2531, Math.toDegrees(elements.getOmega()),   decimalAutoDelta(0.0001));
     }
 }

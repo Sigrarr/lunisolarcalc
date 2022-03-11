@@ -20,14 +20,14 @@ public class DoubleStepPair {
     }
 
     public double getCurrent() {
-        if (count < 1) {
+        if (!hasCurrent()) {
             throw new IllegalStateException();
         }
         return current;
     }
 
     public double getPrevious() {
-        if (count < 2) {
+        if (!hasPrevious()) {
             throw new IllegalStateException();
         }
         return previous;
@@ -52,12 +52,20 @@ public class DoubleStepPair {
         return count;
     }
 
-    public boolean isCompletePair() {
-        return !isEmpty();
+    public boolean hasCurrent() {
+        return count > 0;
+    }
+
+    public boolean hasPrevious() {
+        return count > 1;
+    }
+
+    public boolean isComplete() {
+        return hasPrevious();
     }
 
     public boolean isEmpty() {
-        return count < 2;
+        return !hasCurrent();
     }
 
     public void clear() {

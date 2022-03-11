@@ -15,6 +15,6 @@ public class MeanSunSeasonPointApproximatorTest {
     public void shouldApproximateSunSeasonPointJDE() {
         // Meeus 1998, Example 27.a, p. 180
         double actualApproximationJDE = approximatior.approximateJulianEphemerisDay(1962, SunSeasonPoint.JUNE_SOLSTICE);
-        assertEquals(2437837.38589, actualApproximationJDE, Calcs.autoDelta(0.00001));
+        assertEquals(2437837.38589, actualApproximationJDE, Calcs.decimalAutoDelta(0.00001));
     }
 }

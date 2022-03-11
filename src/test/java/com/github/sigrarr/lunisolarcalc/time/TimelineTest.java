@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.time;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.*;
@@ -49,15 +49,15 @@ public class TimelineTest
     @Test
     public void shouldConvertJDtoTau() {
         // Meeus 1998, Example 32.a, p. 219
-        assertEquals(-0.007032169747, Timeline.julianDayToMillenialTau(2448976.5), autoDelta(-0.007032169747));
+        assertEquals(-0.007032169747, Timeline.julianDayToMillenialTau(2448976.5), decimalAutoDelta(-0.007032169747));
     }
 
     @Test
     public void shouldCovertJDtoT() {
         // Meeus 1998, Example 22.a, p. 148
-        assertEquals(-0.127296372348, Timeline.julianDayToCenturialT(2446895.5), autoDelta(-0.127296372348));
+        assertEquals(-0.127296372348, Timeline.julianDayToCenturialT(2446895.5), decimalAutoDelta(-0.127296372348));
         // Meeus 1998, Example 47.a, p. 342
-        assertEquals(-0.077221081451, Timeline.julianDayToCenturialT(2448724.5), autoDelta(-0.077221081451));
+        assertEquals(-0.077221081451, Timeline.julianDayToCenturialT(2448724.5), decimalAutoDelta(-0.077221081451));
     }
 
     @Test

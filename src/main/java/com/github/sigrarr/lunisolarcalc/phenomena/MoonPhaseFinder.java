@@ -40,7 +40,7 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     }
 
     private double calculateJdeCorrection() {
-        return diff * (excess.isCompletePair() ? estimateSlopeInverseFromRecentEvaluations() : MeanValueApproximations.LUNATION_MEAN_DAYS/ ROUND);
+        return diff * (excess.isComplete() ? estimateSlopeInverseFromRecentEvaluations() : MeanValueApproximations.LUNATION_MEAN_DAYS/ ROUND);
     }
 
     private double estimateSlopeInverseFromRecentEvaluations() {

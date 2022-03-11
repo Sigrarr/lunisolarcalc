@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ public class EarthSunRadiusCalculatorTest {
         for (Map.Entry<Double, Double> entry : JD_TO_EARTH_RADIUS_AU.entrySet()) {
             double tau = Timeline.julianDayToMillenialTau(entry.getKey());
             double actualRadius = calculator.calculateCoordinate(tau);
-            assertEquals(entry.getValue(), actualRadius, autoDelta(entry.getValue()));
+            assertEquals(entry.getValue(), actualRadius, decimalAutoDelta(entry.getValue()));
         }
     }
 }

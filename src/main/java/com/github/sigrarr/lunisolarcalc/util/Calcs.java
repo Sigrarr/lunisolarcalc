@@ -36,7 +36,7 @@ public class Calcs {
     }
 
     public static int compare(double a, double b, double delta) {
-        return equal(a, b) ? 0 : (a < b ? -1 : 1);
+        return equal(a, b, delta) ? 0 : (a < b ? -1 : 1);
     }
 
     public static double normalizeLongitudinally(double radians) {
@@ -75,11 +75,12 @@ public class Calcs {
         return signedDegrees + ((arcminutesToDegrees(absArcminutes) + arcsecondsToDegrees(absArcseconds)) * Math.signum(signedDegrees));
     }
 
-    public static double autoDelta(double expectedValue) {
-        if (Math.abs(expectedValue) < EPSILON_MIN) {
+    public static double decimalAutoDelta(double expectedFractionalValue) {
+        if (Math.abs(expectedFractionalValue) < EPSILON_MIN) {
             return EPSILON;
         }
-        int decimalPlaces = FRACTION_PART.format(expectedValue).length() - 1;
+        String fractionPart = FRACTION_PART.format(expectedFractionalValue);
+        int decimalPlaces = fractionPart.equals(".0") ? 0 : fractionPart.length() - 1;
         return Math.max(Math.pow(10, -decimalPlaces) / 2.0, EPSILON_MIN);
     }
 }

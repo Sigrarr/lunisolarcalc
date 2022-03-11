@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.time;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import java.util.Arrays;
 
@@ -45,8 +45,8 @@ public class RomanCalendarPointTest {
     @Test
     public void shouldConvertToYearWithFraction() {
         assertEquals(750.0, new RomanCalendarPoint(750, 1, 1.0).toYearWithFraction(), Calcs.EPSILON);
-        assertEquals(1978.86849315, new RomanCalendarPoint(1978, 11, 14).toYearWithFraction(), autoDelta(0.86849315));
-        assertEquals(1988.9999990513, new RomanCalendarPoint(1988, 12, 31, 23, 59, 30).toYearWithFraction(), autoDelta(0.9999990513));
+        assertEquals(1978.86849315, new RomanCalendarPoint(1978, 11, 14).toYearWithFraction(), decimalAutoDelta(0.86849315));
+        assertEquals(1988.9999990513, new RomanCalendarPoint(1988, 12, 31, 23, 59, 30).toYearWithFraction(), decimalAutoDelta(0.9999990513));
     }
 
     @Test

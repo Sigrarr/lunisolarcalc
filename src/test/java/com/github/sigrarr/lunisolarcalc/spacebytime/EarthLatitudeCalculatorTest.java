@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +16,6 @@ public class EarthLatitudeCalculatorTest {
         // Meeus 1998: Example 25.b, p. 169
         double tau = Timeline.julianDayToMillenialTau(2448908.5);
         double actualLatitude = calculator.calculateCoordinate(tau);
-        assertEquals(-0.000179, Math.toDegrees(actualLatitude), autoDelta(-0.000179));
+        assertEquals(-0.000179, Math.toDegrees(actualLatitude), decimalAutoDelta(-0.000179));
     }
 }

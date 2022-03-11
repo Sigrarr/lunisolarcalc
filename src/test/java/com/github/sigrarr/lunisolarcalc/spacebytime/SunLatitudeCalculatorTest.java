@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,6 @@ public class SunLatitudeCalculatorTest {
         double heliocentricLatitude = -0.00000312;
         double heliocentricLongitude = Math.toRadians(19.907372);
         double actualGeometricLatitude = calculator.calculateLatitude(cT, heliocentricLatitude, heliocentricLongitude);
-        assertEquals(0.62, Calcs.toArcseconds(Math.toDegrees(actualGeometricLatitude)), autoDelta(0.62));
+        assertEquals(0.62, Calcs.toArcseconds(Math.toDegrees(actualGeometricLatitude)), decimalAutoDelta(0.62));
     }
 }

@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 import static com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.SunEarthRelativeMotion.degreesPerTimeMiliseconds;
 
 import org.junit.jupiter.api.Test;
@@ -45,6 +45,6 @@ public class SunApparentLongitudeCalculatorTest {
         deltaPsi = Math.toRadians(Calcs.arcsecondsToDegrees(-12.965));
         aberration = Math.toRadians(Calcs.arcsecondsToDegrees(-20.161));
         actualLambda = calculator.calculateApparentLongitude(geometricLongitude, deltaPsi, aberration);
-        assertEquals(89.994045, Math.toDegrees(actualLambda), autoDelta(89.994045));
+        assertEquals(89.994045, Math.toDegrees(actualLambda), decimalAutoDelta(89.994045));
     }
 }

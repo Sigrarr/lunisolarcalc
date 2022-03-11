@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.moonphasesfinder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.autoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.MoonPhase;
 import com.github.sigrarr.lunisolarcalc.time.*;
@@ -18,11 +18,11 @@ public class MeanMoonPhaseApproximatorTest {
         // Meeus 1998, Example 49.a, p. 353
         RomanCalendarPoint rcp = new RomanCalendarPoint(1977, 2, 17, 10, 48, 0);
         assertEquals(1977.13, rcp.toYearWithFraction(), Calcs.EPSILON);
-        assertEquals(2443192.94102, approximator.approximateJulianEphemerisDayAround(rcp, MoonPhase.NEW_MOON), autoDelta(2443192.94102));
+        assertEquals(2443192.94102, approximator.approximateJulianEphemerisDayAround(rcp, MoonPhase.NEW_MOON), decimalAutoDelta(2443192.94102));
 
         // Meeus 1998, Example 49.b, p. 353
         rcp = new RomanCalendarPoint(2044, 1, 1.0);
-        assertEquals(2467636.88597, approximator.approximateJulianEphemerisDayAround(rcp, MoonPhase.THIRD_QUARTER), autoDelta(2467636.88597));
+        assertEquals(2467636.88597, approximator.approximateJulianEphemerisDayAround(rcp, MoonPhase.THIRD_QUARTER), decimalAutoDelta(2467636.88597));
     }
 
     @Test
