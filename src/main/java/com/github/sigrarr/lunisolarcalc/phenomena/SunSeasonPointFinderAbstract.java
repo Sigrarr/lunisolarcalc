@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder.MeanSunSeasonPointApproximator;
-import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.SunEarthRelativeMotion;;
+import com.github.sigrarr.lunisolarcalc.util.MeanMotionApproximate;
 
 abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
@@ -60,7 +60,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
 
     protected double getMeanPrecisionRadians(int seconds) {
         validateMeanPrecisionSeconds(seconds);
-        return Math.toRadians(SunEarthRelativeMotion.degreesPerTimeMiliseconds(1000 * seconds));
+        return Math.toRadians(MeanMotionApproximate.TROPICAL_YEAR.degreesPerTimeMiliseconds(1000 * seconds));
     }
 
     protected int getLimit(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points) {

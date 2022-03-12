@@ -8,7 +8,6 @@ import java.util.stream.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.moonphasesfinder.MeanMoonPhaseApproximator;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
-import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.Lunation;
 
 abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
@@ -101,7 +100,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
     @Override
     protected double getMeanPrecisionRadians(int seconds) {
         validateMeanPrecisionSeconds(seconds);
-        return Math.toRadians(Lunation.degreesPerTimeMiliseconds(1000 * seconds));
+        return Math.toRadians(MeanMotionApproximate.SYNODIC_MONTH.degreesPerTimeSeconds(seconds));
     }
 
     private ResultSupplier prepareResultSupplierWithInitialResult(RomanCalendarPoint startAroundPoint, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
@@ -151,10 +150,10 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
         private double approximateJde() {
             if (phaseToJde.containsKey(currentStage)) {
-                return phaseToJde.get(currentStage) + MeanValueApproximations.LUNATION_MEAN_DAYS;
+                return phaseToJde.get(currentStage) + MeanMotionApproximate.SYNODIC_MONTH.lengthDays;
             }
             return phaseToJde.get(previousStage)
-                + (MeanValueApproximations.LUNATION_MEAN_DAYS * Math.abs(currentStage.lunationFraction - previousStage.lunationFraction));
+                + (MeanMotionApproximate.SYNODIC_MONTH.lengthDays * Math.abs(currentStage.lunationFraction - previousStage.lunationFraction));
         }
 
         boolean pullInitialPending() {

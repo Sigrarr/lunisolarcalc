@@ -61,7 +61,7 @@ public class MoonPhaseFinderTest {
             new RomanCalendarPoint(1600,  7, 19.0),
             new RomanCalendarPoint(2000, 11,  3.0),
         };
-        int partLimit = (int) Math.round(200 * 4 * MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS / MeanValueApproximations.LUNATION_MEAN_DAYS);
+        int partLimit = (int) Math.round(200 * 4 * MeanMotionApproximate.TROPICAL_YEAR.lengthDays / MeanMotionApproximate.SYNODIC_MONTH.lengthDays);
  
         System.out.println("\tCalculations in progress...");
         for (int i = 0; i < startAroundPoints.length; i++)
@@ -73,7 +73,7 @@ public class MoonPhaseFinderTest {
                         "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     assertTrue(
-                        Math.abs(diff - (MeanValueApproximations.LUNATION_MEAN_DAYS / 4)) < 1.5,
+                        Math.abs(diff - (MeanMotionApproximate.SYNODIC_MONTH.lengthDays / 4)) < 1.5,
                         "Wrong interval between subsequent phases: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     return next;

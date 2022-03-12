@@ -9,7 +9,7 @@ public class MeanMoonPhaseApproximator {
 
     private static final double BASE_ADDEND_JDE = 2451550.09766;
     private static final double EFFECTIVE_MEAN_LUNATION_DAYS = 29.530588861;
-    private static final double MINUTE_TO_YEAR = 1.0 / MeanValueApproximations.TROPICAL_YEAR_MEAN_MINUTES;
+    private static final double MINUTE_TO_YEAR = 1.0 / MeanMotionApproximate.TROPICAL_YEAR.lengthMinutes;
     private static final double ARGUMENT_SHIFT_BASE_FORWARD = 1.25;
     private static final double ARGUMENT_SHIFT_BASE_BACKWARD = -0.75;
     private double romanY = Double.MIN_VALUE;
@@ -49,7 +49,7 @@ public class MeanMoonPhaseApproximator {
 
     private double romanToKMonthsFromEpoch() {
         return Math.floor((romanY - 2000)
-            * MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS / EFFECTIVE_MEAN_LUNATION_DAYS);
+            * MeanMotionApproximate.TROPICAL_YEAR.lengthDays / EFFECTIVE_MEAN_LUNATION_DAYS);
     }
 
     private double kToCenturialT(double k) {
@@ -69,6 +69,6 @@ public class MeanMoonPhaseApproximator {
     }
 
     private double estimateDistanceToAdjacentAroundApproximationAbstractionClassCenter(MoonPhase phase, double shiftBase, double diff) {
-        return (shiftBase - phase.lunationFraction) * MeanValueApproximations.LUNATION_MEAN_DAYS + diff;
+        return (shiftBase - phase.lunationFraction) * MeanMotionApproximate.SYNODIC_MONTH.lengthDays + diff;
     }
 }

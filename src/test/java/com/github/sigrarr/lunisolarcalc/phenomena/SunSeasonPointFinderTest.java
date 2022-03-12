@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.MeanPrecisionSettingTooLowException;
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations;
+import com.github.sigrarr.lunisolarcalc.util.MeanMotionApproximate;
 
 import org.junit.jupiter.api.Test;
 
@@ -113,7 +113,7 @@ public class SunSeasonPointFinderTest {
                         "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     assertTrue(
-                        Math.abs(diff - (MeanValueApproximations.TROPICAL_YEAR_MEAN_DAYS/ 4)) < 7.0,
+                        Math.abs(diff - (MeanMotionApproximate.TROPICAL_YEAR.lengthDays / 4)) < 7.0,
                         "Wrong interval between subsequent points: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     return next;

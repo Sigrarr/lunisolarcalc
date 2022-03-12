@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
-import static com.github.sigrarr.lunisolarcalc.util.MeanValueApproximations.SunEarthRelativeMotion.degreesPerTimeMiliseconds;
+import static com.github.sigrarr.lunisolarcalc.util.MeanMotionApproximate.TROPICAL_YEAR;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +23,6 @@ public class SunGeometricLongitudeCalculatorTest {
 
         // Meeus 1998, Example 25.a, p. 165
         double trueVSOP87GeometricLongitudeDegrees = Calcs.toSingleDegreesValue(199, 54, 26.18);
-        assertEquals(trueVSOP87GeometricLongitudeDegrees, Math.toDegrees(actualGeometricLongitude), degreesPerTimeMiliseconds(6550));
+        assertEquals(trueVSOP87GeometricLongitudeDegrees, Math.toDegrees(actualGeometricLongitude), TROPICAL_YEAR.degreesPerTimeMiliseconds(6550));
     }
 }

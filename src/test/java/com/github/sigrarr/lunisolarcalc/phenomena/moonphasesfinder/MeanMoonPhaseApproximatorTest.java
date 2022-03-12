@@ -28,7 +28,7 @@ public class MeanMoonPhaseApproximatorTest {
     @Test
     public void shouldApproximateJulianEphemerisDayInDirection() {
         double startJde = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(-700, 1, 1.0));
-        double endJde = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2000, 12, 30.999));
+        double endJde = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2200, 12, 31.999));
 
         RomanCalendarPoint roman = new RomanCalendarPoint();
         for (double jde = startJde; jde <= endJde; jde += 9.0) {
@@ -44,10 +44,10 @@ public class MeanMoonPhaseApproximatorTest {
                     assertEquals(approximateJdeBackward, approximateJde, 0.01);
                 } else if (approximateJde > jde) {
                     assertEquals(approximateJdeForward, approximateJde, 0.01);
-                    assertEquals(MeanValueApproximations.LUNATION_MEAN_DAYS, approximateJde - approximateJdeBackward, 1.5);
+                    assertEquals(MeanMotionApproximate.SYNODIC_MONTH.lengthDays, approximateJde - approximateJdeBackward, 1.5);
                 } else if (approximateJde < jde) {
                     assertEquals(approximateJdeBackward, approximateJde, 0.01);
-                    assertEquals(MeanValueApproximations.LUNATION_MEAN_DAYS, approximateJdeForward - approximateJde, 1.5);
+                    assertEquals(MeanMotionApproximate.SYNODIC_MONTH.lengthDays, approximateJdeForward - approximateJde, 1.5);
                 }
             }
         }        
