@@ -34,7 +34,7 @@ public class AberrationEarthSunCalculatorTest {
         double trueVSOP87ApparentLongitudeDegrees = Calcs.toSingleDegreesValue(199, 54, 21.56);
         double deltaPsiDegrees = Math.toDegrees(DELTA_PSI_CALCULATOR.calculateNutuation(cT, new EarthNutuationElements(cT)));
         double implicitAberrationDegrees = trueVSOP87ApparentLongitudeDegrees - trueVSOP87GeometricLongitudeDegrees - deltaPsiDegrees;
-        assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), TROPICAL_YEAR.degreesPerTimeMiliseconds(115));
+        assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), TROPICAL_YEAR.degreesPerTimeMiliseconds(75));
 
         // Meeus 1998, Example 27.b, pp. 180-181
         tau = Timeline.julianDayToMillenialTau(2437837.38589);

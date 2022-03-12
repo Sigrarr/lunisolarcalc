@@ -35,12 +35,18 @@ public class CalcsTest {
     }
 
     @Test
-    public void shouldDecimalizeDegreesFromDegMinSec() {
+    public void shouldDecimalizeAngleFromDegMinSec() {
         assertEquals( 199.0, Calcs.toSingleDegreesValue(199,  0, 0.0), Calcs.EPSILON_MIN);
         assertEquals( 199.5, Calcs.toSingleDegreesValue(199, 30, 0.0), Calcs.EPSILON_MIN);
         assertEquals( 199.008333333, Calcs.toSingleDegreesValue( 199,  0, 30.0 ), Calcs.decimalAutoDelta(0.000000001));
         assertEquals( 199.508333333, Calcs.toSingleDegreesValue( 199, 30, 30.0 ), Calcs.decimalAutoDelta(0.000000001));
         assertEquals(-199.737830556, Calcs.toSingleDegreesValue(-199, 44, 16.19), Calcs.decimalAutoDelta(0.000000001));
+
+        assertEquals( 716400.0,  Calcs.toSingleArcsecondsValue( 199,  0, 0.0),   Calcs.EPSILON_MIN);
+        assertEquals( 718200.0,  Calcs.toSingleArcsecondsValue( 199, 30, 0.0),   Calcs.EPSILON_MIN);
+        assertEquals( 716431.0,  Calcs.toSingleArcsecondsValue( 199,  0, 31.0 ), Calcs.EPSILON_MIN);
+        assertEquals( 718232.0,  Calcs.toSingleArcsecondsValue( 199, 30, 32.0 ), Calcs.EPSILON_MIN);
+        assertEquals(-719056.19, Calcs.toSingleArcsecondsValue(-199, 44, 16.19), Calcs.EPSILON_MIN);
     }
 
     @Test

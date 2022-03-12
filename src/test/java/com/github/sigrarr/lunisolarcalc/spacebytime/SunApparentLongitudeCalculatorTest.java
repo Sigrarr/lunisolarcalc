@@ -2,7 +2,6 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
-import static com.github.sigrarr.lunisolarcalc.util.MeanMotionApproximate.TROPICAL_YEAR;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,8 +27,8 @@ public class SunApparentLongitudeCalculatorTest {
         double deltaPsi = Math.toRadians(Calcs.arcsecondsToDegrees(15.908));
         double aberration = Math.toRadians(Calcs.arcsecondsToDegrees(-20.539));
         double actualLambda = calculator.calculateApparentLongitude(geometricLongitude, deltaPsi, aberration);
-        double exampleLambdaDegrees = Calcs.toSingleDegreesValue(199, 54, 21.818);
-        assertEquals(exampleLambdaDegrees, Math.toDegrees(actualLambda), TROPICAL_YEAR.degreesPerTimeMiliseconds(5));
+        double exampleLambdaArcseconds = Calcs.toSingleArcsecondsValue(199, 54, 21.818);
+        assertEquals(exampleLambdaArcseconds, Calcs.toArcseconds(Math.toDegrees(actualLambda)), decimalAutoDelta(0.001));
 
         // Meeus 1998, Example 25.a, pp. 165
         double trueVSOP87Radius = 0.99760853;
@@ -37,8 +36,8 @@ public class SunApparentLongitudeCalculatorTest {
         deltaPsi = DELTA_PSI_CALCULATOR.calculateNutuation(cT, new EarthNutuationElements(cT));
         aberration = ABERRATION_CALCULATOR.calculateAberration(tau, trueVSOP87Radius);
         actualLambda = calculator.calculateApparentLongitude(trueVSOP87GeometricLongitude, deltaPsi, aberration);
-        double trueVSOP87LambdaDegrees = Calcs.toSingleDegreesValue(199, 54, 21.56);
-        assertEquals(trueVSOP87LambdaDegrees, Math.toDegrees(actualLambda), TROPICAL_YEAR.degreesPerTimeMiliseconds(115));
+        double trueVSOP87LambdaArcseconds = Calcs.toSingleArcsecondsValue(199, 54, 21.56);
+        assertEquals(trueVSOP87LambdaArcseconds, Calcs.toArcseconds(Math.toDegrees(actualLambda)), decimalAutoDelta(0.01));
 
         // Meeus 1998, Example 27.b, pp. 180-181
         geometricLongitude = GEOMETRIC_LONGITUDE_CALCULATOR.calculateGeometricLongitude(Math.toRadians(270.003272));

@@ -67,8 +67,8 @@ public class SunSeasonPointFinderTest {
     }};
 
     @Test
-    public void shouldFindEquinoxOrSolsticeToHalfMinute() {
-        Map<RomanCalendarPoint, RomanCalendarPoint> inaccuracies = new HashMap<>();
+    public void shouldFindEquinoxOrSolsticeToTwentySeconds() {
+        Map<RomanCalendarPoint, RomanCalendarPoint> minuteNumberMismatches = new HashMap<>();
 
         for (Entry<RomanCalendarPoint, SunSeasonPoint> entry : TRUE_VSOP87_SUN_SEASON_POINTS.entrySet()) {
             RomanCalendarPoint vsop87Rcp = entry.getKey();
@@ -78,18 +78,18 @@ public class SunSeasonPointFinderTest {
 
             double diffJde = Math.abs(actualJde - vsop87Jde);
             assertTrue(
-                diffJde <= Time.timeToDays(0, 0, 30),
+                diffJde <= Time.timeToDays(0, 0, 20),
                 tooMuchDiffMsg(vsop87Rcp, actualRcp)
             );
 
             if (!vsop87Rcp.formatYMDHI().equals(actualRcp.formatYMDHI())) {
-                inaccuracies.put(vsop87Rcp, actualRcp);
+                minuteNumberMismatches.put(vsop87Rcp, actualRcp);
             }
         }
 
         assertTrue(
-            inaccuracies.size() <= TRUE_VSOP87_SUN_SEASON_POINTS.size() / 4,
-            tooManyInaccuraciesMsg(inaccuracies)
+            minuteNumberMismatches.size() <= TRUE_VSOP87_SUN_SEASON_POINTS.size() / 6,
+            tooManyMinuteNumberMismatchesMsg(minuteNumberMismatches)
         );
     }
 
@@ -184,11 +184,11 @@ public class SunSeasonPointFinderTest {
     }
 
     private String tooMuchDiffMsg(RomanCalendarPoint vsop87, RomanCalendarPoint actual) {
-        return "True VSOP 87 value: <" + vsop87.formatYMDHI() + " TD>, actual value: <" + actual.formatYMDHI() + " TD>.";
+        return "True VSOP 87 value: <" + vsop87 + " TD>, actual value: <" + actual + " TD>.";
     }
 
-    private String tooManyInaccuraciesMsg(Map<RomanCalendarPoint, RomanCalendarPoint> inaccuracies) {
-        return "More than 25% inaccuracies! [VSOP 87 value\tactual value]\n" + inaccuracies.entrySet().stream()
+    private String tooManyMinuteNumberMismatchesMsg(Map<RomanCalendarPoint, RomanCalendarPoint> mismatches) {
+        return "More than 1/6 minute number mismatches! [VSOP 87 value\tactual value]\n" + mismatches.entrySet().stream()
             .map(e -> e.getKey().formatYMDHI() + "\t" + e.getValue().formatYMDHI()).collect(Collectors.joining("\n"));
     }
 
