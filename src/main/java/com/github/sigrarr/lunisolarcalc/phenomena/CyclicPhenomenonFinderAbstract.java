@@ -3,8 +3,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import java.util.*;
 import java.util.function.*;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.CalculationLimitExceededException;
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.MeanPrecisionSettingTooLowException;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.*;
+import com.github.sigrarr.lunisolarcalc.util.CycleTemporalApproximate;
 
 public abstract class CyclicPhenomenonFinderAbstract {
 
@@ -15,12 +15,14 @@ public abstract class CyclicPhenomenonFinderAbstract {
     public static final int DEFAULT_MEAN_PRECISION_SECONDS = 15;
     public static final int DEFAULT_CORE_CALCULATIONS_LIMIT = 15;
 
+    public final CycleTemporalApproximate cycleTemporalApproximate;
     private final StageIndicatingAngleCalculator coreCalculator;
     private int coreCalculationsLimit = DEFAULT_CORE_CALCULATIONS_LIMIT;
     private int coreCalculationsCount = 0;
 
     public CyclicPhenomenonFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
         this.coreCalculator = coreCalculator;
+        cycleTemporalApproximate = getCycleTemporalApproximate();
     }
 
     public void setCoreCalculationsLimit(int limit) {
@@ -47,13 +49,18 @@ public abstract class CyclicPhenomenonFinderAbstract {
         return coreCalculator.calculateAngle(julianEphemerisDay);
     }
 
+    protected double getMeanPrecisionRadians(int meanPrecisionSeconds) {
+        validateMeanPrecisionSeconds(meanPrecisionSeconds);
+        return cycleTemporalApproximate.radiansPerTimeSeconds(meanPrecisionSeconds);
+    }
+
+    abstract protected CycleTemporalApproximate getCycleTemporalApproximate();
+
     protected void validateMeanPrecisionSeconds(int meanPrecisionSeconds) {
         if (meanPrecisionSeconds < 1) {
             throw new MeanPrecisionSettingTooLowException(meanPrecisionSeconds);
         }
     }
-
-    abstract protected double getMeanPrecisionRadians(int meanPrecisionSeconds);
 
     abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<FoundCyclicPhenomenon<PhT>> {
         final double meanPrecisionRadians;

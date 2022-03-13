@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.MeanPrecisionSettingTooLowException;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.MeanMotionApproximate;
 
@@ -173,14 +172,6 @@ public class SunSeasonPointFinderTest {
         finder.findManyJulianEphemerisDays(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE), 90)
             .mapToObj(jde -> Timeline.julianDayToRomanCalendar(jde).formatYMD())
             .forEach(ymd -> assertEquals(solsticeIt4.next(), ymd));
-    }
-
-    @Test
-    public void shouldThrowMeanPrecisionSettingTooLowException() {
-        MeanPrecisionSettingTooLowException exception = assertThrows(MeanPrecisionSettingTooLowException.class, () -> finder.getMeanPrecisionRadians(0));
-        assertEquals(0, exception.getMeanPrecisionSeconds());
-        exception = assertThrows(MeanPrecisionSettingTooLowException.class, () -> finder.getMeanPrecisionRadians(-1));
-        assertEquals(-1, exception.getMeanPrecisionSeconds());
     }
 
     private String tooMuchDiffMsg(RomanCalendarPoint vsop87, RomanCalendarPoint actual) {

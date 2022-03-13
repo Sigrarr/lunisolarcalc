@@ -13,11 +13,13 @@ public class Calcs {
     public static final double EPSILON = EPSILON_9;
     public static final double EPSILON_MIN = EPSILON_16;
     public static final int EPSILON_DECIMALS_MAX = 16;
-    private static final double DEGREE_TO_ARC_MINUTE = 60.0;
-    private static final double ARC_MINUTE_TO_ARC_SECOND = 60.0;
-    private static final double DEGREE_TO_ARC_SECOND = DEGREE_TO_ARC_MINUTE * ARC_MINUTE_TO_ARC_SECOND;
-    private static final double ARC_MINUTE_TO_DEGREE = 1.0 / DEGREE_TO_ARC_MINUTE;
-    private static final double ARC_SECOND_TO_DEGREE = 1.0 / DEGREE_TO_ARC_SECOND;
+    public static final int DAY_SECONDS = 24 * 60 * 60;
+    public static final double SECOND_TO_DAY = 1.0 / DAY_SECONDS;
+    public static final double DEGREE_TO_ARC_MINUTE = 60.0;
+    public static final double ARC_MINUTE_TO_ARC_SECOND = 60.0;
+    public static final double DEGREE_TO_ARC_SECOND = DEGREE_TO_ARC_MINUTE * ARC_MINUTE_TO_ARC_SECOND;
+    public static final double ARC_MINUTE_TO_DEGREE = 1.0 / DEGREE_TO_ARC_MINUTE;
+    public static final double ARC_SECOND_TO_DEGREE = 1.0 / DEGREE_TO_ARC_SECOND;
     private final static DecimalFormat FRACTION_PART = new DecimalFormat(".#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)) {{
         setMaximumIntegerDigits(0);
         setMaximumFractionDigits(EPSILON_DECIMALS_MAX);

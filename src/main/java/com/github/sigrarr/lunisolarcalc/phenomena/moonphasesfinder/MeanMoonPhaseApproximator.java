@@ -9,7 +9,7 @@ public class MeanMoonPhaseApproximator {
 
     private static final double BASE_ADDEND_JDE = 2451550.09766;
     private static final double EFFECTIVE_MEAN_LUNATION_DAYS = 29.530588861;
-    private static final double MINUTE_TO_YEAR = 1.0 / MeanMotionApproximate.TROPICAL_YEAR.lengthMinutes;
+    private static final double MINUTE_TO_YEAR = 60.0 / MeanMotionApproximate.TROPICAL_YEAR.lengthSeconds;
     private static final double ARGUMENT_SHIFT_BASE_FORWARD = 1.25;
     private static final double ARGUMENT_SHIFT_BASE_BACKWARD = -0.75;
     private double romanY = Double.MIN_VALUE;

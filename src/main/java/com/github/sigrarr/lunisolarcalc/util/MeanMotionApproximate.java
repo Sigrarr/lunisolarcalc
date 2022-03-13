@@ -1,40 +1,52 @@
 package com.github.sigrarr.lunisolarcalc.util;
 
-public enum MeanMotionApproximate {
+public enum MeanMotionApproximate implements CycleTemporalApproximate {
     
     TROPICAL_YEAR(365.24219),
     TROPICAL_MONTH(27.3216),
     SYNODIC_MONTH(29.5306);
 
     public final double lengthDays;
-    public final double lengthHours;
-    public final double lengthMinutes;
     public final double lengthSeconds;
-    public final double arcsecondsPerTimeSecond;
+    public final double radiansPerTimeSecond;
+    public final double degreesPerTimeSecond;
+    public final double degreesPerTimeMilisecond;
     public final double arcsecondsPerTimeMilisecond;
 
     private MeanMotionApproximate(double lengthDays) {
         this.lengthDays = lengthDays;
-        lengthHours = lengthDays * 24.0;
-        lengthMinutes = lengthHours * 60.0;
-        lengthSeconds = lengthMinutes * 60.0;
-        arcsecondsPerTimeSecond = Calcs.toArcseconds(360.0) / lengthSeconds;
-        arcsecondsPerTimeMilisecond = 0.001 * arcsecondsPerTimeSecond;
+        lengthSeconds = lengthDays * Calcs.DAY_SECONDS;
+        radiansPerTimeSecond = Calcs.ROUND / lengthSeconds;
+        degreesPerTimeSecond = 360.0 / lengthSeconds;
+        degreesPerTimeMilisecond = 0.001 * degreesPerTimeSecond;
+        arcsecondsPerTimeMilisecond = (Calcs.DEGREE_TO_ARC_SECOND * 360) / (1000.0 * lengthSeconds);
     }
 
-    public double arcsecondsPerTimeSeconds(int seconds) {
-        return arcsecondsPerTimeSecond * seconds;
+    @Override
+    public double getLengthSeconds() {
+        return lengthSeconds;
     }
 
+    @Override
+    public double getLengthDays() {
+        return lengthDays;
+    }
+
+    @Override
     public double degreesPerTimeSeconds(int seconds) {
-        return Calcs.arcsecondsToDegrees(arcsecondsPerTimeSeconds(seconds));
+        return seconds * degreesPerTimeSecond;
     }
 
-    public double arcsecondsPerTimeMiliseconds(int miliseconds) {
-        return arcsecondsPerTimeMilisecond * miliseconds;
+    @Override
+    public double radiansPerTimeSeconds(int seconds) {
+        return seconds * radiansPerTimeSecond;
     }
 
     public double degreesPerTimeMiliseconds(int miliseconds) {
-        return Calcs.arcsecondsToDegrees(arcsecondsPerTimeMiliseconds(miliseconds));
+        return miliseconds * degreesPerTimeMilisecond;
+    }
+
+    public double arcsecondsPerTimeMiliseconds(int miliseconds) {
+        return miliseconds * arcsecondsPerTimeMilisecond;
     }
 }

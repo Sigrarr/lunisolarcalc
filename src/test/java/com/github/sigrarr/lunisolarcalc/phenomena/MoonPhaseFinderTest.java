@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 import java.util.Map.Entry;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.MeanPrecisionSettingTooLowException;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
@@ -110,14 +109,6 @@ public class MoonPhaseFinderTest {
             assertEquals(2, finder.findManyJulianEphemerisDays(startRoman, 4, EnumSet.of(MoonPhase.NEW_MOON), 15)
                 .filter(jde -> matchesOne(jde, aJde, bJde, delta)).count());
         }
-    }
-
-    @Test
-    public void shouldThrowMeanPrecisionSettingTooLowException() {
-        MeanPrecisionSettingTooLowException exception = assertThrows(MeanPrecisionSettingTooLowException.class, () -> finder.getMeanPrecisionRadians(0));
-        assertEquals(0, exception.getMeanPrecisionSeconds());
-        exception = assertThrows(MeanPrecisionSettingTooLowException.class, () -> finder.getMeanPrecisionRadians(-1));
-        assertEquals(-1, exception.getMeanPrecisionSeconds());
     }
 
     private String dateFormatTD(FoundCyclicPhenomenon<MoonPhase> result) {

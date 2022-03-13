@@ -98,9 +98,8 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
     protected abstract double findJulianEphemerisDay(double approximateJde, MoonPhase phase, double meanPrecisionRadians);
 
     @Override
-    protected double getMeanPrecisionRadians(int seconds) {
-        validateMeanPrecisionSeconds(seconds);
-        return Math.toRadians(MeanMotionApproximate.SYNODIC_MONTH.degreesPerTimeSeconds(seconds));
+    protected CycleTemporalApproximate getCycleTemporalApproximate() {
+        return MeanMotionApproximate.SYNODIC_MONTH;
     }
 
     private ResultSupplier prepareResultSupplierWithInitialResult(RomanCalendarPoint startAroundPoint, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
