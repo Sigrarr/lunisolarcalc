@@ -3,11 +3,11 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.SunLongitudeVariationPeriodicTerms;
-import com.github.sigrarr.lunisolarcalc.time.Timeline;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.ConstantsAndUnits;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class AberrationEarthSunCalculator implements Provider<Subject, Double> {
+public final class AberrationEarthSunCalculator implements Provider<Subject, TimelinePoint> {
 
     private static final double AU_LIGHT_TIME_DAYS = (
         (double) ConstantsAndUnits.ASTRONOMICAL_UNIT_METERS / (double) ConstantsAndUnits.LIGHT_SPEED_METERS_PER_SECOND
@@ -15,8 +15,8 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Dou
 
     private SunLongitudeVariationPeriodicTerms periodicTerms = new SunLongitudeVariationPeriodicTerms();
     
-    public double calculateAberration(double tau, double radius) {
-        double deltaLambda = periodicTerms.evaluate(tau);
+    public double calculateAberration(TimelinePoint tx, double radius) {
+        double deltaLambda = periodicTerms.evaluate(tx);
         return -AU_LIGHT_TIME_DAYS * radius * deltaLambda;
     }
 
@@ -31,10 +31,7 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Dou
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
-        return calculateAberration(
-            Timeline.centurialTToMillenialTau(centurialT),
-            (Double) calculatedValues.get(Subject.EARTH_SUN_RADIUS)
-        );
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
+        return calculateAberration(tx, (Double) calculatedValues.get(Subject.EARTH_SUN_RADIUS));
     }
 }

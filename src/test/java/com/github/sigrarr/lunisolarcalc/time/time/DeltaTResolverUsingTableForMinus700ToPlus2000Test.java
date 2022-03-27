@@ -1,15 +1,18 @@
-package com.github.sigrarr.lunisolarcalc.time;
+package com.github.sigrarr.lunisolarcalc.time.time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.*;
+
+import com.github.sigrarr.lunisolarcalc.time.Time.DeltaTResolver;
+
 import org.junit.jupiter.api.Test;
 
-public class DeltaTResolverTest {
+public class DeltaTResolverUsingTableForMinus700ToPlus2000Test {
     /**
      * Morrison & Stephenson 2004, Table 1, p. 332
      */
-    private static final Map<Integer, Integer> ROMAN_YEAR_TO_DELTA_T = new HashMap<Integer, Integer>() {{
+    private static final Map<Integer, Integer> GREGORIAN_YEAR_TO_DELTA_T = new HashMap<Integer, Integer>() {{
         put(-700, 21000);
         put(-600, 19040);
         put(-500, 17190);
@@ -67,24 +70,24 @@ public class DeltaTResolverTest {
         put(2000,  65);
     }};
 
-    private DeltaTResolver resolver = new DeltaTResolver();
+    private DeltaTResolver resolver = new DeltaTResolverUsingTableForMinus700ToPlus2000();
 
     @Test
     public void shouldFindValueFromTable() {
-        ROMAN_YEAR_TO_DELTA_T.forEach((y, delta) -> assertEquals(delta.intValue(), resolver.getDeltaT(y.intValue())));
+        GREGORIAN_YEAR_TO_DELTA_T.forEach((y, delta) -> assertEquals(delta.intValue(), resolver.resolveDeltaT(y.intValue())));
     }
 
     @Test
     public void shouldInterpolateLinearlyBetweenTablePoints() {
-        assertEquals((21000 + 19040) / 2, resolver.getDeltaT(-650));
-        assertEquals(2960 + ((2200 - 2960) / 5), resolver.getDeltaT(820));
+        assertEquals((21000 + 19040) / 2, resolver.resolveDeltaT(-650));
+        assertEquals(2960 + ((2200 - 2960) / 5), resolver.resolveDeltaT(820));
     }
 
     @Test
     public void shouldExtrapolateParabolicallyOutsideTable() {
         // Morrison & Stephenson 2004, Table 1, p. 332, entries with asterisks: rounded to 100s, -20s omitted (cf. p. 335)
-        assertEquals(25400, resolver.getDeltaT(-1000), (100/2) + 20);
-        assertEquals(23700, resolver.getDeltaT( -900), (100/2) + 20);
-        assertEquals(22000, resolver.getDeltaT( -800), (100/2) + 20);
+        assertEquals(25400, resolver.resolveDeltaT(-1000), (100/2) + 20);
+        assertEquals(23700, resolver.resolveDeltaT( -900), (100/2) + 20);
+        assertEquals(22000, resolver.resolveDeltaT( -800), (100/2) + 20);
     }
 }

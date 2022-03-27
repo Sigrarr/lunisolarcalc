@@ -1,8 +1,9 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
-public class Composer extends CalculationComposer<Subject, Double> {
+public class Composer extends CalculationComposer<Subject, TimelinePoint> {
 
     private static final Composer INSTANCE = new Composer() {{
         register(new AberrationEarthSunCalculator());

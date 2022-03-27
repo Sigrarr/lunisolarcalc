@@ -14,57 +14,57 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
         super(coreCalculator);
     }
 
-    public double findJulianEphemerisDay(int romanYear, SunSeasonPoint point) {
-        return findJulianEphemerisDay(romanYear, point, DEFAULT_MEAN_PRECISION_SECONDS);
+    public double findJulianEphemerisDay(int gregorianYear, SunSeasonPoint point) {
+        return findJulianEphemerisDay(gregorianYear, point, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public double findJulianEphemerisDay(int romanYear, SunSeasonPoint point, int meanPrecisionSeconds) {
-        return findJulianEphemerisDay(romanYear, point, getMeanPrecisionRadians(meanPrecisionSeconds));
+    public double findJulianEphemerisDay(int gregorianYear, SunSeasonPoint point, int meanPrecisionSeconds) {
+        return findJulianEphemerisDay(gregorianYear, point, getMeanPrecisionRadians(meanPrecisionSeconds));
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear) {
-        return findMany(startRomanYear, endRomanYear, EnumSet.allOf(SunSeasonPoint.class), DEFAULT_MEAN_PRECISION_SECONDS);
+    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear) {
+        return findMany(startGregorianYear, endGregorianYear, EnumSet.allOf(SunSeasonPoint.class), DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points) {
-        return findMany(startRomanYear, endRomanYear, points, DEFAULT_MEAN_PRECISION_SECONDS);
+    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
+        return findMany(startGregorianYear, endGregorianYear, points, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear, int meanPrecisionSeconds) {
-        return findMany(startRomanYear, endRomanYear, EnumSet.allOf(SunSeasonPoint.class), meanPrecisionSeconds);
+    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, int meanPrecisionSeconds) {
+        return findMany(startGregorianYear, endGregorianYear, EnumSet.allOf(SunSeasonPoint.class), meanPrecisionSeconds);
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
-        return Stream.generate(new ResultSupplier(startRomanYear, points, meanPrecisionSeconds))
-            .limit(getLimit(startRomanYear, endRomanYear, points));
+    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
+        return Stream.generate(new ResultSupplier(startGregorianYear, points, meanPrecisionSeconds))
+            .limit(getLimit(startGregorianYear, endGregorianYear, points));
     }
 
-    public DoubleStream findManyJulianEphemerisDays(int startRomanYear, int endRomanYear) {
-        return findManyJulianEphemerisDays(startRomanYear, endRomanYear, EnumSet.allOf(SunSeasonPoint.class), DEFAULT_MEAN_PRECISION_SECONDS);
+    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, int endGregorianYear) {
+        return findManyJulianEphemerisDays(startGregorianYear, endGregorianYear, EnumSet.allOf(SunSeasonPoint.class), DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points) {
-        return findManyJulianEphemerisDays(startRomanYear, endRomanYear, points, DEFAULT_MEAN_PRECISION_SECONDS);
+    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
+        return findManyJulianEphemerisDays(startGregorianYear, endGregorianYear, points, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(int startRomanYear, int endRomanYear, int meanPrecisionSeconds) {
-        return findManyJulianEphemerisDays(startRomanYear, endRomanYear, EnumSet.allOf(SunSeasonPoint.class), meanPrecisionSeconds);
+    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, int endGregorianYear, int meanPrecisionSeconds) {
+        return findManyJulianEphemerisDays(startGregorianYear, endGregorianYear, EnumSet.allOf(SunSeasonPoint.class), meanPrecisionSeconds);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
-        return DoubleStream.generate(new ResultSupplier(startRomanYear, points, meanPrecisionSeconds))
-            .limit(getLimit(startRomanYear, endRomanYear, points));
+    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
+        return DoubleStream.generate(new ResultSupplier(startGregorianYear, points, meanPrecisionSeconds))
+            .limit(getLimit(startGregorianYear, endGregorianYear, points));
     }
 
-    protected abstract double findJulianEphemerisDay(int romanYear, SunSeasonPoint point, double meanPrecisionRadians);
+    protected abstract double findJulianEphemerisDay(int gregorianYear, SunSeasonPoint point, double meanPrecisionRadians);
 
     @Override
     protected CycleTemporalApproximate getCycleTemporalApproximate() {
         return MeanMotionApproximate.TROPICAL_YEAR;
     }
 
-    protected int getLimit(int startRomanYear, int endRomanYear, EnumSet<SunSeasonPoint> points) {
-        return (endRomanYear - startRomanYear + 1) * points.size();
+    protected int getLimit(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
+        return (endGregorianYear - startGregorianYear + 1) * points.size();
     }
 
     private class ResultSupplier extends ResultSupplierAbstract<SunSeasonPoint> {

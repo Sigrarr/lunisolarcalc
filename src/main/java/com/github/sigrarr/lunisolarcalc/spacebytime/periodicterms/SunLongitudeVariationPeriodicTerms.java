@@ -1,5 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
@@ -54,18 +55,18 @@ public final class SunLongitudeVariationPeriodicTerms {
         }
     };
 
-    public double evaluate(double tau) {
+    public double evaluate(TimelinePoint tx) {
         double result = INITIAL_TERM;
         for (int n = 0; n < SERIES_ARRAY.length; n++) {
             for (double[] row : SERIES_ARRAY[n]) {
-                result += evaluateTermRaw(tau, n, row);
+                result += evaluateTermRaw(tx.getMillenialTau(), n, row);
             }
         }
         return scale(result);
     }
 
-    public double evaluateTerm(double tau, int seriexIndex, double[] row) {
-        return scale(evaluateTermRaw(tau, seriexIndex, row));
+    public double evaluateTerm(TimelinePoint tx, int seriexIndex, double[] row) {
+        return scale(evaluateTermRaw(tx.getMillenialTau(), seriexIndex, row));
     }
 
     protected double evaluateTermRaw(double tau, int seriesIndex, double[] row) {

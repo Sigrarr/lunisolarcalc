@@ -2,10 +2,11 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunGeometricLongitudeCalculator implements Provider<Subject, Double> {
+public final class SunGeometricLongitudeCalculator implements Provider<Subject, TimelinePoint> {
     /**
      * Meeus 1998, 25.9, p. 166
      */
@@ -30,7 +31,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
         return calculateGeometricLongitude((Double) calculatedValues.get(Subject.EARTH_LONGITUDE));
     }
 }

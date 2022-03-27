@@ -5,7 +5,7 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.Timeline;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class SunApparentLongitudeCalculatorTest {
@@ -19,8 +19,7 @@ public class SunApparentLongitudeCalculatorTest {
     @Test
     public void shouldCalculateLambda() {
         // Meeus 1998, Example 25.a-b, pp. 165, 169
-        double tau = Timeline.julianDayToMillenialTau(2448908.5);
-        double cT = Timeline.julianDayToCenturialT(2448908.5);
+        TimelinePoint tx = new TimelinePoint(2448908.5);
 
         // Meeus 1998, Example 25.b, p. 169.
         double geometricLongitude = Math.toRadians(199.907347);
@@ -33,8 +32,8 @@ public class SunApparentLongitudeCalculatorTest {
         // Meeus 1998, Example 25.a, pp. 165
         double trueVSOP87Radius = 0.99760853;
         double trueVSOP87GeometricLongitude = Math.toRadians(Calcs.toSingleDegreesValue(199, 54, 26.18));
-        deltaPsi = DELTA_PSI_CALCULATOR.calculateNutuation(cT, new EarthNutuationElements(cT));
-        aberration = ABERRATION_CALCULATOR.calculateAberration(tau, trueVSOP87Radius);
+        deltaPsi = DELTA_PSI_CALCULATOR.calculateNutuation(tx, new EarthNutuationElements(tx));
+        aberration = ABERRATION_CALCULATOR.calculateAberration(tx, trueVSOP87Radius);
         actualLambda = calculator.calculateApparentLongitude(trueVSOP87GeometricLongitude, deltaPsi, aberration);
         double trueVSOP87LambdaArcseconds = Calcs.toSingleArcsecondsValue(199, 54, 21.56);
         assertEquals(trueVSOP87LambdaArcseconds, Calcs.toArcseconds(Math.toDegrees(actualLambda)), decimalAutoDelta(0.01));

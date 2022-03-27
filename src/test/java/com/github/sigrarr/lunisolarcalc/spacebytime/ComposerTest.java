@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
+import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
@@ -29,55 +30,54 @@ public class ComposerTest {
     private MoonEarthDistanceCalculator moonEarthDistanceCalculator = new MoonEarthDistanceCalculator();
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
     private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
-    private Map<Subject, SingleOutputComposition<Subject, Double>> subjectToComposition = Arrays.stream(Subject.values())
+    private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
         .collect(Collectors.toMap(s -> s, s -> Composer.get().compose(s)));
 
     @Test
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {
-        double jdLimit = Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2200, 12, 31));
+        double jdLimit = Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            double cT = Timeline.julianDayToCenturialT(random.nextDouble() * jdLimit);
-            assertForRootArgument(cT);
+            TimelinePoint tx = new TimelinePoint(random.nextDouble() * jdLimit);
+            assertForRootArgument(tx);
         }
     }
 
-    private void assertForRootArgument(double cT) {
-        double tau = Timeline.centurialTToMillenialTau(cT);
-        double earthLongitude = earthLongitudeCalculator.calculateCoordinate(tau);
-        moonCoordinateElements.calculate(cT);
-        earthNutuationElements.calculate(cT);
-        double earthSunRadius = earthSunRadiusCalculator.calculateCoordinate(tau);
+    private void assertForRootArgument(TimelinePoint tx) {
+        double earthLongitude = earthLongitudeCalculator.calculateCoordinate(tx);
+        moonCoordinateElements.calculate(tx);
+        earthNutuationElements.calculate(tx);
+        double earthSunRadius = earthSunRadiusCalculator.calculateCoordinate(tx);
         double sunGeometricLongitude = sunGeometricLongitudeCalculator.calculateGeometricLongitude(earthLongitude);
-        double earthNutuationInLongitude = earthNutuationInLongitudeCalculator.calculateNutuation(cT, earthNutuationElements);
-        double aberrationEarthSun = aberrationEarthSunCalculator.calculateAberration(tau, earthSunRadius);
-        double moonLongitude = moonLongitudeCalculator.calculateCoordinate(cT, moonCoordinateElements);
-        double earthLatitude = earthLatitudeCalculator.calculateCoordinate(tau);
-        double sunLatitude = sunLatitudeCalculator.calculateLatitude(cT, earthLatitude, earthLongitude);
+        double earthNutuationInLongitude = earthNutuationInLongitudeCalculator.calculateNutuation(tx, earthNutuationElements);
+        double aberrationEarthSun = aberrationEarthSunCalculator.calculateAberration(tx, earthSunRadius);
+        double moonLongitude = moonLongitudeCalculator.calculateCoordinate(tx, moonCoordinateElements);
+        double earthLatitude = earthLatitudeCalculator.calculateCoordinate(tx);
+        double sunLatitude = sunLatitudeCalculator.calculateLatitude(tx, earthLatitude, earthLongitude);
         double sunApparentLongitude = sunApparentLongitudeCalculator.calculateApparentLongitude(sunGeometricLongitude, earthNutuationInLongitude, aberrationEarthSun);
         double sunAberratedLongitude = sunAberratedLongitudeCalculator.calculateAberratedLongitude(sunGeometricLongitude, aberrationEarthSun);
-        double moonLatitude = moonLatitudeCalculator.calculateCoordinate(cT, moonCoordinateElements);
-        double moonEarthDistance = moonEarthDistanceCalculator.calculateCoordinate(cT, moonCoordinateElements);
+        double moonLatitude = moonLatitudeCalculator.calculateCoordinate(tx, moonCoordinateElements);
+        double moonEarthDistance = moonEarthDistanceCalculator.calculateCoordinate(tx, moonCoordinateElements);
         double moonApparentLongitude = moonApparentLongitudeCalculator.calculateApparentLongitude(moonLongitude, earthNutuationInLongitude);
         double moonOverSunApparentLongitudeExcess = moonOverSunApparentLongitudeExcessCalculator.calculateExcess(moonLongitude, sunAberratedLongitude);
 
-        assertEquals(earthLongitude, getCompositionNumericResult(Subject.EARTH_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(earthSunRadius, getCompositionNumericResult(Subject.EARTH_SUN_RADIUS, cT), Calcs.EPSILON_MIN);
-        assertEquals(sunGeometricLongitude, getCompositionNumericResult(Subject.SUN_GEOMETRIC_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(earthNutuationInLongitude, getCompositionNumericResult(Subject.EARTH_NUTUATION_IN_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(aberrationEarthSun, getCompositionNumericResult(Subject.ABERRATION_EARTH_SUN, cT), Calcs.EPSILON_MIN);
-        assertEquals(moonLongitude, getCompositionNumericResult(Subject.MOON_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(earthLatitude, getCompositionNumericResult(Subject.EARTH_LATITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(sunLatitude, getCompositionNumericResult(Subject.SUN_LATITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(sunApparentLongitude, getCompositionNumericResult(Subject.SUN_APPARENT_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(sunAberratedLongitude, getCompositionNumericResult(Subject.SUN_ABERRATED_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(moonLatitude, getCompositionNumericResult(Subject.MOON_LATITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(moonEarthDistance, getCompositionNumericResult(Subject.MOON_EARTH_DISTANCE, cT), Calcs.EPSILON_MIN);
-        assertEquals(moonApparentLongitude, getCompositionNumericResult(Subject.MOON_APPARENT_LONGITUDE, cT), Calcs.EPSILON_MIN);
-        assertEquals(moonOverSunApparentLongitudeExcess, getCompositionNumericResult(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS, cT), Calcs.EPSILON_MIN);
+        assertEquals(earthLongitude, getCompositionNumericResult(Subject.EARTH_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(earthSunRadius, getCompositionNumericResult(Subject.EARTH_SUN_RADIUS, tx), Calcs.EPSILON_MIN);
+        assertEquals(sunGeometricLongitude, getCompositionNumericResult(Subject.SUN_GEOMETRIC_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(earthNutuationInLongitude, getCompositionNumericResult(Subject.EARTH_NUTUATION_IN_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(aberrationEarthSun, getCompositionNumericResult(Subject.ABERRATION_EARTH_SUN, tx), Calcs.EPSILON_MIN);
+        assertEquals(moonLongitude, getCompositionNumericResult(Subject.MOON_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(earthLatitude, getCompositionNumericResult(Subject.EARTH_LATITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(sunLatitude, getCompositionNumericResult(Subject.SUN_LATITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(sunApparentLongitude, getCompositionNumericResult(Subject.SUN_APPARENT_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(sunAberratedLongitude, getCompositionNumericResult(Subject.SUN_ABERRATED_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(moonLatitude, getCompositionNumericResult(Subject.MOON_LATITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(moonEarthDistance, getCompositionNumericResult(Subject.MOON_EARTH_DISTANCE, tx), Calcs.EPSILON_MIN);
+        assertEquals(moonApparentLongitude, getCompositionNumericResult(Subject.MOON_APPARENT_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(moonOverSunApparentLongitudeExcess, getCompositionNumericResult(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS, tx), Calcs.EPSILON_MIN);
     }
 
-    private double getCompositionNumericResult(Subject subject, double cT) {
-        return (Double) subjectToComposition.get(subject).calculate(cT);
+    private double getCompositionNumericResult(Subject subject, TimelinePoint tx) {
+        return (Double) subjectToComposition.get(subject).calculate(tx);
     }
 }

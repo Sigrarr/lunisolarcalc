@@ -17,76 +17,76 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
         super(excessCalculator);
     }
 
-    public double findJulianEphemerisDayAround(RomanCalendarPoint roman, MoonPhase phase) {
-        return findJulianEphemerisDayAround(roman, phase, DEFAULT_MEAN_PRECISION_SECONDS);
+    public double findJulianEphemerisDayAround(TimelinePoint tx, MoonPhase phase) {
+        return findJulianEphemerisDayAround(tx, phase, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
     public double findJulianEphemerisDayAround(double closeJulianEphemerisDay, MoonPhase phase) {
         return findJulianEphemerisDayAround(closeJulianEphemerisDay, phase, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public double findJulianEphemerisDayAround(RomanCalendarPoint roman, MoonPhase phase, int meanPresisionSeconds) {
-        return findJulianEphemerisDayAround(approximator.approximateJulianEphemerisDayAround(roman, phase), phase, meanPresisionSeconds);
+    public double findJulianEphemerisDayAround(TimelinePoint tx, MoonPhase phase, int meanPresisionSeconds) {
+        return findJulianEphemerisDayAround(approximator.approximateJulianEphemerisDayAround(tx, phase), phase, meanPresisionSeconds);
     }
 
     public double findJulianEphemerisDayAround(double closeJulianEphemerisDay, MoonPhase phase, int meanPresisionSeconds) {
         return findJulianEphemerisDay(closeJulianEphemerisDay, phase, meanPresisionSeconds);
     }
 
-    public FoundCyclicPhenomenon<MoonPhase> findAround(RomanCalendarPoint roman) {
-        return findAround(roman, EnumSet.allOf(MoonPhase.class));
+    public FoundCyclicPhenomenon<MoonPhase> findAround(TimelinePoint tx) {
+        return findAround(tx, EnumSet.allOf(MoonPhase.class));
     }
 
-    public FoundCyclicPhenomenon<MoonPhase> findAround(RomanCalendarPoint roman, EnumSet<MoonPhase> phases) {
-        return findAround(roman, phases, DEFAULT_MEAN_PRECISION_SECONDS);
+    public FoundCyclicPhenomenon<MoonPhase> findAround(TimelinePoint tx, EnumSet<MoonPhase> phases) {
+        return findAround(tx, phases, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public FoundCyclicPhenomenon<MoonPhase> findAround(RomanCalendarPoint roman, int meanPrecisionSeconds) {
-        return findAround(roman, EnumSet.allOf(MoonPhase.class), meanPrecisionSeconds);
+    public FoundCyclicPhenomenon<MoonPhase> findAround(TimelinePoint tx, int meanPrecisionSeconds) {
+        return findAround(tx, EnumSet.allOf(MoonPhase.class), meanPrecisionSeconds);
     }
 
-    public FoundCyclicPhenomenon<MoonPhase> findAround(RomanCalendarPoint roman, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
-        double baseJde = Timeline.romanCalendarToJulianEphemerisDay(roman);
+    public FoundCyclicPhenomenon<MoonPhase> findAround(TimelinePoint tx, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
+        double baseJde = tx.convertToDynamicalTime().julianDay;
         FoundCyclicPhenomenon<MoonPhase> closeApproximate = phases.stream()
-            .map(ph -> new FoundCyclicPhenomenon<>(approximator.approximateJulianEphemerisDayAround(roman, ph), ph))
-            .min((f1, f2) -> Double.compare(Math.abs(f1.julianEphemerisDay - baseJde), Math.abs(f2.julianEphemerisDay - baseJde)))
+            .map(ph -> new FoundCyclicPhenomenon<>(approximator.approximateJulianEphemerisDayAround(tx, ph), ph))
+            .min((f1, f2) -> Double.compare(Math.abs(f1.ephemerisTimelinePoint.julianDay - baseJde), Math.abs(f2.ephemerisTimelinePoint.julianDay - baseJde)))
             .get();
         return new FoundCyclicPhenomenon<>(
-            findJulianEphemerisDay(closeApproximate.julianEphemerisDay, closeApproximate.stage, meanPrecisionSeconds),
+            findJulianEphemerisDay(closeApproximate.ephemerisTimelinePoint.julianDay, closeApproximate.stage, meanPrecisionSeconds),
             closeApproximate.stage
         );
     }
 
-    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(RomanCalendarPoint startAroundPoint, int resultLimit) {
+    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(TimelinePoint startAroundPoint, int resultLimit) {
         return findMany(startAroundPoint, resultLimit, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(RomanCalendarPoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases) {
+    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(TimelinePoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases) {
         return findMany(startAroundPoint, resultLimit, phases, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(RomanCalendarPoint startAroundPoint, int resultLimit, int meanPrecisionSeconds) {
+    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(TimelinePoint startAroundPoint, int resultLimit, int meanPrecisionSeconds) {
         return findMany(startAroundPoint, resultLimit, EnumSet.allOf(MoonPhase.class), meanPrecisionSeconds);
     }
 
-    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(RomanCalendarPoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
+    public Stream<FoundCyclicPhenomenon<MoonPhase>> findMany(TimelinePoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
         return Stream.generate(prepareResultSupplierWithInitialResult(startAroundPoint, phases, meanPrecisionSeconds))
             .limit(resultLimit);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(RomanCalendarPoint startAroundPoint, int resultLimit) {
+    public DoubleStream findManyJulianEphemerisDays(TimelinePoint startAroundPoint, int resultLimit) {
         return findManyJulianEphemerisDays(startAroundPoint, resultLimit, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(RomanCalendarPoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases) {
+    public DoubleStream findManyJulianEphemerisDays(TimelinePoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases) {
         return findManyJulianEphemerisDays(startAroundPoint, resultLimit, phases, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(RomanCalendarPoint startAroundPoint, int resultLimit, int meanPrecisionSeconds) {
+    public DoubleStream findManyJulianEphemerisDays(TimelinePoint startAroundPoint, int resultLimit, int meanPrecisionSeconds) {
         return findManyJulianEphemerisDays(startAroundPoint, resultLimit, EnumSet.allOf(MoonPhase.class), meanPrecisionSeconds);
     }
 
-    public DoubleStream findManyJulianEphemerisDays(RomanCalendarPoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
+    public DoubleStream findManyJulianEphemerisDays(TimelinePoint startAroundPoint, int resultLimit, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
         return DoubleStream.generate(prepareResultSupplierWithInitialResult(startAroundPoint, phases, meanPrecisionSeconds))
             .limit(resultLimit);
     }
@@ -102,7 +102,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
         return MeanMotionApproximate.SYNODIC_MONTH;
     }
 
-    private ResultSupplier prepareResultSupplierWithInitialResult(RomanCalendarPoint startAroundPoint, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
+    private ResultSupplier prepareResultSupplierWithInitialResult(TimelinePoint startAroundPoint, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
         FoundCyclicPhenomenon<MoonPhase> initial = findAround(startAroundPoint, phases, meanPrecisionSeconds);
         List<MoonPhase> orderedPhases = orderPhasesByCyclingToStartAtInitial(phases, initial.stage);
         return new ResultSupplier(initial, orderedPhases, meanPrecisionSeconds);
@@ -127,14 +127,14 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
             super(orderedPhasesInScope, meanPrecisionSeconds);
             this.initialResult = initialResult;
             this.phaseToJde = new EnumMap<>(MoonPhase.class);
-            phaseToJde.put(initialResult.stage, initialResult.julianEphemerisDay);
+            phaseToJde.put(initialResult.stage, initialResult.ephemerisTimelinePoint.julianDay);
             currentStage = phIterator.next();
         }
 
         @Override
         public double getAsDouble() {
             if (pullInitialPending())
-                return initialResult.julianEphemerisDay;
+                return initialResult.ephemerisTimelinePoint.julianDay;
             previousStage = currentStage;
             forward();
             double newValue = findJulianEphemerisDay(approximateJde(), currentStage, meanPrecisionRadians);

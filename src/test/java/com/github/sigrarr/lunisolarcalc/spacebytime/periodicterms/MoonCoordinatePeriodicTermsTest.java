@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
+import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class MoonCoordinatePeriodicTermsTest {
 
     @Test
     public void shouldCalculateEBasedCoefficient() {
-        double cTLimit = Timeline.julianDayToCenturialT(Timeline.romanCalendarToJulianDay(new RomanCalendarPoint(2200, 12, 31.5)));
+        double cTLimit = Timeline.julianDayToCenturialT(Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.5)));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
             double cT = random.nextDouble() * cTLimit;

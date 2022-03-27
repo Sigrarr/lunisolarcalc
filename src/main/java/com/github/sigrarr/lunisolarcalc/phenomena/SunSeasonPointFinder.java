@@ -18,9 +18,9 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
      * Meeus 1998, Ch. 27, p. 180 (customized stop condition)
      */
     @Override
-    protected double findJulianEphemerisDay(int romanYear, SunSeasonPoint point, double meanPrecisionRadians) {
+    protected double findJulianEphemerisDay(int gregorianYear, SunSeasonPoint point, double meanPrecisionRadians) {
         resetFinding();
-        double jde = approximator.approximateJulianEphemerisDay(romanYear, point);
+        double jde = approximator.approximateJulianEphemerisDay(gregorianYear, point);
         double lambda = calculateSunApparentLongitude(jde);
 
         while (calculateAbsoluteDiff(point, lambda) > meanPrecisionRadians) {

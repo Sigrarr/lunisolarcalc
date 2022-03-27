@@ -20,20 +20,20 @@ public class MeanSunSeasonPointApproximator {
         { 2451900.05952 , 365242.74049 , -0.06223 , -0.06223 , +0.00032 },
     };
 
-    private int currentRomanYear = Integer.MIN_VALUE;
+    private int currentGregorianYear = Integer.MIN_VALUE;
     private double[][] currentSubtable = null;
     private double[] yPowers = {1.0, 0.0, 0.0, 0.0, 0.0};
 
-    public double approximateJulianEphemerisDay(int romanYear, SunSeasonPoint point) {
-        if (romanYear != currentRomanYear) {
-            if (romanYear > 1000) {
+    public double approximateJulianEphemerisDay(int gregorianYear, SunSeasonPoint point) {
+        if (gregorianYear != currentGregorianYear) {
+            if (gregorianYear > 1000) {
                 currentSubtable = COEFFICIENTS_FOR_YEARS_1K_TO_3K;
-                fillYPowers(0.001 * (romanYear - 2000));
+                fillYPowers(0.001 * (gregorianYear - 2000));
             } else {
                 currentSubtable = COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K;
-                fillYPowers(0.001 * romanYear);
+                fillYPowers(0.001 * gregorianYear);
             }
-            currentRomanYear = romanYear;
+            currentGregorianYear = gregorianYear;
         }
         return evaluate(currentSubtable[point.ordinal()]);
     }

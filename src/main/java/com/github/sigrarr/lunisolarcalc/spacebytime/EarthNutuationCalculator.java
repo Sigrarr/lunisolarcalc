@@ -3,9 +3,10 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.*;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public abstract class EarthNutuationCalculator implements Provider<Subject, Double> {
+public abstract class EarthNutuationCalculator implements Provider<Subject, TimelinePoint> {
 
     protected EarthNutuationPeriodicTerms periodicTerms;
 
@@ -16,8 +17,8 @@ public abstract class EarthNutuationCalculator implements Provider<Subject, Doub
     /**
      * Meeus 1998, Ch. 22, p. 143-144
      */
-    public double calculateNutuation(double centurialT, EarthNutuationElements elements) {
-        return periodicTerms.evaluate(centurialT, elements);
+    public double calculateNutuation(TimelinePoint tx, EarthNutuationElements elements) {
+        return periodicTerms.evaluate(tx, elements);
     }
 
     @Override
@@ -26,7 +27,7 @@ public abstract class EarthNutuationCalculator implements Provider<Subject, Doub
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
-        return calculateNutuation(centurialT, (EarthNutuationElements) calculatedValues.get(Subject.EARTH_NUTUATION_ELEMENTS));
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
+        return calculateNutuation(tx, (EarthNutuationElements) calculatedValues.get(Subject.EARTH_NUTUATION_ELEMENTS));
     }
 }

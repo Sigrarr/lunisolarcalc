@@ -1,6 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.MoonLatitudePeriodicTerms;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public final class MoonLatitudeCalculator extends MoonCoordinateCalculator {
@@ -10,8 +11,8 @@ public final class MoonLatitudeCalculator extends MoonCoordinateCalculator {
     }
 
     @Override
-    public double calculateCoordinate(double centurialT, MoonCoordinateElements elements) {
-        return Calcs.normalizeLatitudinally(super.calculateCoordinate(centurialT, elements));
+    public double calculateCoordinate(TimelinePoint tx, MoonCoordinateElements elements) {
+        return Calcs.normalizeLatitudinally(super.calculateCoordinate(tx, elements));
     }
 
     @Override

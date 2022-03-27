@@ -1,6 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.MoonCoordinateElements;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 /**
  * Meeus 1998, Table 47.A, pp. 339-340
@@ -138,8 +139,8 @@ public final class MoonLongitudePeriodicTerms extends MoonCoordinatePeriodicTerm
     };
 
     @Override
-    public double evaluate(double centurialT, MoonCoordinateElements elements) {
-        return super.evaluate(centurialT, elements) + scale(
+    public double evaluate(TimelinePoint tx, MoonCoordinateElements elements) {
+        return super.evaluate(tx, elements) + scale(
               (3958 * Math.sin(elements.getA1()))
             + (1962 * Math.sin(elements.getLPrim() - elements.getF()))
             + ( 318 * Math.sin(elements.getA2()))

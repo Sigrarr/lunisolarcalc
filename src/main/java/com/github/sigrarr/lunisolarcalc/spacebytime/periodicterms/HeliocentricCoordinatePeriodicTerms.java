@@ -1,5 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+
 /**
  * Meeus 1998, Ch. 32, p. 218
  */
@@ -7,20 +9,21 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
 
     protected final static double SCALE = 0.00000001;
 
-    public double evaluate(double tau) {
+    public double evaluate(TimelinePoint tx) {
+        double tau = tx.getMillenialTau();
         double total = 0.0;
         int seriesCount = getNumberOfSeries();
         for (int n = 0; n < seriesCount; n++) {
-            total += evaluateSeries(tau, n) * Math.pow(tau, n);
+            total += evaluateSeries(tau, getSeries(n)) * Math.pow(tau, n);
         }
         return total * SCALE;
     }
 
-    public double evaluateSeries(double tau, int seriesIndex) {
-        return evaluateSeries(tau, getSeries(seriesIndex));
+    public double evaluateSeries(TimelinePoint tx, int seriesIndex) {
+        return evaluateSeries(tx.getMillenialTau(), getSeries(seriesIndex));
     }
 
-    public double evaluateSeries(double tau, double[][] series) {
+    protected double evaluateSeries(double tau, double[][] series) {
         double sum = 0.0;
         for (double[] row : series) {
             sum += evaluateTerm(tau, row);
@@ -28,11 +31,11 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return sum;
     }
 
-    public double evaluateTerm(double tau, int seriesIndex, int rowIndex) {
-        return evaluateTerm(tau, getSeries(seriesIndex)[rowIndex]);
+    public double evaluateTerm(TimelinePoint tx, int seriesIndex, int rowIndex) {
+        return evaluateTerm(tx.getMillenialTau(), getSeries(seriesIndex)[rowIndex]);
     }
 
-    public double evaluateTerm(double tau, double[] seriesRow) {
+    protected double evaluateTerm(double tau, double[] seriesRow) {
         return seriesRow[0] * Math.cos(seriesRow[1] + (seriesRow[2] * tau));
     }
 

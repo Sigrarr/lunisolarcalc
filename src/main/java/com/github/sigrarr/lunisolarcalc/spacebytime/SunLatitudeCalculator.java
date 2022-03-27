@@ -2,16 +2,17 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunLatitudeCalculator implements Provider<Subject, Double> {
+public final class SunLatitudeCalculator implements Provider<Subject, TimelinePoint> {
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
      */
-    public double calculateLatitude(double centurialT, double heliocentricLatitude, double heliocentricLongitude) {
+    public double calculateLatitude(TimelinePoint tx, double heliocentricLatitude, double heliocentricLongitude) {
         double basicLongitude = heliocentricLongitude + Math.PI;
-        double lambdaPrim = calculateLambdaPrim(centurialT, basicLongitude);
+        double lambdaPrim = calculateLambdaPrim(tx.getCenturialT(), basicLongitude);
         double basicToFK5DeltaArcseconds = 0.03916 * (Math.cos(lambdaPrim) - Math.sin(lambdaPrim));
         return -heliocentricLatitude + Math.toRadians(Calcs.arcsecondsToDegrees(basicToFK5DeltaArcseconds));
     }
@@ -31,9 +32,9 @@ public final class SunLatitudeCalculator implements Provider<Subject, Double> {
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
         return calculateLatitude(
-            centurialT,
+            tx,
             (Double) calculatedValues.get(Subject.EARTH_LATITUDE),
             (Double) calculatedValues.get(Subject.EARTH_LONGITUDE)
         );

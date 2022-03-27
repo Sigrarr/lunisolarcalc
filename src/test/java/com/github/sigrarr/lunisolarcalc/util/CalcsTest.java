@@ -50,6 +50,14 @@ public class CalcsTest {
     }
 
     @Test
+    public void shouldRoundToDelta() {
+        assertEquals(0.001, Calcs.roundToDelta(0.001, 0.0), Calcs.EPSILON_MIN);
+        assertEquals(0.5, Calcs.roundToDelta(0.75 - Calcs.EPSILON, 0.5), Calcs.EPSILON_MIN);
+        assertEquals(1.0, Calcs.roundToDelta(0.75 + Calcs.EPSILON, 0.5), Calcs.EPSILON_MIN);
+        assertEquals(-109.2, Calcs.roundToDelta(-109.15 - Calcs.EPSILON, 0.1), Calcs.EPSILON_MIN);
+    }
+
+    @Test
     public void shouldDetermineDecimalAutoDelta() {
         assertEquals(Calcs.EPSILON,     Calcs.decimalAutoDelta(  0.0),              Calcs.EPSILON_MIN);
         assertEquals(0.5,               Calcs.decimalAutoDelta(  1.0),              Calcs.EPSILON_MIN);

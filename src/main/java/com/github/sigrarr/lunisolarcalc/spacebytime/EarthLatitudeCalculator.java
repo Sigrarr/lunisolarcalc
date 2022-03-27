@@ -1,6 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.EarthLatitudePeriodicTerms;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public final class EarthLatitudeCalculator extends HeliocentricCoordinateCalculator {
@@ -10,8 +11,8 @@ public final class EarthLatitudeCalculator extends HeliocentricCoordinateCalcula
     }
 
     @Override
-    public double calculateCoordinate(double tau) {
-        return Calcs.normalizeLatitudinally(super.calculateCoordinate(tau));
+    public double calculateCoordinate(TimelinePoint tx) {
+        return Calcs.normalizeLatitudinally(super.calculateCoordinate(tx));
     }
 
     @Override

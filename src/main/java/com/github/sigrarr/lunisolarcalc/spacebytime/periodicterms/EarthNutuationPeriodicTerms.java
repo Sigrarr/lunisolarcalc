@@ -1,13 +1,15 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.EarthNutuationElements;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public abstract class EarthNutuationPeriodicTerms {
 
     protected final static double SCALE_ARCSECONDS = 0.0001;
 
-    public double evaluate(double centurialT, EarthNutuationElements elements) {
+    public double evaluate(TimelinePoint tx, EarthNutuationElements elements) {
+        double centurialT = tx.getCenturialT();
         double value = 0.0;
         int seriesLength = getSeriesLength();
         for (int n = 0; n < seriesLength; n++) {
@@ -16,12 +18,12 @@ public abstract class EarthNutuationPeriodicTerms {
         return scale(value);
     }
 
-    public double evaluateTerm(double centurialT, EarthNutuationElements elements, int n) {
-        return evaluateTerm(centurialT, elements, getCoefficientRow(n), getElementMultiplierRow(n));
+    public double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, int n) {
+        return evaluateTerm(tx, elements, getCoefficientRow(n), getElementMultiplierRow(n));
     }
 
-    public double evaluateTerm(double centurialT, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
-        return scale(evaluateTermRaw(centurialT, elements, coefficientRow, elementsMultipliers));
+    public double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
+        return scale(evaluateTermRaw(tx.getCenturialT(), elements, coefficientRow, elementsMultipliers));
     }
 
     protected double evaluateTermRaw(double centurialT, EarthNutuationElements elements, int n) {

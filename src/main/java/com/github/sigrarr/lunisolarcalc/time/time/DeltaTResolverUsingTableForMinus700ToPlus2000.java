@@ -1,13 +1,13 @@
-package com.github.sigrarr.lunisolarcalc.time;
+package com.github.sigrarr.lunisolarcalc.time.time;
 
-import com.github.sigrarr.lunisolarcalc.time.Time.DeltaTProvider;
+import com.github.sigrarr.lunisolarcalc.time.Time.DeltaTResolver;
 
 /**
  * Morrison & Stephenson 2004, pp. 331-332, 335, esp. Table 1
  */
-public class DeltaTResolver implements DeltaTProvider {
+public class DeltaTResolverUsingTableForMinus700ToPlus2000 implements DeltaTResolver {
     
-    private final static int[] ROMAN_YEARS = {
+    private final static int[] GREGORIAN_YEARS = {
         -700,
         -600,
         -500,
@@ -123,26 +123,26 @@ public class DeltaTResolver implements DeltaTProvider {
     };
 
     private int tableStartIndex = 0;
-    private int tableEndIndex = ROMAN_YEARS.length - 1;
+    private int tableEndIndex = GREGORIAN_YEARS.length - 1;
 
     @Override
-    public int getDeltaT(int requestedRomanYear) {
+    public int resolveDeltaT(int requestedGregorianYear) {
         for (int i = tableStartIndex; i < tableEndIndex; i++) {
-            if (requestedRomanYear >= ROMAN_YEARS[i] && requestedRomanYear <= ROMAN_YEARS[i + 1]) {
-                return interpolateDeltaTLinearly(requestedRomanYear, i, i + 1);
+            if (requestedGregorianYear >= GREGORIAN_YEARS[i] && requestedGregorianYear <= GREGORIAN_YEARS[i + 1]) {
+                return interpolateDeltaTLinearly(requestedGregorianYear, i, i + 1);
             }
         }
-        return extrapolateDeltaTParabolically(requestedRomanYear);
+        return extrapolateDeltaTParabolically(requestedGregorianYear);
     }
 
-    private int interpolateDeltaTLinearly(int requestedRomanYear, int startIndex, int endIndex) {
-        double relativePosition = ((double) requestedRomanYear - ROMAN_YEARS[startIndex]) / (ROMAN_YEARS[endIndex] - ROMAN_YEARS[startIndex]);
+    private int interpolateDeltaTLinearly(int requestedGregorianYear, int startIndex, int endIndex) {
+        double relativePosition = ((double) requestedGregorianYear - GREGORIAN_YEARS[startIndex]) / (GREGORIAN_YEARS[endIndex] - GREGORIAN_YEARS[startIndex]);
         return DELTA_T[startIndex] + (int) Math.round(relativePosition * (DELTA_T[endIndex] - DELTA_T[startIndex]));
     }
 
-    private int extrapolateDeltaTParabolically(int requestedRomanYear) {
+    private int extrapolateDeltaTParabolically(int requestedGregorianYear) {
         return (int) Math.round(
-            -20.0 + (32.0 * Math.pow(0.01 * (requestedRomanYear - 1820), 2.0))
+            -20.0 + (32.0 * Math.pow(0.01 * (requestedGregorianYear - 1820), 2.0))
         );
     }
 }

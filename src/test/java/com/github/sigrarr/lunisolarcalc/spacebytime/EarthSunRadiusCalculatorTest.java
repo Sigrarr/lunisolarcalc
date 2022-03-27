@@ -7,7 +7,7 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.Timeline;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 
 public class EarthSunRadiusCalculatorTest {
@@ -24,8 +24,8 @@ public class EarthSunRadiusCalculatorTest {
     @Test
     public void shouldCalculateRadius() {
         for (Map.Entry<Double, Double> entry : JD_TO_EARTH_RADIUS_AU.entrySet()) {
-            double tau = Timeline.julianDayToMillenialTau(entry.getKey());
-            double actualRadius = calculator.calculateCoordinate(tau);
+            TimelinePoint tx = new TimelinePoint(entry.getKey());
+            double actualRadius = calculator.calculateCoordinate(tx);
             assertEquals(entry.getValue(), actualRadius, decimalAutoDelta(entry.getValue()));
         }
     }

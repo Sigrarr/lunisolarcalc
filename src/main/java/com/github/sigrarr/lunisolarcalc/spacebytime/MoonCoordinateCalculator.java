@@ -3,9 +3,10 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.*;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public abstract class MoonCoordinateCalculator implements Provider<Subject, Double> {
+public abstract class MoonCoordinateCalculator implements Provider<Subject, TimelinePoint> {
 
     protected MoonCoordinatePeriodicTerms periodicTerms;
 
@@ -13,8 +14,8 @@ public abstract class MoonCoordinateCalculator implements Provider<Subject, Doub
         this.periodicTerms = periodicTerms;
     }
 
-    public double calculateCoordinate(double centurialT, MoonCoordinateElements elements) {
-        return periodicTerms.evaluate(centurialT, elements);
+    public double calculateCoordinate(TimelinePoint tx, MoonCoordinateElements elements) {
+        return periodicTerms.evaluate(tx, elements);
     }
 
     @Override
@@ -23,7 +24,7 @@ public abstract class MoonCoordinateCalculator implements Provider<Subject, Doub
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
-        return calculateCoordinate(centurialT, (MoonCoordinateElements) calculatedValues.get(Subject.MOON_COORDINATE_ELEMENTS));
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
+        return calculateCoordinate(tx, (MoonCoordinateElements) calculatedValues.get(Subject.MOON_COORDINATE_ELEMENTS));
     }
 }

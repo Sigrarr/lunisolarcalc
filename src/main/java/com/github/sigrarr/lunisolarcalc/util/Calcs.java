@@ -82,6 +82,10 @@ public class Calcs {
         return toArcseconds(signedDegrees) + (((ARC_MINUTE_TO_ARC_SECOND * absArcminutes) + absArcseconds) * Math.signum(signedDegrees));
     }
 
+    public static double roundToDelta(double value, double delta) {
+        return delta == 0 ? value : Math.round(value / delta) * delta;        
+    }
+
     public static double decimalAutoDelta(double expectedFractionalValue) {
         if (Math.abs(expectedFractionalValue) < EPSILON_MIN) {
             return EPSILON;

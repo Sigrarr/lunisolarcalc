@@ -1,6 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.MoonCoordinateElements;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 public abstract class MoonCoordinatePeriodicTerms {
 
@@ -9,24 +10,24 @@ public abstract class MoonCoordinatePeriodicTerms {
     protected final static int INDEX_MULTIPLIER_M_PRIM = 2;
     protected final static int INDEX_MULTIPLIER_F = 3;
 
-    public double evaluate(double centurialT, MoonCoordinateElements elements) {
+    public double evaluate(TimelinePoint tx, MoonCoordinateElements elements) {
         double value = 0.0;
         int seriesLength = getSeriesLength();
         for (int n = 0; n < seriesLength; n++) {
-            value += evaluateTermRaw(centurialT, elements, getCoefficient(n), getElementMultiplierRow(n));
+            value += evaluateTermRaw(tx.getCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n));
         }
         return scale(value);
     }
 
-    public double evaluateTerm(double centurialT, MoonCoordinateElements elements, int n) {
-        return scale(evaluateTermRaw(centurialT, elements, getCoefficient(n), getElementMultiplierRow(n)));
+    public double evaluateTerm(TimelinePoint tx, MoonCoordinateElements elements, int n) {
+        return scale(evaluateTermRaw(tx.getCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n)));
     }
 
-    public double calculateEarthOrbitEccentricityElement(double centurialT) {
+    protected double calculateEarthOrbitEccentricityElement(double centurialT) {
         return 1.0 - (0.002516 * centurialT) - (0.0000074 * centurialT * centurialT);
     }
 
-    public double calculateEarthOrbitEccentricityCoefficient(double eccentricityElement, short mMultiplier) {
+    protected double calculateEarthOrbitEccentricityCoefficient(double eccentricityElement, short mMultiplier) {
         return (mMultiplier == 1 || mMultiplier == -1) ? eccentricityElement : eccentricityElement * eccentricityElement;
     }
 

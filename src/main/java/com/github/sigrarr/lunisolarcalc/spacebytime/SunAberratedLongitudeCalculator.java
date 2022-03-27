@@ -2,10 +2,11 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunAberratedLongitudeCalculator implements Provider<Subject, Double> {
+public final class SunAberratedLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
     public double calculateAberratedLongitude(double geometricLongitude, double aberration) {
         return Calcs.normalizeLongitudinally(geometricLongitude + aberration);
@@ -22,7 +23,7 @@ public final class SunAberratedLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
         return calculateAberratedLongitude(
             (Double) calculatedValues.get(Subject.SUN_GEOMETRIC_LONGITUDE),
             (Double) calculatedValues.get(Subject.ABERRATION_EARTH_SUN)

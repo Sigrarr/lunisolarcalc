@@ -3,10 +3,10 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.*;
-import com.github.sigrarr.lunisolarcalc.time.Timeline;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public abstract class HeliocentricCoordinateCalculator implements Provider<Subject, Double> {
+public abstract class HeliocentricCoordinateCalculator implements Provider<Subject, TimelinePoint> {
 
     protected HeliocentricCoordinatePeriodicTerms periodicTerms;
 
@@ -17,8 +17,8 @@ public abstract class HeliocentricCoordinateCalculator implements Provider<Subje
     /**
      * Meeus 1998, 32.2, p. 218
      */
-    public double calculateCoordinate(double tau) {
-        return periodicTerms.evaluate(tau);
+    public double calculateCoordinate(TimelinePoint tx) {
+        return periodicTerms.evaluate(tx);
     }
 
     @Override
@@ -27,7 +27,7 @@ public abstract class HeliocentricCoordinateCalculator implements Provider<Subje
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
-        return calculateCoordinate(Timeline.centurialTToMillenialTau(centurialT));
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
+        return calculateCoordinate(tx);
     }
 }

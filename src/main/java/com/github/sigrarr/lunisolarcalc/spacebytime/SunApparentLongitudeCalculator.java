@@ -2,10 +2,11 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public final class SunApparentLongitudeCalculator implements Provider<Subject, Double> {
+public final class SunApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 167 
      */
@@ -24,7 +25,7 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, D
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
         return calculateApparentLongitude(
             (Double) calculatedValues.get(Subject.SUN_GEOMETRIC_LONGITUDE),
             (Double) calculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE),

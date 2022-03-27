@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 import java.util.Map;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.EarthSunRadiusPeriodicTerms;
-import com.github.sigrarr.lunisolarcalc.time.Timeline;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 public final class EarthSunRadiusCalculator extends HeliocentricCoordinateCalculator {
 
@@ -17,7 +17,7 @@ public final class EarthSunRadiusCalculator extends HeliocentricCoordinateCalcul
     }
 
     @Override
-    public Object calculate(Double centurialT, Map<Subject, Object> calculatedValues) {
-        return calculateCoordinate(Timeline.centurialTToMillenialTau(centurialT));
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
+        return calculateCoordinate(tx);
     }
 }

@@ -2,10 +2,11 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
-public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Subject, Double> {
+public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Subject, TimelinePoint> {
     /**
      * ESAA 1992, 9.213, p. 478; cf. Meeus 1998, Ch. 49, p. 349
      */
@@ -24,7 +25,7 @@ public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Su
     }
 
     @Override
-    public Object calculate(Double rootArgument, Map<Subject, Object> calculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
         return calculateExcess(
             (Double) calculatedValues.get(Subject.MOON_LONGITUDE),
             (Double) calculatedValues.get(Subject.SUN_ABERRATED_LONGITUDE)
