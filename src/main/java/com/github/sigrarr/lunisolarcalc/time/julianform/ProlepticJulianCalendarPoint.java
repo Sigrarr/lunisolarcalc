@@ -2,6 +2,8 @@ package com.github.sigrarr.lunisolarcalc.time.julianform;
 
 public class ProlepticJulianCalendarPoint extends JulianformCalendarPoint implements Comparable<ProlepticJulianCalendarPoint> {
 
+    public static final Rules RULES = Rules.JULIAN;
+
     public ProlepticJulianCalendarPoint(int y, int m, double dt) {
         super(y, m, dt);
     }
@@ -16,7 +18,7 @@ public class ProlepticJulianCalendarPoint extends JulianformCalendarPoint implem
 
     @Override
     public Rules getRules() {
-        return Rules.JULIAN;
+        return RULES;
     }
 
     @Override

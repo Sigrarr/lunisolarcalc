@@ -21,9 +21,9 @@ public abstract class JulianformCalendarPoint {
     protected static final double DEFAULT_COMPARISON_DELTA_DAYS = Calcs.SECOND_TO_DAY;
     protected static double comparisonDeltaDays = DEFAULT_COMPARISON_DELTA_DAYS;
 
-    public int y;
-    public int m;
-    public double dt;
+    public final int y;
+    public final int m;
+    public final double dt;
 
     public JulianformCalendarPoint(int y, int m, double dt) {
         this.y = y;

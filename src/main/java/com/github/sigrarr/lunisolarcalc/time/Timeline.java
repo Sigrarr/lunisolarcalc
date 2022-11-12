@@ -2,6 +2,7 @@ package com.github.sigrarr.lunisolarcalc.time;
 
 import com.github.sigrarr.lunisolarcalc.time.julianform.*;
 import com.github.sigrarr.lunisolarcalc.time.julianform.JulianformCalendarPoint.Rules;
+import com.github.sigrarr.lunisolarcalc.time.timeline.CalendarPointRecord;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class Timeline {
@@ -44,34 +45,27 @@ public class Timeline {
      * Meeus 1998, Ch. 7, p. 63
      */
     public static GregorianCalendarPoint julianDayToGregorianCalendar(double jd) {
-        GregorianCalendarPoint calendarPoint = new GregorianCalendarPoint(0, 0, 0);
-        setCalendarPointByJulianDay(calendarPoint, jd, null);
-        return calendarPoint;
+        CalendarPointRecord r = calculateCalendarPointRecordByJulianDay(jd, null);
+        return new GregorianCalendarPoint(r.y, r.m, r.dt);
     }
 
     /**
      * Based on: Meeus 1998, Ch. 7, p. 63
      */
     public static ProlepticGregorianCalendarPoint julianDayToProlepticGregorianCalendar(double jd) {
-        ProlepticGregorianCalendarPoint calendarPoint = new ProlepticGregorianCalendarPoint(0, 0, 0);
-        setFixedRulesCalendarPointByJulianDay(calendarPoint, jd);
-        return calendarPoint;
+        CalendarPointRecord r = calculateCalendarPointRecordByJulianDay(jd, ProlepticGregorianCalendarPoint.RULES);
+        return new ProlepticGregorianCalendarPoint(r.y, r.m, r.dt);
     }
 
     /**
      * Based on: Meeus 1998, Ch. 7, p. 63
      */
     public static ProlepticJulianCalendarPoint julianDayToProlepticJulianCalendar(double jd) {
-        ProlepticJulianCalendarPoint calendarPoint = new ProlepticJulianCalendarPoint(0, 0, 0);
-        setFixedRulesCalendarPointByJulianDay(calendarPoint, jd);
-        return calendarPoint;
+        CalendarPointRecord r = calculateCalendarPointRecordByJulianDay(jd, ProlepticJulianCalendarPoint.RULES);
+        return new ProlepticJulianCalendarPoint(r.y, r.m, r.dt);
     }
 
-    protected static void setFixedRulesCalendarPointByJulianDay(JulianformCalendarPoint fixedRulescalendarPoint, double jd) {
-        setCalendarPointByJulianDay(fixedRulescalendarPoint, jd, fixedRulescalendarPoint.getRules());
-    }
-
-    protected static void setCalendarPointByJulianDay(JulianformCalendarPoint calendarPoint, double jd, Rules nullableForcedRules) {
+    protected static CalendarPointRecord calculateCalendarPointRecordByJulianDay(double jd, Rules nullableForcedRules) {
         double jdMidnight = jd + 0.5;
         double z = Math.floor(jdMidnight);
         double f = jdMidnight - z;
@@ -88,9 +82,11 @@ public class Timeline {
         double d = Math.floor(JULIAN_YEAR_DAYS * c);
         double e = Math.floor((b - d) / JD_MONTH_FACTOR);
 
-        calendarPoint.dt = b - d - Math.floor(JD_MONTH_FACTOR * e) + f;
-        calendarPoint.m = (int) (e - (e < 14 ? 1.0 : 13.0));
-        calendarPoint.y = (int) (c - (calendarPoint.m > 2 ? 4716 : 4715));        
+        double dt = b - d - Math.floor(JD_MONTH_FACTOR * e) + f;
+        int m = (int) (e - (e < 14 ? 1.0 : 13.0));
+        int y = (int) (c - (m > 2 ? 4716 : 4715));
+
+        return new CalendarPointRecord(y, m, dt);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.time;
 
+import java.time.*;
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.time.julianform.*;
@@ -8,8 +9,10 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class TimelinePoint implements Comparable<TimelinePoint> {
 
-    private static final double ILLEGAL_CENTURIAL_T = Timeline.julianDayToCenturialT(Timeline.JULIAN_PERIOD_START_JD) - 1.0;
-    private static final double ILLEGAL_MILLENIAL_TAU = Timeline.julianDayToMillenialTau(Timeline.JULIAN_PERIOD_START_JD) - 1.0;
+    public static final double MINIMAL_JULIAN_DAY = Timeline.JULIAN_PERIOD_START_JD;
+    public static final double MAXIMAL_JULIAN_DAY = Timeline.JULIAN_PERIOD_END_JD;
+    private static final double ILLEGAL_CENTURIAL_T = Timeline.julianDayToCenturialT(MINIMAL_JULIAN_DAY) - 1.0;
+    private static final double ILLEGAL_MILLENIAL_TAU = Timeline.julianDayToMillenialTau(MINIMAL_JULIAN_DAY) - 1.0;
 
     protected static double comparisonDeltaDays = Calcs.SECOND_TO_DAY;
 
@@ -17,6 +20,8 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     public final TimeType timeType;
 
     private GregorianCalendarPoint gregorianCalendarPoint = null;
+    private ProlepticGregorianCalendarPoint prolepticGregorianCalendarPoint = null;
+    private ProlepticJulianCalendarPoint prolepticJulianCalendarPoint = null;
     private double centurialT = ILLEGAL_CENTURIAL_T;
     private double millenialTau = ILLEGAL_MILLENIAL_TAU;
 
@@ -49,9 +54,12 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
 
     public static TimelinePoint ofCalendarPoint(JulianformCalendarPoint calendarPoint, TimeType timeType) {
         TimelinePoint timelinePoint = new TimelinePoint(Timeline.julianformCalendarToJulianDay(calendarPoint), timeType);
-        if (calendarPoint instanceof GregorianCalendarPoint) {
+        if (calendarPoint instanceof GregorianCalendarPoint)
             timelinePoint.gregorianCalendarPoint = (GregorianCalendarPoint) calendarPoint;
-        }
+        else if (calendarPoint instanceof ProlepticGregorianCalendarPoint)
+            timelinePoint.prolepticGregorianCalendarPoint = (ProlepticGregorianCalendarPoint) calendarPoint;
+        else if (calendarPoint instanceof ProlepticJulianCalendarPoint)
+            timelinePoint.prolepticJulianCalendarPoint = (ProlepticJulianCalendarPoint) calendarPoint;
         return timelinePoint;
     }
 
@@ -75,6 +83,18 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
         return timelinePoint;
     }
 
+    public static TimelinePoint ofLegacyGregorianCalendar(GregorianCalendar gregorianCalendar) {
+        return ofCalendarPoint(GregorianCalendarPoint.ofLegacyGregorianCalendar(gregorianCalendar));
+    }
+
+    public static TimelinePoint ofLocalDateTime(LocalDateTime localDateTime) {
+        return ofCalendarPoint(ProlepticGregorianCalendarPoint.ofLocalDateTime(localDateTime));
+    }
+
+    public static TimelinePoint ofLocalDate(LocalDate localDate) {
+        return ofCalendarPoint(ProlepticGregorianCalendarPoint.ofLocalDate(localDate));
+    }
+
     public GregorianCalendarPoint getGregorianCalendarPoint() {
         if (gregorianCalendarPoint == null)
             gregorianCalendarPoint = Timeline.julianDayToGregorianCalendar(julianDay);
@@ -82,11 +102,15 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     }
 
     public ProlepticGregorianCalendarPoint getProlepticGregorianCalendarPoint() {
-        return Timeline.julianDayToProlepticGregorianCalendar(julianDay);
+        if (prolepticGregorianCalendarPoint == null)
+            prolepticGregorianCalendarPoint = Timeline.julianDayToProlepticGregorianCalendar(julianDay);
+        return prolepticGregorianCalendarPoint;
     }
 
     public ProlepticJulianCalendarPoint getProlepticJulianCalendarPoint() {
-        return Timeline.julianDayToProlepticJulianCalendar(julianDay);
+        if (prolepticJulianCalendarPoint == null)
+            prolepticJulianCalendarPoint = Timeline.julianDayToProlepticJulianCalendar(julianDay);
+        return prolepticJulianCalendarPoint;
     }
 
     public double getCenturialT() {
@@ -101,11 +125,11 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
         return millenialTau;
     }
 
-    public double getCenturialTPower(int power) {
+    public double calculateCenturialTPower(int power) {
         return Math.pow(getCenturialT(), power);
     }
 
-    public double getMillenialTauPower(int power) {
+    public double calculateMillenialTauPower(int power) {
         return Math.pow(getMillenialTau(), power);
     }
 
@@ -138,7 +162,7 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     }
 
     private void validate() {
-        if (julianDay < Timeline.JULIAN_PERIOD_START_JD || julianDay >= Timeline.JULIAN_PERIOD_END_JD) {
+        if (julianDay < MINIMAL_JULIAN_DAY || julianDay >= MAXIMAL_JULIAN_DAY) {
             throw new JulianDayOutOfPeriodException(julianDay);
         }
     }
