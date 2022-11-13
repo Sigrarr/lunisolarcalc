@@ -83,7 +83,7 @@ public class Calcs {
     }
 
     public static double roundToDelta(double value, double delta) {
-        return delta == 0 ? value : Math.round(value / delta) * delta;        
+        return delta == 0 ? value : Math.round(value / delta) * delta;
     }
 
     public static double decimalAutoDelta(double expectedFractionalValue) {

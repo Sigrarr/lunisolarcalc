@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.phenomena.SunSeasonPoint;
  * Meeus 1998, Table 27.A-B, p. 178
  */
 public class MeanSunSeasonPointApproximator {
-    
+
     private static final double[][] COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K = {
         { 1721139.29189 , 365242.13740 , +0.06134 , +0.00111 , -0.00071 },
         { 1721233.25401 , 365241.72562 , -0.05323 , +0.00907 , +0.00025 },

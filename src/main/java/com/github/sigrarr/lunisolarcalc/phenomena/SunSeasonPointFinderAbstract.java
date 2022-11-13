@@ -22,19 +22,19 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
         return findJulianEphemerisDay(gregorianYear, point, getMeanPrecisionRadians(meanPrecisionSeconds));
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear) {
+    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear) {
         return findMany(startGregorianYear, endGregorianYear, EnumSet.allOf(SunSeasonPoint.class), DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
+    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
         return findMany(startGregorianYear, endGregorianYear, points, DEFAULT_MEAN_PRECISION_SECONDS);
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, int meanPrecisionSeconds) {
+    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, int meanPrecisionSeconds) {
         return findMany(startGregorianYear, endGregorianYear, EnumSet.allOf(SunSeasonPoint.class), meanPrecisionSeconds);
     }
 
-    public Stream<FoundCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
+    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points, int meanPrecisionSeconds) {
         return Stream.generate(new ResultSupplier(startGregorianYear, points, meanPrecisionSeconds))
             .limit(getLimit(startGregorianYear, endGregorianYear, points));
     }

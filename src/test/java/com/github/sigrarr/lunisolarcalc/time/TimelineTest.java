@@ -13,7 +13,7 @@ public class TimelineTest
 {
     /**
      * Meeus 1998, Example 7.a-b, 47.a, p. 61, 342; Ch. 7, pp. 62, 64
-     */ 
+     */
     private static final Map<GregorianCalendarPoint, Double> GREGORIAN_CALENDAR_TO_JD = new HashMap<GregorianCalendarPoint, Double>() {{
         put(new GregorianCalendarPoint( 1957, 10,  4.81), 2436116.31);
         put(new GregorianCalendarPoint(  333,  1, 27.5 ), 1842713.0 );
@@ -48,17 +48,26 @@ public class TimelineTest
     }
 
     @Test
-    public void shouldConvertJDtoTau() {
+    public void shouldConvertBetweenJDAndTau() {
         // Meeus 1998, Example 32.a, p. 219
-        assertEquals(-0.007032169747, Timeline.julianDayToMillenialTau(2448976.5), decimalAutoDelta(-0.007032169747));
+        double tau = -0.007032169747;
+        double jd = 2448976.5;
+        assertEquals(tau, Timeline.julianDayToMillenialTau(jd), decimalAutoDelta(tau));
+        assertEquals(jd, Timeline.millenialTauToJulianDay(tau), decimalAutoDelta(jd));
     }
 
     @Test
-    public void shouldCovertJDtoT() {
+    public void shouldCovertBetweenJDAndT() {
         // Meeus 1998, Example 22.a, p. 148
-        assertEquals(-0.127296372348, Timeline.julianDayToCenturialT(2446895.5), decimalAutoDelta(-0.127296372348));
+        double t = -0.127296372348;
+        double jd = 2446895.5;
+        assertEquals(t, Timeline.julianDayToCenturialT(jd), decimalAutoDelta(t));
+        assertEquals(jd, Timeline.centurialTToJulianDay(t), decimalAutoDelta(jd));
         // Meeus 1998, Example 47.a, p. 342
-        assertEquals(-0.077221081451, Timeline.julianDayToCenturialT(2448724.5), decimalAutoDelta(-0.077221081451));
+        t = -0.077221081451;
+        jd = 2448724.5;
+        assertEquals(t, Timeline.julianDayToCenturialT(jd), decimalAutoDelta(t));
+        assertEquals(jd, Timeline.centurialTToJulianDay(t), decimalAutoDelta(jd));
     }
 
     @Test
@@ -70,7 +79,8 @@ public class TimelineTest
             double cT = Timeline.julianDayToCenturialT(jd);
             double tau = Timeline.julianDayToMillenialTau(jd);
             assertEquals(cT, Timeline.millenialTauToCenturialT(tau), Calcs.EPSILON_12);
-            assertEquals(tau, Timeline.centurialTToMillenialTau(cT), Calcs.EPSILON_12);            
+            assertEquals(tau, Timeline.centurialTToMillenialTau(cT), Calcs.EPSILON_12);
         }
     }
+
 }

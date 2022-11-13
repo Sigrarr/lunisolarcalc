@@ -14,7 +14,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
     private static final double HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND = Math.PI + BASIC_TO_FK5_DELTA;
 
     /**
-     * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
+     * Meeus 1998, Ch. 25, Higher accuracy, p. 166
      */
     public double calculateGeometricLongitude(double heliocentricLongitude) {
         return Calcs.normalizeLongitudinally(heliocentricLongitude + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);

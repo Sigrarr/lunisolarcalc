@@ -7,7 +7,7 @@ public class DoubleStepPair {
     private int count = 0;
 
     public DoubleStepPair() {}
-    
+
     public DoubleStepPair(double current) {
         this.current = current;
         count = 1;

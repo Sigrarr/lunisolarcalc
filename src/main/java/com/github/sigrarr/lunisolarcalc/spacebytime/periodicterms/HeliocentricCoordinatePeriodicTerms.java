@@ -10,7 +10,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
     protected final static double SCALE = 0.00000001;
 
     public double evaluate(TimelinePoint tx) {
-        double tau = tx.getMillenialTau();
+        double tau = tx.toMillenialTau();
         double total = 0.0;
         int seriesCount = getNumberOfSeries();
         for (int n = 0; n < seriesCount; n++) {
@@ -20,7 +20,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
     }
 
     public double evaluateSeries(TimelinePoint tx, int seriesIndex) {
-        return evaluateSeries(tx.getMillenialTau(), getSeries(seriesIndex));
+        return evaluateSeries(tx.toMillenialTau(), getSeries(seriesIndex));
     }
 
     protected double evaluateSeries(double tau, double[][] series) {
@@ -32,7 +32,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
     }
 
     public double evaluateTerm(TimelinePoint tx, int seriesIndex, int rowIndex) {
-        return evaluateTerm(tx.getMillenialTau(), getSeries(seriesIndex)[rowIndex]);
+        return evaluateTerm(tx.toMillenialTau(), getSeries(seriesIndex)[rowIndex]);
     }
 
     protected double evaluateTerm(double tau, double[] seriesRow) {

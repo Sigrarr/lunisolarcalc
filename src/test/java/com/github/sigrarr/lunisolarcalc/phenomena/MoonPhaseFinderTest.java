@@ -51,11 +51,11 @@ public class MoonPhaseFinderTest {
         tx = TimelinePoint.ofCalendarPoint(new GregorianCalendarPoint(2044, 1, 1.0));
         actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.THIRD_QUARTER, 15);
         double exampleJde = 2467636.49186;
-        assertEquals(exampleJde, actualJde, Time.timeToDays(0, 0, 15));        
+        assertEquals(exampleJde, actualJde, Time.timeToDays(0, 0, 15));
     }
 
     @Test
-    public void shouldFindManyOrderedMoonPhasesToQuarterMinuteInMaxFiveIterationsEachAndLessThanThreeIterationsOnAverage() {
+    public void shouldProduceManyUnsuspiciousResultsInOrderWithAcceptablePerformance() {
         GregorianCalendarPoint[] startAroundPoints = new GregorianCalendarPoint[] {
             new GregorianCalendarPoint(-700,  1,  1.0),
             new GregorianCalendarPoint(   0,  4,  7.0),
@@ -63,7 +63,7 @@ public class MoonPhaseFinderTest {
             new GregorianCalendarPoint(2000, 11,  3.0),
         };
         int partLimit = (int) Math.round(200 * 4 * MeanMotionApproximate.TROPICAL_YEAR.lengthDays / MeanMotionApproximate.SYNODIC_MONTH.lengthDays);
- 
+
         System.out.println("\tCalculations in progress...");
         for (int i = 0; i < startAroundPoints.length; i++)
             finder.findMany(TimelinePoint.ofCalendarPoint(startAroundPoints[i]), partLimit, 15)
@@ -79,7 +79,7 @@ public class MoonPhaseFinderTest {
                     );
                     return next;
                 });
- 
+
         double avgIterations = ((double) finder.calcsTotal) / finder.findingsTotal;
         assertTrue(avgIterations < 3.0, "Expected average calculation iterations < 3, was: " + avgIterations);
         System.out.println("\t\t" + finder.findingsTotal + " moon phases found, no anomalies detected.");
@@ -115,8 +115,8 @@ public class MoonPhaseFinderTest {
         }
     }
 
-    private String dateFormatTD(FoundCyclicPhenomenon<MoonPhase> result) {
-        return result.ephemerisTimelinePoint.getGregorianCalendarPoint().formatYMD() + " TD";
+    private String dateFormatTD(ResultCyclicPhenomenon<MoonPhase> result) {
+        return result.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD() + " TD";
     }
 
     private boolean matchesOne(double base, double optionA, double optionB, double delta) {
@@ -133,7 +133,7 @@ public class MoonPhaseFinderTest {
             super();
             setCoreCalculationsLimit(iterationsLimit);
         }
-       
+
         @Override
         protected double findJulianEphemerisDay(double approximateJde, MoonPhase phase, double meanPrecisionRadians) {
             double value = super.findJulianEphemerisDay(approximateJde, phase, meanPrecisionRadians);

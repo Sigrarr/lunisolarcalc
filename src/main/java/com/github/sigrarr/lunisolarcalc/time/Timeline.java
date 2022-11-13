@@ -97,7 +97,6 @@ public class Timeline {
     }
 
     public static double millenialTauToJulianDay(double millenialTau) {
-        // TODO test
         return millenialTau * JULIAN_MILLENIUM_DAYS + EPOCH_2000_JD;
     }
 
@@ -109,7 +108,6 @@ public class Timeline {
     }
 
     public static double centurialTToJulianDay(double centurialT) {
-        // TODO test
         return centurialT * JULIAN_CENTURY_DAYS + EPOCH_2000_JD;
     }
 

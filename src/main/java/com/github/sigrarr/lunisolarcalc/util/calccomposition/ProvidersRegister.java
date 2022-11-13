@@ -7,7 +7,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.exceptions.*;
 class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
 
     private final Map<SubjectT, RegisterNode<SubjectT, InT>> subjectToNode = new HashMap<>();
-    private final List<RegisterNode<SubjectT, InT>> pendingNodes = new LinkedList<>();    
+    private final List<RegisterNode<SubjectT, InT>> pendingNodes = new LinkedList<>();
 
     protected RegisterNode<SubjectT, InT> getRequired(SubjectT subject) {
         if (!subjectToNode.containsKey(subject)) {
@@ -28,7 +28,7 @@ class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
         setDependees(newNode);
 
         subjectToNode.put(newlyProvidedSubject, newNode);
-        if (!newNode.hasAllDependees()) {
+        if (!newNode.hasAllDirectDependees()) {
             pendingNodes.add(newNode);
         }
     }
@@ -43,7 +43,7 @@ class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
             RegisterNode<SubjectT, InT> pendingNode = iterator.next();
             if (pendingNode.calculator.requires().contains(newlyProvidedSubject)) {
                 pendingNode.directDependees.add(newNode);
-                if (pendingNode.hasAllDependees()) {
+                if (pendingNode.hasAllDirectDependees()) {
                     iterator.remove();
                 }
             }

@@ -22,7 +22,7 @@ public class EarthNutuationElements implements Provider<Subject, TimelinePoint> 
      * Meeus 1998, Ch. 22, p. 144
      */
     public void calculate(TimelinePoint tx) {
-        double cT = tx.getCenturialT();
+        double cT = tx.toCenturialT();
         double cT2 = cT * cT;
         double cT3 = cT2 * cT;
         values[INDEX_MEAN_ELONGATION_OF_MOON_FROM_SUN] = toLongitudinallyNormalRadians(

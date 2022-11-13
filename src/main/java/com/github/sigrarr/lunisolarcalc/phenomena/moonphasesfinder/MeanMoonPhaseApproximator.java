@@ -34,7 +34,7 @@ public class MeanMoonPhaseApproximator {
     }
 
     private void update(TimelinePoint tx) {
-        double gregorianY = tx.getGregorianCalendarPoint().toYearWithFraction();
+        double gregorianY = tx.toGregorianCalendarPoint().toYearWithFraction();
         if (!Calcs.equal(this.gregorianY, gregorianY, MINUTE_TO_YEAR)) {
             this.gregorianY = gregorianY;
             kLunationsFromEpoch = gregorianToKMonthsFromEpoch();

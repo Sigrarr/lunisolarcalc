@@ -10,9 +10,9 @@ public abstract class JulianformCalendarPoint {
     public static enum Rules {
         JULIAN("Julian rules"),
         GREGORIAN("Gregorian rules");
-        
+
         public final String label;
-        
+
         private Rules(String label) {
             this.label = label;
         }
@@ -38,7 +38,7 @@ public abstract class JulianformCalendarPoint {
     public JulianformCalendarPoint(int y, int m, int d, int h, int min, int s) {
         this(y, m, (double) d + Time.timeToDays(h, min, s));
     }
-    
+
     public static double getComparisonDeltaDays() {
         return comparisonDeltaDays;
     }
@@ -54,7 +54,7 @@ public abstract class JulianformCalendarPoint {
         int cmpM = Integer.compare(a.m, b.m);
         if (cmpM != 0)
             return cmpM;
-        return Calcs.compare(a.dt, b.dt, comparisonDeltaDays);        
+        return Calcs.compare(a.dt, b.dt, comparisonDeltaDays);
     }
 
     public abstract Rules getRules();
@@ -112,7 +112,7 @@ public abstract class JulianformCalendarPoint {
     }
 
     public String formatYMDHMin() {
-        return formatYMD() + " " + String.format("%02d", getHours()) + ":" + String.format("%02d", getMinutes()); 
+        return formatYMD() + " " + String.format("%02d", getHours()) + ":" + String.format("%02d", getMinutes());
     }
 
     @Override

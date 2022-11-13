@@ -11,7 +11,7 @@ final class RegisterNode<SubjectT extends Enum<SubjectT>, InT> extends Node<Subj
         directDependees = new ArrayList<>(calculator.requires().size());
     }
 
-    protected boolean hasAllDependees() {
+    protected boolean hasAllDirectDependees() {
         return calculator.requires().size() == directDependees.size();
     }
 }

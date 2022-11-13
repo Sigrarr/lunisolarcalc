@@ -25,7 +25,7 @@ public class MoonCoordinateElements implements Provider<Subject, TimelinePoint> 
      * Meeus 1998, pp. 337-338
      */
     public void calculate(TimelinePoint tx) {
-        double cT = tx.getCenturialT();
+        double cT = tx.toCenturialT();
         double cT2 = cT * cT;
         double cT3 = cT2 * cT;
         double cT4 = cT3 * cT;

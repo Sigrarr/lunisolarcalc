@@ -5,7 +5,7 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public final class EarthLongitudeCalculator extends HeliocentricCoordinateCalculator {
-    
+
     public EarthLongitudeCalculator() {
         super(new EarthLongitudePeriodicTerms());
     }

@@ -25,6 +25,6 @@ public final class EarthLatitudePeriodicTerms extends HeliocentricCoordinatePeri
 
     @Override
     protected double[][] getSeries(int n) {
-        return SERIES_ARRAY[n];        
+        return SERIES_ARRAY[n];
     }
 }

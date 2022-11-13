@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.time.Time.DeltaTResolver;
  * Morrison & Stephenson 2004, pp. 331-332, 335, esp. Table 1
  */
 public class DeltaTResolverUsingTableForMinus700ToPlus2000 implements DeltaTResolver {
-    
+
     private final static int[] GREGORIAN_YEARS = {
         -700,
         -600,

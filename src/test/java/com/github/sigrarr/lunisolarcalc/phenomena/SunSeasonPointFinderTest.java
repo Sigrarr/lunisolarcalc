@@ -76,9 +76,8 @@ public class SunSeasonPointFinderTest {
             double actualJde = finder.findJulianEphemerisDay(vsop87Gcp.y, entry.getValue());
             GregorianCalendarPoint actualGcp = Timeline.julianDayToGregorianCalendar(actualJde);
 
-            double diffJde = Math.abs(actualJde - vsop87Jde);
             assertTrue(
-                diffJde <= Time.timeToDays(0, 0, 20),
+                Math.abs(actualJde - vsop87Jde) <= Time.timeToDays(0, 0, 20),
                 tooMuchDiffMsg(vsop87Gcp, actualGcp)
             );
 
@@ -94,20 +93,20 @@ public class SunSeasonPointFinderTest {
     }
 
     @Test
-    public void shouldFindManyOrderedPointsWithQuarterMinuteMeanPrecisionInMaxThreeIterationsEach() {
+    public void shouldProduceManyUnsuspiciousResultsInOrderWithAcceptablePerformance() {
         int[][] partYearScopes = new int[][] {
             {-700, -400},
             {-100, 200},
             {1500, 1800},
             {2000, 2300},
         };
- 
+
         int total = 0;
         System.out.println("\tCalculations in progress...");
         for (int i = 0; i < partYearScopes.length; i++) {
             finder.findMany(partYearScopes[i][0], partYearScopes[i][1], 15)
                 .reduce((previous, next) -> {
-                    double diff = next.ephemerisTimelinePoint.julianDay- previous.ephemerisTimelinePoint.julianDay;
+                    double diff = next.ephemerisTimelinePoint.julianDay - previous.ephemerisTimelinePoint.julianDay;
                     assertTrue(
                         Math.signum(diff) > 0.0,
                         "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
@@ -136,22 +135,22 @@ public class SunSeasonPointFinderTest {
 
         Iterator<String> allIt1 = allYMDs.listIterator();
         finder.findMany(1996, 2005)
-            .map(r -> r.ephemerisTimelinePoint.getGregorianCalendarPoint().formatYMD())
+            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
             .forEach(ymd -> assertEquals(allIt1.next(), ymd));
 
         Iterator<String> solsticeIt1 = solsticeYMDs.listIterator();
         finder.findMany(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
-            .map(r -> r.ephemerisTimelinePoint.getGregorianCalendarPoint().formatYMD())
+            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
             .forEach(ymd -> assertEquals(solsticeIt1.next(), ymd));
 
         Iterator<String> allIt2 = allYMDs.listIterator();
         finder.findMany(1996, 2005, 90)
-            .map(r -> r.ephemerisTimelinePoint.getGregorianCalendarPoint().formatYMD())
+            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
             .forEach(ymd -> assertEquals(allIt2.next(), ymd));
 
         Iterator<String> solsticeIt2 = solsticeYMDs.listIterator();
         finder.findMany(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE), 90)
-            .map(r -> r.ephemerisTimelinePoint.getGregorianCalendarPoint().formatYMD())
+            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
             .forEach(ymd -> assertEquals(solsticeIt2.next(), ymd));
 
         Iterator<String> allIt3 = allYMDs.listIterator();
@@ -184,7 +183,7 @@ public class SunSeasonPointFinderTest {
             .map(e -> e.getKey().formatYMDHMin() + "\t" + e.getValue().formatYMDHMin()).collect(Collectors.joining("\n"));
     }
 
-    private String dateFormatTD(FoundCyclicPhenomenon<SunSeasonPoint> result) {
-        return result.ephemerisTimelinePoint.getGregorianCalendarPoint().formatYMD() + " TD";
+    private String dateFormatTD(ResultCyclicPhenomenon<SunSeasonPoint> result) {
+        return result.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD() + " TD";
     }
 }

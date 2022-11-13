@@ -8,7 +8,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class SunApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
     /**
-     * Meeus 1998, Ch. 25, Higher accuracy, p. 167 
+     * Meeus 1998, Ch. 25, Higher accuracy, p. 167
      */
     public double calculateApparentLongitude(double geometricLongitude, double nutuationInLongitude, double aberration) {
         return Calcs.normalizeLongitudinally(geometricLongitude + nutuationInLongitude + aberration);

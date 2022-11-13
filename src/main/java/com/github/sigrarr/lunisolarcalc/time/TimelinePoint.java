@@ -95,42 +95,42 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
         return ofCalendarPoint(ProlepticGregorianCalendarPoint.ofLocalDate(localDate));
     }
 
-    public GregorianCalendarPoint getGregorianCalendarPoint() {
+    public GregorianCalendarPoint toGregorianCalendarPoint() {
         if (gregorianCalendarPoint == null)
             gregorianCalendarPoint = Timeline.julianDayToGregorianCalendar(julianDay);
         return gregorianCalendarPoint;
     }
 
-    public ProlepticGregorianCalendarPoint getProlepticGregorianCalendarPoint() {
+    public ProlepticGregorianCalendarPoint toProlepticGregorianCalendarPoint() {
         if (prolepticGregorianCalendarPoint == null)
             prolepticGregorianCalendarPoint = Timeline.julianDayToProlepticGregorianCalendar(julianDay);
         return prolepticGregorianCalendarPoint;
     }
 
-    public ProlepticJulianCalendarPoint getProlepticJulianCalendarPoint() {
+    public ProlepticJulianCalendarPoint toProlepticJulianCalendarPoint() {
         if (prolepticJulianCalendarPoint == null)
             prolepticJulianCalendarPoint = Timeline.julianDayToProlepticJulianCalendar(julianDay);
         return prolepticJulianCalendarPoint;
     }
 
-    public double getCenturialT() {
+    public double toCenturialT() {
         if (centurialT <= ILLEGAL_CENTURIAL_T)
             centurialT = Timeline.julianDayToCenturialT(julianDay);
         return centurialT;
     }
 
-    public double getMillenialTau() {
+    public double toMillenialTau() {
         if (millenialTau <= ILLEGAL_MILLENIAL_TAU)
             millenialTau = Timeline.julianDayToMillenialTau(julianDay);
         return millenialTau;
     }
 
     public double calculateCenturialTPower(int power) {
-        return Math.pow(getCenturialT(), power);
+        return Math.pow(toCenturialT(), power);
     }
 
     public double calculateMillenialTauPower(int power) {
-        return Math.pow(getMillenialTau(), power);
+        return Math.pow(toMillenialTau(), power);
     }
 
     public TimelinePoint relabelToUniversalTime() {
@@ -156,7 +156,7 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     private double convertJulianDayToTimeType(TimeType targetTimeType) {
         double targetJd = julianDay;
         if (timeType != targetTimeType) {
-            targetJd += targetTimeType.deltaTSignumForConversionTo * Time.getDeltaTDays(getGregorianCalendarPoint().y);
+            targetJd += targetTimeType.deltaTSignumForConversionTo * Time.getDeltaTDays(toGregorianCalendarPoint().y);
         }
         return targetJd;
     }

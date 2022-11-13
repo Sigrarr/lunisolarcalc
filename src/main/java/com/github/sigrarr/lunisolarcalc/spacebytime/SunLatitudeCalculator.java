@@ -8,11 +8,11 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class SunLatitudeCalculator implements Provider<Subject, TimelinePoint> {
     /**
-     * Meeus 1998, Ch. 25, Higher accuracy, p. 166 
+     * Meeus 1998, Ch. 25, Higher accuracy, p. 166
      */
     public double calculateLatitude(TimelinePoint tx, double heliocentricLatitude, double heliocentricLongitude) {
         double basicLongitude = heliocentricLongitude + Math.PI;
-        double lambdaPrim = calculateLambdaPrim(tx.getCenturialT(), basicLongitude);
+        double lambdaPrim = calculateLambdaPrim(tx.toCenturialT(), basicLongitude);
         double basicToFK5DeltaArcseconds = 0.03916 * (Math.cos(lambdaPrim) - Math.sin(lambdaPrim));
         return -heliocentricLatitude + Math.toRadians(Calcs.arcsecondsToDegrees(basicToFK5DeltaArcseconds));
     }

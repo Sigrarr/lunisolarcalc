@@ -62,7 +62,7 @@ public abstract class CyclicPhenomenonFinderAbstract {
         }
     }
 
-    abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<FoundCyclicPhenomenon<PhT>> {
+    abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<ResultCyclicPhenomenon<PhT>> {
         final double meanPrecisionRadians;
         final List<PhT> orderedStagesInScope;
         Iterator<PhT> phIterator;
@@ -75,8 +75,8 @@ public abstract class CyclicPhenomenonFinderAbstract {
         }
 
         @Override
-        public FoundCyclicPhenomenon<PhT> get() {
-            return new FoundCyclicPhenomenon<>(getAsDouble(), currentStage);
+        public ResultCyclicPhenomenon<PhT> get() {
+            return new ResultCyclicPhenomenon<>(getAsDouble(), currentStage);
         }
 
         void forward() {

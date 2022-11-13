@@ -24,9 +24,9 @@ public class GregorianCalendarPointTest {
 
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
-            point = new TimelinePoint(firstGregorian.julianDay + (forwardDayDiffLimit * random.nextDouble())).getGregorianCalendarPoint();
+            point = new TimelinePoint(firstGregorian.julianDay + (forwardDayDiffLimit * random.nextDouble())).toGregorianCalendarPoint();
             assertEquals(Rules.GREGORIAN, point.getRules());
-            point = new TimelinePoint(firstGregorian.julianDay - (backwardDayDiffLimit * random.nextDouble())).getGregorianCalendarPoint();
+            point = new TimelinePoint(firstGregorian.julianDay - (backwardDayDiffLimit * random.nextDouble())).toGregorianCalendarPoint();
             assertEquals(Rules.JULIAN, point.getRules());
         }
     }

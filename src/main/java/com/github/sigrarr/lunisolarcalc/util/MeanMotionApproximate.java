@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.util;
 
 public enum MeanMotionApproximate implements CycleTemporalApproximate {
-    
+
     TROPICAL_YEAR(365.24219),
     TROPICAL_MONTH(27.3216),
     SYNODIC_MONTH(29.5306);

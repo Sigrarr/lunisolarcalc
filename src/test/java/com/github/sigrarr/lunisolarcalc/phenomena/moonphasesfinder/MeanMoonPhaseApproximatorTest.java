@@ -51,6 +51,6 @@ public class MeanMoonPhaseApproximatorTest {
                     assertEquals(MeanMotionApproximate.SYNODIC_MONTH.lengthDays, approximateJdeForward - approximateJde, 1.5);
                 }
             }
-        }        
+        }
     }
 }

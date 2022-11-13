@@ -9,7 +9,7 @@ public abstract class EarthNutuationPeriodicTerms {
     protected final static double SCALE_ARCSECONDS = 0.0001;
 
     public double evaluate(TimelinePoint tx, EarthNutuationElements elements) {
-        double centurialT = tx.getCenturialT();
+        double centurialT = tx.toCenturialT();
         double value = 0.0;
         int seriesLength = getSeriesLength();
         for (int n = 0; n < seriesLength; n++) {
@@ -23,7 +23,7 @@ public abstract class EarthNutuationPeriodicTerms {
     }
 
     public double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
-        return scale(evaluateTermRaw(tx.getCenturialT(), elements, coefficientRow, elementsMultipliers));
+        return scale(evaluateTermRaw(tx.toCenturialT(), elements, coefficientRow, elementsMultipliers));
     }
 
     protected double evaluateTermRaw(double centurialT, EarthNutuationElements elements, int n) {

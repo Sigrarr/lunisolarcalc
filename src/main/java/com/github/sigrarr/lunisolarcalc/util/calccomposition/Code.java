@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 class Code<SubjectT extends Enum<SubjectT>, InT> {
-    
+
     private final SubjectT[] subjects;
 
     Code(Class<SubjectT> subjectEnumClass) {

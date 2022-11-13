@@ -21,7 +21,7 @@ final class CompositionNode<SubjectT extends Enum<SubjectT>, InT> extends Node<S
     public CompositionNode<SubjectT, InT> replicate() {
         return new CompositionNode<>(this);
     }
-   
+
     @Override
     public int compareTo(CompositionNode<SubjectT, InT> node) {
         int weightCmp = Integer.compare(node.weight, weight);

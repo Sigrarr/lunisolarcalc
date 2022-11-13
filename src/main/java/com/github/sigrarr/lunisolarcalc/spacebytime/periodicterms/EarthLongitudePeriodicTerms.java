@@ -155,6 +155,6 @@ public final class EarthLongitudePeriodicTerms extends HeliocentricCoordinatePer
 
     @Override
     protected double[][] getSeries(int n) {
-        return SERIES_ARRAY[n];        
+        return SERIES_ARRAY[n];
     }
 }

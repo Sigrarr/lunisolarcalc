@@ -14,13 +14,13 @@ public abstract class MoonCoordinatePeriodicTerms {
         double value = 0.0;
         int seriesLength = getSeriesLength();
         for (int n = 0; n < seriesLength; n++) {
-            value += evaluateTermRaw(tx.getCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n));
+            value += evaluateTermRaw(tx.toCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n));
         }
         return scale(value);
     }
 
     public double evaluateTerm(TimelinePoint tx, MoonCoordinateElements elements, int n) {
-        return scale(evaluateTermRaw(tx.getCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n)));
+        return scale(evaluateTermRaw(tx.toCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n)));
     }
 
     protected double calculateEarthOrbitEccentricityElement(double centurialT) {
