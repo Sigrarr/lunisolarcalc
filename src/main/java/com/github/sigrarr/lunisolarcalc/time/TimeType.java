@@ -5,9 +5,9 @@ public enum TimeType {
     DYNAMICAL(1),
     UNIVERSAL(-1);
 
-    public final int deltaTSignumForConversionTo;
+    public final int deltaTAddendSign;
 
-    private TimeType(int deltaTSignumForConversionTo) {
-        this.deltaTSignumForConversionTo = deltaTSignumForConversionTo;
+    private TimeType(int deltaTAddendSign) {
+        this.deltaTAddendSign = deltaTAddendSign;
     }
 }

@@ -44,7 +44,7 @@ public class MoonPhaseFinderTest {
         TimelinePoint tx = TimelinePoint.ofCalendarPoint(gcp);
 
         double actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.NEW_MOON, 15);
-        double trueELP2K82Jde = Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(1977, 2, 18, 3, 37, 40));
+        double trueELP2K82Jde = Timeline.calendarToJulianDay(new GregorianCalendarPoint(1977, 2, 18, 3, 37, 40));
         assertEquals(trueELP2K82Jde, actualJde, Time.timeToDays(0, 0, 15));
 
         // Meeus 1998, Example 49.b, p. 353

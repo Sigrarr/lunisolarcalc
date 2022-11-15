@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 
 public class GregorianCalendarPoint extends JulianformCalendarPoint implements Comparable<GregorianCalendarPoint> {
 
-    public static final GregorianCalendarPoint FIRST_GREGORIAN_RULES_POINT = new GregorianCalendarPoint(1582, 10, 15);
+    public static final GregorianCalendarPoint EPOCH_GREGORIAN_RULES = new GregorianCalendarPoint(1582, 10, 15);
 
     public GregorianCalendarPoint(int y, int m, double dt) {
         super(y, m, dt);
@@ -32,7 +32,7 @@ public class GregorianCalendarPoint extends JulianformCalendarPoint implements C
 
     @Override
     public Rules getRules() {
-        return this.compareTo(FIRST_GREGORIAN_RULES_POINT) < 0 ? Rules.JULIAN : Rules.GREGORIAN;
+        return this.compareTo(EPOCH_GREGORIAN_RULES) < 0 ? Rules.JULIAN : Rules.GREGORIAN;
     }
 
     @Override

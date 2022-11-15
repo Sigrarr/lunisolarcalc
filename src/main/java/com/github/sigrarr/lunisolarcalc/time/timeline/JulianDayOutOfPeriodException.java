@@ -9,7 +9,7 @@ public class JulianDayOutOfPeriodException extends IllegalArgumentException {
     public JulianDayOutOfPeriodException(double julianDay) {
         super(
             "Only the current Julian Period is supported:"
-            + " [" + String.format("%1f", Timeline.JULIAN_PERIOD_START_JD) + "; " + String.format("%1f", Timeline.JULIAN_PERIOD_END_JD) + ")"
+            + " [" + String.format("%1f", Timeline.JULIAN_PERIOD_START_JD) + "; " + String.format("%1f", Timeline.JULIAN_PERIOD_END_JD) + "]"
             + ", " + julianDay + " given."
         );
         this.julianDay = julianDay;

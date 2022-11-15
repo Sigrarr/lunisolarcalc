@@ -53,7 +53,7 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     }
 
     public static TimelinePoint ofCalendarPoint(JulianformCalendarPoint calendarPoint, TimeType timeType) {
-        TimelinePoint timelinePoint = new TimelinePoint(Timeline.julianformCalendarToJulianDay(calendarPoint), timeType);
+        TimelinePoint timelinePoint = new TimelinePoint(Timeline.calendarToJulianDay(calendarPoint), timeType);
         if (calendarPoint instanceof GregorianCalendarPoint)
             timelinePoint.gregorianCalendarPoint = (GregorianCalendarPoint) calendarPoint;
         else if (calendarPoint instanceof ProlepticGregorianCalendarPoint)
@@ -154,15 +154,11 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     }
 
     private double convertJulianDayToTimeType(TimeType targetTimeType) {
-        double targetJd = julianDay;
-        if (timeType != targetTimeType) {
-            targetJd += targetTimeType.deltaTSignumForConversionTo * Time.getDeltaTDays(toGregorianCalendarPoint().y);
-        }
-        return targetJd;
+        return timeType == targetTimeType ? julianDay : Time.shiftDaysToTimeType(julianDay, targetTimeType, toGregorianCalendarPoint().y);
     }
 
     private void validate() {
-        if (julianDay < MINIMAL_JULIAN_DAY || julianDay >= MAXIMAL_JULIAN_DAY) {
+        if (julianDay < MINIMAL_JULIAN_DAY || julianDay > MAXIMAL_JULIAN_DAY) {
             throw new JulianDayOutOfPeriodException(julianDay);
         }
     }

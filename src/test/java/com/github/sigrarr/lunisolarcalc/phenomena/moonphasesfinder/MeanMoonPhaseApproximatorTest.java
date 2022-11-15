@@ -29,8 +29,8 @@ public class MeanMoonPhaseApproximatorTest {
 
     @Test
     public void shouldApproximateJulianEphemerisDayInDirection() {
-        double startJde = Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(-700, 1, 1.0));
-        double endJde = Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.999));
+        double startJde = Timeline.calendarToJulianDay(new GregorianCalendarPoint(-700, 1, 1.0));
+        double endJde = Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.999));
 
         for (double jde = startJde; jde <= endJde; jde += 9.0) {
             TimelinePoint tx = new TimelinePoint(jde, TimeType.DYNAMICAL);

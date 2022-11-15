@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.time;
 
 import com.github.sigrarr.lunisolarcalc.time.julianform.*;
 import com.github.sigrarr.lunisolarcalc.time.julianform.JulianformCalendarPoint.Rules;
-import com.github.sigrarr.lunisolarcalc.time.timeline.CalendarPointRecord;
+import com.github.sigrarr.lunisolarcalc.time.timeline.JulianformCalendarPointFactory;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class Timeline {
@@ -11,16 +11,21 @@ public class Timeline {
     protected static final double JULIAN_CENTURY_DAYS = 100 * JULIAN_YEAR_DAYS;
     protected static final double JULIAN_MILLENIUM_DAYS = 1000.0 * JULIAN_YEAR_DAYS;
 
-    public static double JULIAN_PERIOD_START_JD = 0.0;
-    public static double JULIAN_PERIOD_END_JD = JULIAN_PERIOD_START_JD + (7980 * JULIAN_YEAR_DAYS);
+    public static final int JULIAN_PERIOD_START_Y = -4712;
+    public static final int JULIAN_PERIOD_YEARS = 7980;
+    public static final double JULIAN_PERIOD_START_JD = 0.0;
+    public static final double JULIAN_PERIOD_END_JD = JULIAN_PERIOD_START_JD + (JULIAN_PERIOD_YEARS * JULIAN_YEAR_DAYS);
+
+    public static final double EPOCH_GREGORIAN_JD = 2299160.5;
+    public static final double EPOCH_2000_JD = 2451545.0;
 
     private static final double JD_MONTH_FACTOR = 30.6 + Calcs.EPSILON;
-    protected static final double EPOCH_2000_JD = 2451545.0;
+    private static final JulianformCalendarPointFactory calendarPointFactory = new JulianformCalendarPointFactory();
 
     /**
      * Meeus 1998, 7.1, p. 61
      */
-    public static double julianformCalendarToJulianDay(JulianformCalendarPoint calendarPoint) {
+    public static double calendarToJulianDay(JulianformCalendarPoint calendarPoint) {
         int y = calendarPoint.y;
         int m = calendarPoint.m;
         if (m <= 2) {
@@ -28,10 +33,10 @@ public class Timeline {
             y--;
         }
 
-        int b = 0;
+        double b = 0.0;
         if (calendarPoint.getRules() == Rules.GREGORIAN) {
-            int a = y / 100;
-            b = 2 - a + (a / 4);
+            double a = Math.floor(y / 100.0);
+            b = 2.0 - a + Math.floor(a / 4.0);
         }
 
         return Math.floor(JULIAN_YEAR_DAYS * (y + 4716))
@@ -45,32 +50,32 @@ public class Timeline {
      * Meeus 1998, Ch. 7, p. 63
      */
     public static GregorianCalendarPoint julianDayToGregorianCalendar(double jd) {
-        CalendarPointRecord r = calculateCalendarPointRecordByJulianDay(jd, null);
-        return new GregorianCalendarPoint(r.y, r.m, r.dt);
-    }
-
-    /**
-     * Based on: Meeus 1998, Ch. 7, p. 63
-     */
-    public static ProlepticGregorianCalendarPoint julianDayToProlepticGregorianCalendar(double jd) {
-        CalendarPointRecord r = calculateCalendarPointRecordByJulianDay(jd, ProlepticGregorianCalendarPoint.RULES);
-        return new ProlepticGregorianCalendarPoint(r.y, r.m, r.dt);
+        return (GregorianCalendarPoint) julianDayToCalendar(jd, CalendarType.GREGORIAN);
     }
 
     /**
      * Based on: Meeus 1998, Ch. 7, p. 63
      */
     public static ProlepticJulianCalendarPoint julianDayToProlepticJulianCalendar(double jd) {
-        CalendarPointRecord r = calculateCalendarPointRecordByJulianDay(jd, ProlepticJulianCalendarPoint.RULES);
-        return new ProlepticJulianCalendarPoint(r.y, r.m, r.dt);
+        return (ProlepticJulianCalendarPoint) julianDayToCalendar(jd, CalendarType.PROLEPTIC_JULIAN);
     }
 
-    protected static CalendarPointRecord calculateCalendarPointRecordByJulianDay(double jd, Rules nullableForcedRules) {
+    /**
+     * Based on: Meeus 1998, Ch. 7, p. 63
+     */
+    public static ProlepticGregorianCalendarPoint julianDayToProlepticGregorianCalendar(double jd) {
+        return (ProlepticGregorianCalendarPoint) julianDayToCalendar(jd, CalendarType.PROLEPTIC_GREGORIAN);
+    }
+
+    /**
+     * Based on: Meeus 1998, Ch. 7, p. 63
+     */
+    public static JulianformCalendarPoint julianDayToCalendar(double jd, CalendarType targetType) {
         double jdMidnight = jd + 0.5;
         double z = Math.floor(jdMidnight);
         double f = jdMidnight - z;
         double a;
-        boolean julianCalendarRules = nullableForcedRules == null ? z < 2299161.0 : nullableForcedRules == Rules.JULIAN;
+        boolean julianCalendarRules = targetType.fixedRules == null ? z < 2299161.0 : targetType.fixedRules == Rules.JULIAN;
         if (julianCalendarRules) {
             a = z;
         } else {
@@ -86,7 +91,7 @@ public class Timeline {
         int m = (int) (e - (e < 14 ? 1.0 : 13.0));
         int y = (int) (c - (m > 2 ? 4716 : 4715));
 
-        return new CalendarPointRecord(y, m, dt);
+        return calendarPointFactory.make(y, m, dt, targetType);
     }
 
     /**
@@ -117,5 +122,18 @@ public class Timeline {
 
     public static double centurialTToMillenialTau(double cT) {
         return 0.1 * cT;
+    }
+
+    public static enum CalendarType
+    {
+        GREGORIAN(null),
+        PROLEPTIC_JULIAN(Rules.JULIAN),
+        PROLEPTIC_GREGORIAN(Rules.GREGORIAN);
+
+        public final Rules fixedRules;
+
+        private CalendarType(Rules nullableFixedRules) {
+            this.fixedRules = nullableFixedRules;
+        }
     }
 }

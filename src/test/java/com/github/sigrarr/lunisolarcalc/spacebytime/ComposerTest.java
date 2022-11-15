@@ -35,7 +35,7 @@ public class ComposerTest {
 
     @Test
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {
-        double jdLimit = Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31));
+        double jdLimit = Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
             TimelinePoint tx = new TimelinePoint(random.nextDouble() * jdLimit);

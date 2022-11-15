@@ -10,9 +10,9 @@ import org.junit.jupiter.api.*;
 
 public class JulianformCalendarPointTest {
 
-    private static final int[][] GREGORIAN_COMMON_YEARS = {{1, 750, 1429, 1581}, {1583, 1700, 1900, 2100}};
-    private static final int[][] GREGORIAN_LEAP_YEARS = {{0, 4, 900, 1236}, {1584, 1600, 2000, 2400}};
-    private static final int[][] PJULIAN_LEAP_PGREGORIAN_COMMON_YEARS = {{100, 200, 900, 1500}, {1700, 1900, 2100, 2300}};
+    private static final int[][] GREGORIAN_COMMON_YEARS = {{-3, 1, 750, 1429, 1581}, {1583, 1700, 1900, 2100}};
+    private static final int[][] GREGORIAN_LEAP_YEARS = {{-800, -400, -8, -4, 0, 4, 900, 1236}, {1584, 1600, 2000, 2400}};
+    private static final int[][] PJULIAN_LEAP_PGREGORIAN_COMMON_YEARS = {{-1300, -900, -500, -100, 100, 200, 900, 1500}, {1700, 1900, 2100, 2300}};
 
     @AfterEach
     public void cleanUpEach() {
@@ -67,7 +67,7 @@ public class JulianformCalendarPointTest {
             assertTrue(new ProlepticJulianCalendarPoint(y, 1, 1).isYearLeap());
             assertFalse(new ProlepticGregorianCalendarPoint(y, 1, 1).isYearLeap());
             assertFalse(new GregorianCalendarPoint(y, 1, 1).isYearLeap());
-        }        
+        }
     }
 
     @Test
@@ -145,11 +145,11 @@ public class JulianformCalendarPointTest {
 
     private void assertIdentity(Object a, Object b) {
         assertEquals(a, b);
-        assertEquals(a.hashCode(), b.hashCode());        
+        assertEquals(a.hashCode(), b.hashCode());
     }
 
     private void assertDifferentIdentity(Object a, Object b) {
         assertNotEquals(a, b);
-        assertNotEquals(a.hashCode(), b.hashCode());        
+        assertNotEquals(a.hashCode(), b.hashCode());
     }
 }

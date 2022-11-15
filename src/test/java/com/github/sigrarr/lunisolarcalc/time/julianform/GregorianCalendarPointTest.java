@@ -16,9 +16,9 @@ public class GregorianCalendarPointTest {
 
     @Test
     void shouldUseRulesAccordingToDate() {
-        assertEquals(Rules.GREGORIAN, GregorianCalendarPoint.FIRST_GREGORIAN_RULES_POINT.getRules());
+        assertEquals(Rules.GREGORIAN, GregorianCalendarPoint.EPOCH_GREGORIAN_RULES.getRules());
 
-        TimelinePoint firstGregorian = TimelinePoint.ofCalendarPoint(GregorianCalendarPoint.FIRST_GREGORIAN_RULES_POINT);
+        TimelinePoint firstGregorian = TimelinePoint.ofCalendarPoint(GregorianCalendarPoint.EPOCH_GREGORIAN_RULES);
         double backwardDayDiffLimit = firstGregorian.julianDay - Timeline.JULIAN_PERIOD_START_JD - Calcs.EPSILON;
         double forwardDayDiffLimit = Timeline.JULIAN_PERIOD_END_JD - firstGregorian.julianDay - Calcs.EPSILON;
 

@@ -26,4 +26,13 @@ public class Time {
     public static double getDeltaTDays(int gregorianYear) {
         return Calcs.SECOND_TO_DAY * deltaTResolver.resolveDeltaT(gregorianYear);
     }
+
+    public static int shiftSecondsToTimeType(int seconds, TimeType timeType, int gregorianYear) {
+        return seconds + (timeType.deltaTAddendSign * getDeltaTSeconds(gregorianYear));
+    }
+
+    public static double shiftDaysToTimeType(double days, TimeType timeType, int gregorianYear) {
+        return days + (timeType.deltaTAddendSign * getDeltaTDays(gregorianYear));
+    }
+
 }

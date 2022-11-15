@@ -32,7 +32,7 @@ public class MoonCoordinatePeriodicTermsTest {
 
     @Test
     public void shouldCalculateEBasedCoefficient() {
-        double cTLimit = Timeline.julianDayToCenturialT(Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.5)));
+        double cTLimit = Timeline.julianDayToCenturialT(Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.5)));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
             double cT = random.nextDouble() * cTLimit;

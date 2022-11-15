@@ -72,7 +72,7 @@ public class SunSeasonPointFinderTest {
 
         for (Entry<GregorianCalendarPoint, SunSeasonPoint> entry : TRUE_VSOP87_SUN_SEASON_POINTS.entrySet()) {
             GregorianCalendarPoint vsop87Gcp = entry.getKey();
-            double vsop87Jde = Timeline.julianformCalendarToJulianDay(vsop87Gcp);
+            double vsop87Jde = Timeline.calendarToJulianDay(vsop87Gcp);
             double actualJde = finder.findJulianEphemerisDay(vsop87Gcp.y, entry.getValue());
             GregorianCalendarPoint actualGcp = Timeline.julianDayToGregorianCalendar(actualJde);
 

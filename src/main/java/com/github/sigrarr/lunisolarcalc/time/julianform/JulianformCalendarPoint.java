@@ -66,7 +66,7 @@ public abstract class JulianformCalendarPoint {
         if (getRules() == Rules.JULIAN) {
             return true;
         }
-        return !(y % 100 == 0 && y % 400 != 0);
+        return y % 100 != 0 || y % 400 == 0;
     }
 
     public int getNumberOfDaysInYear() {

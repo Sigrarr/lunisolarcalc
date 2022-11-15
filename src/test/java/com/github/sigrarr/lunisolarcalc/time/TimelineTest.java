@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.*;
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
+import com.github.sigrarr.lunisolarcalc.time.julianform.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class TimelineTest
@@ -38,13 +38,28 @@ public class TimelineTest
     }};
 
     @Test
-    public void shouldConvertGregorianCalendarToJD() {
-        GREGORIAN_CALENDAR_TO_JD.forEach((gc, jd) -> assertEquals(jd.doubleValue(), Timeline.julianformCalendarToJulianDay(gc), Calcs.EPSILON));
+    public void shouldProperlyConvertGregorianCalendarToJD() {
+        GREGORIAN_CALENDAR_TO_JD.forEach((gc, jd) -> assertEquals(jd.doubleValue(), Timeline.calendarToJulianDay(gc), Calcs.EPSILON));
     }
 
     @Test
-    public void shouldConvertJDtoGregorianCalendar() {
+    public void shouldProperlyConvertJDtoGregorianCalendar() {
         GREGORIAN_CALENDAR_TO_JD.forEach((gc, jd) -> assertEquals(gc, Timeline.julianDayToGregorianCalendar(jd)));
+    }
+
+    @Test
+    public void shouldConversionBetweenJDAndCalendarsBeReversible() {
+        Random random = new Random();
+        for (double jd = Timeline.JULIAN_PERIOD_START_JD; jd <= Timeline.JULIAN_PERIOD_END_JD; jd += (0.5 + (random.nextDouble() * 9.5))) {
+            GregorianCalendarPoint g = Timeline.julianDayToGregorianCalendar(jd);
+            assertEquals(jd, Timeline.calendarToJulianDay(g), Calcs.EPSILON);
+
+            ProlepticJulianCalendarPoint pj = Timeline.julianDayToProlepticJulianCalendar(jd);
+            assertEquals(jd, Timeline.calendarToJulianDay(pj), Calcs.EPSILON);
+
+            ProlepticGregorianCalendarPoint pg = Timeline.julianDayToProlepticGregorianCalendar(jd);
+            assertEquals(jd, Timeline.calendarToJulianDay(pg), Calcs.EPSILON);
+        }
     }
 
     @Test
@@ -73,7 +88,7 @@ public class TimelineTest
     @Test
     public void shouldConvertBetweenTauAndT() {
         Random random = new Random();
-        double limitJD = Timeline.julianformCalendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31));
+        double limitJD = Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31));
         for (int i = 0; i < 10; i++) {
             double jd = random.nextDouble() * limitJD;
             double cT = Timeline.julianDayToCenturialT(jd);
@@ -81,6 +96,75 @@ public class TimelineTest
             assertEquals(cT, Timeline.millenialTauToCenturialT(tau), Calcs.EPSILON_12);
             assertEquals(tau, Timeline.centurialTToMillenialTau(cT), Calcs.EPSILON_12);
         }
+    }
+
+    @Test
+    public void shouldJulianPeriodExtremaBeConsistentWithProlepticJulianCalendar() {
+        assertEquals(
+            Timeline.JULIAN_PERIOD_START_JD,
+            Timeline.calendarToJulianDay(
+                new ProlepticJulianCalendarPoint(Timeline.JULIAN_PERIOD_START_Y, 1, 1, 12, 0, 0)
+            )
+        );
+        assertEquals(
+            new ProlepticJulianCalendarPoint(Timeline.JULIAN_PERIOD_START_Y + Timeline.JULIAN_PERIOD_YEARS, 1, 1, 12, 0, 0),
+            Timeline.julianDayToProlepticJulianCalendar(Timeline.JULIAN_PERIOD_END_JD)
+        );
+    }
+
+    @Test
+    public void shouldMaintainProperDiffBetweenGregorianAndProlepticJulianDatesForwards() {
+        int startY = GregorianCalendarPoint.EPOCH_GREGORIAN_RULES.y + 1;
+        int limitY = Timeline.JULIAN_PERIOD_START_Y + Timeline.JULIAN_PERIOD_YEARS + 1;
+        int expectedDiff = 10;
+        int checksCount = 0;
+        for (int y = startY; y < limitY; y++, checksCount++) {
+            GregorianCalendarPoint gMarch1 = new GregorianCalendarPoint(y, 3, 1);
+            ProlepticJulianCalendarPoint pjMarch1 = new ProlepticJulianCalendarPoint(y, 3, 1);
+
+            if (gMarch1.isYearLeap() != pjMarch1.isYearLeap()) {
+                expectedDiff++;
+            }
+
+            double jdOfPJ = Timeline.calendarToJulianDay(pjMarch1);
+            double jdOfG = Timeline.calendarToJulianDay(gMarch1);
+            assertEquals(expectedDiff, jdOfPJ - jdOfG, "WRONG AT " + y);
+            assertEquals(pjMarch1, Timeline.julianDayToProlepticJulianCalendar(jdOfPJ));
+        }
+
+        assertEquals(limitY - startY, checksCount);
+    }
+
+    @Test
+    public void shouldHandleGregorian1582OctOffsetAndItsLackInProlepticGregorian() {
+        double jdBeforeGregorianEpoch = Timeline.EPOCH_GREGORIAN_JD - 1;
+        assertEquals(new GregorianCalendarPoint(1582, 10, 4), Timeline.julianDayToGregorianCalendar(jdBeforeGregorianEpoch));
+        assertEquals(new ProlepticGregorianCalendarPoint(1582, 10, 14), Timeline.julianDayToProlepticGregorianCalendar(jdBeforeGregorianEpoch));
+        assertEquals(jdBeforeGregorianEpoch, Timeline.calendarToJulianDay(new GregorianCalendarPoint(1582, 10, 4)));
+        assertEquals(jdBeforeGregorianEpoch, Timeline.calendarToJulianDay(new ProlepticGregorianCalendarPoint(1582, 10, 14)));
+    }
+
+    @Test
+    public void shouldMaintainProperDiffBetweenProlepticGregorianAndJulianDatesBackwards() {
+        int startY = GregorianCalendarPoint.EPOCH_GREGORIAN_RULES.y;
+        int limitY = Timeline.JULIAN_PERIOD_START_Y - 1;
+        int expectedDiff = 10;
+        int checksCount = 0;
+        for (int y = startY; y > limitY; y--, checksCount++) {
+            ProlepticJulianCalendarPoint pjJan1 = new ProlepticJulianCalendarPoint(y, 1, 1);
+            ProlepticGregorianCalendarPoint pgJan1 = new ProlepticGregorianCalendarPoint(y, 1, 1);
+
+            if (pjJan1.isYearLeap() != pgJan1.isYearLeap()) {
+                expectedDiff--;
+            }
+
+            double jdOfPJ = Timeline.calendarToJulianDay(pjJan1);
+            double jdOfPG = Timeline.calendarToJulianDay(pgJan1);
+            assertEquals(expectedDiff, jdOfPJ - jdOfPG, "WRONG AT " + y);
+            assertEquals(pgJan1, Timeline.julianDayToProlepticGregorianCalendar(jdOfPG));
+        }
+
+        assertEquals(startY - limitY, checksCount);
     }
 
 }
