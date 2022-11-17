@@ -7,6 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class SunApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
+
+    public static final Subject SUBJECT = Subject.SUN_APPARENT_LONGITUDE;
+
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 167
      */
@@ -16,7 +19,7 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, T
 
     @Override
     public Subject provides() {
-        return Subject.SUN_APPARENT_LONGITUDE;
+        return SUBJECT;
     }
 
     @Override

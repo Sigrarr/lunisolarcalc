@@ -12,7 +12,7 @@ import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
-public class ComposerTest {
+public class SpaceByTimeCalcCompositionTest {
 
     private EarthLongitudeCalculator earthLongitudeCalculator = new EarthLongitudeCalculator();
     private MoonCoordinateElements moonCoordinateElements = new MoonCoordinateElements();
@@ -31,7 +31,7 @@ public class ComposerTest {
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
     private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
     private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
-        .collect(Collectors.toMap(s -> s, s -> Composer.get().compose(s)));
+        .collect(Collectors.toMap(s -> s, s -> SpaceByTimeCalcComposition.compose(s)));
 
     @Test
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {

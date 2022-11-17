@@ -7,6 +7,8 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class SunGeometricLongitudeCalculator implements Provider<Subject, TimelinePoint> {
+
+    public static final Subject SUBJECT = Subject.SUN_GEOMETRIC_LONGITUDE;
     /**
      * Meeus 1998, 25.9, p. 166
      */
@@ -22,7 +24,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
 
     @Override
     public Subject provides() {
-        return Subject.SUN_GEOMETRIC_LONGITUDE;
+        return SUBJECT;
     }
 
     @Override

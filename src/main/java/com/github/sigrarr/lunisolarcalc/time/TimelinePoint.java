@@ -141,20 +141,20 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
         return new TimelinePoint(this.julianDay, TimeType.DYNAMICAL);
     }
 
-    public TimelinePoint convertToDynamicalTime() {
-        return convertToTimeType(TimeType.DYNAMICAL);
+    public TimelinePoint toDynamicalTime() {
+        return toTimeType(TimeType.DYNAMICAL);
     }
 
-    public TimelinePoint convertToUniversalTime() {
-        return convertToTimeType(TimeType.UNIVERSAL);
+    public TimelinePoint toUniversalTime() {
+        return toTimeType(TimeType.UNIVERSAL);
     }
 
-    public TimelinePoint convertToTimeType(TimeType targetTimeType) {
-        return new TimelinePoint(convertJulianDayToTimeType(targetTimeType), targetTimeType);
+    public TimelinePoint toTimeType(TimeType targetTimeType) {
+        return timeType == targetTimeType ? this : new TimelinePoint(convertJulianDayToOtherTimeType(), targetTimeType);
     }
 
-    private double convertJulianDayToTimeType(TimeType targetTimeType) {
-        return timeType == targetTimeType ? julianDay : Time.shiftDaysToTimeType(julianDay, targetTimeType, toGregorianCalendarPoint().y);
+    private double convertJulianDayToOtherTimeType() {
+        return Time.shiftDaysToTimeType(julianDay, timeType.getOther(), toGregorianCalendarPoint().y);
     }
 
     private void validate() {
@@ -167,7 +167,7 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
     public int compareTo(TimelinePoint o) {
         return timeType == o.timeType ?
             Calcs.compare(julianDay, o.julianDay, comparisonDeltaDays)
-            : Calcs.compare(julianDay, o.convertJulianDayToTimeType(timeType), comparisonDeltaDays);
+            : Calcs.compare(julianDay, o.convertJulianDayToOtherTimeType(), comparisonDeltaDays);
     }
 
     @Override

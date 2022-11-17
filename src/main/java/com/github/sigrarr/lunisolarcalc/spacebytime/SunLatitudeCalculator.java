@@ -7,6 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class SunLatitudeCalculator implements Provider<Subject, TimelinePoint> {
+
+    public static final Subject SUBJECT = Subject.SUN_LATITUDE;
+
     /**
      * Meeus 1998, Ch. 25, Higher accuracy, p. 166
      */
@@ -23,7 +26,7 @@ public final class SunLatitudeCalculator implements Provider<Subject, TimelinePo
 
     @Override
     public Subject provides() {
-        return Subject.SUN_LATITUDE;
+        return SUBJECT;
     }
 
     @Override

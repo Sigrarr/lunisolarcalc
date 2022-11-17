@@ -2,7 +2,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.moonphasesfinder.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.SeparateCompositionStageIndicatingAngleCalculator;
+import com.github.sigrarr.lunisolarcalc.spacebytime.Subject;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
 public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
@@ -12,7 +13,7 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     private double diff;
 
     public MoonPhaseFinder() {
-        this(new SeparateCompositionMoonOverSunLambdaExcessCalculator());
+        this(new SeparateCompositionStageIndicatingAngleCalculator(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS));
     }
 
     public MoonPhaseFinder(StageIndicatingAngleCalculator moonOverSunLambdaExcessCalculator) {

@@ -9,6 +9,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public class MoonCoordinateElements implements Provider<Subject, TimelinePoint> {
 
+    public static final Subject SUBJECT = Subject.MOON_COORDINATE_ELEMENTS;
     public static final int INDEX_MEAN_LONGITUDE = 0;
     public static final int INDEX_MEAN_ELONGATION = 1;
     public static final int INDEX_MEAN_ANOMALY_OF_SUN = 2;
@@ -104,7 +105,7 @@ public class MoonCoordinateElements implements Provider<Subject, TimelinePoint> 
 
     @Override
     public Subject provides() {
-        return Subject.MOON_COORDINATE_ELEMENTS;
+        return SUBJECT;
     }
 
     @Override

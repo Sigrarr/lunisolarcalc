@@ -6,6 +6,8 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public final class MoonLongitudeCalculator extends MoonCoordinateCalculator {
 
+    public static final Subject SUBJECT = Subject.MOON_LONGITUDE;
+
     public MoonLongitudeCalculator() {
         super(new MoonLongitudePeriodicTerms());
     }
@@ -17,6 +19,6 @@ public final class MoonLongitudeCalculator extends MoonCoordinateCalculator {
 
     @Override
     public Subject provides() {
-        return Subject.MOON_LONGITUDE;
+        return SUBJECT;
     }
 }

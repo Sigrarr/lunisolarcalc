@@ -8,13 +8,15 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class SunAberratedLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
+    public static final Subject SUBJECT = Subject.SUN_ABERRATED_LONGITUDE;
+
     public double calculateAberratedLongitude(double geometricLongitude, double aberration) {
         return Calcs.normalizeLongitudinally(geometricLongitude + aberration);
     }
 
     @Override
     public Subject provides() {
-        return Subject.SUN_ABERRATED_LONGITUDE;
+        return SUBJECT;
     }
 
     @Override

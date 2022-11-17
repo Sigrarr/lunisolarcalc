@@ -14,6 +14,15 @@ public class MeanMoonPhaseApproximator {
     private double gregorianY = Double.MIN_VALUE;
     private double kLunationsFromEpoch = 0.0;
     private double kTPolynomialAddend = 0.0;
+    private double directedApproximationToleranceDays = Time.timeToDays(0, 0, 30);
+
+    public double getDirectedApproximationToleranceDays() {
+        return directedApproximationToleranceDays;
+    }
+
+    public void setDirectedApproximationTolerance(double days) {
+        this.directedApproximationToleranceDays = days;
+    }
 
     /**
      * Meeus 1998, 49.1-3, pp. 349-350
@@ -56,15 +65,15 @@ public class MeanMoonPhaseApproximator {
     }
 
     private double approximateJulianEphemerisDayInDirection(TimelinePoint tx, MoonPhase phase, double shiftBase) {
-        double jde = tx.convertToDynamicalTime().julianDay;
+        double jde = tx.toDynamicalTime().julianDay;
         double approximateAround = approximateJulianEphemerisDayAround(tx, phase);
         double diff = approximateAround - jde;
-        if (Math.signum(diff) == Math.signum(shiftBase) || Math.abs(diff) < Time.timeToDays(0, 1, 0)) {
+        if (Math.signum(diff) == Math.signum(shiftBase) || Math.abs(diff) < directedApproximationToleranceDays) {
             return approximateAround;
         } else {
             double argumentShift = estimateDistanceToAdjacentAroundApproximationAbstractionClassCenter(phase, shiftBase, diff);
-            TimelinePoint newUniversalTimeArgument = new TimelinePoint(jde + argumentShift, TimeType.DYNAMICAL).convertToUniversalTime();
-            return approximateJulianEphemerisDayAround(newUniversalTimeArgument, phase);
+            TimelinePoint newTimeArgument = new TimelinePoint(jde + argumentShift, TimeType.DYNAMICAL);
+            return approximateJulianEphemerisDayAround(newTimeArgument, phase);
         }
     }
 

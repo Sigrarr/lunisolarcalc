@@ -7,13 +7,15 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 public final class EarthSunRadiusCalculator extends HeliocentricCoordinateCalculator {
 
+    public static final Subject SUBJECT = Subject.EARTH_SUN_RADIUS;
+
     public EarthSunRadiusCalculator() {
         super(new EarthSunRadiusPeriodicTerms());
     }
 
     @Override
     public Subject provides() {
-        return Subject.EARTH_SUN_RADIUS;
+        return SUBJECT;
     }
 
     @Override

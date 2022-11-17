@@ -7,6 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class MoonApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
+
+    public static final Subject SUBJECT = Subject.MOON_APPARENT_LONGITUDE;
+
     /**
      * Meeus 1998, Example 47.a, p. 343
      */
@@ -16,7 +19,7 @@ public final class MoonApparentLongitudeCalculator implements Provider<Subject, 
 
     @Override
     public Subject provides() {
-        return Subject.MOON_APPARENT_LONGITUDE;
+        return SUBJECT;
     }
 
     @Override

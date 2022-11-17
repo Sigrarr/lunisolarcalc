@@ -40,7 +40,7 @@ public class MeanMoonPhaseApproximatorTest {
                 double approximateJdeForward = approximator.approximateJulianEphemerisDayForward(tx, phase);
                 double approximateJdeBackward = approximator.approximateJulianEphemerisDayBackward(tx, phase);
 
-                if (Math.abs(approximateJde - jde) < Time.timeToDays(0, 1, 0)) {
+                if (Math.abs(approximateJde - jde) < approximator.getDirectedApproximationToleranceDays()) {
                     assertEquals(approximateJdeForward, approximateJde, 0.01);
                     assertEquals(approximateJdeBackward, approximateJde, 0.01);
                 } else if (approximateJde > jde) {

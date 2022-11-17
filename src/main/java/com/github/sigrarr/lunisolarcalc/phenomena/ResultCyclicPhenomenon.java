@@ -15,7 +15,7 @@ public class ResultCyclicPhenomenon<T extends Enum<T>> implements Comparable<Res
     }
 
     public ResultCyclicPhenomenon(TimelinePoint timelinePoint, T stage) {
-        this.ephemerisTimelinePoint = timelinePoint.timeType == TimeType.DYNAMICAL ? timelinePoint : timelinePoint.convertToDynamicalTime();
+        this.ephemerisTimelinePoint = timelinePoint.timeType == TimeType.DYNAMICAL ? timelinePoint : timelinePoint.toDynamicalTime();
         this.stage = stage;
     }
 

@@ -1,11 +1,13 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
+import java.util.EnumSet;
+
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
-public class Composer extends CalculationComposer<Subject, TimelinePoint> {
+public class SpaceByTimeCalcComposition {
 
-    private static final Composer INSTANCE = new Composer() {{
+    private static final CalculationComposer<Subject, TimelinePoint> composer = new CalculationComposer<Subject, TimelinePoint>(Subject.class) {{
         register(new AberrationEarthSunCalculator());
         register(new EarthLatitudeCalculator());
         register(new EarthLongitudeCalculator());
@@ -24,11 +26,11 @@ public class Composer extends CalculationComposer<Subject, TimelinePoint> {
         register(new SunLatitudeCalculator());
     }};
 
-    public static Composer get() {
-        return INSTANCE;
+    public static SingleOutputComposition<Subject, TimelinePoint> compose(Subject subject) {
+        return composer.compose(subject);
     }
 
-    private Composer() {
-        super(Subject.class);
+    public static MultiOutputComposition<Subject, TimelinePoint> compose(EnumSet<Subject> subjects) {
+        return composer.compose(subjects);
     }
 }

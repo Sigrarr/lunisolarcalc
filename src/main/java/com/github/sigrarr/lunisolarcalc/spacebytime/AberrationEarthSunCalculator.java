@@ -9,6 +9,8 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
 public final class AberrationEarthSunCalculator implements Provider<Subject, TimelinePoint> {
 
+    public static final Subject SUBJECT = Subject.ABERRATION_EARTH_SUN;
+
     private static final double AU_LIGHT_TIME_DAYS = (
         (double) ConstantsAndUnits.ASTRONOMICAL_UNIT_METERS / (double) ConstantsAndUnits.LIGHT_SPEED_METERS_PER_SECOND
     ) / 3600.0 / 24.0;
@@ -22,7 +24,7 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Tim
 
     @Override
     public Subject provides() {
-        return Subject.ABERRATION_EARTH_SUN;
+        return SUBJECT;
     }
 
     @Override

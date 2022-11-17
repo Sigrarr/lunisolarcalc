@@ -46,7 +46,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
     }
 
     public ResultCyclicPhenomenon<MoonPhase> findAround(TimelinePoint tx, EnumSet<MoonPhase> phases, int meanPrecisionSeconds) {
-        double baseJde = tx.convertToDynamicalTime().julianDay;
+        double baseJde = tx.toDynamicalTime().julianDay;
         ResultCyclicPhenomenon<MoonPhase> closeApproximate = phases.stream()
             .map(ph -> new ResultCyclicPhenomenon<>(approximator.approximateJulianEphemerisDayAround(tx, ph), ph))
             .min((f1, f2) -> Double.compare(Math.abs(f1.ephemerisTimelinePoint.julianDay - baseJde), Math.abs(f2.ephemerisTimelinePoint.julianDay - baseJde)))

@@ -2,12 +2,13 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.SeparateCompositionStageIndicatingAngleCalculator;
+import com.github.sigrarr.lunisolarcalc.spacebytime.Subject;
 
 public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
 
     public SunSeasonPointFinder() {
-        this(new SeparateCompositionApparentLongitudeCalculator());
+        this(new SeparateCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));
     }
 
     public SunSeasonPointFinder(StageIndicatingAngleCalculator sunApparentLongitudeCalculator) {

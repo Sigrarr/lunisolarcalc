@@ -6,6 +6,8 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public final class EarthLongitudeCalculator extends HeliocentricCoordinateCalculator {
 
+    public static final Subject SUBJECT = Subject.EARTH_LONGITUDE;
+
     public EarthLongitudeCalculator() {
         super(new EarthLongitudePeriodicTerms());
     }
@@ -17,6 +19,6 @@ public final class EarthLongitudeCalculator extends HeliocentricCoordinateCalcul
 
     @Override
     public Subject provides() {
-        return Subject.EARTH_LONGITUDE;
+        return SUBJECT;
     }
 }
