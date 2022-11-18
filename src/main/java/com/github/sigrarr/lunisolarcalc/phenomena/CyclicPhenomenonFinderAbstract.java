@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.function.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.*;
-import com.github.sigrarr.lunisolarcalc.util.CycleTemporalApproximate;
+import com.github.sigrarr.lunisolarcalc.util.*;
 
 public abstract class CyclicPhenomenonFinderAbstract {
 
@@ -12,17 +12,38 @@ public abstract class CyclicPhenomenonFinderAbstract {
         public double calculateAngle(double julianEphemerisDay);
     }
 
-    public static final int DEFAULT_MEAN_PRECISION_SECONDS = 15;
-    public static final int DEFAULT_CORE_CALCULATIONS_LIMIT = 15;
+    public static final double ANGULAR_EPSILON_MIN_RADIANS = Calcs.EPSILON;
+    public static final int ANGULAR_EPSILON_TIME_SECONDS_DEFAULT = 1;
+    public static final int CORE_CALCULATIONS_LIMIT_DEFAULT = 10;
 
     public final CycleTemporalApproximate cycleTemporalApproximate;
     private final StageIndicatingAngleCalculator coreCalculator;
-    private int coreCalculationsLimit = DEFAULT_CORE_CALCULATIONS_LIMIT;
+    private double epsilonRadians;
+    private int coreCalculationsLimit = CORE_CALCULATIONS_LIMIT_DEFAULT;
     private int coreCalculationsCount = 0;
 
     public CyclicPhenomenonFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
         this.coreCalculator = coreCalculator;
         cycleTemporalApproximate = getCycleTemporalApproximate();
+        setAngularEpsilonTime(ANGULAR_EPSILON_TIME_SECONDS_DEFAULT);
+    }
+
+    public void setAngularEpsilon(double radians) {
+        validateEpsilonRadians(radians);
+        epsilonRadians = radians;
+    }
+
+    public void setAngularEpsilonTime(int seconds) {
+        validateEpsilonTimeSeconds(seconds);
+        epsilonRadians = cycleTemporalApproximate.radiansPerTimeSeconds(seconds);
+    }
+
+    public double getAngularEpsilon() {
+        return epsilonRadians;
+    }
+
+    public double getAngularEpsilonTimeSeconds() {
+        return cycleTemporalApproximate.secondsPerRadians(epsilonRadians);
     }
 
     public void setCoreCalculationsLimit(int limit) {
@@ -49,29 +70,28 @@ public abstract class CyclicPhenomenonFinderAbstract {
         return coreCalculator.calculateAngle(julianEphemerisDay);
     }
 
-    protected double getMeanPrecisionRadians(int meanPrecisionSeconds) {
-        validateMeanPrecisionSeconds(meanPrecisionSeconds);
-        return cycleTemporalApproximate.radiansPerTimeSeconds(meanPrecisionSeconds);
-    }
-
     abstract protected CycleTemporalApproximate getCycleTemporalApproximate();
 
-    protected void validateMeanPrecisionSeconds(int meanPrecisionSeconds) {
-        if (meanPrecisionSeconds < 1) {
-            throw new MeanPrecisionSettingTooLowException(meanPrecisionSeconds);
+    protected void validateEpsilonRadians(double radians) {
+        if (radians < ANGULAR_EPSILON_MIN_RADIANS) {
+            throw new EpsilonAngleSettingTooLowException(radians);
+        }
+    }
+
+    protected void validateEpsilonTimeSeconds(int seconds) {
+        if (seconds < 1) {
+            throw new EpsilonTimeSettingTooLowException(seconds);
         }
     }
 
     abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<ResultCyclicPhenomenon<PhT>> {
-        final double meanPrecisionRadians;
         final List<PhT> orderedStagesInScope;
         Iterator<PhT> phIterator;
         PhT currentStage;
 
-        protected ResultSupplierAbstract(List<PhT> orderedStagesInScope, int meanPrecisionSeconds) {
+        protected ResultSupplierAbstract(List<PhT> orderedStagesInScope) {
             this.orderedStagesInScope = orderedStagesInScope;
             this.phIterator = orderedStagesInScope.listIterator();
-            meanPrecisionRadians = getMeanPrecisionRadians(meanPrecisionSeconds);
         }
 
         @Override

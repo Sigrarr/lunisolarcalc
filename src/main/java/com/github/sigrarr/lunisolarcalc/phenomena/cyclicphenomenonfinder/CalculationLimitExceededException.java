@@ -9,8 +9,8 @@ public final class CalculationLimitExceededException extends RuntimeException {
     public CalculationLimitExceededException(CyclicPhenomenonFinderAbstract finder) {
         super(
             "Calculation limit exceeded (" + finder.getCoreCalculationsLimit() + ")."
-            + " Lowen your accuracy expectation or set higher limit, and make sure that "
-            + finder.getClass().getName() + " calls " + CyclicPhenomenonFinderAbstract.class.getSimpleName() + ".resetFinding()"
+            + " Set higher limit or lowen your accuracy expectation (set greater epsilon). "
+            + finder.getClass().getName() + " should call " + CyclicPhenomenonFinderAbstract.class.getSimpleName() + ".resetFinding()"
             + " before the first calculation of a single result."
         );
         this.finder = finder;

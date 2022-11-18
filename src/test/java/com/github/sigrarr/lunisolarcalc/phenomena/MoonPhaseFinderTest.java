@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.PrimitiveIterator.OfDouble;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
@@ -24,18 +25,36 @@ public class MoonPhaseFinderTest {
         put(new GregorianCalendarPoint[] { new GregorianCalendarPoint(1973, 12, 24), new GregorianCalendarPoint(1974, 1, 23) }, 29 + Time.timeToDays(19, 55, 0));
     }};
 
+    /**
+     * https://www.timeanddate.com/moon/phases/spain/madrid?year=1600
+     */
+    private static final GregorianCalendarPoint[] NEW_MOONS_MADRID_1600_UTC_MINUS_14_MIN_44_S = new GregorianCalendarPoint[] {
+        new GregorianCalendarPoint(1600, 1, 16, 4, 51, 0),
+        new GregorianCalendarPoint(1600, 2, 14, 17, 16, 0),
+        new GregorianCalendarPoint(1600, 3, 15, 3, 27, 0),
+        new GregorianCalendarPoint(1600, 4, 13, 11, 53, 0),
+        new GregorianCalendarPoint(1600, 5, 12, 19, 27, 0),
+        new GregorianCalendarPoint(1600, 6, 11, 3, 15, 0),
+        new GregorianCalendarPoint(1600, 7, 10, 12, 16, 0),
+        new GregorianCalendarPoint(1600, 8, 8, 23, 17, 0),
+        new GregorianCalendarPoint(1600, 9, 7, 12, 42, 0),
+        new GregorianCalendarPoint(1600, 10, 7, 4, 38, 0),
+        new GregorianCalendarPoint(1600, 11, 5, 22, 38, 0),
+        new GregorianCalendarPoint(1600, 12, 5, 17, 42, 0)
+    };
+
     private MeasuredMoonPhaseFinder finder = new MeasuredMoonPhaseFinder(5);
 
     @Test
-    public void shouldFindMoonPhase() {
+    public void shouldFindMoonPhaseInContemporaryScope() {
         for (Entry<GregorianCalendarPoint[], Double> entry : LUNATION_START_END_TO_DURATION.entrySet()) {
             TimelinePoint lunationStartDate = TimelinePoint.ofCalendarPoint(entry.getKey()[0]);
             TimelinePoint lunationEndDate = TimelinePoint.ofCalendarPoint(entry.getKey()[1]);
-            double actualLunationStartJde = finder.findJulianEphemerisDayAround(lunationStartDate, MoonPhase.NEW_MOON, 15);
-            double actualLunationEndJde = finder.findJulianEphemerisDayAround(lunationEndDate, MoonPhase.NEW_MOON, 15);
+            double actualLunationStartJde = finder.findJulianEphemerisDayAround(lunationStartDate, MoonPhase.NEW_MOON);
+            double actualLunationEndJde = finder.findJulianEphemerisDayAround(lunationEndDate, MoonPhase.NEW_MOON);
             double expectedLunationLength = entry.getValue();
 
-            assertEquals(expectedLunationLength, actualLunationEndJde - actualLunationStartJde, Time.timeToDays(0, 0, 15 + 15));
+            assertEquals(expectedLunationLength, actualLunationEndJde - actualLunationStartJde, Time.timeToDays(0, 0, 30));
         }
 
         // Meeus 1998, Example 49.a, p. 353
@@ -43,15 +62,28 @@ public class MoonPhaseFinderTest {
         assertEquals(1977.13, gcp.toYearWithFraction(), Calcs.EPSILON);
         TimelinePoint tx = TimelinePoint.ofCalendarPoint(gcp);
 
-        double actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.NEW_MOON, 15);
+        double actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.NEW_MOON);
         double trueELP2K82Jde = Timeline.calendarToJulianDay(new GregorianCalendarPoint(1977, 2, 18, 3, 37, 40));
-        assertEquals(trueELP2K82Jde, actualJde, Time.timeToDays(0, 0, 15));
+        assertEquals(trueELP2K82Jde, actualJde, Time.timeToDays(0, 0, 10));
 
         // Meeus 1998, Example 49.b, p. 353
         tx = TimelinePoint.ofCalendarPoint(new GregorianCalendarPoint(2044, 1, 1.0));
-        actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.THIRD_QUARTER, 15);
+        actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.THIRD_QUARTER);
         double exampleJde = 2467636.49186;
-        assertEquals(exampleJde, actualJde, Time.timeToDays(0, 0, 15));
+        assertEquals(exampleJde, actualJde, Time.timeToDays(0, 0, 10));
+    }
+
+    @Test
+    public void shouldFindMoonPhaseInMoreDistantPast() {
+        OfDouble actualNewMoonJds = finder
+            .findManyJulianEphemerisDays(TimelinePoint.ofCalendarPoint(new GregorianCalendarPoint(1600, 1, 15)), EnumSet.of(MoonPhase.NEW_MOON))
+            .map((jde) -> Time.shiftDaysToTimeType(jde, TimeType.UNIVERSAL, 1600))
+            .iterator();
+
+        for (int i = 0; i < 12; i++) {
+            double expectedJd = Timeline.calendarToJulianDay(NEW_MOONS_MADRID_1600_UTC_MINUS_14_MIN_44_S[i]) + Time.timeToDays(0, 14, 44);
+            assertEquals(expectedJd, actualNewMoonJds.next(), Time.timeToDays(0, 1, 0));
+        }
     }
 
     @Test
@@ -66,7 +98,8 @@ public class MoonPhaseFinderTest {
 
         System.out.println("\tCalculations in progress...");
         for (int i = 0; i < startAroundPoints.length; i++)
-            finder.findMany(TimelinePoint.ofCalendarPoint(startAroundPoints[i]), partLimit, 15)
+            finder.findMany(TimelinePoint.ofCalendarPoint(startAroundPoints[i]))
+                .limit(partLimit)
                 .reduce((previous, next) -> {
                     double diff = next.ephemerisTimelinePoint.julianDay - previous.ephemerisTimelinePoint.julianDay;
                     assertTrue(
@@ -81,36 +114,31 @@ public class MoonPhaseFinderTest {
                 });
 
         double avgIterations = ((double) finder.calcsTotal) / finder.findingsTotal;
-        assertTrue(avgIterations < 3.0, "Expected average calculation iterations < 3, was: " + avgIterations);
+        assertTrue(avgIterations < 3.5, "Expected average calculation iterations < 3.5, was: " + avgIterations);
         System.out.println("\t\t" + finder.findingsTotal + " moon phases found, no anomalies detected.");
     }
 
     @Test
     public void shouldFindManyResultsWithVariousParameterLists() {
-        double delta = Time.timeToDays(0, 0, 15);
+        double delta = Time.timeToDays(0, 0, 2 * (int) finder.getAngularEpsilonTimeSeconds());
         for (GregorianCalendarPoint[] subsequentNewMoonsPairApproximates : LUNATION_START_END_TO_DURATION.keySet()) {
             TimelinePoint ta = TimelinePoint.ofCalendarPoint(subsequentNewMoonsPairApproximates[0]);
             TimelinePoint tb = TimelinePoint.ofCalendarPoint(subsequentNewMoonsPairApproximates[1]);
-            double aJde = finder.findJulianEphemerisDayAround(ta, MoonPhase.NEW_MOON, 15);
-            double bJde = finder.findJulianEphemerisDayAround(tb, MoonPhase.NEW_MOON, 15);
+            double aJde = finder.findJulianEphemerisDayAround(ta, MoonPhase.NEW_MOON);
+            double bJde = finder.findJulianEphemerisDayAround(tb, MoonPhase.NEW_MOON);
             TimelinePoint start = new TimelinePoint(aJde - 60.0);
 
-            assertEquals(2, finder.findMany(start, 13)
+            assertEquals(2, finder.findMany(start)
+                .limit(13)
                 .filter(r -> matchesOne(r.ephemerisTimelinePoint.julianDay, aJde, bJde, delta)).count());
-            assertEquals(2, finder.findMany(start, 4, EnumSet.of(MoonPhase.NEW_MOON))
+            assertEquals(2, finder.findMany(start, EnumSet.of(MoonPhase.NEW_MOON))
+                .limit(4)
                 .filter(r -> matchesOne(r.ephemerisTimelinePoint.julianDay, aJde, bJde, delta)).count());
-            assertEquals(2, finder.findMany(start, 13, 15)
-                .filter(r -> matchesOne(r.ephemerisTimelinePoint.julianDay, aJde, bJde, delta)).count());
-            assertEquals(2, finder.findMany(start, 4, EnumSet.of(MoonPhase.NEW_MOON), 15)
-                .filter(r -> matchesOne(r.ephemerisTimelinePoint.julianDay, aJde, bJde, delta)).count());
-
-            assertEquals(2, finder.findManyJulianEphemerisDays(start, 13)
+            assertEquals(2, finder.findManyJulianEphemerisDays(start)
+                .limit(13)
                 .filter(jde -> matchesOne(jde, aJde, bJde, delta)).count());
-            assertEquals(2, finder.findManyJulianEphemerisDays(start, 4, EnumSet.of(MoonPhase.NEW_MOON))
-                .filter(jde -> matchesOne(jde, aJde, bJde, delta)).count());
-            assertEquals(2, finder.findManyJulianEphemerisDays(start, 13, 15)
-                .filter(jde -> matchesOne(jde, aJde, bJde, delta)).count());
-            assertEquals(2, finder.findManyJulianEphemerisDays(start, 4, EnumSet.of(MoonPhase.NEW_MOON), 15)
+            assertEquals(2, finder.findManyJulianEphemerisDays(start, EnumSet.of(MoonPhase.NEW_MOON))
+                .limit(4)
                 .filter(jde -> matchesOne(jde, aJde, bJde, delta)).count());
         }
     }
@@ -129,14 +157,14 @@ public class MoonPhaseFinderTest {
         public int calcsInFindingMax = 0;
         private int calcsInFinding = 0;
 
-        MeasuredMoonPhaseFinder(int iterationsLimit) {
+        MeasuredMoonPhaseFinder(int coreCalculationsLimit) {
             super();
-            setCoreCalculationsLimit(iterationsLimit);
+            setCoreCalculationsLimit(coreCalculationsLimit);
         }
 
         @Override
-        protected double findJulianEphemerisDay(double approximateJde, MoonPhase phase, double meanPrecisionRadians) {
-            double value = super.findJulianEphemerisDay(approximateJde, phase, meanPrecisionRadians);
+        protected double findJulianEphemerisDay(double approximateJde, MoonPhase phase) {
+            double value = super.findJulianEphemerisDay(approximateJde, phase);
             findingsTotal++;
             calcsTotal += calcsInFinding;
             if (calcsInFinding > calcsInFindingMax)

@@ -21,13 +21,13 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     }
 
     @Override
-    protected double findJulianEphemerisDay(double approximateJde, MoonPhase phase, double meanPrecisionRadians) {
+    protected double findJulianEphemerisDay(double approximateJde, MoonPhase phase) {
         resetFinding();
         jde.push(approximateJde);
         excess.push(calculateMoonOverSunLambdaExcess());
         setDiffAndExcessProjectingOnContinuousLine(phase);
 
-        while (Math.abs(diff) > meanPrecisionRadians) {
+        while (Math.abs(diff) > getAngularEpsilon()) {
             jde.push(jde.getCurrent() + calculateJdeCorrection());
             excess.push(calculateMoonOverSunLambdaExcess());
             setDiffAndExcessProjectingOnContinuousLine(phase);

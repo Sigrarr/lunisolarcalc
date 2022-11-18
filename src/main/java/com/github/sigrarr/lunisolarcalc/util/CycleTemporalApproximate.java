@@ -13,7 +13,15 @@ public interface CycleTemporalApproximate {
     }
 
     public default double degreesPerTimeSeconds(int seconds) {
-        return (seconds / getLengthSeconds()) * 360;
+        return (seconds / getLengthSeconds()) * 360.0;
+    }
+
+    public default double secondsPerRadians(double radians) {
+        return radians * getLengthSeconds() / Calcs.ROUND;
+    }
+
+    public default double secondsPerDegrees(double degrees) {
+        return degrees * getLengthSeconds() / 360.0;
     }
 
 }
