@@ -9,7 +9,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import org.junit.jupiter.api.Test;
 
 public class MoonApparentLongitudeCalculatorTest {
-    
+
     private MoonApparentLongitudeCalculator calculator = new MoonApparentLongitudeCalculator();
 
     @Test

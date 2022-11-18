@@ -18,7 +18,7 @@ public abstract class HeliocentricCoordinateCalculator implements Provider<Subje
      * Meeus 1998, 32.2, p. 218
      */
     public double calculateCoordinate(TimelinePoint tx) {
-        return periodicTerms.evaluate(tx);
+        return periodicTerms.evaluate(tx.toDynamicalTime());
     }
 
     @Override

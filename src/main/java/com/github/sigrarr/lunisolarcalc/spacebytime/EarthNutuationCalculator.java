@@ -18,7 +18,7 @@ public abstract class EarthNutuationCalculator implements Provider<Subject, Time
      * Meeus 1998, Ch. 22, p. 143-144
      */
     public double calculateNutuation(TimelinePoint tx, EarthNutuationElements elements) {
-        return periodicTerms.evaluate(tx, elements);
+        return periodicTerms.evaluate(tx.toDynamicalTime(), elements);
     }
 
     @Override

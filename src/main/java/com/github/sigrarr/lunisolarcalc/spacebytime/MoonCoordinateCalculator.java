@@ -15,7 +15,7 @@ public abstract class MoonCoordinateCalculator implements Provider<Subject, Time
     }
 
     public double calculateCoordinate(TimelinePoint tx, MoonCoordinateElements elements) {
-        return periodicTerms.evaluate(tx, elements);
+        return periodicTerms.evaluate(tx.toDynamicalTime(), elements);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.CyclicPhenomenonFinderAbstract.StageIndicatingAngleCalculator;
 import com.github.sigrarr.lunisolarcalc.spacebytime.*;
-import com.github.sigrarr.lunisolarcalc.time.*;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
 public final class SeparateCompositionStageIndicatingAngleCalculator implements StageIndicatingAngleCalculator {
@@ -15,7 +15,7 @@ public final class SeparateCompositionStageIndicatingAngleCalculator implements 
 
     @Override
     public double calculateAngle(double julianEphemerisDay) {
-        return (Double) composition.calculate(new TimelinePoint(julianEphemerisDay, TimeType.DYNAMICAL));
+        return (Double) composition.calculate(TimelinePoint.ofJulianEphemerisDay(julianEphemerisDay));
     }
 
 }

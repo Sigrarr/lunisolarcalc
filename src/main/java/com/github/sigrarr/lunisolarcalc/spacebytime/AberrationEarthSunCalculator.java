@@ -18,7 +18,7 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Tim
     private SunLongitudeVariationPeriodicTerms periodicTerms = new SunLongitudeVariationPeriodicTerms();
 
     public double calculateAberration(TimelinePoint tx, double radius) {
-        double deltaLambda = periodicTerms.evaluate(tx);
+        double deltaLambda = periodicTerms.evaluate(tx.toDynamicalTime());
         return -AU_LIGHT_TIME_DAYS * radius * deltaLambda;
     }
 

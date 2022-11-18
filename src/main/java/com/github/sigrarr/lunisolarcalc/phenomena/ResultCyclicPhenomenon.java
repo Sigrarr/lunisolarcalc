@@ -2,7 +2,6 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import java.util.Objects;
 
-import com.github.sigrarr.lunisolarcalc.time.TimeType;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 public class ResultCyclicPhenomenon<T extends Enum<T>> implements Comparable<ResultCyclicPhenomenon<T>> {
@@ -11,11 +10,11 @@ public class ResultCyclicPhenomenon<T extends Enum<T>> implements Comparable<Res
     public final T stage;
 
     public ResultCyclicPhenomenon(double julianEphemerisDay, T stage) {
-        this(new TimelinePoint(julianEphemerisDay, TimeType.DYNAMICAL), stage);
+        this(TimelinePoint.ofJulianEphemerisDay(julianEphemerisDay), stage);
     }
 
     public ResultCyclicPhenomenon(TimelinePoint timelinePoint, T stage) {
-        this.ephemerisTimelinePoint = timelinePoint.timeType == TimeType.DYNAMICAL ? timelinePoint : timelinePoint.toDynamicalTime();
+        this.ephemerisTimelinePoint = timelinePoint.toDynamicalTime();
         this.stage = stage;
     }
 

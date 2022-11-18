@@ -19,7 +19,7 @@ public class SunApparentLongitudeCalculatorTest {
     @Test
     public void shouldCalculateLambda() {
         // Meeus 1998, Example 25.a-b, pp. 165, 169
-        TimelinePoint tx = new TimelinePoint(2448908.5);
+        TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(2448908.5);
 
         // Meeus 1998, Example 25.b, p. 169.
         double geometricLongitude = Math.toRadians(199.907347);

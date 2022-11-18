@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
@@ -35,10 +34,9 @@ public class SpaceByTimeCalcCompositionTest {
 
     @Test
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {
-        double jdLimit = Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            TimelinePoint tx = new TimelinePoint(random.nextDouble() * jdLimit);
+            TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(random.nextDouble() * Timeline.JULIAN_PERIOD_END_JD);
             assertForRootArgument(tx);
         }
     }

@@ -33,7 +33,7 @@ public class MeanMoonPhaseApproximatorTest {
         double endJde = Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.999));
 
         for (double jde = startJde; jde <= endJde; jde += 9.0) {
-            TimelinePoint tx = new TimelinePoint(jde, TimeType.DYNAMICAL);
+            TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(jde);
 
             for (MoonPhase phase : MoonPhase.values()) {
                 double approximateJde = approximator.approximateJulianEphemerisDayAround(tx, phase);

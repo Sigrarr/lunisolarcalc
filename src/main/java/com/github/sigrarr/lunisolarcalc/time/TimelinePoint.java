@@ -48,6 +48,10 @@ public class TimelinePoint implements Comparable<TimelinePoint> {
         comparisonDeltaDays = delta;
     }
 
+    public static TimelinePoint ofJulianEphemerisDay(double julianEphemerisDay) {
+        return new TimelinePoint(julianEphemerisDay, TimeType.DYNAMICAL);
+    }
+
     public static TimelinePoint ofCalendarPoint(JulianformCalendarPoint calendarPoint) {
         return ofCalendarPoint(calendarPoint, TimeType.UNIVERSAL);
     }

@@ -13,11 +13,11 @@ public class AberrationEarthSunCalculatorTest {
     private static final EarthNutuationCalculator DELTA_PSI_CALCULATOR = new EarthNutuationInLongitudeCalculator();
 
     private AberrationEarthSunCalculator calculator = new AberrationEarthSunCalculator();
-    
+
     @Test
     public void shouldCalculateAberration() {
         // Meeus 1998, Example 25.a-b, pp. 165, 169
-        TimelinePoint tx = new TimelinePoint(2448908.5);
+        TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(2448908.5);
 
         // Meeus 1998, Example 25.b, p. 169
         double radius = 0.99760775;
@@ -35,7 +35,7 @@ public class AberrationEarthSunCalculatorTest {
         assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), TROPICAL_YEAR.degreesPerTimeMiliseconds(75));
 
         // Meeus 1998, Example 27.b, pp. 180-181
-        tx = new TimelinePoint(2437837.38589);
+        tx = TimelinePoint.ofJulianEphemerisDay(2437837.38589);
         radius = 1.0163018;
         actualAberration = calculator.calculateAberration(tx, radius);
         assertEquals(-20.161, Calcs.toArcseconds(Math.toDegrees(actualAberration)), TROPICAL_YEAR.arcsecondsPerTimeMiliseconds(150));

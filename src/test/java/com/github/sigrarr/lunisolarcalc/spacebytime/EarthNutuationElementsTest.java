@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ public class EarthNutuationElementsTest {
     @Test
     public void shouldCalculateElements() {
         // Meeus 1998, Example 22.a, p. 148
-        elements.calculate(TimelinePoint.ofCenturialT(-0.127296372348));
+        elements.calculate(TimelinePoint.ofCenturialT(-0.127296372348, TimeType.DYNAMICAL));
         assertEquals(136.9623, Math.toDegrees(elements.getD()),       decimalAutoDelta(0.0001));
         assertEquals( 94.9792, Math.toDegrees(elements.getM()),       decimalAutoDelta(0.0001));
         assertEquals(229.2784, Math.toDegrees(elements.getMPrim()),   decimalAutoDelta(0.0001));

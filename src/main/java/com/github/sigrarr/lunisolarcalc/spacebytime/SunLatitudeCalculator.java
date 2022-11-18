@@ -15,7 +15,7 @@ public final class SunLatitudeCalculator implements Provider<Subject, TimelinePo
      */
     public double calculateLatitude(TimelinePoint tx, double heliocentricLatitude, double heliocentricLongitude) {
         double basicLongitude = heliocentricLongitude + Math.PI;
-        double lambdaPrim = calculateLambdaPrim(tx.toCenturialT(), basicLongitude);
+        double lambdaPrim = calculateLambdaPrim(tx.toDynamicalTime().toCenturialT(), basicLongitude);
         double basicToFK5DeltaArcseconds = 0.03916 * (Math.cos(lambdaPrim) - Math.sin(lambdaPrim));
         return -heliocentricLatitude + Math.toRadians(Calcs.arcsecondsToDegrees(basicToFK5DeltaArcseconds));
     }
