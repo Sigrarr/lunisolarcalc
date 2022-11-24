@@ -47,21 +47,19 @@ public class MeanMoonPhaseApproximator {
         if (!Calcs.equal(this.gregorianY, gregorianY, MINUTE_TO_YEAR)) {
             this.gregorianY = gregorianY;
             kLunationsFromEpoch = gregorianToKMonthsFromEpoch();
-            double kT = kToCenturialT(kLunationsFromEpoch);
-            double kT2 = kT * kT;
-            kTPolynomialAddend = (0.00015437 * kT2)
-                + (0.00000015 * kT2 * kT)
-                + (0.00000000073 * kT2 * kT2);
+            double cT = tx.toCenturialT();
+            double cT2 = cT * cT;
+            kTPolynomialAddend = (0.00015437 * cT2)
+                - (0.00000015 * cT2 * cT)
+                + (0.00000000073 * cT2 * cT2);
         }
     }
 
     private double gregorianToKMonthsFromEpoch() {
-        return Math.floor((gregorianY - 2000)
-            * MeanMotionApproximate.TROPICAL_YEAR.lengthDays / EFFECTIVE_MEAN_LUNATION_DAYS);
-    }
-
-    private double kToCenturialT(double k) {
-        return k / 1236.85;
+        return Math.floor(
+            (gregorianY - 2000)
+            * MeanMotionApproximate.TROPICAL_YEAR.lengthDays / EFFECTIVE_MEAN_LUNATION_DAYS
+        );
     }
 
     private double approximateJulianEphemerisDayInDirection(TimelinePoint tx, MoonPhase phase, double shiftBase) {
