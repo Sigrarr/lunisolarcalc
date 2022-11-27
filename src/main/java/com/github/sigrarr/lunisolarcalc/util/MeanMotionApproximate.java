@@ -4,7 +4,7 @@ public enum MeanMotionApproximate implements CycleTemporalApproximate {
 
     TROPICAL_YEAR(365.24219),
     TROPICAL_MONTH(27.3216),
-    SYNODIC_MONTH(29.5306);
+    SYNODIC_MONTH(29.5305888531);
 
     public final double lengthDays;
     public final double lengthSeconds;

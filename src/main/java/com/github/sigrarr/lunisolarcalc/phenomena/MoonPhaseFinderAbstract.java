@@ -5,13 +5,13 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.stream.*;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.moonphasesfinder.MeanMoonPhaseApproximator;
+import com.github.sigrarr.lunisolarcalc.phenomena.moonphasesfinder.MoonPhaseApproximator;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
 abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
-    public final MeanMoonPhaseApproximator approximator = new MeanMoonPhaseApproximator();
+    public final MoonPhaseApproximator approximator = new MoonPhaseApproximator();
 
     public MoonPhaseFinderAbstract(StageIndicatingAngleCalculator excessCalculator) {
         super(excessCalculator);

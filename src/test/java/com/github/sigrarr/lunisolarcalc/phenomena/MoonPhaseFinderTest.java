@@ -67,10 +67,19 @@ public class MoonPhaseFinderTest {
         assertEquals(trueELP2K82Jde, actualJde, Time.timeToDays(0, 0, 10));
 
         // Meeus 1998, Example 49.b, p. 353
-        tx = TimelinePoint.ofCalendarPoint(new GregorianCalendarPoint(2044, 1, 1.0));
-        actualJde = finder.findJulianEphemerisDayAround(tx, MoonPhase.THIRD_QUARTER);
+        final TimelinePoint tx2 = TimelinePoint.ofCalendarPoint(new GregorianCalendarPoint(2044, 1, 1.0));
         double exampleJde = 2467636.49186;
-        assertEquals(exampleJde, actualJde, Time.timeToDays(0, 0, 10));
+        finder.findManyJulianEphemerisDays(tx2, EnumSet.of(MoonPhase.THIRD_QUARTER))
+            .limit(2)
+            .forEach((jde) -> {
+                assertTrue(
+                    Math.abs(jde - exampleJde) <= Time.timeToDays(0, 0, 10) || (
+                        Math.abs(jde - tx2.julianDay) < Math.abs(exampleJde - tx2.julianDay)
+                        && Calcs.equal(jde, exampleJde, MeanMotionApproximate.SYNODIC_MONTH.lengthDays + Time.timeToDays(7, 0, 0))
+                    ),
+                    "Suspicious 3rd Q.: " + TimelinePoint.ofJulianEphemerisDay(jde).toGregorianCalendarPoint().formatYMDHMin()
+                );
+            });
     }
 
     @Test
@@ -108,7 +117,7 @@ public class MoonPhaseFinderTest {
                     );
                     assertTrue(
                         Math.abs(diff - (MeanMotionApproximate.SYNODIC_MONTH.lengthDays / 4)) < 1.5,
-                        "Wrong interval between subsequent phases: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
+                        "Big interval between subsequent phases: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     return next;
                 });

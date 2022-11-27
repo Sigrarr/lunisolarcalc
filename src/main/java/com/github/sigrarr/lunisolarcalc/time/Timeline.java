@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class Timeline {
 
-    protected static final double JULIAN_YEAR_DAYS = 365.25;
-    protected static final double JULIAN_CENTURY_DAYS = 100 * JULIAN_YEAR_DAYS;
-    protected static final double JULIAN_MILLENIUM_DAYS = 1000.0 * JULIAN_YEAR_DAYS;
+    public static final double JULIAN_YEAR_DAYS = 365.25;
+    public static final double JULIAN_CENTURY_DAYS = 100 * JULIAN_YEAR_DAYS;
+    public static final double JULIAN_MILLENIUM_DAYS = 1000.0 * JULIAN_YEAR_DAYS;
 
     public static final int JULIAN_PERIOD_START_Y = -4712;
     public static final int JULIAN_PERIOD_YEARS = 7980;
