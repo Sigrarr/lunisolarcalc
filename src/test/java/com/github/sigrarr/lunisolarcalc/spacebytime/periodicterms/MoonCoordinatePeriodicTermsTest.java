@@ -1,13 +1,13 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
+import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class MoonCoordinatePeriodicTermsTest {
 
     @Test
     public void shouldCalculateEBasedCoefficient() {
-        double cTLimit = Timeline.julianDayToCenturialT(Timeline.calendarToJulianDay(new GregorianCalendarPoint(2200, 12, 31.5)));
+        double cTLimit = Timeline.julianDayToCenturialT(Timeline.calendarToJulianDay(new CalendarPoint(2200, 12, 31.5)));
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
             double cT = random.nextDouble() * cTLimit;

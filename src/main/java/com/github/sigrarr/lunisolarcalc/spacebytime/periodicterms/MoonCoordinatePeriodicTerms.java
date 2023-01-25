@@ -3,6 +3,11 @@ package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 import com.github.sigrarr.lunisolarcalc.spacebytime.MoonCoordinateElements;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
+/**
+ * Periodic terms for the Moon's coordinate.
+ *
+ * @see " Meeus 1998: Ch. 47 (p. 337...), Table 47.A-B (pp. 339-341)
+ */
 public abstract class MoonCoordinatePeriodicTerms {
 
     protected final static int INDEX_MULTIPLIER_D = 0;
@@ -19,7 +24,7 @@ public abstract class MoonCoordinatePeriodicTerms {
         return scale(value);
     }
 
-    public double evaluateTerm(TimelinePoint tx, MoonCoordinateElements elements, int n) {
+    protected double evaluateTerm(TimelinePoint tx, MoonCoordinateElements elements, int n) {
         return scale(evaluateTermRaw(tx.toCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n)));
     }
 

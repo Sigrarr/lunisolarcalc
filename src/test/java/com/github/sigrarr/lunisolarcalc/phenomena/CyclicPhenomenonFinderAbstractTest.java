@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 import org.junit.jupiter.api.Test;
@@ -27,44 +27,46 @@ public class CyclicPhenomenonFinderAbstractTest {
     }
 
     @Test
-    public void shouldThrowEpsilonSettingTooLowException() {
+    public void shouldThrowDeltaTooLowException() {
         for (CyclicPhenomenonFinderAbstract finder : finders) {
-            EpsilonTimeSettingTooLowException exT = assertThrows(EpsilonTimeSettingTooLowException.class, () -> finder.setAngularEpsilonTime(0));
+            DeltaTimeNotPositiveException exT = assertThrows(DeltaTimeNotPositiveException.class, () -> finder.setAngularDeltaTime(0));
             assertEquals(0, exT.getSeconds());
 
-            exT = assertThrows(EpsilonTimeSettingTooLowException.class, () -> finder.setAngularEpsilonTime(-1));
+            exT = assertThrows(DeltaTimeNotPositiveException.class, () -> finder.setAngularDeltaTime(-1));
             assertEquals(-1, exT.getSeconds());
 
-            EpsilonAngleSettingTooLowException exA = assertThrows(EpsilonAngleSettingTooLowException.class, () -> finder.setAngularEpsilon(0.0));
+            DeltaAngleTooSmallException exA = assertThrows(DeltaAngleTooSmallException.class, () -> finder.setAngularDelta(0.0));
             assertEquals(0.0, exA.getRadians());
 
-            exA = assertThrows(EpsilonAngleSettingTooLowException.class, () -> finder.setAngularEpsilon(Calcs.EPSILON_MIN));
-            exA = assertThrows(EpsilonAngleSettingTooLowException.class, () -> finder.setAngularEpsilon(-1.0));
+            exA = assertThrows(DeltaAngleTooSmallException.class, () -> finder.setAngularDelta(
+                CyclicPhenomenonFinderAbstract.MIN_ANGULAR_DELTA_RADIANS - Calcs.EPSILON_MIN
+            ));
+            exA = assertThrows(DeltaAngleTooSmallException.class, () -> finder.setAngularDelta(-1.0));
             assertEquals(-1.0, exA.getRadians(), Calcs.EPSILON_MIN);
         }
     }
 
     @Test
-    public void shouldMinTimeEpsilonYieldLegalAngularEpsilon() {
+    public void shouldMinTimeDeltaYieldLegalAngularDelta() {
         for (CyclicPhenomenonFinderAbstract finder : finders) {
-            finder.setAngularEpsilonTime(1);
-            double radians = finder.cycleTemporalApproximate.radiansPerTimeSeconds(1);
-            assertEquals(radians, finder.getAngularEpsilon(), Calcs.EPSILON_MIN);
-            assertDoesNotThrow(() -> finder.setAngularEpsilon(radians));
+            finder.setAngularDeltaTime(1);
+            double radians = finder.getMeanCycle().radiansPerTimeSeconds(1);
+            assertEquals(radians, finder.getAngularDelta(), Calcs.EPSILON_MIN);
+            assertDoesNotThrow(() -> finder.setAngularDelta(radians));
         }
     }
 
     @Test
-    public void shouldConvertEpsilonBetweenSecondsAndRadians() {
+    public void shouldConvertDeltaBetweenSecondsAndRadians() {
         int[] secondSettings = {2, 4, 13, 119};
         for (int seconds : secondSettings)
             for (CyclicPhenomenonFinderAbstract finder : finders) {
-                finder.setAngularEpsilonTime(seconds);
-                double radians = finder.cycleTemporalApproximate.radiansPerTimeSeconds(seconds);
-                assertEquals(radians, finder.getAngularEpsilon(), Calcs.EPSILON_MIN);
+                finder.setAngularDeltaTime(seconds);
+                double radians = finder.getMeanCycle().radiansPerTimeSeconds(seconds);
+                assertEquals(radians, finder.getAngularDelta(), Calcs.EPSILON_MIN);
 
-                finder.setAngularEpsilon(radians);
-                assertEquals(seconds, Math.round(finder.getAngularEpsilonTimeSeconds()));
+                finder.setAngularDelta(radians);
+                assertEquals(seconds, Math.round(finder.getAngularDeltaTimeSeconds()));
             }
     }
 }

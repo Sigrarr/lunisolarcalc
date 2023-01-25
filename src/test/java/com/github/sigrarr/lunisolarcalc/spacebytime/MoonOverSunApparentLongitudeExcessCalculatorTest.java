@@ -36,7 +36,7 @@ public class MoonOverSunApparentLongitudeExcessCalculatorTest {
             double sunAberratedL = Math.toRadians(row[0]);
             double moonL = Math.toRadians(row[1]);
             double phaseExcess = row[2];
-            assertEquals(phaseExcess, calculator.calculateExcess(moonL, sunAberratedL), Calcs.EPSILON_MIN);
+            assertEquals(phaseExcess, calculator.calculate(moonL, sunAberratedL), Calcs.EPSILON_MIN);
         }
     }
 }

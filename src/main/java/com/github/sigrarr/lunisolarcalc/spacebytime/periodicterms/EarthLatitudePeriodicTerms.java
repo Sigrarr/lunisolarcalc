@@ -1,7 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 /**
- * Meeus 1998, App. III, Earth, B0-B1, p. 420
+ * Periodic terms for Earth's heliocentric latitude (B).
+ * Results are in radians.
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthLatitudeCalculator
+ * @see " Meeus 1998: App. III, Earth, B0-B1 (p. 420)
  */
 public final class EarthLatitudePeriodicTerms extends HeliocentricCoordinatePeriodicTerms {
     protected static final double[][][] SERIES_ARRAY = {
@@ -19,7 +23,7 @@ public final class EarthLatitudePeriodicTerms extends HeliocentricCoordinatePeri
     };
 
     @Override
-    public int getNumberOfSeries() {
+    protected int getNumberOfSeries() {
         return SERIES_ARRAY.length;
     }
 

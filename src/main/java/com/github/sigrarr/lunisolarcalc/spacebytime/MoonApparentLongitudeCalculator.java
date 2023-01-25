@@ -4,17 +4,29 @@ import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
+/**
+ * Calculator of apparent longitude of the center of the Moon (λ + ΔΨ).
+ * Given required parameters, it's in itself quick.
+ * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ *
+ * @see " Meeus 1998: Ch. 47 (p. 337...)
+ */
 public final class MoonApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
     public static final Subject SUBJECT = Subject.MOON_APPARENT_LONGITUDE;
 
     /**
-     * Meeus 1998, Example 47.a, p. 343
+     * Calculates apparent longitude of the center of the Moon (λ + ΔΨ): [0, 2π).
+     * Quick.
+     *
+     * @param longitude                     {@link MoonLongitudeCalculator the Moon's geocentric longitude} (λ), in radians
+     * @param earthNutuationInLongitude     {@link EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
+     * @return                              apparent longitude of the center of the Moon (λ + ΔΨ): [0, 2π)
      */
-    public double calculateApparentLongitude(double longitude, double earthNutuationInLongitude) {
-        return Calcs.normalizeLongitudinally(longitude + earthNutuationInLongitude);
+    public double calculate(double longitude, double earthNutuationInLongitude) {
+        return Calcs.Angle.normalizeLongitudinally(longitude + earthNutuationInLongitude);
     }
 
     @Override
@@ -28,10 +40,10 @@ public final class MoonApparentLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
-        return calculateApparentLongitude(
-            (Double) calculatedValues.get(Subject.MOON_LONGITUDE),
-            (Double) calculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE)
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
+        return calculate(
+            (Double) precalculatedValues.get(Subject.MOON_LONGITUDE),
+            (Double) precalculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE)
         );
     }
 }

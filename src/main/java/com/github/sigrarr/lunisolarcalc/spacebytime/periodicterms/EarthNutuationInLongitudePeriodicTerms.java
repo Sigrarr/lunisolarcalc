@@ -1,12 +1,15 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 /**
- * Meeus 1998, Ch. 22, Table 22.A
+ * Periodic terms for the Earth's nutuation in longitude (ΔΨ).
+ * Results are in radians.
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthNutuationInLongitudeCalculator
+ * @see " Meeus 1998: Table 22.A (pp. 145-146)
  */
 public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriodicTerms {
-    /**
-     * : Argument \ multiple of
-     */
+
+    // : Argument \ multiple of D M M' F Ω
     protected final static short[][] ELEMENTS_MULTIPLIERS = {
         { 0 , 0 , 0 , 0 , 1 },
         { -2 , 0 , 0 , 2 , 2 },
@@ -72,9 +75,8 @@ public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriod
         { 0 , 0 , 3 , 2 , 2 },
         { 2 , -1 , 0 , 2 , 2 },
     };
-    /**
-     * : Delta Psi \ Coefficient of the sine...
-     */
+
+    // : Delta Psi \ Coefficient of the sine...
     protected static final double[][] COEFFICIENTS = {
         { -171996.0 , -174.2 },
         { -13187.0 , -1.6 },

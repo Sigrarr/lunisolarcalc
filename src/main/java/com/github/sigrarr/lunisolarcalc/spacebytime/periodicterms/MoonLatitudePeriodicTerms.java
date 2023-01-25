@@ -4,14 +4,17 @@ import com.github.sigrarr.lunisolarcalc.spacebytime.MoonCoordinateElements;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 /**
- * Meeus 1998, Table 47.B, p. 341
+ * Periodic terms for latitude of the Moon's center (β).
+ * Results are in radians.
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.MoonLatitudeCalculator
+ * @see " Meeus 1998: Table 47.B (p. 341)
  */
 public final class MoonLatitudePeriodicTerms extends MoonCoordinatePeriodicTerms {
 
     protected static final double SCALE_DEGREES = 0.000001;
-    /**
-     * : Argument \ Multiple of
-     */
+
+    // : Argument \ Multiple of D M M' F
     protected static final short[][] ELEMENTS_MULTIPLIERS = {
         { 0 , 0 , 0 , 1 },
         { 0 , 0 , 1 , 1 },
@@ -74,9 +77,8 @@ public final class MoonLatitudePeriodicTerms extends MoonCoordinatePeriodicTerms
         { 4 , -1 , 0 , -1 },
         { 2 , -2 , 0 , 1 },
     };
-    /**
-     * : Sigma b \ Coefficient of the sine...
-     */
+
+    // : Σb \ Coefficient of the sine...
     protected static final int[] COEFFICIENTS = {
         5128122,
         280602,

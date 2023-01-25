@@ -4,22 +4,30 @@ import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
+/**
+ * Calculator of the Sun's geometric longitude (☉).
+ * Given required parameters, it's in itself quick.
+ * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ *
+ * @see " Meeus 1998: Ch. 25 (Higher accuracy, p. 166)
+ */
 public final class SunGeometricLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
     public static final Subject SUBJECT = Subject.SUN_GEOMETRIC_LONGITUDE;
-    /**
-     * Meeus 1998, 25.9, p. 166
-     */
-    public static final double BASIC_TO_FK5_DELTA = Math.toRadians(Calcs.arcsecondsToDegrees(-0.09033));
+    public static final double BASIC_TO_FK5_DELTA = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(-0.09033));
     private static final double HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND = Math.PI + BASIC_TO_FK5_DELTA;
 
     /**
-     * Meeus 1998, Ch. 25, Higher accuracy, p. 166
+     * Calculates the Sun's geometric longitude (☉): [0, 2π).
+     * Quick.
+     *
+     * @param heliocentricLongitude {@link EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
+     * @return                      the Sun's geometric longitude (☉): [0, 2π)
      */
-    public double calculateGeometricLongitude(double heliocentricLongitude) {
-        return Calcs.normalizeLongitudinally(heliocentricLongitude + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);
+    public double calculate(double heliocentricLongitude) {
+        return Calcs.Angle.normalizeLongitudinally(heliocentricLongitude + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);
     }
 
     @Override
@@ -33,7 +41,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
     }
 
     @Override
-    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
-        return calculateGeometricLongitude((Double) calculatedValues.get(Subject.EARTH_LONGITUDE));
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
+        return calculate((Double) precalculatedValues.get(Subject.EARTH_LONGITUDE));
     }
 }

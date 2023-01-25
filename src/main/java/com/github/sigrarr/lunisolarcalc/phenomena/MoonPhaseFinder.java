@@ -2,20 +2,49 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.SeparateCompositionStageIndicatingAngleCalculator;
-import com.github.sigrarr.lunisolarcalc.spacebytime.Subject;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
+import com.github.sigrarr.lunisolarcalc.spacebytime.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
-public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
+/**
+ * A tool for finding occurrences of principal phases of the Moon, i.e. distinguished stages of the lunation cycle
+ * - whose stage-indicating angle is excess of the Moon's apparent longitude over the Sun's apparent longitude.
+ *
+ * Internally, works 'by definition' - driven by a core calculator of stage-indicating angle:
+ * starts with an initial {@link MoonPhaseApproximator time approximation} - t, then (re)calculates the excess for t
+ * and corrects t until the value of excess is close enough to the specific for the phase under search.
+ *
+ * Uses an original method for time correction.
+ * By default utilizes a {@link MoonOverSunApparentLongitudeExcessCalculator} composed with {@link SpaceByTimeCalcComposition}.
+ * You can {@link #MoonPhaseFinder(StageIndicatingAngleCalculator) use another excess calculator}
+ * and set custom value of angular delta for comparing values of excess.
+ *
+ * @see " Seidelmann 1992: Ch. 9 by B.D. Yallop & C.Y. Hohenkerk, 9.213 (p. 478)
+ * @see " Meeus 1998: Ch. 49, p. 349
+ */
+public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
     private DoubleStepPair excess = new DoubleStepPair();
     private DoubleStepPair jde = new DoubleStepPair();
     private double diff;
 
+    /**
+     * Constructs an instance which will use the default calculator of excess
+     * of the Moon's apparent longitude over the Sun's apparent longitude,
+     * prepared with {@link SpaceByTimeCalcComposition}.
+     */
     public MoonPhaseFinder() {
-        this(new SeparateCompositionStageIndicatingAngleCalculator(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS));
+        this(new OwnCompositionStageIndicatingAngleCalculator(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS));
     }
 
+    /**
+     * Constructs an instance with a custom calculator of excess
+     * of the Moon's apparent longitude over the Sun's apparent longitude.
+     * Results' accuracy will obviously depend on the passed calculator.
+     *
+     * @param sunApparentLongitudeCalculator    calculator of excess of the Moon's apparent longitude
+     *                                          over the Sun's apparent longitude
+     */
     public MoonPhaseFinder(StageIndicatingAngleCalculator moonOverSunLambdaExcessCalculator) {
         super(moonOverSunLambdaExcessCalculator);
     }
@@ -27,7 +56,7 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
         excess.push(calculateMoonOverSunLambdaExcess());
         setDiffAndExcessProjectingOnContinuousLine(phase);
 
-        while (Math.abs(diff) > getAngularEpsilon()) {
+        while (Math.abs(diff) > getAngularDelta()) {
             jde.push(jde.getCurrent() + calculateJdeCorrection());
             excess.push(calculateMoonOverSunLambdaExcess());
             setDiffAndExcessProjectingOnContinuousLine(phase);
@@ -36,12 +65,12 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
         return jde.getCurrent();
     }
 
-    protected double calculateMoonOverSunLambdaExcess() {
+    private double calculateMoonOverSunLambdaExcess() {
         return calculateStageIndicatingAngle(jde.getCurrent());
     }
 
     private double calculateJdeCorrection() {
-        return diff * (excess.isComplete() ? estimateSlopeInverseFromRecentEvaluations() : cycleTemporalApproximate.getLengthDays() / ROUND);
+        return diff * (excess.hasTwoValues() ? estimateSlopeInverseFromRecentEvaluations() : MeanCycle.LUNATION.epochalLengthDays / ROUND);
     }
 
     private double estimateSlopeInverseFromRecentEvaluations() {
@@ -50,10 +79,14 @@ public class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
     private void setDiffAndExcessProjectingOnContinuousLine(MoonPhase phase) {
         diff = phase.moonOverSunApparentLongitudeExcess - excess.getCurrent();
-        if (phase.moonOverSunApparentLongitudeExcess == 0.0 && diff < -0.75 * ROUND) {
-            excess.setCurrent(excess.getCurrent() - ROUND);
-            diff += ROUND;
+        if (phase == MoonPhase.NEW_MOON && diff < -0.75 * ROUND) {
+            projectExcessFromNearRoundAndDiffFromNearNegativeRoundToNearZero();
         }
+    }
+
+    private void projectExcessFromNearRoundAndDiffFromNearNegativeRoundToNearZero() {
+        excess.setCurrent(excess.getCurrent() - ROUND);
+        diff += ROUND;
     }
 
     @Override

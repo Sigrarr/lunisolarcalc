@@ -4,7 +4,10 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
- * Meeus 1998, Ch. 25, Daily variation..., p. 168
+ * Terms for daily variation of the Sun's geocentric longitude (Δλ).
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.AberrationEarthSunCalculator
+ * @see " Meeus 1998: Ch. 25 ("Daily variation...", p. 168)
  */
 public final class SunLongitudeVariationPeriodicTerms {
 
@@ -55,6 +58,12 @@ public final class SunLongitudeVariationPeriodicTerms {
         }
     };
 
+    /**
+     * Calculates daily variation of the Sun's geocentric longitude (Δλ), in radians.
+     *
+     * @param tx    time argument
+     * @return      daily variation of the Sun's geocentric longitude (Δλ), in radians
+     */
     public double evaluate(TimelinePoint tx) {
         double result = INITIAL_TERM;
         for (int n = 0; n < SERIES_ARRAY.length; n++) {
@@ -65,15 +74,21 @@ public final class SunLongitudeVariationPeriodicTerms {
         return scale(result);
     }
 
-    public double evaluateTerm(TimelinePoint tx, int seriexIndex, double[] row) {
+    /**
+     * @return  value of a single term, in radians
+     */
+    protected double evaluateTerm(TimelinePoint tx, int seriexIndex, double[] row) {
         return scale(evaluateTermRaw(tx.toMillenialTau(), seriexIndex, row));
     }
 
+    /**
+     * @return  value of a single term, in arcseconds
+     */
     protected double evaluateTermRaw(double tau, int seriesIndex, double[] row) {
         return row[0] * Math.pow(tau, seriesIndex) * Math.sin(row[1] + (row[2] * tau));
     }
 
     protected double scale(double value) {
-        return Math.toRadians(Calcs.arcsecondsToDegrees(value));
+        return Math.toRadians(Calcs.Angle.arcsecondsToDegrees(value));
     }
 }

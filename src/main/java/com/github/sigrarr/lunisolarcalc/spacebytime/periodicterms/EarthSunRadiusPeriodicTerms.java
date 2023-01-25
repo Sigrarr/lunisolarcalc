@@ -1,7 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 /**
- * Meeus 1998, App. III, Earth, R0-R4, pp. 420-421
+ * Periodic terms for the Earth's radius vector (R).
+ * Results are in AU.
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthSunRadiusCalculator
+ * @see " Meeus 1998: App. III, Earth, R0-R4 (pp. 420-421)
  */
 public final class EarthSunRadiusPeriodicTerms extends HeliocentricCoordinatePeriodicTerms {
     protected static final double[][][] SERIES_ARRAY = {

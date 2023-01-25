@@ -3,69 +3,129 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import java.util.*;
 import java.util.stream.*;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.sunseasonpointfinder.MeanSunSeasonPointApproximator;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
-import com.github.sigrarr.lunisolarcalc.util.*;
 
 abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
-    public final MeanSunSeasonPointApproximator approximator = new MeanSunSeasonPointApproximator();
+    protected final SunSeasonPointApproximator approximator = new SunSeasonPointApproximator();
 
     public SunSeasonPointFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
         super(coreCalculator);
     }
 
-    public ResultCyclicPhenomenon<SunSeasonPoint> find(int gregorianYear, SunSeasonPoint point) {
-        return new ResultCyclicPhenomenon<>(TimelinePoint.ofJulianEphemerisDay(findJulianEphemerisDay(gregorianYear, point)), point);
+    /**
+     * Finds the occurrence of the requested Equinox/Solstice in the tropical year
+     * which begins in the requested calendar year.
+     * Note that for years before -1176, December Solstice may occur in the next calendar year after the requested.
+     *
+     * @param calendarYear  calendar year of the beginning of the tropical year to look in
+     *                      (Julian/Gregorian, in astronomical numbering)
+     * @param point         Equinox/Solstice to look for
+     * @return              found occurrence
+     */
+    public Occurrence<SunSeasonPoint> find(int calendarYear, SunSeasonPoint point) {
+        return new Occurrence<>(TimelinePoint.ofJulianEphemerisDay(findJulianEphemerisDay(calendarYear, point)), point);
     }
 
-    public abstract double findJulianEphemerisDay(int gregorianYear, SunSeasonPoint point);
+    /**
+     * Finds time of occurrence of the requested Equinox/Solstice in the tropical year
+     * which begins in the requested calendar year, in Julian Ephemeris Day.
+     * Note that for years before -1176, December Solstice may occur in the next calendar year after the requested.
+     *
+     * @param calendarYear  calendar year of the beginning of the tropical year to look in
+     *                      (Julian/Gregorian, in astronomical numbering)
+     * @param point         Equinox/Solstice to look for
+     * @return              time of occurrence, in Julian Ephemeris Day
+     */
+    public abstract double findJulianEphemerisDay(int calendarYear, SunSeasonPoint point);
 
-    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear) {
-        return findMany(startGregorianYear, EnumSet.allOf(SunSeasonPoint.class));
+    /**
+     * Finds and streams subsequent occurrences of any Equinoxes/Solstices,
+     * starting at the tropical year which begins in the requested calendar year.
+     *
+     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
+     *                              (Julian/Gregorian, in astronomical numbering)
+     * @return                      unterminated {@link Stream} of found occurrences
+     */
+    public Stream<Occurrence<SunSeasonPoint>> findMany(int startCalendarYear) {
+        return findMany(startCalendarYear, EnumSet.allOf(SunSeasonPoint.class));
     }
 
-    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, EnumSet<SunSeasonPoint> points) {
-        return Stream.generate(new ResultSupplier(startGregorianYear, points));
+    /**
+     * Finds and streams subsequent occurrences of the requested Equinox/Solstice,
+     * starting at the tropical year which begins in the requested calendar year.
+     * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
+     *
+     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
+     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param point                 Equinox/Solstice to look for
+     * @return                      unterminated {@link Stream} of found occurrences
+     */
+    public Stream<Occurrence<SunSeasonPoint>> findMany(int startCalendarYear, SunSeasonPoint point) {
+        return findMany(startCalendarYear, EnumSet.of(point));
     }
 
-    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear) {
-        EnumSet<SunSeasonPoint> points = EnumSet.allOf(SunSeasonPoint.class);
-        return findMany(startGregorianYear, points)
-            .limit(getLimit(startGregorianYear, endGregorianYear, points));
+    /**
+     * Finds and streams subsequent occurrences of requested Equinoxes/Solstices,
+     * starting at the tropical year which begins in the requested calendar year.
+     * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
+     *
+     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
+     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param points                set of Equinoxes/Solstices to look for
+     * @return                      unterminated {@link Stream} of found occurrences
+     */
+    public Stream<Occurrence<SunSeasonPoint>> findMany(int startCalendarYear, EnumSet<SunSeasonPoint> points) {
+        return Stream.generate(new ResultSupplier(startCalendarYear, points));
     }
 
-    public Stream<ResultCyclicPhenomenon<SunSeasonPoint>> findMany(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
-        return findMany(startGregorianYear, points)
-            .limit(getLimit(startGregorianYear, endGregorianYear, points));
+    /**
+     * Finds and streams times of subsequent occurrences of any Equinoxes/Solstices,
+     * starting at the tropical year which begins in the requested calendar year, in Julian Ephemeris Days.
+     *
+     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
+     *                              (Julian/Gregorian, in astronomical numbering)
+     * @return                      unterminated {@link DoubleStream stream} of times of found occurrences,
+     *                              in Julian Ephemeris Days
+     */
+    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear) {
+        return findManyJulianEphemerisDays(startCalendarYear, EnumSet.allOf(SunSeasonPoint.class));
     }
 
-    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear) {
-        return findManyJulianEphemerisDays(startGregorianYear, EnumSet.allOf(SunSeasonPoint.class));
+    /**
+     * Finds and streams times of subsequent occurrences of the requested Equinoxes/Solstices,
+     * starting at the tropical year which begins in the requested calendar year, in Julian Ephemeris Days.
+     * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
+     *
+     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
+     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param points                Equinox/Solstice to look for
+     * @return                      unterminated {@link DoubleStream stream} of times of found occurrences,
+     *                              in Julian Ephemeris Days
+     */
+    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear, SunSeasonPoint point) {
+        return findManyJulianEphemerisDays(startCalendarYear, EnumSet.of(point));
     }
 
-    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, EnumSet<SunSeasonPoint> points) {
-        return DoubleStream.generate(new ResultSupplier(startGregorianYear, points));
-    }
-
-    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, int endGregorianYear) {
-        EnumSet<SunSeasonPoint> points = EnumSet.allOf(SunSeasonPoint.class);
-        return findManyJulianEphemerisDays(startGregorianYear, points)
-            .limit(getLimit(startGregorianYear, endGregorianYear, points));
-    }
-
-    public DoubleStream findManyJulianEphemerisDays(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
-        return findManyJulianEphemerisDays(startGregorianYear, points)
-            .limit(getLimit(startGregorianYear, endGregorianYear, points));
+    /**
+     * Finds and streams times of subsequent occurrences of requested Equinoxes/Solstices,
+     * starting at the tropical year which begins in the requested calendar year, in Julian Ephemeris Days.
+     * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
+     *
+     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
+     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param points                set of Equinoxes/Solstices to look for
+     * @return                      unterminated {@link DoubleStream stream} of times of found occurrences,
+     *                              in Julian Ephemeris Days
+     */
+    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear, EnumSet<SunSeasonPoint> points) {
+        return DoubleStream.generate(new ResultSupplier(startCalendarYear, points));
     }
 
     @Override
-    protected CycleTemporalApproximate getCycleTemporalApproximate() {
-        return MeanMotionApproximate.TROPICAL_YEAR;
-    }
-
-    protected int getLimit(int startGregorianYear, int endGregorianYear, EnumSet<SunSeasonPoint> points) {
-        return (endGregorianYear - startGregorianYear + 1) * points.size();
+    protected MeanCycle getMeanCycle() {
+        return MeanCycle.TROPICAL_YEAR;
     }
 
     private class ResultSupplier extends ResultSupplierAbstract<SunSeasonPoint> {

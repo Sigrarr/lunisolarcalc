@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 
 public class ProvidersRegisterTest {
 
-    private ProvidersRegister<ExampleSubject, Integer> register = new ProvidersRegister<>();
+    private ProvidersRegister<ExampleSubject, Integer> register = new ProvidersRegister<>(ExampleSubject.class);
 
     @Test
     public void shouldAddAndCheckAndGetAdded() {
@@ -53,11 +53,11 @@ public class ProvidersRegisterTest {
     }
 
     @Test
-    public void shouldThrowProviderLackExceptionOnGettingByAbsentSubject() {
+    public void shouldThrowProviderLackExceptionOnGettingAbsentSubject() {
         register.add(new AIndependentProvider());
         register.add(new BIndependentProvider());
         register.add(new FDependentOnADEProvider());
-        
+
         ProviderLackException exception = assertThrows(ProviderLackException.class, () -> register.getRequired(ExampleSubject.C));
         assertEquals(ExampleSubject.C, exception.getMissingSubjects().iterator().next());
 

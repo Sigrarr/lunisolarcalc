@@ -6,8 +6,12 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.exceptions.*;
 
 class ProvidersRegister<SubjectT extends Enum<SubjectT>, InT> {
 
-    private final Map<SubjectT, RegisterNode<SubjectT, InT>> subjectToNode = new HashMap<>();
+    private final Map<SubjectT, RegisterNode<SubjectT, InT>> subjectToNode;
     private final List<RegisterNode<SubjectT, InT>> pendingNodes = new LinkedList<>();
+
+    ProvidersRegister(Class<SubjectT> subjectEnumClass) {
+        subjectToNode = new EnumMap<>(subjectEnumClass);
+    }
 
     protected RegisterNode<SubjectT, InT> getRequired(SubjectT subject) {
         if (!subjectToNode.containsKey(subject)) {

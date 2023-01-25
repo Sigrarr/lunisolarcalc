@@ -4,6 +4,11 @@ import com.github.sigrarr.lunisolarcalc.spacebytime.EarthNutuationElements;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
+/**
+ * Periodic terms for the Earth's nutuation.
+ *
+ * @see " Meeus 1998: Ch. 22, pp. 143-146
+ */
 public abstract class EarthNutuationPeriodicTerms {
 
     protected final static double SCALE_ARCSECONDS = 0.0001;
@@ -18,11 +23,11 @@ public abstract class EarthNutuationPeriodicTerms {
         return scale(value);
     }
 
-    public double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, int n) {
+    protected double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, int n) {
         return evaluateTerm(tx, elements, getCoefficientRow(n), getElementMultiplierRow(n));
     }
 
-    public double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
+    protected double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
         return scale(evaluateTermRaw(tx.toCenturialT(), elements, coefficientRow, elementsMultipliers));
     }
 
@@ -39,7 +44,7 @@ public abstract class EarthNutuationPeriodicTerms {
     }
 
     protected double scale(double rawValue) {
-        return Math.toRadians(Calcs.arcsecondsToDegrees(rawValue * SCALE_ARCSECONDS));
+        return Math.toRadians(Calcs.Angle.arcsecondsToDegrees(rawValue * SCALE_ARCSECONDS));
     }
 
     abstract protected int getSeriesLength();

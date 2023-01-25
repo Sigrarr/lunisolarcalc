@@ -10,7 +10,7 @@ public final class DoubledProviderException extends UnsupportedOperationExceptio
 
     public DoubledProviderException(Enum<?> subject, Provider<?, ?> registeredProvider, Provider<?, ?> rejectedProvider) {
         super(
-            "Registering more than one provider for one subject is not supported."
+            "Registering more than one provider for one subject is not supported (yet?)."
             + " Cannot register " + rejectedProvider.getClass().getName() + ";"
             + " provider of " + subject.name() + " has been already registered: " + registeredProvider.getClass().getName()
         );

@@ -9,7 +9,7 @@ import java.util.*;
  *  \    ^     ^ |
  *   \--> \ F /_/
  */
-class ExampleComponents {    
+class ExampleComponents {
 
     static enum ExampleSubject {
         A(2), B(3), C(5), D(7), E(11), F(13);
@@ -27,16 +27,16 @@ class ExampleComponents {
         register(new CIndependentProvider());
         register(new DDependentOnAProvider());
         register(new EDependentOnBCProvider());
-        register(new FDependentOnADEProvider());        
+        register(new FDependentOnADEProvider());
     }};
 
     static abstract class ExampleProvider implements Provider<ExampleSubject, Integer> {
 
         private int calcCount = 0;
 
-        @Override public Object calculate(Integer rootArgument, Map<ExampleSubject, Object> calculatedValues) {
+        @Override public Object calculate(Integer rootInput, Map<ExampleSubject, Object> precalculatedValues) {
             calcCount++;
-            int base = requires().isEmpty() ? rootArgument : selectRequiredAndMultiply(requires(), calculatedValues);
+            int base = requires().isEmpty() ? rootInput : selectRequiredAndMultiply(requires(), precalculatedValues);
             return base * provides().value;
         }
 
@@ -52,8 +52,8 @@ class ExampleComponents {
             return calcCount;
         }
 
-        int selectRequiredAndMultiply(EnumSet<ExampleSubject> required, Map<ExampleSubject, Object> calculatedValues) {
-            return required.stream().map(s -> (Integer) calculatedValues.get(s)).reduce(1, (a, b) -> a * b);
+        int selectRequiredAndMultiply(EnumSet<ExampleSubject> required, Map<ExampleSubject, Object> precalculatedValues) {
+            return required.stream().map(s -> (Integer) precalculatedValues.get(s)).reduce(1, (a, b) -> a * b);
         }
     }
 

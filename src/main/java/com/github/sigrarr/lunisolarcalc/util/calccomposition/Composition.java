@@ -3,6 +3,17 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * A composed calculation yielding values of one quantity or multiple quantities
+ * represented by its "target subject(s)".
+ * It is made of multiple {@link Provider providers}.
+ * Predefined conrete subclasses: {@link SingleOutputComposition}, {@link MultiOutputComposition}.
+ *
+ * @param <SubjectT>    {@link Enum enumeration type} of the quantities under calculation,
+ *                      containing all available "subjects"
+ * @param <InT>         type of an input argument
+ * @see                 CalculationComposer
+ */
 public abstract class Composition<SubjectT extends Enum<SubjectT>, InT> {
 
     protected final Collection<CompositionNode<SubjectT, InT>> unmodifableOrderedNodes;
@@ -17,6 +28,11 @@ public abstract class Composition<SubjectT extends Enum<SubjectT>, InT> {
         unmodifableValues = Collections.unmodifiableMap(values);
     }
 
+    /**
+     * Constructs a copy of another composition.
+     *
+     * @param composition   composition to copy
+     */
     public Composition(Composition<SubjectT, InT> composition) {
         this(
             composition.unmodifableOrderedNodes.stream()
@@ -26,6 +42,12 @@ public abstract class Composition<SubjectT extends Enum<SubjectT>, InT> {
         );
     }
 
+    /**
+     * Replicates the composition,
+     * i.e. prepares a composition instance like this one.
+     *
+     * @return  composition instance like this one
+     */
     public abstract Composition<SubjectT, InT> replicate();
 
     protected void processCalculations(InT inputArgument) {

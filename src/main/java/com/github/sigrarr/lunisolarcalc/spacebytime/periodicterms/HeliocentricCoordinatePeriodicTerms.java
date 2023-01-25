@@ -3,7 +3,9 @@ package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 /**
- * Meeus 1998, Ch. 32, p. 218
+ * Periodic terms for heliocentric coordinate.
+ *
+ * @see " Meeus 1998: Ch. 32 (p. 217...); App. III, Earth (p. 418...)
  */
 public abstract class HeliocentricCoordinatePeriodicTerms {
 
@@ -19,7 +21,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return total * SCALE;
     }
 
-    public double evaluateSeries(TimelinePoint tx, int seriesIndex) {
+    protected double evaluateSeries(TimelinePoint tx, int seriesIndex) {
         return evaluateSeries(tx.toMillenialTau(), getSeries(seriesIndex));
     }
 
@@ -31,7 +33,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return sum;
     }
 
-    public double evaluateTerm(TimelinePoint tx, int seriesIndex, int rowIndex) {
+    protected double evaluateTerm(TimelinePoint tx, int seriesIndex, int rowIndex) {
         return evaluateTerm(tx.toMillenialTau(), getSeries(seriesIndex)[rowIndex]);
     }
 
@@ -39,6 +41,6 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return seriesRow[0] * Math.cos(seriesRow[1] + (seriesRow[2] * tau));
     }
 
-    abstract public int getNumberOfSeries();
+    abstract protected int getNumberOfSeries();
     abstract protected double[][] getSeries(int n);
 }

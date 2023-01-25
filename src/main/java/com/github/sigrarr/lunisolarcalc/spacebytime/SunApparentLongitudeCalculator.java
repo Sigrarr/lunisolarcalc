@@ -4,17 +4,30 @@ import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
+/**
+ * Calculator of the Sun's apparent longitude (λ) (indicator of Equinoxes/Solstices).
+ * Given required parameters, it's in itself quick.
+ * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ *
+ * @see " Meeus 1998: Ch. 25 (Higher accuracy, p. 167)
+ */
 public final class SunApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
     public static final Subject SUBJECT = Subject.SUN_APPARENT_LONGITUDE;
 
     /**
-     * Meeus 1998, Ch. 25, Higher accuracy, p. 167
+     * Calculates the Sun's apparent longitude (λ): [0, 2π).
+     * Quick operation.
+     *
+     * @param geometricLongitude    {@link SunGeometricLongitudeCalculator the Sun's geometric longitude} (☉), in radians
+     * @param nutuationInLongitude  {@link EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
+     * @param aberration            {@link AberrationEarthSunCalculator aberration of the Sun's geocentric position}, in radians
+     * @return                      the Sun's apparent longitude (λ): [0, 2π)
      */
-    public double calculateApparentLongitude(double geometricLongitude, double nutuationInLongitude, double aberration) {
-        return Calcs.normalizeLongitudinally(geometricLongitude + nutuationInLongitude + aberration);
+    public double calculate(double geometricLongitude, double nutuationInLongitude, double aberration) {
+        return Calcs.Angle.normalizeLongitudinally(geometricLongitude + nutuationInLongitude + aberration);
     }
 
     @Override
@@ -28,11 +41,11 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, T
     }
 
     @Override
-    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
-        return calculateApparentLongitude(
-            (Double) calculatedValues.get(Subject.SUN_GEOMETRIC_LONGITUDE),
-            (Double) calculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE),
-            (Double) calculatedValues.get(Subject.ABERRATION_EARTH_SUN)
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
+        return calculate(
+            (Double) precalculatedValues.get(Subject.SUN_GEOMETRIC_LONGITUDE),
+            (Double) precalculatedValues.get(Subject.EARTH_NUTUATION_IN_LONGITUDE),
+            (Double) precalculatedValues.get(Subject.ABERRATION_EARTH_SUN)
         );
     }
 }

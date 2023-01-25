@@ -3,111 +3,213 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import java.util.*;
 import java.util.function.*;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
+import com.github.sigrarr.lunisolarcalc.spacebytime.*;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.*;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
-public abstract class CyclicPhenomenonFinderAbstract {
+abstract class CyclicPhenomenonFinderAbstract {
+    /**
+     * Minimal allowed value of {@link #getAngularDelta() angular delta}, in radians.
+     */
+    public static final double MIN_ANGULAR_DELTA_RADIANS = Calcs.EPSILON;
+    /**
+     * {@link #getAngularDeltaTimeSeconds() Time equivalent} of the default {@link #getAngularDelta() angular delta}, in seconds.
+     */
+    public static final int DEFAULT_ANGULAR_DELTA_TIME_SECONDS = 1;
+    /**
+     * The default {@link #getCoreCalculationsLimit() limit} for number of core calculations of a stage-indicating angle per result.
+     */
+    public static final int DEFAULT_CORE_CALCULATIONS_LIMIT = 10;
 
-    public static interface StageIndicatingAngleCalculator {
-        public double calculateAngle(double julianEphemerisDay);
-    }
-
-    public static final double ANGULAR_EPSILON_MIN_RADIANS = Calcs.EPSILON;
-    public static final int ANGULAR_EPSILON_TIME_SECONDS_DEFAULT = 1;
-    public static final int CORE_CALCULATIONS_LIMIT_DEFAULT = 10;
-
-    public final CycleTemporalApproximate cycleTemporalApproximate;
     private final StageIndicatingAngleCalculator coreCalculator;
-    private double epsilonRadians;
-    private int coreCalculationsLimit = CORE_CALCULATIONS_LIMIT_DEFAULT;
-    private int coreCalculationsCount = 0;
+    private double deltaRadians;
+    private int coreCalculationsLimit = DEFAULT_CORE_CALCULATIONS_LIMIT;
+    private int coreCalculationsInCurrentFindingCount = 0;
+    private int totalCoreCalculationsCount = 0;
+    private int totalFindingsCount = 0;
 
     public CyclicPhenomenonFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
         this.coreCalculator = coreCalculator;
-        cycleTemporalApproximate = getCycleTemporalApproximate();
-        setAngularEpsilonTime(ANGULAR_EPSILON_TIME_SECONDS_DEFAULT);
+        setAngularDeltaTime(DEFAULT_ANGULAR_DELTA_TIME_SECONDS);
     }
 
-    public void setAngularEpsilon(double radians) {
-        validateEpsilonRadians(radians);
-        epsilonRadians = radians;
+    /**
+     * Gets the angular delta, in radians.
+     *
+     * While searching, a time argument of a newly calculated value of stage-indicating angle
+     * is accepted as a result iff it differs by less than delta
+     * from the value indicating the stage which is currently under search;
+     * otherwise a time argument is corrected, then stage-indicating angle recalculated.
+     * The smaller the delta, the better the results' accuracy,
+     * but also the higher mean number of core calculations needed to get them.
+     *
+     * Note that said "accuracy" doesn't mean proximity to objectively true values,
+     * but to the best achievable by this object's core calculator.
+     *
+     * @return  value of angular delta, in radians
+     * @see     #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     */
+    public double getAngularDelta() {
+        return deltaRadians;
     }
 
-    public void setAngularEpsilonTime(int seconds) {
+    /**
+     * Gets the time equivalent of the {@link #getAngularDelta() angular delta}, in seconds.
+     * This is a mean (epochal) time corresponding to the vlaue of stage-indicating angle equal to delta
+     * in the cycle which is measured with this angle, whose phenomena under search are stages of.
+     *
+     * @return  time equivalent of the {@link #getAngularDelta() angular delta}, in seconds
+     * @see     #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     * @see     MeanCycle
+     */
+    public double getAngularDeltaTimeSeconds() {
+        return getMeanCycle().secondsPerRadians(deltaRadians);
+    }
+
+    /**
+     * Sets the {@link #getAngularDelta() angular delta}.
+     *
+     * @param radians   new value of angular delta, in radians, not lesser than {@value #MIN_ANGULAR_DELTA_RADIANS}
+     * @see             #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     */
+    public void setAngularDelta(double radians) {
+        validateDeltaRadians(radians);
+        deltaRadians = radians;
+    }
+
+    /**
+     * Sets the {@link #getAngularDelta() angular delta} by its {@link #getAngularDeltaTimeSeconds() time equivalent},
+     * a positive number of seconds.
+     *
+     * @param seconds   {@link #getAngularDeltaTimeSeconds() time equivalent} of the new {@link #getAngularDelta() angular delta},
+     *                  in seconds, a positive number
+     * @see             #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     */
+    public void setAngularDeltaTime(int seconds) {
         validateEpsilonTimeSeconds(seconds);
-        epsilonRadians = cycleTemporalApproximate.radiansPerTimeSeconds(seconds);
+        deltaRadians = getMeanCycle().radiansPerTimeSeconds(seconds);
     }
 
-    public double getAngularEpsilon() {
-        return epsilonRadians;
-    }
-
-    public double getAngularEpsilonTimeSeconds() {
-        return cycleTemporalApproximate.secondsPerRadians(epsilonRadians);
-    }
-
-    public void setCoreCalculationsLimit(int limit) {
-        this.coreCalculationsLimit = limit;
-    }
-
+    /**
+     * Gets the limit for number of core calculations of stage-indicating angle
+     * to perform in order to find a single result.
+     * If too low (not adequate to a small {@link #getAngularDelta() angular delta}),
+     * the limit may be exceeded, so a {@link CalculationLimitExceededException} will be thrown.
+     *
+     * @return  limit for number of core calculations of stage-indicating angle
+     *          to perform in order to find a single result
+     * @see     #DEFAULT_CORE_CALCULATIONS_LIMIT
+     */
     public int getCoreCalculationsLimit() {
         return coreCalculationsLimit;
     }
 
-    protected void resetFinding() {
-        coreCalculationsCount = 0;
+    /**
+     * Sets the {@link #getCoreCalculationsLimit() limit} for number of core calculations per result.
+     *
+     * @param limit new {@link #getCoreCalculationsLimit() limit} for number of core calculations per result,
+     *              only a positive number makes sense
+     * @see         #DEFAULT_CORE_CALCULATIONS_LIMIT
+     */
+    public void setCoreCalculationsLimit(int limit) {
+        this.coreCalculationsLimit = limit;
     }
 
-    protected final boolean canCalculateFurther() {
-        return coreCalculationsCount < coreCalculationsLimit;
+    /**
+     * Gets the total number of core calculations of stage-indicating angle
+     * performed by this object.
+     *
+     * @return  total number of core calculations of stage-indicating angle
+     *          performed by this object
+     */
+    public int getTotalCoreCalculationsCount() {
+        return totalCoreCalculationsCount;
+    }
+
+    /**
+     * Gets the total number of findings that this object has proceeded.
+     * Includes uncompleted findings, which haven't produced results
+     * (broken by an exception, for example), but in a normal situation
+     * this is the total number of found results.
+     *
+     * @return  total number of findings this object has proceeded
+     *          (including uncompleted ones)
+     */
+    public int getTotalFindingsCount() {
+        return totalFindingsCount;
     }
 
     protected final double calculateStageIndicatingAngle(double julianEphemerisDay) {
         if (!canCalculateFurther()) {
-            throw new CalculationLimitExceededException(this);
+            throw new CalculationLimitExceededException(coreCalculationsLimit);
         }
-        coreCalculationsCount++;
+        coreCalculationsInCurrentFindingCount++;
+        totalCoreCalculationsCount++;
         return coreCalculator.calculateAngle(julianEphemerisDay);
     }
 
-    abstract protected CycleTemporalApproximate getCycleTemporalApproximate();
-
-    protected void validateEpsilonRadians(double radians) {
-        if (radians < ANGULAR_EPSILON_MIN_RADIANS) {
-            throw new EpsilonAngleSettingTooLowException(radians);
-        }
+    protected void resetFinding() {
+        coreCalculationsInCurrentFindingCount = 0;
+        totalFindingsCount++;
     }
 
-    protected void validateEpsilonTimeSeconds(int seconds) {
-        if (seconds < 1) {
-            throw new EpsilonTimeSettingTooLowException(seconds);
-        }
+    protected final boolean canCalculateFurther() {
+        return coreCalculationsInCurrentFindingCount < coreCalculationsLimit;
     }
 
-    abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<ResultCyclicPhenomenon<PhT>> {
+    protected abstract MeanCycle getMeanCycle();
+
+    protected final void validateDeltaRadians(double radians) {
+        if (radians < MIN_ANGULAR_DELTA_RADIANS)
+            throw new DeltaAngleTooSmallException(radians, MIN_ANGULAR_DELTA_RADIANS);
+    }
+
+    protected final void validateEpsilonTimeSeconds(int seconds) {
+        if (seconds < 1)
+            throw new DeltaTimeNotPositiveException(seconds);
+    }
+
+    abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<Occurrence<PhT>> {
         final List<PhT> orderedStagesInScope;
-        Iterator<PhT> phIterator;
+        Iterator<PhT> stageIterator;
         PhT currentStage;
 
         protected ResultSupplierAbstract(List<PhT> orderedStagesInScope) {
             this.orderedStagesInScope = orderedStagesInScope;
-            this.phIterator = orderedStagesInScope.listIterator();
+            this.stageIterator = orderedStagesInScope.listIterator();
         }
 
         @Override
-        public ResultCyclicPhenomenon<PhT> get() {
-            return new ResultCyclicPhenomenon<>(getAsDouble(), currentStage);
+        public Occurrence<PhT> get() {
+            return new Occurrence<>(getAsDouble(), currentStage);
         }
 
         void forward() {
-            if (!phIterator.hasNext()) {
+            if (!stageIterator.hasNext()) {
                 rewindStage();
             }
-            currentStage = phIterator.next();
+            currentStage = stageIterator.next();
         }
 
         void rewindStage() {
-            phIterator = orderedStagesInScope.listIterator();
+            stageIterator = orderedStagesInScope.listIterator();
+        }
+    }
+
+    protected static final class OwnCompositionStageIndicatingAngleCalculator implements StageIndicatingAngleCalculator {
+
+        final SingleOutputComposition<Subject, TimelinePoint> composedCalculator;
+
+        OwnCompositionStageIndicatingAngleCalculator(Subject angleSubject) {
+            composedCalculator = SpaceByTimeCalcComposition.compose(angleSubject);
+        }
+
+        @Override
+        public double calculateAngle(double julianEphemerisDay) {
+            return (Double) composedCalculator.calculate(TimelinePoint.ofJulianEphemerisDay(julianEphemerisDay));
         }
     }
 }

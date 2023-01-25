@@ -13,9 +13,9 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposi
 
 public class SpaceByTimeCalcCompositionTest {
 
+    private EarthNutuationElements earthNutuationElements = EarthNutuationElements.makeUnevaluatedInstance();
+    private MoonCoordinateElements moonCoordinateElements = MoonCoordinateElements.makeUnevaluatedInstance();
     private EarthLongitudeCalculator earthLongitudeCalculator = new EarthLongitudeCalculator();
-    private MoonCoordinateElements moonCoordinateElements = new MoonCoordinateElements();
-    private EarthNutuationElements earthNutuationElements = new EarthNutuationElements();
     private EarthSunRadiusCalculator earthSunRadiusCalculator = new EarthSunRadiusCalculator();
     private SunGeometricLongitudeCalculator sunGeometricLongitudeCalculator = new SunGeometricLongitudeCalculator();
     private EarthNutuationInLongitudeCalculator earthNutuationInLongitudeCalculator = new EarthNutuationInLongitudeCalculator();
@@ -42,22 +42,22 @@ public class SpaceByTimeCalcCompositionTest {
     }
 
     private void assertForRootArgument(TimelinePoint tx) {
-        double earthLongitude = earthLongitudeCalculator.calculateCoordinate(tx);
         moonCoordinateElements.calculate(tx);
         earthNutuationElements.calculate(tx);
-        double earthSunRadius = earthSunRadiusCalculator.calculateCoordinate(tx);
-        double sunGeometricLongitude = sunGeometricLongitudeCalculator.calculateGeometricLongitude(earthLongitude);
-        double earthNutuationInLongitude = earthNutuationInLongitudeCalculator.calculateNutuation(tx, earthNutuationElements);
-        double aberrationEarthSun = aberrationEarthSunCalculator.calculateAberration(tx, earthSunRadius);
-        double moonLongitude = moonLongitudeCalculator.calculateCoordinate(tx, moonCoordinateElements);
-        double earthLatitude = earthLatitudeCalculator.calculateCoordinate(tx);
-        double sunLatitude = sunLatitudeCalculator.calculateLatitude(tx, earthLatitude, earthLongitude);
-        double sunApparentLongitude = sunApparentLongitudeCalculator.calculateApparentLongitude(sunGeometricLongitude, earthNutuationInLongitude, aberrationEarthSun);
-        double sunAberratedLongitude = sunAberratedLongitudeCalculator.calculateAberratedLongitude(sunGeometricLongitude, aberrationEarthSun);
-        double moonLatitude = moonLatitudeCalculator.calculateCoordinate(tx, moonCoordinateElements);
-        double moonEarthDistance = moonEarthDistanceCalculator.calculateCoordinate(tx, moonCoordinateElements);
-        double moonApparentLongitude = moonApparentLongitudeCalculator.calculateApparentLongitude(moonLongitude, earthNutuationInLongitude);
-        double moonOverSunApparentLongitudeExcess = moonOverSunApparentLongitudeExcessCalculator.calculateExcess(moonLongitude, sunAberratedLongitude);
+        double earthLongitude = earthLongitudeCalculator.calculate(tx);
+        double earthSunRadius = earthSunRadiusCalculator.calculate(tx);
+        double sunGeometricLongitude = sunGeometricLongitudeCalculator.calculate(earthLongitude);
+        double earthNutuationInLongitude = earthNutuationInLongitudeCalculator.calculate(tx, earthNutuationElements);
+        double aberrationEarthSun = aberrationEarthSunCalculator.calculate(tx, earthSunRadius);
+        double moonLongitude = moonLongitudeCalculator.calculate(tx, moonCoordinateElements);
+        double earthLatitude = earthLatitudeCalculator.calculate(tx);
+        double sunLatitude = sunLatitudeCalculator.calculate(tx, earthLatitude, earthLongitude);
+        double sunApparentLongitude = sunApparentLongitudeCalculator.calculate(sunGeometricLongitude, earthNutuationInLongitude, aberrationEarthSun);
+        double sunAberratedLongitude = sunAberratedLongitudeCalculator.calculate(sunGeometricLongitude, aberrationEarthSun);
+        double moonLatitude = moonLatitudeCalculator.calculate(tx, moonCoordinateElements);
+        double moonEarthDistance = moonEarthDistanceCalculator.calculate(tx, moonCoordinateElements);
+        double moonApparentLongitude = moonApparentLongitudeCalculator.calculate(moonLongitude, earthNutuationInLongitude);
+        double moonOverSunApparentLongitudeExcess = moonOverSunApparentLongitudeExcessCalculator.calculate(moonLongitude, sunAberratedLongitude);
 
         assertEquals(earthLongitude, getCompositionNumericResult(Subject.EARTH_LONGITUDE, tx), Calcs.EPSILON_MIN);
         assertEquals(earthSunRadius, getCompositionNumericResult(Subject.EARTH_SUN_RADIUS, tx), Calcs.EPSILON_MIN);

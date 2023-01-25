@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.decimalAutoDelta;
+import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class EarthNutuationElementsTest {
 
-    private EarthNutuationElements elements = new EarthNutuationElements();
+    private EarthNutuationElements elements = EarthNutuationElements.makeUnevaluatedInstance();
 
     @Test
     public void shouldCalculateElements() {

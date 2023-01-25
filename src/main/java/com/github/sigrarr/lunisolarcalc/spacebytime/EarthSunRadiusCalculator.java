@@ -1,16 +1,33 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime;
 
-import java.util.Map;
+import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.EarthSunRadiusPeriodicTerms;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
-public final class EarthSunRadiusCalculator extends HeliocentricCoordinateCalculator {
+/**
+ * Calculator of the Earth's radius vector (distance to the Sun; R).
+ * Costly; processes its own {@link EarthSunRadiusPeriodicTerms periodic terms} table.
+ * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ *
+ * @see " Meeus 1998: Ch. 32 (p. 217...)
+ */
+public final class EarthSunRadiusCalculator implements Provider<Subject, TimelinePoint> {
 
     public static final Subject SUBJECT = Subject.EARTH_SUN_RADIUS;
 
-    public EarthSunRadiusCalculator() {
-        super(new EarthSunRadiusPeriodicTerms());
+    private EarthSunRadiusPeriodicTerms periodicTerms = new EarthSunRadiusPeriodicTerms();
+
+    /**
+     * Calculates the Earth's radius vector (distance to the Sun; R), in AU.
+     * Costly.
+     *
+     * @param tx    time argument
+     * @return      the Earth's radius vector (distance to the Sun; R), in AU
+     */
+    public double calculate(TimelinePoint tx) {
+        return periodicTerms.evaluate(tx);
     }
 
     @Override
@@ -19,7 +36,12 @@ public final class EarthSunRadiusCalculator extends HeliocentricCoordinateCalcul
     }
 
     @Override
-    public Double calculate(TimelinePoint tx, Map<Subject, Object> calculatedValues) {
-        return calculateCoordinate(tx);
+    public EnumSet<Subject> requires() {
+        return EnumSet.noneOf(Subject.class);
+    }
+
+    @Override
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
+        return calculate(tx);
     }
 }

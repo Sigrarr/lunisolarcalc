@@ -34,7 +34,7 @@ public class SingleOutputCompositionTest {
         assertEquals((17 * 3) * (17 * 5) * 11, composition.calculate(17));
 
         composition = completeComposer.compose(ExampleSubject.F);
-        assertEquals(2 * (2 * 7) * (3 * 5 * 11) * 13, composition.calculate(1));     
+        assertEquals(2 * (2 * 7) * (3 * 5 * 11) * 13, composition.calculate(1));
         assertEquals((17 * 2) * (17 * 2 * 7) * ((17 * 3) * (17 * 5) * 11) * 13, composition.calculate(17));
     }
 
@@ -44,8 +44,8 @@ public class SingleOutputCompositionTest {
             composition = completeComposer.compose(subject);
             SingleOutputComposition<ExampleSubject, Integer> replica = composition.replicate();
             assertNotEquals(composition, replica);
-            for (int rootArgument = 0; rootArgument < 10; rootArgument++) {
-                assertEquals(composition.calculate(rootArgument), replica.calculate(rootArgument));
+            for (int rootInput = 0; rootInput < 10; rootInput++) {
+                assertEquals(composition.calculate(rootInput), replica.calculate(rootInput));
             }
         }
     }

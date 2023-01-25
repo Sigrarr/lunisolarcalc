@@ -2,40 +2,58 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinder.SeparateCompositionStageIndicatingAngleCalculator;
-import com.github.sigrarr.lunisolarcalc.spacebytime.Subject;
+import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
+import com.github.sigrarr.lunisolarcalc.spacebytime.*;
 
-public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
-
+/**
+ * A tool for finding occurrences of Equinoxes/Solstices, i.e. distinguished stages of the tropical year cycle
+ * - whose stage-indicating angle is the Sun's apparent longitude (λ).
+ *
+ * Internally, works 'by definition' - driven by a core calculator of λ:
+ * starts with an initial {@link SunSeasonPointApproximator time approximation} - t,
+ * then (re)calculates λ(t) and corrects t until the value λ(t) is close enough to the specific for the stage under search.
+ *
+ * Uses Meeus' method for time correction.
+ * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link SpaceByTimeCalcComposition}.
+ * You can {@link #SunSeasonPointFinder(StageIndicatingAngleCalculator) use another λ calculator}
+ * and set custom value of angular delta for comparing values of λ.
+ *
+ * @see " Meeus 1998: Ch. 27 ("Of course, higher accuracy...", p. 180)
+ */
+public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
+    /**
+     * Constructs an instance which will use the default calculator of the Sun's apparent longitude (λ),
+     * prepared with {@link SpaceByTimeCalcComposition}.
+     */
     public SunSeasonPointFinder() {
-        this(new SeparateCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));
+        this(new OwnCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));
     }
 
+    /**
+     * Constructs an instance with a custom calculator of the Sun's apparent longitude (λ).
+     * Results' accuracy will obviously depend on the passed calculator.
+     *
+     * @param sunApparentLongitudeCalculator    calculator of the Sun's apparent longitude (λ)
+     */
     public SunSeasonPointFinder(StageIndicatingAngleCalculator sunApparentLongitudeCalculator) {
         super(sunApparentLongitudeCalculator);
     }
 
-    /**
-     * Meeus 1998, Ch. 27, p. 180 (customized stop condition)
-     */
     @Override
-    public double findJulianEphemerisDay(int gregorianYear, SunSeasonPoint point) {
+    public double findJulianEphemerisDay(int calendarYear, SunSeasonPoint point) {
         resetFinding();
-        double jde = approximator.approximateJulianEphemerisDay(gregorianYear, point);
-        double lambda = calculateSunApparentLongitude(jde);
+        double jde = approximator.approximateJulianEphemerisDay(calendarYear, point);
+        double lambda = calculateStageIndicatingAngle(jde);
 
-        while (calculateAbsoluteDiff(point, lambda) > getAngularEpsilon()) {
+        while (calculateAbsoluteDiff(point, lambda) > getAngularDelta()) {
             jde += calculateJdeCorrection(point, lambda);
-            lambda = calculateSunApparentLongitude(jde);
+            lambda = calculateStageIndicatingAngle(jde);
         }
 
         return jde;
     }
 
-    /**
-     * Meeus 1998, 27.1, p. 180
-     */
-    protected double calculateJdeCorrection(SunSeasonPoint point, double lambda) {
+    private double calculateJdeCorrection(SunSeasonPoint point, double lambda) {
         return 58.0 * Math.sin(point.apparentLongitude - lambda);
     }
 
@@ -45,9 +63,5 @@ public class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
             diff += ROUND;
         }
         return Math.abs(diff);
-    }
-
-    protected double calculateSunApparentLongitude(double julianEphemerisDay) {
-        return calculateStageIndicatingAngle(julianEphemerisDay);
     }
 }

@@ -1,14 +1,17 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 /**
- * Meeus 1998, Table 47.A, pp. 339-340
+ * Periodic terms for distance between the centers of Earth and Moon (Δ).
+ * Results are in km.
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.MoonEarthDistanceCalculator
+ * @see " Meeus 1998: Table 47.A (pp. 339-340)
  */
 public final class MoonDistancePeriodicTerms extends MoonCoordinatePeriodicTerms {
 
     protected static final double SCALE_KILOMETERS = 0.001;
-    /**
-     * : Argument \ Multiple of
-     */
+
+    // : Argument \ Multiple of D M M' F
     protected static final short[][] ELEMENTS_MULTIPLIERS = {
         { 0 , 0 , 1 , 0 },
         { 2 , 0 , -1 , 0 },
@@ -57,9 +60,8 @@ public final class MoonDistancePeriodicTerms extends MoonCoordinatePeriodicTerms
         { 0 , 2 , 1 , 0 },
         { 2 , 0 , -1 , -2 },
     };
-    /**
-     * : Sigma r \ Coefficient of the cosine...
-     */
+
+    // : Σr \ Coefficient of the cosine...
     protected static final int[] COEFFICIENTS = {
         -20905355,
         -3699111,

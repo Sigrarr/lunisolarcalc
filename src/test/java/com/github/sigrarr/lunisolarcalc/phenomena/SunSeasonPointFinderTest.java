@@ -1,67 +1,67 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.PrimitiveIterator.OfDouble;
 import java.util.stream.Collectors;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.time.julianform.GregorianCalendarPoint;
+import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.opentest4j.AssertionFailedError;
 
 public class SunSeasonPointFinderTest {
     /**
      * Meeus 1998, Table 27.E, p. 182
      */
-    private static final Map<GregorianCalendarPoint, SunSeasonPoint> VSOP87_SUN_SEASON_POINTS = new HashMap<GregorianCalendarPoint, SunSeasonPoint>() {{
-        put(new GregorianCalendarPoint(1996,  3, 20,   8,  4,  7), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(1997,  3, 20,  13, 55, 42), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(1998,  3, 20,  19, 55, 35), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(1999,  3, 21,   1, 46, 53), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(2000,  3, 20,   7, 36, 10), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(2001,  3, 20,  13, 31, 47), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(2002,  3, 20,  19, 17, 13), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(2003,  3, 21,   1,  0, 50), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(2004,  3, 20,   6, 49, 42), SunSeasonPoint.MARCH_EQUINOX);
-        put(new GregorianCalendarPoint(2005,  3, 20,  12, 34, 29), SunSeasonPoint.MARCH_EQUINOX);
+    private static final Map<CalendarPoint, SunSeasonPoint> VSOP87_SUN_SEASON_POINTS = new HashMap<CalendarPoint, SunSeasonPoint>() {{
+        put(new CalendarPoint(1996,  3, 20,   8,  4,  7), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(1997,  3, 20,  13, 55, 42), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(1998,  3, 20,  19, 55, 35), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(1999,  3, 21,   1, 46, 53), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2000,  3, 20,   7, 36, 10), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2001,  3, 20,  13, 31, 47), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2002,  3, 20,  19, 17, 13), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2003,  3, 21,   1,  0, 50), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2004,  3, 20,   6, 49, 42), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2005,  3, 20,  12, 34, 29), SunSeasonPoint.MARCH_EQUINOX);
 
-        put(new GregorianCalendarPoint(1996,  6, 21,   2, 24, 46), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(1997,  6, 21,   8, 20, 59), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(1998,  6, 21,  14, 03, 38), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(1999,  6, 21,  19, 50, 11), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(2000,  6, 21,   1, 48, 46), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(2001,  6, 21,   7, 38, 48), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(2002,  6, 21,  13, 25, 29), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(2003,  6, 21,  19, 11, 32), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(2004,  6, 21,   0, 57, 57), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new GregorianCalendarPoint(2005,  6, 21,   6, 47, 12), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1996,  6, 21,   2, 24, 46), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1997,  6, 21,   8, 20, 59), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1998,  6, 21,  14, 03, 38), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1999,  6, 21,  19, 50, 11), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2000,  6, 21,   1, 48, 46), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2001,  6, 21,   7, 38, 48), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2002,  6, 21,  13, 25, 29), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2003,  6, 21,  19, 11, 32), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2004,  6, 21,   0, 57, 57), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2005,  6, 21,   6, 47, 12), SunSeasonPoint.JUNE_SOLSTICE);
 
-        put(new GregorianCalendarPoint(1996,  9, 22,  18,  1,  8), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(1997,  9, 22,  23, 56, 49), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(1998,  9, 23,   5, 38, 15), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(1999,  9, 23,  11, 32, 34), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(2000,  9, 22,  17, 28, 40), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(2001,  9, 22,  23, 05, 32), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(2002,  9, 23,   4, 56, 28), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(2003,  9, 23,  10, 47, 53), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(2004,  9, 22,  16, 30, 54), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new GregorianCalendarPoint(2005,  9, 22,  22, 24, 14), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1996,  9, 22,  18,  1,  8), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1997,  9, 22,  23, 56, 49), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1998,  9, 23,   5, 38, 15), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1999,  9, 23,  11, 32, 34), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2000,  9, 22,  17, 28, 40), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2001,  9, 22,  23, 05, 32), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2002,  9, 23,   4, 56, 28), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2003,  9, 23,  10, 47, 53), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2004,  9, 22,  16, 30, 54), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2005,  9, 22,  22, 24, 14), SunSeasonPoint.SEPTEMBER_EQUINOX);
 
-        put(new GregorianCalendarPoint(1996, 12, 21,  14,  6, 56), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(1997, 12, 21,  20,  8,  5), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(1998, 12, 22,   1, 57, 31), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(1999, 12, 22,   7, 44, 52), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(2000, 12, 21,  13, 38, 30), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(2001, 12, 21,  19, 22, 34), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(2002, 12, 22,   1, 15, 26), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(2003, 12, 22,   7,  4, 53), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(2004, 12, 21,  12, 42, 40), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new GregorianCalendarPoint(2005, 12, 21,  18, 36,  1), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1996, 12, 21,  14,  6, 56), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1997, 12, 21,  20,  8,  5), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1998, 12, 22,   1, 57, 31), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1999, 12, 22,   7, 44, 52), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2000, 12, 21,  13, 38, 30), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2001, 12, 21,  19, 22, 34), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2002, 12, 22,   1, 15, 26), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2003, 12, 22,   7,  4, 53), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2004, 12, 21,  12, 42, 40), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2005, 12, 21,  18, 36,  1), SunSeasonPoint.DECEMBER_SOLSTICE);
     }};
 
     /**
@@ -96,31 +96,35 @@ public class SunSeasonPointFinderTest {
     /**
      * https://aa.usno.navy.mil/calculated/seasons?year=1700&tz=0.00&tz_sign=1&tz_label=false&dst=false
      */
-    private static final GregorianCalendarPoint[] SEASON_POINTS_1700 = new GregorianCalendarPoint[] {
-        new GregorianCalendarPoint(1700, 3, 20, 14, 26, 0),
-        new GregorianCalendarPoint(1700, 6, 21, 13, 52, 0),
-        new GregorianCalendarPoint(1700, 9, 23, 2, 28, 0),
-        new GregorianCalendarPoint(1700, 12, 21, 17, 37, 0)
+    private static final CalendarPoint[] SEASON_POINTS_1700 = new CalendarPoint[] {
+        new CalendarPoint(1700, 3, 20, 14, 26, 0),
+        new CalendarPoint(1700, 6, 21, 13, 52, 0),
+        new CalendarPoint(1700, 9, 23, 2, 28, 0),
+        new CalendarPoint(1700, 12, 21, 17, 37, 0)
     };
 
-    private SunSeasonPointFinder finder = new SunSeasonPointFinder() {{
-        setCoreCalculationsLimit(4);
-    }};
+    private static SunSeasonPointFinder finder;
+
+    @BeforeEach
+    public void reinitializeFinder() {
+        finder = new SunSeasonPointFinder();
+        finder.setCoreCalculationsLimit(4);
+    }
 
     @Test
     public void shouldFindSeasonPointsInModernScope() {
-        Map<GregorianCalendarPoint, GregorianCalendarPoint> minuteNumberMismatches = new HashMap<>();
+        Map<CalendarPoint, CalendarPoint> minuteNumberMismatches = new HashMap<>();
 
-        for (Entry<GregorianCalendarPoint, SunSeasonPoint> entry : VSOP87_SUN_SEASON_POINTS.entrySet()) {
-            GregorianCalendarPoint vsop87Gcp = entry.getKey();
-            double vsop87Jde = Timeline.calendarToJulianDay(vsop87Gcp);
-            double actualJde = finder.findJulianEphemerisDay(vsop87Gcp.y, entry.getValue());
-            GregorianCalendarPoint actualGcp = Timeline.julianDayToGregorianCalendar(actualJde);
+        for (Entry<CalendarPoint, SunSeasonPoint> entry : VSOP87_SUN_SEASON_POINTS.entrySet()) {
+            CalendarPoint vsop87CalendarPoint = entry.getKey();
+            double vsop87Jde = Timeline.calendarToJulianDay(vsop87CalendarPoint);
+            double actualJde = finder.findJulianEphemerisDay(vsop87CalendarPoint.y, entry.getValue());
+            CalendarPoint actualCalendarPoint = Timeline.julianDayToCalendar(actualJde);
 
-            assertEquals(vsop87Jde, actualJde, Time.timeToDays(0, 0, 16), tooMuchDiffMsg(vsop87Gcp, actualGcp));
+            assertEquals(vsop87Jde, actualJde, Calcs.Time.timeToDays(0, 0, 16), tooMuchDiffMsg(vsop87CalendarPoint, actualCalendarPoint));
 
-            if (!vsop87Gcp.formatYMDHMin().equals(actualGcp.formatYMDHMin())) {
-                minuteNumberMismatches.put(vsop87Gcp, actualGcp);
+            if (!vsop87CalendarPoint.formatDateTimeToMinutes().equals(actualCalendarPoint.formatDateTimeToMinutes())) {
+                minuteNumberMismatches.put(vsop87CalendarPoint, actualCalendarPoint);
             }
         }
 
@@ -132,20 +136,21 @@ public class SunSeasonPointFinderTest {
 
     @Test
     public void shouldFindSeasonPointsInMoreDistantPast() {
-        OfDouble actualJds = finder
-            .findManyJulianEphemerisDays(1700, 1700)
+        PrimitiveIterator.OfDouble actualJds = finder
+            .findManyJulianEphemerisDays(1700)
+            .limit(4)
             .map((jde) -> Time.shiftDaysToTimeType(jde, TimeType.UNIVERSAL, 1700))
             .iterator();
 
         for (int i = 0; i < 4; i++) {
             double expectedJd = Timeline.calendarToJulianDay(SEASON_POINTS_1700[i]);
-            assertEquals(expectedJd, actualJds.next(), Time.timeToDays(0, 1, 16));
+            assertEquals(expectedJd, actualJds.next(), Calcs.Time.timeToDays(0, 1, 5));
         }
     }
 
     @Test
     public void shouldResultsBeConsistentWithSeasonDurationsTable() {
-        double delta = Time.timeToDays(0, 30, 0);
+        double delta = Calcs.Time.timeToDays(0, 30, 0);
         proveThatGivenDeltaIsOkButDecimalAutoDeltaWouldBeTooTightForSeasonDurationsFromSourceTable(delta);
 
         YEAR_TO_SEASON_DURATIONS_DAYS.entrySet().forEach((entry) -> {
@@ -169,83 +174,79 @@ public class SunSeasonPointFinderTest {
             {2000, 2300},
         };
 
-        int total = 0;
         System.out.println("\tCalculations in progress...");
         for (int i = 0; i < partYearScopes.length; i++) {
-            finder.findMany(partYearScopes[i][0], partYearScopes[i][1])
+            finder.findMany(partYearScopes[i][0])
+                .limit((partYearScopes[i][1] - partYearScopes[i][0] + 1) * 4)
                 .reduce((previous, next) -> {
-                    double diff = next.ephemerisTimelinePoint.julianDay - previous.ephemerisTimelinePoint.julianDay;
+                    double diff = next.timelinePoint.julianDay - previous.timelinePoint.julianDay;
                     assertTrue(
                         Math.signum(diff) > 0.0,
                         "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     assertEquals(
                         diff,
-                        MeanMotionApproximate.TROPICAL_YEAR.lengthDays / 4,
+                        MeanCycle.TROPICAL_YEAR.epochalLengthDays / 4,
                         4.0,
                         "Wrong interval between subsequent points: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
                     );
                     return next;
                 });
-            total += (partYearScopes[i][1] - partYearScopes[i][0] + 1) * 4;
         }
 
-        System.out.println("\t\t" + total + " sun season points found, no anomalies detected.");
+        System.out.println("\t\t" + finder.getTotalFindingsCount() + " sun season points found, no anomalies detected.");
     }
 
     @Test
     public void shouldFindManyResultsWithVariousParameterLists() {
         List<String> allYMDs = VSOP87_SUN_SEASON_POINTS.keySet().stream()
             .sorted()
-            .map(gcp -> gcp.formatYMD())
+            .map(gcp -> gcp.formatDate())
             .collect(Collectors.toList());
+        List<String> marchEquinoxYMDs = allYMDs.stream()
+            .filter(ymd -> ymd.matches(".*-03.*"))
+            .collect(Collectors.toList());
+        assertEquals(VSOP87_SUN_SEASON_POINTS.size() / 4, marchEquinoxYMDs.size());
         List<String> solsticeYMDs = allYMDs.stream()
-            .filter(ymd -> ymd.matches(".*((/06/)|(/12/)).*"))
+            .filter(ymd -> ymd.matches(".*((-06-)|(-12-)).*"))
             .collect(Collectors.toList());
+        assertEquals(VSOP87_SUN_SEASON_POINTS.size() / 2, solsticeYMDs.size());
 
         Iterator<String> allIt1 = allYMDs.listIterator();
         finder.findMany(1996)
             .limit(allYMDs.size())
-            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
+            .map(r -> r.timelinePoint.toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(allIt1.next(), ymd));
+
+        Iterator<String> marchEquinoxIt1 = marchEquinoxYMDs.listIterator();
+        finder.findMany(1996, SunSeasonPoint.MARCH_EQUINOX)
+            .limit(marchEquinoxYMDs.size())
+            .map(r -> r.timelinePoint.toCalendarPoint().formatDate())
+            .forEach(ymd -> assertEquals(marchEquinoxIt1.next(), ymd));
 
         Iterator<String> solsticeIt1 = solsticeYMDs.listIterator();
         finder.findMany(1996, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
             .limit(solsticeYMDs.size())
-            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
+            .map(r -> r.timelinePoint.toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(solsticeIt1.next(), ymd));
 
         Iterator<String> allIt2 = allYMDs.listIterator();
-        finder.findMany(1996, 2005)
-            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
-            .forEach(ymd -> assertEquals(allIt2.next(), ymd));
-
-        Iterator<String> solsticeIt2 = solsticeYMDs.listIterator();
-        finder.findMany(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
-            .map(r -> r.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD())
-            .forEach(ymd -> assertEquals(solsticeIt2.next(), ymd));
-
-        Iterator<String> allIt3 = allYMDs.listIterator();
         finder.findManyJulianEphemerisDays(1996)
             .limit(allYMDs.size())
-            .mapToObj(jde -> Timeline.julianDayToGregorianCalendar(jde).formatYMD())
-            .forEach(ymd -> assertEquals(allIt3.next(), ymd));
+            .mapToObj(jde -> Timeline.julianDayToCalendar(jde).formatDate())
+            .forEach(ymd -> assertEquals(allIt2.next(), ymd));
 
-        Iterator<String> solsticeIt3 = solsticeYMDs.listIterator();
+        Iterator<String> marchEquinoxIt2 = marchEquinoxYMDs.listIterator();
+        finder.findManyJulianEphemerisDays(1996, SunSeasonPoint.MARCH_EQUINOX)
+            .limit(marchEquinoxYMDs.size())
+            .mapToObj(jde -> Timeline.julianDayToCalendar(jde).formatDate())
+            .forEach(ymd -> assertEquals(marchEquinoxIt2.next(), ymd));
+
+        Iterator<String> solsticeIt2 = solsticeYMDs.listIterator();
         finder.findManyJulianEphemerisDays(1996, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
             .limit(solsticeYMDs.size())
-            .mapToObj(jde -> Timeline.julianDayToGregorianCalendar(jde).formatYMD())
-            .forEach(ymd -> assertEquals(solsticeIt3.next(), ymd));
-
-        Iterator<String> allIt4 = allYMDs.listIterator();
-        finder.findManyJulianEphemerisDays(1996, 2005)
-            .mapToObj(jde -> Timeline.julianDayToGregorianCalendar(jde).formatYMD())
-            .forEach(ymd -> assertEquals(allIt4.next(), ymd));
-
-        Iterator<String> solsticeIt4 = solsticeYMDs.listIterator();
-        finder.findManyJulianEphemerisDays(1996, 2005, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
-            .mapToObj(jde -> Timeline.julianDayToGregorianCalendar(jde).formatYMD())
-            .forEach(ymd -> assertEquals(solsticeIt4.next(), ymd));
+            .mapToObj(jde -> Timeline.julianDayToCalendar(jde).formatDate())
+            .forEach(ymd -> assertEquals(solsticeIt2.next(), ymd));
     }
 
     private void proveThatGivenDeltaIsOkButDecimalAutoDeltaWouldBeTooTightForSeasonDurationsFromSourceTable(double delta) {
@@ -263,25 +264,25 @@ public class SunSeasonPointFinderTest {
         assertEquals(accurateWinter2000to2001Duration, tablewiseWinter2000to2001Duration, delta);
         assertThrows(
             AssertionFailedError.class,
-            () -> assertEquals(tablewiseWinter2000to2001Duration, accurateWinter2000to2001Duration, Calcs.decimalAutoDelta(tablewiseWinter2000to2001Duration))
+            () -> assertEquals(tablewiseWinter2000to2001Duration, accurateWinter2000to2001Duration, decimalAutoDelta(tablewiseWinter2000to2001Duration))
         );
     }
 
-    private String tooMuchDiffMsg(GregorianCalendarPoint vsop87, GregorianCalendarPoint actual) {
+    private String tooMuchDiffMsg(CalendarPoint vsop87, CalendarPoint actual) {
         String msg = "Too much diff";
         if (vsop87.y == actual.y && vsop87.m == actual.m) {
             msg += " (" + (0.01 * Math.round(Math.abs(vsop87.dt - actual.dt) * Calcs.DAY_SECONDS * 100.0)) + " s)";
         }
-        msg += "; true VSOP 87 value: <" + vsop87 + " TD>, actual value: <" + actual + " TD>.";
+        msg += "; VSOP 87 value: <" + vsop87 + " TD>, actual value: <" + actual + " TD>.";
         return msg;
     }
 
-    private String tooManyMinuteNumberMismatchesMsg(Map<GregorianCalendarPoint, GregorianCalendarPoint> mismatches) {
+    private String tooManyMinuteNumberMismatchesMsg(Map<CalendarPoint, CalendarPoint> mismatches) {
         return "More than 1/6 minute number mismatches! [VSOP 87 value\tactual value]\n" + mismatches.entrySet().stream()
-            .map(e -> e.getKey().formatYMDHMin() + "\t" + e.getValue().formatYMDHMin()).collect(Collectors.joining("\n"));
+            .map(e -> e.getKey().formatDateTimeToMinutes() + "\t" + e.getValue().formatDateTimeToMinutes()).collect(Collectors.joining("\n"));
     }
 
-    private String dateFormatTD(ResultCyclicPhenomenon<SunSeasonPoint> result) {
-        return result.ephemerisTimelinePoint.toGregorianCalendarPoint().formatYMD() + " TD";
+    private String dateFormatTD(Occurrence<SunSeasonPoint> result) {
+        return result.timelinePoint.toCalendarPoint().formatDate() + " TD";
     }
 }

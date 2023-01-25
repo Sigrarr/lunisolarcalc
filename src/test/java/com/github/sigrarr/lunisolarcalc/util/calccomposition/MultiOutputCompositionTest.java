@@ -67,8 +67,8 @@ public class MultiOutputCompositionTest {
             composition = completeComposer.compose(subjectSet);
             MultiOutputComposition<ExampleSubject, Integer> replica = composition.replicate();
             assertNotEquals(composition, replica);
-            for (int rootArgument = 0; rootArgument < 10; rootArgument++) {
-                assertEquals(composition.calculate(rootArgument), replica.calculate(rootArgument));
+            for (int rootInput = 0; rootInput < 10; rootInput++) {
+                assertEquals(composition.calculate(rootInput), replica.calculate(rootInput));
             }
         }
     }

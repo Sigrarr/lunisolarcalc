@@ -1,7 +1,11 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 /**
- * Meeus 1998, App. III, Earth, L0-L5, pp. 419-420
+ * Periodic terms for the Earth's heliocentric longitude (L).
+ * Results are in radians.
+ *
+ * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthLongitudeCalculator
+ * @see " Meeus 1998: App. III, Earth, L0-L5 (pp. 419-420)
  */
 public final class EarthLongitudePeriodicTerms extends HeliocentricCoordinatePeriodicTerms {
     protected static final double[][][] SERIES_ARRAY = {
@@ -149,7 +153,7 @@ public final class EarthLongitudePeriodicTerms extends HeliocentricCoordinatePer
     };
 
     @Override
-    public int getNumberOfSeries() {
+    protected int getNumberOfSeries() {
         return SERIES_ARRAY.length;
     }
 
