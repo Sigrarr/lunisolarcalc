@@ -14,7 +14,7 @@ public class EarthNutuationElementsTest {
     @Test
     public void shouldCalculateElements() {
         // Meeus 1998, Example 22.a, p. 148
-        elements.calculate(TimelinePoint.ofCenturialT(-0.127296372348, TimeType.DYNAMICAL));
+        elements.calculate(TimelinePoint.ofCenturialT(-0.127296372348, TimeScale.DYNAMICAL));
         assertEquals(136.9623, Math.toDegrees(elements.getD()),       decimalAutoDelta(0.0001));
         assertEquals( 94.9792, Math.toDegrees(elements.getM()),       decimalAutoDelta(0.0001));
         assertEquals(229.2784, Math.toDegrees(elements.getMPrim()),   decimalAutoDelta(0.0001));

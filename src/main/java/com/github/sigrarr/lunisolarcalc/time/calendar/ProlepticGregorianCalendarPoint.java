@@ -61,10 +61,10 @@ public final class ProlepticGregorianCalendarPoint extends NormalCalendarPoint i
 
     /**
      * Constructs an instance representing the current moment
-     * (in {@link com.github.sigrarr.lunisolarcalc.time.TimeType#UNIVERSAL UT}).
+     * (in {@link com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT}).
      *
      * @return  an instance representing the current moment
-     *          (in {@link com.github.sigrarr.lunisolarcalc.time.TimeType#UNIVERSAL UT})
+     *          (in {@link com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT})
      */
     public static ProlepticGregorianCalendarPoint ofNow() {
         return ofLocalDateTime(LocalDateTime.now());

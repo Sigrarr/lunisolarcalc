@@ -39,7 +39,7 @@ public class Occurrence<T extends Enum<T>> implements Comparable<Occurrence<?>> 
     /**
      * Constructs an instance representing an occurence of the given type or stage of astronomical phenomenon.
      *
-     * @param julianEphemerisDay    time of occurence, in Julian Ephemeris Day ({@link TimeType#DYNAMICAL Dynamical Time})
+     * @param julianEphemerisDay    time of occurence, in Julian Ephemeris Day ({@link TimeScale#DYNAMICAL Dynamical Time})
      * @param type                  type or stage of astronomical phenomenon
      */
     public Occurrence(double julianEphemerisDay, T type) {
@@ -47,46 +47,46 @@ public class Occurrence<T extends Enum<T>> implements Comparable<Occurrence<?>> 
     }
 
     /**
-     * Obtains a corresponding instance with a timeline point in {@link TimeType#UNIVERSAL Universal Time}.
+     * Obtains a corresponding instance with a timeline point in {@link TimeScale#UNIVERSAL Universal Time}.
      *
-     * If the time type of this instance's timeline point is the Universal Time,
+     * If the time scale of this instance's timeline point is the Universal Time,
      * returns this instance, otherwise prepares a new instance in Universal Time.
      *
-     * @return  instance with a timeline point in {@link TimeType#UNIVERSAL Universal Time}:
-     *          this instance, if its timeline point's time type is the Universal Time,
+     * @return  instance with a timeline point in {@link TimeScale#UNIVERSAL Universal Time}:
+     *          this instance, if its timeline point's time scale is the Universal Time,
      *          or a new instance otherwise
      */
     public Occurrence<T> toUniversalTime() {
-        return toTimeType(TimeType.UNIVERSAL);
+        return toTimeScale(TimeScale.UNIVERSAL);
     }
 
     /**
-     * Obtains a corresponding instance with a timeline point in {@link TimeType#DYNAMICAL Dynamical Time}.
+     * Obtains a corresponding instance with a timeline point in {@link TimeScale#DYNAMICAL Dynamical Time}.
      *
-     * If the time type of this instance's timeline point is the Dynamical Time,
+     * If the time scale of this instance's timeline point is the Dynamical Time,
      * returns this instance, otherwise prepares a new instance in Dynamical Time.
      *
-     * @return  instance with a timeline point in {@link TimeType#DYNAMICAL Dynamical Time}:
-     *          this instance, if its timeline point's time type is the Dynamical Time,
+     * @return  instance with a timeline point in {@link TimeScale#DYNAMICAL Dynamical Time}:
+     *          this instance, if its timeline point's time scale is the Dynamical Time,
      *          or a new instance otherwise
      */
     public Occurrence<T> toDynamicalTime() {
-        return toTimeType(TimeType.DYNAMICAL);
+        return toTimeScale(TimeScale.DYNAMICAL);
     }
 
     /**
-     * Obtains a corresponding instance with a timeline point in a selected time type/scale.
+     * Obtains a corresponding instance with a timeline point in a selected time scale.
      *
-     * If the time type of this instance's timeline point is the same as the selected,
-     * returns this instance, otherwise prepares a new instance in the other time type.
+     * If the time scale of this instance's timeline point is the same as the selected,
+     * returns this instance, otherwise prepares a new instance in the other time scale.
      *
-     * @return  instance with a timeline point in the selected time type/scale:
-     *          this instance, if its timeline point's time type is the selected one,
+     * @return  instance with a timeline point in the selected time scale:
+     *          this instance, if its timeline point's time scale is the selected one,
      *          or a new instance otherwise
      */
-    public Occurrence<T> toTimeType(TimeType targetTimeType) {
-        return timelinePoint.timeType == targetTimeType ?
-            this : new Occurrence<>(timelinePoint.toTimeType(targetTimeType), type);
+    public Occurrence<T> toTimeScale(TimeScale targetTimeScale) {
+        return timelinePoint.timeScale == targetTimeScale ?
+            this : new Occurrence<>(timelinePoint.toTimeScale(targetTimeScale), type);
     }
 
     /**
@@ -152,7 +152,7 @@ public class Occurrence<T extends Enum<T>> implements Comparable<Occurrence<?>> 
      *
      * Levels of comparing: 1. {@link TimelinePoint#compareTo(TimelinePoint) by timeline point},
      * 2. by type class (name), 3. {@link Enum#compareTo(Enum) by type value},
-     * 4. by timeline point's {@link TimelinePoint#timeType time type}.
+     * 4. by timeline point's {@link TimelinePoint#timeScale time scale}.
      *
      * @return  {@link Comparable equivalence-consistent} chronological comparator of occurrences
      *          (comparing mainly {@link TimelinePoint#compareTo(TimelinePoint) by timeline point})
@@ -167,7 +167,7 @@ public class Occurrence<T extends Enum<T>> implements Comparable<Occurrence<?>> 
                 return a.type.getClass().getName().compareTo(b.type.getClass().getName());
             if (a.type != b.type)
                 return Integer.compare(a.type.ordinal(), b.type.ordinal());
-            return a.timelinePoint.timeType.compareTo(b.timelinePoint.timeType);
+            return a.timelinePoint.timeScale.compareTo(b.timelinePoint.timeScale);
         };
     }
 

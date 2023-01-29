@@ -88,10 +88,10 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
 
     /**
      * Constructs an instance representing the current moment
-     * (in {@link com.github.sigrarr.lunisolarcalc.time.TimeType#UNIVERSAL UT}).
+     * (in {@link com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT}).
      *
      * @return  an instance representing the current moment
-     *          (in {@link com.github.sigrarr.lunisolarcalc.time.TimeType#UNIVERSAL UT})
+     *          (in {@link com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT})
      */
     public static CalendarPoint ofNow() {
         return ofLegacyGregorianCalendar(new GregorianCalendar());

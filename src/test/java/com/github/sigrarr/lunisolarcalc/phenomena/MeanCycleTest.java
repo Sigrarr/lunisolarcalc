@@ -15,9 +15,9 @@ public class MeanCycleTest {
 
     private static final TimelinePoint[] EXAMPLE_POINTS = new TimelinePoint[] {
         Timeline.JULIAN_PERIOD_START_TT,
-        TimelinePoint.ofCalendarPoint(new CalendarPoint(-700, 12, 1), TimeType.DYNAMICAL),
-        TimelinePoint.ofCalendarPoint(new CalendarPoint(1, 1, 30), TimeType.DYNAMICAL),
-        TimelinePoint.ofCalendarPoint(CalendarPoint.GREGORIAN_RULES_START, TimeType.DYNAMICAL),
+        TimelinePoint.ofCalendarPoint(new CalendarPoint(-700, 12, 1), TimeScale.DYNAMICAL),
+        TimelinePoint.ofCalendarPoint(new CalendarPoint(1, 1, 30), TimeScale.DYNAMICAL),
+        TimelinePoint.ofCalendarPoint(CalendarPoint.GREGORIAN_RULES_START, TimeScale.DYNAMICAL),
         Timeline.EPOCH_2000_TT,
         TimelinePoint.ofJulianEphemerisDay(Timeline.EPOCH_2000_JD + 123.15),
         Timeline.JULIAN_PERIOD_END_TT

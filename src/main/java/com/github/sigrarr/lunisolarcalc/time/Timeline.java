@@ -28,8 +28,14 @@ public abstract class Timeline {
      * A time unit equal to the mean length of a year in the Julian Calendar, in days.
      */
     public static final double JULIAN_YEAR_DAYS = 365.25;
-    protected static final double JULIAN_CENTURY_DAYS = 100 * JULIAN_YEAR_DAYS;
-    protected static final double JULIAN_MILLENIUM_DAYS = 1000.0 * JULIAN_YEAR_DAYS;
+    /**
+     * 100 {@link #JULIAN_YEAR_DAYS Julian years}, in days.
+     */
+    public static final double JULIAN_CENTURY_DAYS = 100.0 * JULIAN_YEAR_DAYS;
+    /**
+     * 1000 {@link #JULIAN_YEAR_DAYS Julian years}, in days.
+     */
+    public static final double JULIAN_MILLENIUM_DAYS = 1000.0 * JULIAN_YEAR_DAYS;
     /**
      * The length of a Julian Period expressed in {@link #JULIAN_YEAR_DAYS Julian years}.
      */
@@ -40,11 +46,11 @@ public abstract class Timeline {
      */
     public static final double JULIAN_PERIOD_START_JD = 0.0;
     /**
-     * The beginning of the current Julian Period, in {@link TimeType#DYNAMICAL Dynamical Time}.
+     * The beginning of the current Julian Period, in {@link TimeScale#DYNAMICAL Dynamical Time}.
      */
     public static final TimelinePoint JULIAN_PERIOD_START_TT = TimelinePoint.ofJulianEphemerisDay(JULIAN_PERIOD_START_JD);
     /**
-     * The beginning of the current Julian Period, in {@link TimeType#UNIVERSAL Universal Time}.
+     * The beginning of the current Julian Period, in {@link TimeScale#UNIVERSAL Universal Time}.
      */
     public static final TimelinePoint JULIAN_PERIOD_START_UT = JULIAN_PERIOD_START_TT.toUniversalTimeNominalEquivalent();
     /**
@@ -53,12 +59,12 @@ public abstract class Timeline {
     public static final double JULIAN_PERIOD_END_JD = JULIAN_PERIOD_YEARS * JULIAN_YEAR_DAYS;
     /**
      * The beginning of the next Julian Period (the upper limit of the Luni-Solar Calc's scope).
-     * In {@link TimeType#DYNAMICAL Dynamical Time}.
+     * In {@link TimeScale#DYNAMICAL Dynamical Time}.
      */
     public static final TimelinePoint JULIAN_PERIOD_END_TT = TimelinePoint.ofJulianEphemerisDay(JULIAN_PERIOD_END_JD);
     /**
      * The beginning of the next Julian Period (the upper limit of the Luni-Solar Calc's scope).
-     * In {@link TimeType#UNIVERSAL Universal Time}.
+     * In {@link TimeScale#UNIVERSAL Universal Time}.
      */
     public static final TimelinePoint JULIAN_PERIOD_END_UT = JULIAN_PERIOD_END_TT.toUniversalTimeNominalEquivalent();
 
@@ -68,12 +74,12 @@ public abstract class Timeline {
     public static final double EPOCH_2000_JD = 2451545.0;
     /**
      * The Epoch 2000 (+2000-01-01 12:00 of the Gregorian calendar).
-     * In {@link TimeType#DYNAMICAL Dynamical Time}.
+     * In {@link TimeScale#DYNAMICAL Dynamical Time}.
      */
     public static final TimelinePoint EPOCH_2000_TT = TimelinePoint.ofJulianEphemerisDay(EPOCH_2000_JD);
     /**
      * The Epoch 2000 (+2000-01-01 12:00 of the Gregorian calendar).
-     * In {@link TimeType#UNIVERSAL Universal Time}.
+     * In {@link TimeScale#UNIVERSAL Universal Time}.
      */
     public static final TimelinePoint EPOCH_2000_UT = EPOCH_2000_TT.toUniversalTimeNominalEquivalent();
 
@@ -83,7 +89,7 @@ public abstract class Timeline {
     public static final double GREGORIAN_CALENDAR_START_JD = 2299160.5;
     /**
      * The {@link CalendarPoint#GREGORIAN_RULES_START start point of the Gregorian calendar}
-     * (in {@link TimeType#UNIVERSAL Universal Time}).
+     * (in {@link TimeScale#UNIVERSAL Universal Time}).
      */
     public static final TimelinePoint GREGORIAN_CALENDAR_START = new TimelinePoint(2299160.5);
     private static final double GREGORIAN_CALENDAR_START_DAY_NOON_JD = GREGORIAN_CALENDAR_START_JD + 0.5;

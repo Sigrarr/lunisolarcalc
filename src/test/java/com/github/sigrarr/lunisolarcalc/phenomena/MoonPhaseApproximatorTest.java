@@ -73,7 +73,7 @@ public class MoonPhaseApproximatorTest {
             for (double offset : argumentOffsetsFromCenter) {
                 TimelinePoint argument = new TimelinePoint(center.julianDay + offset);
                 double approximateJde = approximator.approximateJulianEphemerisDayAround(argument, e.getValue());
-                double diff = Math.abs(Time.shiftDaysToTimeType(approximateJde, TimeType.UNIVERSAL, e.getKey().y) - center.julianDay);
+                double diff = Math.abs(TimeScaleDelta.convertJulianEphemerisDayToUniversalTime(approximateJde) - center.julianDay);
                 assertTrue(diff < Math.abs(offset));
             }
         });

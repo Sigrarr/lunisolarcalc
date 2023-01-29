@@ -48,7 +48,7 @@ public class OccurrenceTest {
             new Occurrence<>(TimelinePoint.ofCenturialT(0.0), GreekAbg.GAMMA),
             new Occurrence<>(TimelinePoint.ofCenturialT(0.0), ABC.A),
             new Occurrence<>(TimelinePoint.ofCenturialT(0.0), ABC.C),
-            new Occurrence<>(TimelinePoint.ofCenturialT(0.0, TimeType.DYNAMICAL), ABC.B),
+            new Occurrence<>(TimelinePoint.ofCenturialT(0.0, TimeScale.DYNAMICAL), ABC.B),
             new Occurrence<>(TimelinePoint.ofCenturialT(-3.6), ABC.A),
             new Occurrence<>(TimelinePoint.ofCenturialT(-3.6).toDynamicalTime(), GreekAbg.BETA),
             new Occurrence<>(TimelinePoint.ofCenturialT(1.1), ABC.C)
@@ -73,7 +73,7 @@ public class OccurrenceTest {
                     int typeCmp = Integer.compare(prev.type.ordinal(), next.type.ordinal());
                     assertFalse(typeCmp > 0);
                     if (typeCmp == 0)
-                        assertFalse(prev.timelinePoint.timeType.compareTo(next.timelinePoint.timeType) > 0);
+                        assertFalse(prev.timelinePoint.timeScale.compareTo(next.timelinePoint.timeScale) > 0);
                 }
             }
         }

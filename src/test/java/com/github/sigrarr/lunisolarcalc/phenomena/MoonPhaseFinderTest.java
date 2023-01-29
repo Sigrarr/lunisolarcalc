@@ -92,7 +92,7 @@ public class MoonPhaseFinderTest {
     public void shouldFindMoonPhaseInMoreDistantPast() {
         PrimitiveIterator.OfDouble actualNewMoonJds = finder
             .findManyJulianEphemerisDays(TimelinePoint.ofCalendarPoint(new CalendarPoint(1600, 1, 15)), MoonPhase.NEW_MOON)
-            .map((jde) -> Time.shiftDaysToTimeType(jde, TimeType.UNIVERSAL, 1600))
+            .map((jde) -> TimeScaleDelta.convertJulianEphemerisDayToUniversalTime(jde))
             .iterator();
 
         double timeZoneDiff = timeToDays(0, 14, 44);
@@ -164,8 +164,8 @@ public class MoonPhaseFinderTest {
         double totalDiff = 0.0;
         double maxDiff = 0.0;
 
-        double startJde = TimelinePoint.ofCalendarPoint(new CalendarPoint(-700, 1, 1), TimeType.DYNAMICAL).julianDay;
-        double endJde = TimelinePoint.ofCalendarPoint(new CalendarPoint(2022, 1, 1), TimeType.DYNAMICAL).julianDay;
+        double startJde = TimelinePoint.ofCalendarPoint(new CalendarPoint(-700, 1, 1), TimeScale.DYNAMICAL).julianDay;
+        double endJde = TimelinePoint.ofCalendarPoint(new CalendarPoint(2022, 1, 1), TimeScale.DYNAMICAL).julianDay;
         double step = MeanCycle.LUNATION.epochalLengthDays * 0.85;
         MoonPhase[] phases = MoonPhase.values();
         System.out.println("\tCalculations in progress...");

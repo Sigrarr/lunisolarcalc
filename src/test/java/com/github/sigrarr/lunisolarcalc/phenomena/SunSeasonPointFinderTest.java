@@ -139,7 +139,7 @@ public class SunSeasonPointFinderTest {
         PrimitiveIterator.OfDouble actualJds = finder
             .findManyJulianEphemerisDays(1700)
             .limit(4)
-            .map((jde) -> Time.shiftDaysToTimeType(jde, TimeType.UNIVERSAL, 1700))
+            .map((jde) -> TimeScaleDelta.convertJulianEphemerisDayToUniversalTime(jde))
             .iterator();
 
         for (int i = 0; i < 4; i++) {
@@ -255,7 +255,7 @@ public class SunSeasonPointFinderTest {
                 (e) -> (e.getKey().y == 2000 && e.getValue() == SunSeasonPoint.DECEMBER_SOLSTICE)
                     || (e.getKey().y == 2001 && e.getValue() == SunSeasonPoint.MARCH_EQUINOX)
             )
-            .mapToDouble((e) -> TimelinePoint.ofCalendarPoint(e.getKey(), TimeType.DYNAMICAL).julianDay)
+            .mapToDouble((e) -> TimelinePoint.ofCalendarPoint(e.getKey(), TimeScale.DYNAMICAL).julianDay)
             .sorted()
             .toArray();
         double accurateWinter2000to2001Duration = accurateWinter2000to2001BoundariesJDEs[1] - accurateWinter2000to2001BoundariesJDEs[0];
