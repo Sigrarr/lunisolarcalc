@@ -29,11 +29,11 @@ Both classes have several methods named "find(...)". Note that those called "fin
 #### Example Ph.1
 ```java
 MoonPhaseFinder finder = new MoonPhaseFinder();
-TimelinePoint startAround = TimelinePoint.ofCalendarPoint(new CalendarPoint(2023, 1, 1.0));
+TimelinePoint startAround = TimelinePoint.ofCalendaricParameters(2023, 1, 1.0);
 
 TimelinePoint firstFullMoon2023 = finder
     .findMany(startAround, MoonPhase.FULL_MOON)
-    .map(occurrence -> occurrence.timelinePoint.toUniversalTime())
+    .map(occurrence -> occurrence.toUniversalTime().getTimelinePoint())
     .filter(tp -> tp.toCalendarPoint().y == 2023)
     .findAny()
     .get();
@@ -48,8 +48,8 @@ new SunSeasonPointFinder()
     .findMany(1581)
     .limit(4)
     .map((occurrence) -> String.format("%s\t%s",
-        occurrence.timelinePoint.formatCalendrically(),
-        occurrence.type.getTitle())
+        occurrence.getTimelinePoint().formatCalendrically(),
+        occurrence.getType().getTitle())
     )
     .forEach(System.out::println);
 ```
@@ -68,7 +68,7 @@ The package `com.github.sigrarr.lunisolarcalc.spacebytime` provides a group of c
 ```java
 SingleOutputComposition<Subject, TimelinePoint> lambdaCalc
     = SpaceByTimeCalcComposition.compose(Subject.SUN_APPARENT_LONGITUDE);
-TimelinePoint newYear2000 = TimelinePoint.ofCalendarPoint(new CalendarPoint(2000, 1, 1.0));
+TimelinePoint newYear2000 = TimelinePoint.ofCalendaricParameters(2000, 1, 1.0);
 double newYear2000Lambda = (Double) lambdaCalc.calculate(newYear2000);
 
 System.out.println(String.format("%.2f", Math.toDegrees(newYear2000Lambda)));

@@ -52,7 +52,7 @@ public abstract class TimeScaleDelta {
          * @return                  ΔT = {@link TimeScale TT - UT}, in seconds
          */
         public default double resolveDeltaTSeconds(TimelinePoint timelinePoint) {
-            return resolveDeltaTSeconds(timelinePoint.julianDay, timelinePoint.timeScale);
+            return resolveDeltaTSeconds(timelinePoint.julianDay, timelinePoint.getTimeScale());
         }
 
         /**

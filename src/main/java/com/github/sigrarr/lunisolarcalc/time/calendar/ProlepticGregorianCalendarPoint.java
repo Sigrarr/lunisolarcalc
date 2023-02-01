@@ -33,7 +33,7 @@ public final class ProlepticGregorianCalendarPoint extends NormalCalendarPoint i
             return LeapRules.GREGORIAN;
         }
 
-        @Override public ProlepticGregorianCalendarPoint makeCalendarPoint(int y, int m, double dt) {
+        @Override public ProlepticGregorianCalendarPoint point(int y, int m, double dt) {
             return new ProlepticGregorianCalendarPoint(y, m, dt);
         }
     };
@@ -137,11 +137,11 @@ public final class ProlepticGregorianCalendarPoint extends NormalCalendarPoint i
      * @param point     proleptic Gregorian calendar point to compare to
      * @return          result of chronological comparison applying the
      *                  {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
-     *                  (with the month-difference caveat),
-     *                  in the {@link Comparable#compareTo(Object) parent interface's} format
+     *                  (with the month-difference caveat,
+     *                  in the {@link Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(ProlepticGregorianCalendarPoint point) {
-        return nominalComparator().compare(this, point);
+        return NOMINAL_COMPARATOR.compare(this, point);
     }
 }

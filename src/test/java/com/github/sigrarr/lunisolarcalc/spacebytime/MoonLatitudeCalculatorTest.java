@@ -15,7 +15,7 @@ public class MoonLatitudeCalculatorTest {
     @Test
     public void shouldCalculateLatitude() {
         // Meeus 1998, Example 47.a, p. 342-343
-        TimelinePoint tx = TimelinePoint.ofCenturialT(-0.077221081451, TimeScale.DYNAMICAL);
+        TimelinePoint tx = DynamicalTimelinePoint.ofCenturialT(-0.077221081451);
         double actualLatitude = calculator.calculate(tx, new MoonCoordinateElements(tx));
         assertEquals(-3.229126, Math.toDegrees(actualLatitude), decimalAutoDelta(-3.229126));
     }

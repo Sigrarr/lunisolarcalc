@@ -69,9 +69,9 @@ public class MoonPhaseApproximatorTest {
         double[] argumentOffsetsFromCenter = new double[] {-12.5, -9.0, -2.0, -25.0/24.0, 25.0/24.0, 3.0, 7.0, 10.0};
 
         DATE_TO_PHASE.entrySet().stream().forEach((e) -> {
-            TimelinePoint center = TimelinePoint.ofCalendarPoint(e.getKey());
+            TimelinePoint center = UniversalTimelinePoint.ofCalendar(e.getKey());
             for (double offset : argumentOffsetsFromCenter) {
-                TimelinePoint argument = new TimelinePoint(center.julianDay + offset);
+                TimelinePoint argument = new UniversalTimelinePoint(center.julianDay + offset);
                 double approximateJde = approximator.approximateJulianEphemerisDayAround(argument, e.getValue());
                 double diff = Math.abs(TimeScaleDelta.convertJulianEphemerisDayToUniversalTime(approximateJde) - center.julianDay);
                 assertTrue(diff < Math.abs(offset));
@@ -88,7 +88,7 @@ public class MoonPhaseApproximatorTest {
         MoonPhase[] phases = MoonPhase.values();
 
         for (double jde = startJde; jde < endJde; jde += step) {
-            TimelinePoint argument = TimelinePoint.ofJulianEphemerisDay(jde);
+            TimelinePoint argument = new DynamicalTimelinePoint(jde);
             MoonPhase phase = phases[(int) jde % 4];
             double approximate = approximator.approximateJulianEphemerisDayAround(argument, phase);
 
@@ -96,7 +96,7 @@ public class MoonPhaseApproximatorTest {
                 Math.abs(approximate - jde) < delta,
                 "Too far away ~" + Calcs.roundToDelta(Math.abs(approximate - jde), 0.01)
                 + ": ARG. " + argument.toCalendarPoint().formatDateTimeToMinutes()
-                + "; APPROX. " + TimelinePoint.ofJulianEphemerisDay(approximate).formatCalendrically()
+                + "; APPROX. " + new DynamicalTimelinePoint(approximate).formatCalendrically()
             );
         }
     }
@@ -104,12 +104,12 @@ public class MoonPhaseApproximatorTest {
     @Test
     public void shouldApproximateBeCloseToArgumentInSpecificCases() {
         // The case when the Meeus' approximator fails and returns a 2000s date...
-        TimelinePoint tx = TimelinePoint.ofCalendarPoint(new CalendarPoint(0, 1, 1));
+        TimelinePoint tx = UniversalTimelinePoint.ofCalendaricParameters(0, 1, 1);
         double actualApproximateJde = approximator.approximateJulianEphemerisDayAround(tx, MoonPhase.FULL_MOON);
         if (Math.abs(actualApproximateJde - tx.julianDay) > MeanCycle.LUNATION.epochalLengthDays * 0.5 + Calcs.Time.timeToDays(0, 1, 0)) {
             fail(
-                "Too far away: approximate(" + tx.toCalendarPoint().formatDateTimeToMinutes()
-                + ") = " + TimelinePoint.ofJulianEphemerisDay(actualApproximateJde).formatCalendrically()
+                "Too far away: approximate(" + tx.formatCalendrically()
+                + ") = " + new DynamicalTimelinePoint(actualApproximateJde).formatCalendrically()
             );
         }
     }

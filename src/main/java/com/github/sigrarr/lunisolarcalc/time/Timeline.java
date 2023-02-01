@@ -48,11 +48,11 @@ public abstract class Timeline {
     /**
      * The beginning of the current Julian Period, in {@link TimeScale#DYNAMICAL Dynamical Time}.
      */
-    public static final TimelinePoint JULIAN_PERIOD_START_TT = TimelinePoint.ofJulianEphemerisDay(JULIAN_PERIOD_START_JD);
+    public static final DynamicalTimelinePoint JULIAN_PERIOD_START_TT = new DynamicalTimelinePoint(JULIAN_PERIOD_START_JD);
     /**
      * The beginning of the current Julian Period, in {@link TimeScale#UNIVERSAL Universal Time}.
      */
-    public static final TimelinePoint JULIAN_PERIOD_START_UT = JULIAN_PERIOD_START_TT.toUniversalTimeNominalEquivalent();
+    public static final UniversalTimelinePoint JULIAN_PERIOD_START_UT = new UniversalTimelinePoint(JULIAN_PERIOD_START_JD);
     /**
      * Julian day of the beginning of the next Julian Period (the upper limit of the Luni-Solar Calc's scope).
      */
@@ -61,12 +61,12 @@ public abstract class Timeline {
      * The beginning of the next Julian Period (the upper limit of the Luni-Solar Calc's scope).
      * In {@link TimeScale#DYNAMICAL Dynamical Time}.
      */
-    public static final TimelinePoint JULIAN_PERIOD_END_TT = TimelinePoint.ofJulianEphemerisDay(JULIAN_PERIOD_END_JD);
+    public static final DynamicalTimelinePoint JULIAN_PERIOD_END_TT = new DynamicalTimelinePoint(JULIAN_PERIOD_END_JD);
     /**
      * The beginning of the next Julian Period (the upper limit of the Luni-Solar Calc's scope).
      * In {@link TimeScale#UNIVERSAL Universal Time}.
      */
-    public static final TimelinePoint JULIAN_PERIOD_END_UT = JULIAN_PERIOD_END_TT.toUniversalTimeNominalEquivalent();
+    public static final UniversalTimelinePoint JULIAN_PERIOD_END_UT = new UniversalTimelinePoint(JULIAN_PERIOD_END_JD);
 
     /**
      * Julian Day of the Epoch 2000 (+2000-01-01 12:00 of the Gregorian calendar).
@@ -76,12 +76,12 @@ public abstract class Timeline {
      * The Epoch 2000 (+2000-01-01 12:00 of the Gregorian calendar).
      * In {@link TimeScale#DYNAMICAL Dynamical Time}.
      */
-    public static final TimelinePoint EPOCH_2000_TT = TimelinePoint.ofJulianEphemerisDay(EPOCH_2000_JD);
+    public static final DynamicalTimelinePoint EPOCH_2000_TT = new DynamicalTimelinePoint(EPOCH_2000_JD);
     /**
      * The Epoch 2000 (+2000-01-01 12:00 of the Gregorian calendar).
      * In {@link TimeScale#UNIVERSAL Universal Time}.
      */
-    public static final TimelinePoint EPOCH_2000_UT = EPOCH_2000_TT.toUniversalTimeNominalEquivalent();
+    public static final UniversalTimelinePoint EPOCH_2000_UT = new UniversalTimelinePoint(EPOCH_2000_JD);
 
     /**
      * Julian Day of the {@link CalendarPoint#GREGORIAN_RULES_START start point of the Gregorian calendar}.
@@ -91,7 +91,7 @@ public abstract class Timeline {
      * The {@link CalendarPoint#GREGORIAN_RULES_START start point of the Gregorian calendar}
      * (in {@link TimeScale#UNIVERSAL Universal Time}).
      */
-    public static final TimelinePoint GREGORIAN_CALENDAR_START = new TimelinePoint(2299160.5);
+    public static final UniversalTimelinePoint GREGORIAN_CALENDAR_START = new UniversalTimelinePoint(2299160.5);
     private static final double GREGORIAN_CALENDAR_START_DAY_NOON_JD = GREGORIAN_CALENDAR_START_JD + 0.5;
 
     /**
@@ -99,50 +99,49 @@ public abstract class Timeline {
      */
     public static final double DEFAULT_EQUIV_UNIT_DAYS = Calcs.SECOND_TO_DAY;
     /**
-     * Minimal allowed value of {@link #getEquivUnitDays() equivalence unit}, in days.
+     * Minimal allowed value of {@link #getEquivUnitDays() equivalence unit}, in days (1 milisecond).
      */
-    public static final double MIN_EQUIV_UNIT_DAYS = 4.0 * Calcs.EPSILON;
+    public static final double MIN_EQUIV_UNIT_DAYS = 0.001 * Calcs.SECOND_TO_DAY;
 
     private static final double JD_MONTH_FACTOR = 30.6 + Calcs.EPSILON;
     private static double equivUnitDays = DEFAULT_EQUIV_UNIT_DAYS;
 
     /**
-     * Converts a calendar point (of a calendar based formally on the Julian calendar,
-     * e.g. the Gregorian calendar) to Julian Day.
+     * Converts a calendar point (of a calendar based formally on the Julian calendar) to Julian Day.
      * Implementation of the algorithm given by Meeus.
      *
-     * @param calendarPoint     calendar point (of a calendar based formally on the Julian Calendar),
-     *                          corresponding to Julian Day of non-negative value
-     * @return                  Julian Day
-     * @see                     " Meeus 1998: 7.1, p. 61
+     * @param normalCalendarPoint   calendar point (of a calendar based formally on the Julian Calendar),
+     *                              corresponding to Julian Day of non-negative value
+     * @return                      Julian Day
+     * @see                         " Meeus 1998: 7.1, p. 61
      */
-    public static double calendarToJulianDay(NormalCalendarPoint calendarPoint) {
-        int y = calendarPoint.y;
-        int m = calendarPoint.m;
+    public static double normalCalendarToJulianDay(NormalCalendarPoint normalCalendarPoint) {
+        int y = normalCalendarPoint.y;
+        int m = normalCalendarPoint.m;
         if (m <= 2) {
             m += 12;
             y--;
         }
 
         double b = 0.0;
-        if (calendarPoint.getLeapRules() == LeapRules.GREGORIAN) {
+        if (normalCalendarPoint.getLeapRules() == LeapRules.GREGORIAN) {
             double a = Math.floor(y / 100.0);
             b = 2.0 - a + Math.floor(a / 4.0);
         }
 
         return Math.floor(JULIAN_YEAR_DAYS * (y + 4716))
             + Math.floor(JD_MONTH_FACTOR * (m + 1))
-            + calendarPoint.dt
+            + normalCalendarPoint.dt
             + b
             - 1524.5;
     }
 
     /**
-     * Converts Julian Day to the Julian/Gregorian calendar.
+     * Converts Julian Day to the main calendar.
      * Implementation of the algorithm given by Meeus.
      *
      * @param jd    Julian Day to convert, non-negative
-     * @return      Julian/Gregorian calendar point
+     * @return      calendar point (of the main calendar)
      * @see         " Meeus 1998, Ch. 7, p. 63
      */
     public static CalendarPoint julianDayToCalendar(double jd) {
@@ -206,7 +205,7 @@ public abstract class Timeline {
         int m = (int) (e - (e < 14 ? 1.0 : 13.0));
         int y = (int) (c - (m > 2 ? 4716 : 4715));
 
-        return targetCalendar.makeCalendarPoint(y, m, dt);
+        return targetCalendar.point(y, m, dt);
     }
 
     /**
@@ -304,7 +303,7 @@ public abstract class Timeline {
      * (and their dependants in these regards).
      *
      * @param equivUnitDays     new value of {@link #getEquivUnitDays() equivalence unit}, in days,
-     *                          not lesser than {@value #MIN_EQUIV_UNIT_DAYS}
+     *                          not lesser than {@link #MIN_EQUIV_UNIT_DAYS}
      * @see                     #DEFAULT_EQUIV_UNIT_DAYS
      */
     public static void setEquivUnit(double equivUnitDays) {

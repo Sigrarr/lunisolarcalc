@@ -1,7 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.EnumMap;
 
@@ -13,13 +12,13 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class MeanCycleTest {
 
-    private static final TimelinePoint[] EXAMPLE_POINTS = new TimelinePoint[] {
+    private static final DynamicalTimelinePoint[] EXAMPLE_POINTS = new DynamicalTimelinePoint[] {
         Timeline.JULIAN_PERIOD_START_TT,
-        TimelinePoint.ofCalendarPoint(new CalendarPoint(-700, 12, 1), TimeScale.DYNAMICAL),
-        TimelinePoint.ofCalendarPoint(new CalendarPoint(1, 1, 30), TimeScale.DYNAMICAL),
-        TimelinePoint.ofCalendarPoint(CalendarPoint.GREGORIAN_RULES_START, TimeScale.DYNAMICAL),
+        DynamicalTimelinePoint.ofCalendaricParameters(-700, 12, 1),
+        DynamicalTimelinePoint.ofCalendaricParameters(1, 1, 30),
+        DynamicalTimelinePoint.ofCalendarPoint(CalendarPoint.GREGORIAN_RULES_START),
         Timeline.EPOCH_2000_TT,
-        TimelinePoint.ofJulianEphemerisDay(Timeline.EPOCH_2000_JD + 123.15),
+        new DynamicalTimelinePoint(Timeline.EPOCH_2000_JD + 123.15),
         Timeline.JULIAN_PERIOD_END_TT
     };
     private static final EnumMap<MeanCycle, Integer> MONOTONY = new EnumMap<MeanCycle, Integer>(MeanCycle.class) {{
@@ -49,8 +48,8 @@ public class MeanCycleTest {
     public void shouldReflectMonotonyOfLengthFunctionInScope() {
         for (MeanCycle meanCycle : MeanCycle.values()) {
             int monotony = MONOTONY.get(meanCycle);
-            for (TimelinePoint tx1 : EXAMPLE_POINTS)
-                for (TimelinePoint tx2 : EXAMPLE_POINTS) {
+            for (DynamicalTimelinePoint tx1 : EXAMPLE_POINTS)
+                for (DynamicalTimelinePoint tx2 : EXAMPLE_POINTS) {
                     double mean1 = meanCycle.calculateLengthDays(tx1);
                     double mean2 = meanCycle.calculateLengthDays(tx2);
                     double meanBetween = meanCycle.calculateLengthDaysBetween(tx1, tx2);

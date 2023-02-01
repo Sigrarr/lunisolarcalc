@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class SunLatitudeCalculatorTest {
@@ -15,7 +15,7 @@ public class SunLatitudeCalculatorTest {
     @Test
     public void shouldCalculateFK5GeometricLatitude() {
         // Meeus 1998, Example 25b, p. 169.
-        TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(2448908.5);
+        TimelinePoint tx = new DynamicalTimelinePoint(2448908.5);
         double heliocentricLatitude = -0.00000312;
         double heliocentricLongitude = Math.toRadians(19.907372);
         double actualGeometricLatitude = calculator.calculate(tx, heliocentricLatitude, heliocentricLongitude);

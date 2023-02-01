@@ -28,7 +28,7 @@ public final class ProlepticJulianCalendarPoint extends NormalCalendarPoint impl
             return LeapRules.JULIAN;
         }
 
-        @Override public ProlepticJulianCalendarPoint makeCalendarPoint(int y, int m, double dt) {
+        @Override public ProlepticJulianCalendarPoint point(int y, int m, double dt) {
             return new ProlepticJulianCalendarPoint(y, m, dt);
         }
     };
@@ -72,11 +72,11 @@ public final class ProlepticJulianCalendarPoint extends NormalCalendarPoint impl
      * @param point     proleptic Julian calendar point to compare to
      * @return          result of chronological comparison applying the
      *                  {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
-     *                  (with the month-difference caveat),
-     *                  in the {@link Comparable#compareTo(Object) parent interface's} format
+     *                  (with the month-difference caveat,
+     *                  in the {@link Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(ProlepticJulianCalendarPoint point) {
-        return nominalComparator().compare(this, point);
+        return NOMINAL_COMPARATOR.compare(this, point);
     }
 }

@@ -15,7 +15,7 @@ class Util {
     }
 
     static double yearStartToJulianDay(int claendarYear) {
-        return Timeline.calendarToJulianDay(new CalendarPoint(claendarYear, 1, 1.0));
+        return Timeline.normalCalendarToJulianDay(new CalendarPoint(claendarYear, 1, 1.0));
     }
 
     static double yearStartToCenturialVector(int calendarYear) {

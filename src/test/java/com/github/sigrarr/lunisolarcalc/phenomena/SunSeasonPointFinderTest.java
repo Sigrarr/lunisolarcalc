@@ -117,7 +117,7 @@ public class SunSeasonPointFinderTest {
 
         for (Entry<CalendarPoint, SunSeasonPoint> entry : VSOP87_SUN_SEASON_POINTS.entrySet()) {
             CalendarPoint vsop87CalendarPoint = entry.getKey();
-            double vsop87Jde = Timeline.calendarToJulianDay(vsop87CalendarPoint);
+            double vsop87Jde = Timeline.normalCalendarToJulianDay(vsop87CalendarPoint);
             double actualJde = finder.findJulianEphemerisDay(vsop87CalendarPoint.y, entry.getValue());
             CalendarPoint actualCalendarPoint = Timeline.julianDayToCalendar(actualJde);
 
@@ -143,7 +143,7 @@ public class SunSeasonPointFinderTest {
             .iterator();
 
         for (int i = 0; i < 4; i++) {
-            double expectedJd = Timeline.calendarToJulianDay(SEASON_POINTS_1700[i]);
+            double expectedJd = Timeline.normalCalendarToJulianDay(SEASON_POINTS_1700[i]);
             assertEquals(expectedJd, actualJds.next(), Calcs.Time.timeToDays(0, 1, 5));
         }
     }
@@ -182,13 +182,13 @@ public class SunSeasonPointFinderTest {
                     double diff = next.timelinePoint.julianDay - previous.timelinePoint.julianDay;
                     assertTrue(
                         Math.signum(diff) > 0.0,
-                        "Wrong order: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
+                        "Wrong order: " + previous + " -> " + next
                     );
                     assertEquals(
                         diff,
                         MeanCycle.TROPICAL_YEAR.epochalLengthDays / 4,
                         4.0,
-                        "Wrong interval between subsequent points: " + dateFormatTD(previous) + " -> " + dateFormatTD(next)
+                        "Wrong interval between subsequent points: " + previous + " -> " + next
                     );
                     return next;
                 });
@@ -255,7 +255,7 @@ public class SunSeasonPointFinderTest {
                 (e) -> (e.getKey().y == 2000 && e.getValue() == SunSeasonPoint.DECEMBER_SOLSTICE)
                     || (e.getKey().y == 2001 && e.getValue() == SunSeasonPoint.MARCH_EQUINOX)
             )
-            .mapToDouble((e) -> TimelinePoint.ofCalendarPoint(e.getKey(), TimeScale.DYNAMICAL).julianDay)
+            .mapToDouble((e) -> Timeline.normalCalendarToJulianDay(e.getKey()))
             .sorted()
             .toArray();
         double accurateWinter2000to2001Duration = accurateWinter2000to2001BoundariesJDEs[1] - accurateWinter2000to2001BoundariesJDEs[0];
@@ -280,9 +280,5 @@ public class SunSeasonPointFinderTest {
     private String tooManyMinuteNumberMismatchesMsg(Map<CalendarPoint, CalendarPoint> mismatches) {
         return "More than 1/6 minute number mismatches! [VSOP 87 value\tactual value]\n" + mismatches.entrySet().stream()
             .map(e -> e.getKey().formatDateTimeToMinutes() + "\t" + e.getValue().formatDateTimeToMinutes()).collect(Collectors.joining("\n"));
-    }
-
-    private String dateFormatTD(Occurrence<SunSeasonPoint> result) {
-        return result.timelinePoint.toCalendarPoint().formatDate() + " TD";
     }
 }

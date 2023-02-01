@@ -38,7 +38,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      * @param tx    time argument to look around
      * @return      found occurrence
      */
-    public Occurrence<MoonPhase> findAround(TimelinePoint tx) {
+    public DynamicalOccurrence<MoonPhase> findAround(TimelinePoint tx) {
         return findAround(tx, EnumSet.allOf(MoonPhase.class));
     }
 
@@ -50,7 +50,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      * @param phase     Moon's phase to look for
      * @return          found occurrence
      */
-    public Occurrence<MoonPhase> findAround(TimelinePoint tx, MoonPhase phase) {
+    public DynamicalOccurrence<MoonPhase> findAround(TimelinePoint tx, MoonPhase phase) {
         return findAround(tx, EnumSet.of(phase));
     }
 
@@ -62,12 +62,12 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      * @param phases    Moon's phases to look for
      * @return          found occurrence
      */
-    public Occurrence<MoonPhase> findAround(TimelinePoint tx, EnumSet<MoonPhase> phases) {
+    public DynamicalOccurrence<MoonPhase> findAround(TimelinePoint tx, EnumSet<MoonPhase> phases) {
         double baseJde = tx.toDynamicalTime().julianDay;
-        Optional<Occurrence<MoonPhase>> uncertainCloseApproximate = phases.stream()
+        Optional<DynamicalOccurrence<MoonPhase>> uncertainCloseApproximate = phases.stream()
             .map(ph -> {
                 try {
-                    return new Occurrence<>(approximator.approximateJulianEphemerisDayAround(tx, ph), ph);
+                    return new DynamicalOccurrence<>(approximator.approximateJulianEphemerisDayAround(tx, ph), ph);
                 } catch (JulianDayOutOfPeriodException outException) {
                     return null;
                 }
@@ -78,9 +78,9 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
         if (!uncertainCloseApproximate.isPresent()) {
             throw new NoMoonPhaseResultAroundInScopeException(tx, phases);
         }
-        Occurrence<MoonPhase> closeApproximate = uncertainCloseApproximate.get();
+        DynamicalOccurrence<MoonPhase> closeApproximate = uncertainCloseApproximate.get();
 
-        return new Occurrence<>(
+        return new DynamicalOccurrence<>(
             findJulianEphemerisDay(closeApproximate.timelinePoint.julianDay, closeApproximate.type),
             closeApproximate.type
         );
@@ -94,7 +94,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      * @param startAroundPoint  time argument to start around
      * @return                  unterminated {@link Stream} of found occurrences
      */
-    public Stream<Occurrence<MoonPhase>> findMany(TimelinePoint startAroundPoint) {
+    public Stream<DynamicalOccurrence<MoonPhase>> findMany(TimelinePoint startAroundPoint) {
         return findMany(startAroundPoint, EnumSet.allOf(MoonPhase.class));
     }
 
@@ -107,7 +107,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      * @param phase             Moon's phase to look for
      * @return                  unterminated {@link Stream} of found occurrences
      */
-    public Stream<Occurrence<MoonPhase>> findMany(TimelinePoint startAroundPoint, MoonPhase phase) {
+    public Stream<DynamicalOccurrence<MoonPhase>> findMany(TimelinePoint startAroundPoint, MoonPhase phase) {
         return findMany(startAroundPoint, EnumSet.of(phase));
     }
 
@@ -120,7 +120,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      * @param phases            Moon's phases to look for
      * @return                  unterminated {@link Stream} of found occurrences
      */
-    public Stream<Occurrence<MoonPhase>> findMany(TimelinePoint startAroundPoint, EnumSet<MoonPhase> phases) {
+    public Stream<DynamicalOccurrence<MoonPhase>> findMany(TimelinePoint startAroundPoint, EnumSet<MoonPhase> phases) {
         return Stream.generate(prepareResultSupplierWithInitialResult(startAroundPoint, phases));
     }
 
@@ -146,7 +146,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
     }
 
     private ResultSupplier prepareResultSupplierWithInitialResult(TimelinePoint startAroundPoint, EnumSet<MoonPhase> phases) {
-        Occurrence<MoonPhase> initial = findAround(startAroundPoint, phases);
+        DynamicalOccurrence<MoonPhase> initial = findAround(startAroundPoint, phases);
         List<MoonPhase> orderedPhases = orderPhasesByCyclingToStartAtInitial(phases, initial.type);
         return new ResultSupplier(initial, orderedPhases);
     }
@@ -161,12 +161,12 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
     private class ResultSupplier extends ResultSupplierAbstract<MoonPhase> {
 
-        final Occurrence<MoonPhase> initialResult;
+        final DynamicalOccurrence<MoonPhase> initialResult;
         final Map<MoonPhase, Double> stageToJde;
         MoonPhase previousStage;
         boolean initialPending = true;
 
-        ResultSupplier(Occurrence<MoonPhase> initialResult, List<MoonPhase> orderedStagesInScope) {
+        ResultSupplier(DynamicalOccurrence<MoonPhase> initialResult, List<MoonPhase> orderedStagesInScope) {
             super(orderedStagesInScope);
             this.initialResult = initialResult;
             this.stageToJde = new EnumMap<>(MoonPhase.class);
@@ -186,7 +186,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
         }
 
         @Override
-        public Occurrence<MoonPhase> get() {
+        public DynamicalOccurrence<MoonPhase> get() {
             return pullInitialPendingFlag() ? initialResult : super.get();
         }
 

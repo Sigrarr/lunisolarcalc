@@ -5,7 +5,7 @@ import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class SunApparentLongitudeCalculatorTest {
@@ -19,7 +19,7 @@ public class SunApparentLongitudeCalculatorTest {
     @Test
     public void shouldCalculateLambda() {
         // Meeus 1998, Example 25.a-b, pp. 165, 169
-        TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(2448908.5);
+        TimelinePoint tx = new DynamicalTimelinePoint(2448908.5);
 
         // Meeus 1998, Example 25.b, p. 169.
         double geometricLongitude = Math.toRadians(199.907347);

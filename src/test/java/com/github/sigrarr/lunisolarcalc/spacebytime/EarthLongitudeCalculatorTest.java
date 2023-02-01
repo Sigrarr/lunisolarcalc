@@ -7,7 +7,7 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.*;
 
 public class EarthLongitudeCalculatorTest {
     /**
@@ -23,7 +23,7 @@ public class EarthLongitudeCalculatorTest {
     @Test
     public void shouldCalculateLongitude() {
         for (Map.Entry<Double, Double> entry : JDE_TO_EARTH_LONGITUDE_DEGREES.entrySet()) {
-            TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(entry.getKey());
+            TimelinePoint tx = new DynamicalTimelinePoint(entry.getKey());
             double actualLongitude = calculator.calculate(tx);
             assertEquals(entry.getValue(), Math.toDegrees(actualLongitude), decimalAutoDelta(entry.getValue()));
         }

@@ -6,7 +6,7 @@ import java.util.function.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
 import com.github.sigrarr.lunisolarcalc.spacebytime.*;
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
@@ -172,7 +172,7 @@ abstract class CyclicPhenomenonFinderAbstract {
             throw new DeltaTimeNotPositiveException(seconds);
     }
 
-    abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<Occurrence<PhT>> {
+    abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<DynamicalOccurrence<PhT>> {
         final List<PhT> orderedStagesInScope;
         Iterator<PhT> stageIterator;
         PhT currentStage;
@@ -183,8 +183,8 @@ abstract class CyclicPhenomenonFinderAbstract {
         }
 
         @Override
-        public Occurrence<PhT> get() {
-            return new Occurrence<>(getAsDouble(), currentStage);
+        public DynamicalOccurrence<PhT> get() {
+            return new DynamicalOccurrence<>(getAsDouble(), currentStage);
         }
 
         void forward() {
@@ -209,7 +209,7 @@ abstract class CyclicPhenomenonFinderAbstract {
 
         @Override
         public double calculateAngle(double julianEphemerisDay) {
-            return (Double) composedCalculator.calculate(TimelinePoint.ofJulianEphemerisDay(julianEphemerisDay));
+            return (Double) composedCalculator.calculate(new DynamicalTimelinePoint(julianEphemerisDay));
         }
     }
 }

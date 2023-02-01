@@ -103,8 +103,8 @@ public class NormalCalendaricExpressionTest {
         ) < 0);
 
         assertTrue(comparator.compare(
-            new NormalCalendaricExpression(0, 2, 28.111111111),
-            new NormalCalendaricExpression(0, 2, 28.111111110)
+            new NormalCalendaricExpression(0, 2, 28.111111 + Timeline.getEquivUnitDays()),
+            new NormalCalendaricExpression(0, 2, 28.111111)
         ) > 0);
 
         Timeline.setEquivUnit(1.0);

@@ -31,7 +31,7 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Time.*;
 public class NormalCalendaricExpression {
 
     protected static final Integer[] MAX_MONTH_DAYS = {null, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private static final Comparator<NormalCalendaricExpression> NOMINAL_COMPARATOR = (a, b) -> {
+    protected static final Comparator<NormalCalendaricExpression> NOMINAL_COMPARATOR = (a, b) -> {
         int cmpY = Integer.compare(a.y, b.y);
         if (cmpY != 0)
             return cmpY;
@@ -81,8 +81,8 @@ public class NormalCalendaricExpression {
     }
 
     /**
-     * Constucts an instance with given year, month code and day numbers,
-     * with specified time.
+     * Constucts an instance with given year, month code, day number
+     * and numbers of hours, minutes and seconds.
      *
      * @param y     {@link #y year number}
      * @param m     {@link #m month code number}

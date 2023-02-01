@@ -31,12 +31,12 @@ public class NormalCalendarPointTest {
             for (int[] yearArray : yearArray2d)
                 for (int y : yearArray)
                     for (NormalCalendar calendar : CALENDARS) {
-                        NormalCalendarPoint point = calendar.makeCalendarPoint(y, 2, 28.0);
+                        NormalCalendarPoint point = calendar.point(y, 2, 28.0);
                         if (point.isYearLeap())
-                            assertDoesNotThrow(() -> calendar.makeCalendarPoint(y, 2, 29.0));
+                            assertDoesNotThrow(() -> calendar.point(y, 2, 29.0));
                         else {
                             InvalidCalendarLeapDayException leapDayException = assertThrows(InvalidCalendarLeapDayException.class,
-                                () -> calendar.makeCalendarPoint(y, 2, 29.0));
+                                () -> calendar.point(y, 2, 29.0));
                             assertEquals(y, leapDayException.getYear());
                             assertEquals(point.getLeapRules(), leapDayException.getLeapRules());
                             assertEquals(point.getCalendar(), leapDayException.getCalendarType());
@@ -88,7 +88,7 @@ public class NormalCalendarPointTest {
             for (int[] yearArray : yearArray2d)
                 for (int y : yearArray)
                     for (NormalCalendar calendar : CALENDARS) {
-                        NormalCalendarPoint point = calendar.makeCalendarPoint(y, 1, 1);
+                        NormalCalendarPoint point = calendar.point(y, 1, 1);
                         assertEquals(point.isYearLeap() ? 366 : 365, point.getNumberOfDaysInYear());
                     }
     }
@@ -132,10 +132,10 @@ public class NormalCalendarPointTest {
         assertNonEquivalence(x, new CalendarPoint(x.y, x.m, x.dt - Timeline.getEquivUnitDays() - Calcs.EPSILON));
 
         for (NormalCalendar calendar : CALENDARS) {
-            assertEquivalence(calendar.makeCalendarPoint(-45, 12, 25.51), calendar.makeCalendarPoint(-45, 12, 25.51));
+            assertEquivalence(calendar.point(-45, 12, 25.51), calendar.point(-45, 12, 25.51));
             for (NormalCalendar anotherCalendar : CALENDARS)
                 if (anotherCalendar != calendar)
-                    assertNonEquivalence(anotherCalendar.makeCalendarPoint(0, 1, 1), calendar.makeCalendarPoint(0, 1, 1));
+                    assertNonEquivalence(anotherCalendar.point(0, 1, 1), calendar.point(0, 1, 1));
         }
 
         Timeline.setEquivUnit(1.0);

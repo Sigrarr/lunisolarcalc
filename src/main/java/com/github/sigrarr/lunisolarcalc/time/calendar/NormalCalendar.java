@@ -50,9 +50,9 @@ public interface NormalCalendar extends Titled {
     public default void validateSpecifically(NormalCalendarPoint calendarPoint) {}
 
     /**
-     * Constructs a calendar point belonging to this calendar.
+     * Obtains a calendar point belonging to this calendar.
      *
      * @see NormalCalendaricExpression#NormalCalendaricExpression(int, int, double)
      */
-    public NormalCalendarPoint makeCalendarPoint(int y, int m, double dt);
+    public NormalCalendarPoint point(int y, int m, double dt);
 }

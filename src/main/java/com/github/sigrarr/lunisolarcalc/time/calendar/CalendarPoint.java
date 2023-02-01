@@ -37,7 +37,7 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
         }
 
         @Override public LeapRules getLeapRules(NormalCalendaricExpression date) {
-            return nominalComparator().compare(date, GREGORIAN_RULES_START) < 0 ? LeapRules.JULIAN : LeapRules.GREGORIAN;
+            return NOMINAL_COMPARATOR.compare(date, GREGORIAN_RULES_START) < 0 ? LeapRules.JULIAN : LeapRules.GREGORIAN;
         }
 
         @Override public void validateSpecifically(NormalCalendarPoint date) {
@@ -45,7 +45,7 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
                 throw new JulianGregorianCalendarSkippedDateException(date.getDay());
         }
 
-        @Override public CalendarPoint makeCalendarPoint(int y, int m, double dt) {
+        @Override public CalendarPoint point(int y, int m, double dt) {
             return new CalendarPoint(y, m, dt);
         }
     };
@@ -104,28 +104,23 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
      * of the passed GregorianCalendar object, nor reflect its custom
      * {@link GregorianCalendar#getGregorianChange() Gregorian change} setting.
      *
-     * @param gregorianCalendar     {@link GregorianCalendar} object
+     * @param own     {@link GregorianCalendar} object
      * @return                      corresponding instance of calendar point
      */
     public static CalendarPoint ofLegacyGregorianCalendar(GregorianCalendar gregorianCalendar) {
-        TimeZone inputTimeZone = gregorianCalendar.getTimeZone();
-        Date inputGregorianChange = gregorianCalendar.getGregorianChange();
-        gregorianCalendar.setTimeZone(TIME_ZONE);
-        gregorianCalendar.setGregorianChange(LEGACY_GREGORIAN_CHANGE_DATE);
+        GregorianCalendar ownLegacyObject = (GregorianCalendar) gregorianCalendar.clone();
+        ownLegacyObject.setTimeZone(TIME_ZONE);
+        ownLegacyObject.setGregorianChange(LEGACY_GREGORIAN_CHANGE_DATE);
 
-        int y = gregorianCalendar.get(GregorianCalendar.YEAR);
-        CalendarPoint point = new CalendarPoint(
-            gregorianCalendar.get(GregorianCalendar.ERA) == GregorianCalendar.AD ? y : 1 - y,
-            gregorianCalendar.get(GregorianCalendar.MONTH) + 1,
-            gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH),
-            gregorianCalendar.get(GregorianCalendar.HOUR_OF_DAY),
-            gregorianCalendar.get(GregorianCalendar.MINUTE),
-            gregorianCalendar.get(GregorianCalendar.SECOND)
+        int y = ownLegacyObject.get(GregorianCalendar.YEAR);
+        return new CalendarPoint(
+            ownLegacyObject.get(GregorianCalendar.ERA) == GregorianCalendar.AD ? y : 1 - y,
+            ownLegacyObject.get(GregorianCalendar.MONTH) + 1,
+            ownLegacyObject.get(GregorianCalendar.DAY_OF_MONTH),
+            ownLegacyObject.get(GregorianCalendar.HOUR_OF_DAY),
+            ownLegacyObject.get(GregorianCalendar.MINUTE),
+            ownLegacyObject.get(GregorianCalendar.SECOND)
         );
-
-        gregorianCalendar.setGregorianChange(inputGregorianChange);
-        gregorianCalendar.setTimeZone(inputTimeZone);
-        return point;
     }
 
     /**
@@ -164,11 +159,11 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
      * @param point     calendar point to compare to
      * @return          result of chronological comparison applying the
      *                  {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
-     *                  (with the month-difference caveat),
-     *                  in the {@link Comparable#compareTo(Object) parent interface's} format
+     *                  (with the month-difference caveat;
+     *                  in the {@link Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(CalendarPoint point) {
-        return nominalComparator().compare(this, point);
+        return NOMINAL_COMPARATOR.compare(this, point);
     }
 }

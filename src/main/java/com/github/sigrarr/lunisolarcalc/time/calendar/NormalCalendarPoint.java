@@ -14,9 +14,9 @@ import com.github.sigrarr.lunisolarcalc.time.exceptions.*;
  * The month number 2 has 28 days in a common year and 29 days in a leap year.
  *
  * It is not recommended to expect of this class a time precision better than 1 second.
- * This representation abstracts from {@link TimeScale time scale} and does not store
- * any time zone information: time values should be understood as fit
- * for the prime meridian (0°), or as "local" - disregarding time zones at all.
+ * This representation does not store any {@link TimeScale time scale} or time zone
+ * information: time values should be understood as fit for the prime meridian (0°),
+ * or as "local" - disregarding time zones at all.
  *
  * @see TimelinePoint
  */

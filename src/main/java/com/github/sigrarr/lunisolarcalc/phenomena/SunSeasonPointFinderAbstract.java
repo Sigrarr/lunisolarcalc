@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
@@ -16,25 +16,28 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
 
     /**
      * Finds the occurrence of the requested Equinox/Solstice in the tropical year
-     * which begins in the requested calendar year.
+     * which begins in the requested {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year.
+     *
      * Note that for years before -1176, December Solstice may occur in the next calendar year after the requested.
      *
-     * @param calendarYear  calendar year of the beginning of the tropical year to look in
-     *                      (Julian/Gregorian, in astronomical numbering)
+     * @param calendarYear  {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                      of the beginning of the tropical year to look in (in astronomical numbering)
      * @param point         Equinox/Solstice to look for
      * @return              found occurrence
      */
-    public Occurrence<SunSeasonPoint> find(int calendarYear, SunSeasonPoint point) {
-        return new Occurrence<>(TimelinePoint.ofJulianEphemerisDay(findJulianEphemerisDay(calendarYear, point)), point);
+    public DynamicalOccurrence<SunSeasonPoint> find(int calendarYear, SunSeasonPoint point) {
+        return new DynamicalOccurrence<>(new DynamicalTimelinePoint(findJulianEphemerisDay(calendarYear, point)), point);
     }
 
     /**
      * Finds time of occurrence of the requested Equinox/Solstice in the tropical year
-     * which begins in the requested calendar year, in Julian Ephemeris Day.
+     * which begins in the requested {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year,
+     * in Julian Ephemeris Day.
+     *
      * Note that for years before -1176, December Solstice may occur in the next calendar year after the requested.
      *
-     * @param calendarYear  calendar year of the beginning of the tropical year to look in
-     *                      (Julian/Gregorian, in astronomical numbering)
+     * @param calendarYear  {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                      of the beginning of the tropical year to look in (in astronomical numbering)
      * @param point         Equinox/Solstice to look for
      * @return              time of occurrence, in Julian Ephemeris Day
      */
@@ -42,50 +45,57 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
 
     /**
      * Finds and streams subsequent occurrences of any Equinoxes/Solstices,
-     * starting at the tropical year which begins in the requested calendar year.
+     * starting at the tropical year which begins in the requested
+     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year.
      *
-     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
-     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param startCalendarYear     {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @return                      unterminated {@link Stream} of found occurrences
      */
-    public Stream<Occurrence<SunSeasonPoint>> findMany(int startCalendarYear) {
+    public Stream<DynamicalOccurrence<SunSeasonPoint>> findMany(int startCalendarYear) {
         return findMany(startCalendarYear, EnumSet.allOf(SunSeasonPoint.class));
     }
 
     /**
      * Finds and streams subsequent occurrences of the requested Equinox/Solstice,
-     * starting at the tropical year which begins in the requested calendar year.
+     * starting at the tropical year which begins in the requested
+     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year.
+     *
      * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
      *
-     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
-     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param startCalendarYear     {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @param point                 Equinox/Solstice to look for
      * @return                      unterminated {@link Stream} of found occurrences
      */
-    public Stream<Occurrence<SunSeasonPoint>> findMany(int startCalendarYear, SunSeasonPoint point) {
+    public Stream<DynamicalOccurrence<SunSeasonPoint>> findMany(int startCalendarYear, SunSeasonPoint point) {
         return findMany(startCalendarYear, EnumSet.of(point));
     }
 
     /**
      * Finds and streams subsequent occurrences of requested Equinoxes/Solstices,
-     * starting at the tropical year which begins in the requested calendar year.
+     * starting at the tropical year which begins in the requested
+     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year.
+     *
      * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
      *
-     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
-     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param startCalendarYear     {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @param points                set of Equinoxes/Solstices to look for
      * @return                      unterminated {@link Stream} of found occurrences
      */
-    public Stream<Occurrence<SunSeasonPoint>> findMany(int startCalendarYear, EnumSet<SunSeasonPoint> points) {
+    public Stream<DynamicalOccurrence<SunSeasonPoint>> findMany(int startCalendarYear, EnumSet<SunSeasonPoint> points) {
         return Stream.generate(new ResultSupplier(startCalendarYear, points));
     }
 
     /**
      * Finds and streams times of subsequent occurrences of any Equinoxes/Solstices,
-     * starting at the tropical year which begins in the requested calendar year, in Julian Ephemeris Days.
+     * starting at the tropical year which begins in the requested
+     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year,
+     * in Julian Ephemeris Days.
      *
-     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
-     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param startCalendarYear     {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @return                      unterminated {@link DoubleStream stream} of times of found occurrences,
      *                              in Julian Ephemeris Days
      */
@@ -95,11 +105,14 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
 
     /**
      * Finds and streams times of subsequent occurrences of the requested Equinoxes/Solstices,
-     * starting at the tropical year which begins in the requested calendar year, in Julian Ephemeris Days.
+     * starting at the tropical year which begins in the requested
+     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year,
+     * in Julian Ephemeris Days.
+     *
      * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
      *
-     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
-     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param startCalendarYear     {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @param points                Equinox/Solstice to look for
      * @return                      unterminated {@link DoubleStream stream} of times of found occurrences,
      *                              in Julian Ephemeris Days
@@ -110,11 +123,14 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
 
     /**
      * Finds and streams times of subsequent occurrences of requested Equinoxes/Solstices,
-     * starting at the tropical year which begins in the requested calendar year, in Julian Ephemeris Days.
+     * starting at the tropical year which begins in the requested
+     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year,
+     * in Julian Ephemeris Days.
+     *
      * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
      *
-     * @param startCalendarYear     calendar year of the beginning of the tropical year to start at
-     *                              (Julian/Gregorian, in astronomical numbering)
+     * @param startCalendarYear     {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @param points                set of Equinoxes/Solstices to look for
      * @return                      unterminated {@link DoubleStream stream} of times of found occurrences,
      *                              in Julian Ephemeris Days

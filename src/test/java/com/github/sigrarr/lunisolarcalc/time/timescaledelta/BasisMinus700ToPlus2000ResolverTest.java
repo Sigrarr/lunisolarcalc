@@ -72,7 +72,7 @@ public class BasisMinus700ToPlus2000ResolverTest {
         put(1990,  57);
         put(2000,  65);
     }};
-    private final static double START_MINUS_700_JD = Timeline.calendarToJulianDay(new CalendarPoint(-700, 1, 1.0));
+    private final static double START_MINUS_700_JD = Timeline.normalCalendarToJulianDay(new CalendarPoint(-700, 1, 1.0));
     private final static double START_2000_JD = Timeline.EPOCH_2000_JD - 0.5;
 
     private BasisMinus700ToPlus2000Resolver resolver = new BasisMinus700ToPlus2000Resolver();

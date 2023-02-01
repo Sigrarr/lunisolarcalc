@@ -29,11 +29,12 @@ public final class SunSeasonPointApproximator {
 
     /**
      * Calculates approximate "mean" time of the requested Equinox/Solstice (JDE0), in Julian Ephemeris Day.
+     *
      * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
      * Quick.
      *
-     * @param calendarYear  calendar year of the beginning of the tropical year to look in
-     *                      (Julian/Gregorian, in astronomical numbering)
+     * @param calendarYear  {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     *                      of the beginning of the tropical year to look in (in astronomical numbering)
      * @param point         Equinox/Solstice to look for
      * @return              approximate "mean" time of requested Equinox/Solstice (JDE0), in Julian Ephemeris Day
      */

@@ -36,7 +36,7 @@ public class SpaceByTimeCalcCompositionTest {
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(random.nextDouble() * Timeline.JULIAN_PERIOD_END_JD);
+            TimelinePoint tx = new DynamicalTimelinePoint(random.nextDouble() * Timeline.JULIAN_PERIOD_END_JD);
             assertForRootArgument(tx);
         }
     }

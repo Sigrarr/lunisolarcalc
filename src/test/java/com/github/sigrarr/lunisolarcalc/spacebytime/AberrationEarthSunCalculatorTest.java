@@ -17,7 +17,7 @@ public class AberrationEarthSunCalculatorTest {
     @Test
     public void shouldCalculateAberration() {
         // Meeus 1998, Example 25.a-b, pp. 165, 169
-        TimelinePoint tx = TimelinePoint.ofJulianEphemerisDay(2448908.5);
+        TimelinePoint tx = new DynamicalTimelinePoint(2448908.5);
 
         // Meeus 1998, Example 25.b, p. 169
         double radius = 0.99760775;
@@ -39,7 +39,7 @@ public class AberrationEarthSunCalculatorTest {
         assertEquals(implicitAberrationDegrees, Math.toDegrees(actualAberration), TROPICAL_YEAR.degreesPerTimeMiliseconds(75));
 
         // Meeus 1998, Example 27.b, pp. 180-181
-        tx = TimelinePoint.ofJulianEphemerisDay(2437837.38589);
+        tx = new DynamicalTimelinePoint(2437837.38589);
         radius = 1.0163018;
         actualAberration = calculator.calculate(tx, radius);
         assertEquals(-20.161, Calcs.Angle.toArcseconds(Math.toDegrees(actualAberration)), TROPICAL_YEAR.arcsecondsPerTimeMiliseconds(150));
