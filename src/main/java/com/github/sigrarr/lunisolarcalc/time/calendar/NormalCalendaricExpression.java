@@ -50,7 +50,8 @@ public class NormalCalendaricExpression {
      */
     public final int m;
     /**
-     * The day-with-time number: day of month number + time as fraction (e.g. 1.5 for the 1st day, 12:00).
+     * The day-with-time number: the day of month number + time as a fraction
+     * (e.g. 1.5 for the 1st day, 12:00).
      */
     public final double dt;
 

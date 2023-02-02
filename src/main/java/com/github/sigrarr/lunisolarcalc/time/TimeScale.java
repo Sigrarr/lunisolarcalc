@@ -18,7 +18,7 @@ public enum TimeScale implements Titled {
      * Julian Day measured in this scale is called Julian Ephemeris Day (JDE).
      *
      * The difference between Barycentric D.T. (TDB) and Terrestrial D.T. (TDT) is so small
-     * that distinguishing between them in Luni-Solar Calc would be inadequate to the project's simplicity.
+     * that distinguishing between them in Luni-Solar Calc would be inadequate for the project's simplicity.
      * However, some components work on the assumption that this is the Terrestrial Time (TT).
      */
     DYNAMICAL("Dynamical Time", "TT", "JDE"),

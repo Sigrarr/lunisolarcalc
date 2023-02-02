@@ -29,7 +29,7 @@ abstract public class TimelinePoint {
     protected static final Comparator<TimelinePoint> NOMINAL_COMPARATOR = (a, b) -> Timeline.compare(a.julianDay, b.julianDay);
 
     /**
-     * The Julian Day number, i.e. number of days (with fraction) from the beginning
+     * The Julian Day number, i.e. the number of days (with a fraction) from the beginning
      * of the current Julian Period.
      * It is just "Julian Day" in {@link TimeScale#UNIVERSAL Universal Time} and
      * "Julian Ephemeris Day" in {@link TimeScale#DYNAMICAL Dynamical Time}.
@@ -312,19 +312,6 @@ abstract public class TimelinePoint {
      */
     public String formatCalendrically() {
         return toCalendarPoint().formatDateTimeToMinutes() + " " + getTimeScale().mainAbbreviation;
-    }
-
-    /**
-     * Expresses this timeline point textually in
-     * a {@link CalendarPoint#formatDateTimeToSeconds() calendaric format},
-     * adding the {@link TimeScale#mainAbbreviation time scale determiner}.
-     *
-     * @return  textual expression in a
-     *          {@link CalendarPoint#formatDateTimeToSeconds() calendaric format},
-     *          with the {@link TimeScale#mainAbbreviation time scale determiner} added
-     */
-    public String formatCalendricallyToSeconds() {
-        return toCalendarPoint().formatDateTimeToSeconds() + " " + getTimeScale().mainAbbreviation;
     }
 
     @Override

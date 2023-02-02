@@ -12,7 +12,7 @@ public enum SunSeasonPoint implements Titled {
     MARCH_EQUINOX(0.0, "March Equinox", "Spring Equinox", "Autumn Equinox"),
     JUNE_SOLSTICE(0.5 * Math.PI, "June Solstice", "Summer Solstice", "Winter Solstice"),
     SEPTEMBER_EQUINOX(Math.PI, "September Equinox", "Autumn Equinox", "Spring Equinox"),
-    DECEMBER_SOLSTICE(1.5 * Math.PI, "December Sosltice", "Winter Solstice", "Summer Solstice");
+    DECEMBER_SOLSTICE(1.5 * Math.PI, "December Solstice", "Winter Solstice", "Summer Solstice");
 
     /**
      * The value of the Sun's apparent longitude (λ) which indicates this stage, in radians.

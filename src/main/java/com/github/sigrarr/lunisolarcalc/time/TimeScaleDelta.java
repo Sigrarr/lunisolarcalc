@@ -9,7 +9,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
  * The default method of ΔT evaluation is based on Morrison & Stephenson (2004);
  * it is best fit for years -700 to +2000, but applicable outside this interval too.
  *
- * Remember that ΔT bears serious uncertanity, regarding both the future and the distant past.
+ * Remember that ΔT bears serious uncertainty, regarding both the future and the distant past.
  *
  * You can {@link #setResolver set your own resolver of ΔT}.
  *

@@ -39,15 +39,15 @@ abstract class CyclicPhenomenonFinderAbstract {
     /**
      * Gets the angular delta, in radians.
      *
+     * This settings determines the precision of searching:
+     * proximity to the best values achievable by this object's core calculator.
      * While searching, a time argument of a newly calculated value of stage-indicating angle
      * is accepted as a result iff it differs by less than delta
      * from the value indicating the stage which is currently under search;
      * otherwise a time argument is corrected, then stage-indicating angle recalculated.
-     * The smaller the delta, the better the results' accuracy,
-     * but also the higher mean number of core calculations needed to get them.
      *
-     * Note that said "accuracy" doesn't mean proximity to objectively true values,
-     * but to the best achievable by this object's core calculator.
+     * The smaller the delta, the better the results' precision
+     * but also the higher mean number of core calculations needed to get them.
      *
      * @return  value of angular delta, in radians
      * @see     #DEFAULT_ANGULAR_DELTA_TIME_SECONDS

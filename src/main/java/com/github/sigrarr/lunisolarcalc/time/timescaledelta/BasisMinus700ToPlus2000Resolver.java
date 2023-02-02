@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
  * with reasonable accuracy (in greater extent to the past than to the future).
  * It does not provide values of high accuracy for contemporary times.
  *
- * Remember that ΔT bears serious uncertanity, regarding both the future and the distant past.
+ * Remember that ΔT bears serious uncertainty, regarding both the future and the distant past.
  * This tool does not round yielded values to any arbitrary precision;
  * it does not reflect the results' accuracy, but only the design goal
  * that ΔT should change in time continuously, which prevents contradictional behaviour

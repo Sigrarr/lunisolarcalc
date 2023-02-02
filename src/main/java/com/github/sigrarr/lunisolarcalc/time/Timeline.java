@@ -17,7 +17,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
  * Some algorithms used in this package might give quite imprecise results outside of this scope,
  * or even don't work at all.
  *
- * The Luni-Solar Calc's leading time unit is Julian Day: number of days from the beginning
+ * The Luni-Solar Calc's leading time unit is Julian Day: the number of days from the beginning
  * of the current Julian Period.
  *
  * @see " Meeus 1998: Ch. 7 (p. 59...)
