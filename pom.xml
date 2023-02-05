@@ -6,17 +6,17 @@
 
   <groupId>com.github.sigrarr</groupId>
   <artifactId>lunisolarcalc</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1-SNAPSHOT</version>
 
   <name>Luni-Solar Calc</name>
   <url>https://github.com/Sigrarr/lunisolarcalc</url>
   <description>A Java library for astronomical calculations regarding the Sun and the Moon.</description>
-	<licenses>
-		<license>
-			<name>MIT</name>
-			<url>https://github.com/Sigrarr/lunisolarcalc/blob/master/LICENSE</url>
-		</license>
-	</licenses>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://github.com/Sigrarr/lunisolarcalc/blob/master/LICENSE</url>
+    </license>
+  </licenses>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
