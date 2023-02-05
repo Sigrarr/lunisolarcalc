@@ -8,10 +8,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of the Earth's radius vector (distance to the Sun; R).
- * Costly; processes its own {@link EarthSunRadiusPeriodicTerms periodic terms} table.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Costly; processes its own {@linkplain EarthSunRadiusPeriodicTerms periodic terms} table.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 32 (p. 217...)
+ * @see "Meeus 1998: Ch. 32 (p. 217...)"
  */
 public final class EarthSunRadiusCalculator implements Provider<Subject, TimelinePoint> {
 

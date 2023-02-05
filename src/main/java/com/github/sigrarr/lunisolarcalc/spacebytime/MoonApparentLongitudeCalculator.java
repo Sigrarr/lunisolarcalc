@@ -9,9 +9,9 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Calculator of apparent longitude of the center of the Moon (λ + ΔΨ).
  * Given required parameters, it's in itself quick.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 47 (p. 337...)
+ * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */
 public final class MoonApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -21,8 +21,8 @@ public final class MoonApparentLongitudeCalculator implements Provider<Subject, 
      * Calculates apparent longitude of the center of the Moon (λ + ΔΨ): [0, 2π).
      * Quick.
      *
-     * @param longitude                     {@link MoonLongitudeCalculator the Moon's geocentric longitude} (λ), in radians
-     * @param earthNutuationInLongitude     {@link EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
+     * @param longitude                     {@linkplain MoonLongitudeCalculator the Moon's geocentric longitude} (λ), in radians
+     * @param earthNutuationInLongitude     {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
      * @return                              apparent longitude of the center of the Moon (λ + ΔΨ): [0, 2π)
      */
     public double calculate(double longitude, double earthNutuationInLongitude) {

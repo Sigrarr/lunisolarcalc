@@ -131,7 +131,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
      *
      * @param startAroundPoint  time argument to start around
      * @param phase             Moon's phase to look for
-     * @return                  unterminated {@link DoubleStream stream} of times of found occurrences,
+     * @return                  unterminated {@linkplain DoubleStream stream} of times of found occurrences,
      *                          in Julian Ephemeris Days
      */
     public DoubleStream findManyJulianEphemerisDays(TimelinePoint startAroundPoint, MoonPhase phase) {

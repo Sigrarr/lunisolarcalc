@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 import com.github.sigrarr.lunisolarcalc.time.calendar.*;
 
 /**
- * A {@link TimelinePoint timeline point} in the {@link TimeScale#UNIVERSAL Universal Time}.
+ * A {@linkplain TimelinePoint timeline point} in the {@linkplain TimeScale#UNIVERSAL Universal Time}.
  *
  * This class introduces several additional conversion methods (named "to...")
  * and static construction methods (named "of..."), which reflects the support of
@@ -15,15 +15,13 @@ import com.github.sigrarr.lunisolarcalc.time.calendar.*;
  * @see DynamicalTimelinePoint
  */
 public final class UniversalTimelinePoint extends TimelinePoint implements Comparable<UniversalTimelinePoint> {
-    /**
-     * The time scale of timeline points represented by this class.
-     */
+
     public static final TimeScale TIME_SCALE = TimeScale.UNIVERSAL;
 
     /**
-     * Constructs an instance with a given {@link #julianDay Julian Day} number.
+     * Constructs an instance with a given {@linkplain #julianDay Julian Day} number.
      *
-     * @param julianDay {@link #julianDay Julian Day}
+     * @param julianDay {@linkplain #julianDay Julian Day}
      */
     public UniversalTimelinePoint(double julianDay) {
         super(julianDay);
@@ -33,7 +31,6 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
      * Constructs an instance with a given calendar point (of the main calendar).
      *
      * @param calendarPoint     calendar point (of the main calendar)
-     * @return                  new instance
      */
     public UniversalTimelinePoint(CalendarPoint calendarPoint) {
         super(calendarPoint);
@@ -59,13 +56,13 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     }
 
     /**
-     * Obtains an instance representing the same moment as a {@link CalendarPoint calendar point}
+     * Obtains an instance representing the same moment as a {@linkplain CalendarPoint calendar point}
      * described by given parameters.
      *
-     * @param y     {@link NormalCalendaricExpression#y year number}
-     * @param m     {@link NormalCalendaricExpression#m month code number}
-     * @param dt    {@link NormalCalendaricExpression#dt day-with-time number}
-     * @return      instance representing the same moment as a {@link CalendarPoint calendar point}
+     * @param y     {@linkplain NormalCalendaricExpression#y year number}
+     * @param m     {@linkplain NormalCalendaricExpression#m month code number}
+     * @param dt    {@linkplain NormalCalendaricExpression#dt day-with-time number}
+     * @return      instance representing the same moment as a {@linkplain CalendarPoint calendar point}
      *              described by given parameters
      */
     public static UniversalTimelinePoint ofCalendaricParameters(int y, int m, double dt) {
@@ -73,16 +70,16 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     }
 
     /**
-     * Obtains an instance representing the same moment as a {@link CalendarPoint calendar point}
+     * Obtains an instance representing the same moment as a {@linkplain CalendarPoint calendar point}
      * described by given parameters.
      *
-     * @param y     {@link NormalCalendaricExpression#y year number}
-     * @param m     {@link NormalCalendaricExpression#m month code number}
+     * @param y     {@linkplain NormalCalendaricExpression#y year number}
+     * @param m     {@linkplain NormalCalendaricExpression#m month code number}
      * @param d     day of month number (between 1 and the month's maximum)
      * @param h     hour of day number (0-23)
      * @param min   minute of hour number (0-59)
      * @param s     second of minute number (0-59)
-     * @return      instance representing the same moment as a {@link CalendarPoint calendar point}
+     * @return      instance representing the same moment as a {@linkplain CalendarPoint calendar point}
      *              described by given parameters
      */
     public static UniversalTimelinePoint ofCalendaricParameters(int y, int m, int d, int h, int min, int s) {
@@ -92,8 +89,8 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     /**
      * Obtains an instance with a given point of the proleptic Gregorian calendar.
      *
-     * @param calendarPoint     point of the proleptic Gregorian calendar
-     * @return                  instance representing the same moment
+     * @param prolepticGregorianCalendarPoint   point of the proleptic Gregorian calendar
+     * @return                                  instance representing the same moment
      */
     public static UniversalTimelinePoint ofProlepticGregorianCalendar(ProlepticGregorianCalendarPoint prolepticGregorianCalendarPoint) {
         return (UniversalTimelinePoint) TimelinePoint.ofProlepticGregorianCalendar(prolepticGregorianCalendarPoint);
@@ -102,17 +99,17 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     /**
      * Obtains an instance with a given point of the proleptic Julian calendar.
      *
-     * @param calendarPoint     point of the proleptic Julian calendar
-     * @return                  instance representing the same moment
+     * @param prolepticJulianCalendarPoint  point of the proleptic Julian calendar
+     * @return                              instance representing the same moment
      */
-    public static UniversalTimelinePoint ofProlepticJulianCalendar(ProlepticJulianCalendarPoint prolepticGregorianCalendarPoint) {
-        return (UniversalTimelinePoint) TimelinePoint.ofProlepticJulianCalendar(prolepticGregorianCalendarPoint);
+    public static UniversalTimelinePoint ofProlepticJulianCalendar(ProlepticJulianCalendarPoint prolepticJulianCalendarPoint) {
+        return (UniversalTimelinePoint) TimelinePoint.ofProlepticJulianCalendar(prolepticJulianCalendarPoint);
     }
 
     /**
-     * Obtains an instance with a given value of {@link #toCenturialT() centurial T}.
+     * Obtains an instance with a given value of {@linkplain #toCenturialT() centurial T}.
      *
-     * @param centurialT    {@link #toCenturialT() centurial T}
+     * @param centurialT    {@linkplain #toCenturialT() centurial T}
      * @return              instance
      */
     public static UniversalTimelinePoint ofCenturialT(double centurialT) {
@@ -120,9 +117,9 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     }
 
     /**
-     * Obtains an instance with a given value of {@link #toMillenialTau() millenial τ (tau)}.
+     * Obtains an instance with a given value of {@linkplain #toMillenialTau() millenial τ (tau)}.
      *
-     * @param millenialTau  {@link #toMillenialTau() millenial τ (tau)}
+     * @param millenialTau  {@linkplain #toMillenialTau() millenial τ (tau)}
      * @return              instance
      */
     public static UniversalTimelinePoint ofMillenialTau(double millenialTau) {
@@ -142,8 +139,8 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     /**
      * Obtains an instance with a given {@link LocalDate} object.
      *
-     * @param localDateTime     {@link LocalDate} object
-     * @return                  instance representing the same moment
+     * @param localDate     {@link LocalDate} object
+     * @return              instance representing the same moment
      */
     public static UniversalTimelinePoint ofLocalDate(LocalDate localDate) {
         return ofProlepticGregorianCalendar(ProlepticGregorianCalendarPoint.ofLocalDate(localDate));
@@ -215,16 +212,16 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     }
 
     /**
-     * Compares this timeline point to the other of the same {@link TimeScale time scale}
+     * Compares this timeline point to the other of the same {@linkplain TimeScale time scale}
      * chronologically (in ascending mode), applying
-     * the {@link Timeline#getEquivUnitDays() timeline's equivalence unit}.
+     * the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit}.
      *
-     * {@link Comparable Consistent} with {@link #equals(Object) equivalence-check}.
+     * {@linkplain Comparable Consistent} with {@linkplain #equals(Object) equivalence-check}.
      *
      * @param point     timeline point to compare to
      * @return          result of chronological comparison applying the
-     *                  {@link Timeline#getEquivUnitDays() timeline's equivalence unit}
-     *                  (in the {@link Comparable#compareTo(Object) parent interface's} format)
+     *                  {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit}
+     *                  (in the {@linkplain Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(UniversalTimelinePoint point) {

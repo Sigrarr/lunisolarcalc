@@ -9,9 +9,9 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Calculator of the Sun's apparent longitude (λ) (indicator of Equinoxes/Solstices).
  * Given required parameters, it's in itself quick.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 25 (Higher accuracy, p. 167)
+ * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 167)"
  */
 public final class SunApparentLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -21,9 +21,9 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, T
      * Calculates the Sun's apparent longitude (λ): [0, 2π).
      * Quick operation.
      *
-     * @param geometricLongitude    {@link SunGeometricLongitudeCalculator the Sun's geometric longitude} (☉), in radians
-     * @param nutuationInLongitude  {@link EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
-     * @param aberration            {@link AberrationEarthSunCalculator aberration of the Sun's geocentric position}, in radians
+     * @param geometricLongitude    {@linkplain SunGeometricLongitudeCalculator the Sun's geometric longitude} (☉), in radians
+     * @param nutuationInLongitude  {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
+     * @param aberration            {@linkplain AberrationEarthSunCalculator aberration of the Sun's geocentric position}, in radians
      * @return                      the Sun's apparent longitude (λ): [0, 2π)
      */
     public double calculate(double geometricLongitude, double nutuationInLongitude, double aberration) {

@@ -13,7 +13,7 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Time.*;
  * An instance is immutable and its main purpose is to store and transfer
  * a calendaric expression rather than to operate on it.
  *
- * Note thtat Luni-Solar Calc uses {@link #y astronomical numbering of years}.
+ * Note thtat Luni-Solar Calc uses {@linkplain #y astronomical numbering of years}.
  *
  * This representation makes the following assumpsions:
  * A year is divided into 12 months, numbered from 1 to 12, with maximal lengths of
@@ -22,8 +22,8 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Time.*;
  * A day is divided into 24 hours numbered from 0 to 23
  * (an hour into 60 minutes numbered 0-59, and a minute into 60 seconds numbered 0-59).
  *
- * {@link Comparable Natural ordering} of unspecified calendaric expressions is not defined,
- * but there is an available {@link #nominalComparator() comparator}.
+ * {@linkplain Comparable Natural ordering} of unspecified calendaric expressions is not defined,
+ * but there is an available {@linkplain #nominalComparator() comparator}.
  *
  * @see NormalCalendarPoint
  * @see TimelinePoint
@@ -58,9 +58,9 @@ public class NormalCalendaricExpression {
     /**
      * Constucts an instance with given year, month code and day-with-time numbers.
      *
-     * @param y     {@link #y year number}
-     * @param m     {@link #m month code number}
-     * @param dt    {@link #dt day-with-time number} (counting from 1.0)
+     * @param y     {@linkplain #y year number}
+     * @param m     {@linkplain #m month code number}
+     * @param dt    {@linkplain #dt day-with-time number} (counting from 1.0)
      */
     public NormalCalendaricExpression(int y, int m, double dt) {
         this.y = y;
@@ -73,8 +73,8 @@ public class NormalCalendaricExpression {
      * Constucts an instance with given year, month code and day numbers.
      * Time will be set to 00:00.
      *
-     * @param y     {@link #y year number}
-     * @param m     {@link #m month code number}
+     * @param y     {@linkplain #y year number}
+     * @param m     {@linkplain #m month code number}
      * @param d     day of month number (between 1 and the month's maximum)
      */
     public NormalCalendaricExpression(int y, int m, int d) {
@@ -85,8 +85,8 @@ public class NormalCalendaricExpression {
      * Constucts an instance with given year, month code, day number
      * and numbers of hours, minutes and seconds.
      *
-     * @param y     {@link #y year number}
-     * @param m     {@link #m month code number}
+     * @param y     {@linkplain #y year number}
+     * @param m     {@linkplain #m month code number}
      * @param d     day of month number (between 1 and the month's maximum)
      * @param h     hour of day number (0-23)
      * @param min   minute of hour number (0-59)
@@ -144,11 +144,11 @@ public class NormalCalendaricExpression {
     /**
      * Obtains the comparator of calendaric expressions ordering them
      * by nominal value (regardless of any relations with actual time points),
-     * applying the {@link Timeline#getEquivUnitDays() timeline's equivalence unit},
+     * applying the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit},
      * with the caveat that points of different months will never be equated.
      *
      * @return      nominal comparator of calendaric expressions,
-     *              applying the {@link Timeline#getEquivUnitDays() equivalence unit}
+     *              applying the {@linkplain Timeline#getEquivUnitDays() equivalence unit}
      *              (with the month-difference caveat)
      */
     public static Comparator<NormalCalendaricExpression> nominalComparator() {
@@ -157,7 +157,7 @@ public class NormalCalendaricExpression {
 
     /**
      * Represents this date textually in the format: ±YYYY-MM-DD
-     * (using {@link #y astronomical year numbering}),
+     * (using {@linkplain #y astronomical year numbering}),
      * compliant with the ISO 8601 guidelines for representing
      * dates before +1582 (CE) and before the year 0 (1 BCE).
      *

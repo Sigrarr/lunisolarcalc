@@ -10,7 +10,7 @@ import com.github.sigrarr.lunisolarcalc.time.TimeScale;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
- * @see " Morrison & Stephenson 2004, Table 1
+ * @see "Morrison & Stephenson 2004, Table 1"
  */
 class Table {
 

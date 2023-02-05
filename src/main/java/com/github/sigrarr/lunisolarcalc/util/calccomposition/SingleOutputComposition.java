@@ -5,9 +5,9 @@ import java.util.*;
 /**
  * A composed calculation yielding values of one quantity
  * represented by its "target subject".
- * It is made of multiple {@link Provider providers}.
+ * It is made of multiple {@linkplain Provider providers}.
  *
- * @param <SubjectT>    {@link Enum enumeration type} of the quantities under calculation,
+ * @param <SubjectT>    {@linkplain Enum enumeration type} of the quantities under calculation,
  *                      containing all available "subjects"
  * @param <InT>         type of an input argument
  * @see                 CalculationComposer
@@ -36,13 +36,13 @@ public class SingleOutputComposition<SubjectT extends Enum<SubjectT>, InT> exten
      * Calculates a value of the quantity represented by this composition's target subject.
      *
      * Returned object may require casting; it will be the same as
-     * {@link Provider#calculate(Object, Map) calculated} by the provider of the target subject.
+     * {@linkplain Provider#calculate(Object, Map) calculated} by the provider of the target subject.
      *
      * @param inputArgument     input argument (will be passed as a root input
-     *                          to every {@link Provider provider} belonging to this composition)
+     *                          to every {@linkplain Provider provider} belonging to this composition)
      * @return                  value of the quantity represented by this composition's target subject
      *                          (may require casting; it will be the same as
-     *                          {@link Provider#calculate(Object, Map) calculated} by the provider
+     *                          {@linkplain Provider#calculate(Object, Map) calculated} by the provider
      *                          of the target subject)
      */
     public Object calculate(InT inputArgument) {

@@ -6,10 +6,11 @@ import java.util.stream.Collectors;
 /**
  * A composed calculation yielding values of one quantity or multiple quantities
  * represented by its "target subject(s)".
- * It is made of multiple {@link Provider providers}.
+ *
+ * It is made of multiple {@linkplain Provider providers}.
  * Predefined conrete subclasses: {@link SingleOutputComposition}, {@link MultiOutputComposition}.
  *
- * @param <SubjectT>    {@link Enum enumeration type} of the quantities under calculation,
+ * @param <SubjectT>    {@linkplain Enum enumeration type} of the quantities under calculation,
  *                      containing all available "subjects"
  * @param <InT>         type of an input argument
  * @see                 CalculationComposer

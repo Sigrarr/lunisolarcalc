@@ -9,10 +9,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of the Earth's heliocentric latitude (B).
- * Somewhat costly; processes its own {@link EarthLatitudePeriodicTerms periodic terms} table of small size.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Somewhat costly; processes its own {@linkplain EarthLatitudePeriodicTerms periodic terms} table of small size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 32 (p. 217...)
+ * @see "Meeus 1998: Ch. 32 (p. 217...)"
  */
 public final class EarthLatitudeCalculator implements Provider<Subject, TimelinePoint> {
 

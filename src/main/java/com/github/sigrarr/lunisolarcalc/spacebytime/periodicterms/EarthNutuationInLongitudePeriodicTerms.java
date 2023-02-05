@@ -5,7 +5,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
  * Results are in radians.
  *
  * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthNutuationInLongitudeCalculator
- * @see " Meeus 1998: Table 22.A (pp. 145-146)
+ * @see "Meeus 1998: Table 22.A (pp. 145-146)"
  */
 public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriodicTerms {
 

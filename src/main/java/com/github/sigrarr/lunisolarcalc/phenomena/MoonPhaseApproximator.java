@@ -4,12 +4,12 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 
 /**
  * A tool for approximating time of the Moon's phases. Calculates a "mean" value,
- * sufficient and effective as the initial step in a {@link MoonPhaseFinder more precise search}.
+ * sufficient and effective as the initial step in a {@linkplain MoonPhaseFinder more precise search}.
  * Uses an original method, inspired by the one of Meeus, but more dependable for distant past.
  * Utilizes the base New Moon instant given by him and {@link MeanCycle#LUNATION}.
  * Stateless. Quick.
  *
- * @see " Meeus 1998: Ch. 49, p. 349
+ * @see "Meeus 1998: Ch. 49, p. 349"
  */
 public final class MoonPhaseApproximator {
 

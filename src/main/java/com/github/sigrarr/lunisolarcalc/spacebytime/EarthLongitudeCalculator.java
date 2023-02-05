@@ -9,10 +9,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of the Earth's heliocentric longitude (L).
- * Costly; processes its own {@link EarthLongitudePeriodicTerms periodic terms} table of considerable size.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Costly; processes its own {@linkplain EarthLongitudePeriodicTerms periodic terms} table of considerable size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 32 (p. 217...)
+ * @see "Meeus 1998: Ch. 32 (p. 217...)"
  */
 public final class EarthLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 

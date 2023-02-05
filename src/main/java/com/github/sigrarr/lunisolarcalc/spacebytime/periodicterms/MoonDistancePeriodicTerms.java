@@ -5,7 +5,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
  * Results are in km.
  *
  * @see com.github.sigrarr.lunisolarcalc.spacebytime.MoonEarthDistanceCalculator
- * @see " Meeus 1998: Table 47.A (pp. 339-340)
+ * @see "Meeus 1998: Table 47.A (pp. 339-340)"
  */
 public final class MoonDistancePeriodicTerms extends MoonCoordinatePeriodicTerms {
 

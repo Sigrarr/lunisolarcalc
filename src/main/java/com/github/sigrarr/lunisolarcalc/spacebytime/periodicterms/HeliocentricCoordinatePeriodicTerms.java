@@ -5,7 +5,7 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 /**
  * Periodic terms for heliocentric coordinate.
  *
- * @see " Meeus 1998: Ch. 32 (p. 217...); App. III, Earth (p. 418...)
+ * @see "Meeus 1998: Ch. 32 (p. 217...); App. III, Earth (p. 418...)"
  */
 public abstract class HeliocentricCoordinatePeriodicTerms {
 

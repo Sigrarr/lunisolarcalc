@@ -11,16 +11,16 @@ import com.github.sigrarr.lunisolarcalc.util.*;
  * - whose stage-indicating angle is excess of the Moon's apparent longitude over the Sun's apparent longitude.
  *
  * Internally, works 'by definition' - driven by a core calculator of stage-indicating angle:
- * starts with an initial {@link MoonPhaseApproximator time approximation} - t, then (re)calculates the excess for t
+ * starts with an initial {@linkplain MoonPhaseApproximator time approximation} - t, then (re)calculates the excess for t
  * and corrects t until the value of excess is close enough to the specific for the phase under search.
  *
  * Uses an original method for time correction.
- * By default utilizes a {@link MoonOverSunApparentLongitudeExcessCalculator} composed with {@link SpaceByTimeCalcComposition}.
- * You can {@link #MoonPhaseFinder(StageIndicatingAngleCalculator) use another excess calculator}
+ * By default utilizes a {@link MoonOverSunApparentLongitudeExcessCalculator} composed with {@link SpaceByTimeCalcCompositions}.
+ * You can {@linkplain #MoonPhaseFinder(StageIndicatingAngleCalculator) use another excess calculator}
  * and set custom value of angular delta for comparing values of excess.
  *
- * @see " Seidelmann 1992: Ch. 9 by B.D. Yallop & C.Y. Hohenkerk, 9.213 (p. 478)
- * @see " Meeus 1998: Ch. 49, p. 349
+ * @see "Seidelmann 1992: Ch. 9 by B.D. Yallop & C.Y. Hohenkerk, 9.213 (p. 478)"
+ * @see "Meeus 1998: Ch. 49, p. 349"
  */
 public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
@@ -31,7 +31,7 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     /**
      * Constructs an instance which will use the default calculator of excess
      * of the Moon's apparent longitude over the Sun's apparent longitude,
-     * prepared with {@link SpaceByTimeCalcComposition}.
+     * prepared with {@link SpaceByTimeCalcCompositions}.
      */
     public MoonPhaseFinder() {
         this(new OwnCompositionStageIndicatingAngleCalculator(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS));
@@ -42,8 +42,8 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
      * of the Moon's apparent longitude over the Sun's apparent longitude.
      * Results' accuracy will obviously depend on the passed calculator.
      *
-     * @param sunApparentLongitudeCalculator    calculator of excess of the Moon's apparent longitude
-     *                                          over the Sun's apparent longitude
+     * @param moonOverSunLambdaExcessCalculator     calculator of excess of the Moon's apparent longitude
+     *                                              over the Sun's apparent longitude
      */
     public MoonPhaseFinder(StageIndicatingAngleCalculator moonOverSunLambdaExcessCalculator) {
         super(moonOverSunLambdaExcessCalculator);

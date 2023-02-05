@@ -9,9 +9,9 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Calculator of the Sun's geometric latitude (β).
  * Given required parameters, it's in itself rather quick.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 25 (Higher accuracy, p. 166)
+ * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 166)"
  */
 public final class SunLatitudeCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -22,8 +22,8 @@ public final class SunLatitudeCalculator implements Provider<Subject, TimelinePo
      * Rather quick.
      *
      * @param tx                        time argument
-     * @param heliocentricLatitude      {@link EarthLatitudeCalculator the Earth's heliocentric latitude} (B), in radians
-     * @param heliocentricLongitude     {@link EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
+     * @param heliocentricLatitude      {@linkplain EarthLatitudeCalculator the Earth's heliocentric latitude} (B), in radians
+     * @param heliocentricLongitude     {@linkplain EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
      * @return                          the Sun's geometric latitude (β): [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx, double heliocentricLatitude, double heliocentricLongitude) {

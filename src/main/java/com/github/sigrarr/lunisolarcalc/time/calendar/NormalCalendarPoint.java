@@ -14,7 +14,7 @@ import com.github.sigrarr.lunisolarcalc.time.exceptions.*;
  * The month number 2 has 28 days in a common year and 29 days in a leap year.
  *
  * It is not recommended to expect of this class a time precision better than 1 second.
- * This representation does not store any {@link TimeScale time scale} or time zone
+ * This representation does not store any {@linkplain TimeScale time scale} or time zone
  * information: time values should be understood as fit for the prime meridian (0°),
  * or as "local" - disregarding time zones at all.
  *
@@ -110,13 +110,13 @@ public abstract class NormalCalendarPoint extends NormalCalendaricExpression {
     /**
      * Equivalence check: checks whether the other object (NormalCalendarPoint)
      * is an equivalent of this, i.e. whether they represent the same date and time
-     * in the same calendar. Applies the {@link Timeline#getEquivUnitDays() timeline's equivalence unit},
+     * in the same calendar. Applies the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit},
      * with the caveat that points of different months will never be equated.
      * To check equivalence of points of time regardless of a calendar month, use {@link TimelinePoint}.
      *
      * @param o     other object (NormalCalendarPoint), to check its equivalence with this
      * @return      {@code true} - if the other point and this represent the same date and time
-     *              in the same calendar (with regard to the {@link Timeline#getEquivUnitDays() timeline's equivalence unit},
+     *              in the same calendar (with regard to the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit},
      *              with the month-difference caveat); {@code false } - otherwise
      */
     @Override
@@ -132,15 +132,15 @@ public abstract class NormalCalendarPoint extends NormalCalendaricExpression {
     }
 
     /**
-     * Equivalence check: generates a {@link Object#hashCode() hash code} identifying
-     * the combination of this point's {@link NormalCalendar calendar type},
-     * year, month and date-with-time. Applies the {@link Timeline#getEquivUnitDays() timeline's equivalence unit},
+     * Equivalence check: generates a {@linkplain Object#hashCode() hash code} identifying
+     * the combination of this point's {@linkplain NormalCalendar calendar type},
+     * year, month and date-with-time. Applies the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit},
      * with the caveat that points of different months will never be equated.
      * To check equivalence of points of time regardless of a calendar month, use {@link TimelinePoint}.
      *
-     * @return  {@link Object#hashCode() hash code} identifying the combination
-     *          of this point's {@link NormalCalendar calendar type}, year, month and date-with-time,
-     *          applying the {@link Timeline#getEquivUnitDays() timeline's equivalence unit}
+     * @return  {@linkplain Object#hashCode() hash code} identifying the combination
+     *          of this point's {@linkplain NormalCalendar calendar type}, year, month and date-with-time,
+     *          applying the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit}
      *          (with the month-difference caveat)
      */
     @Override

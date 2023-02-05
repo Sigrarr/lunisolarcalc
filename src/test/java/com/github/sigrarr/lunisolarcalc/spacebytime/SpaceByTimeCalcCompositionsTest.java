@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
-public class SpaceByTimeCalcCompositionTest {
+public class SpaceByTimeCalcCompositionsTest {
 
     private EarthNutuationElements earthNutuationElements = EarthNutuationElements.makeUnevaluatedInstance();
     private MoonCoordinateElements moonCoordinateElements = MoonCoordinateElements.makeUnevaluatedInstance();
@@ -30,7 +30,7 @@ public class SpaceByTimeCalcCompositionTest {
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
     private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
     private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
-        .collect(Collectors.toMap(s -> s, s -> SpaceByTimeCalcComposition.compose(s)));
+        .collect(Collectors.toMap(s -> s, s -> SpaceByTimeCalcCompositions.compose(s)));
 
     @Test
     public void shouldCompositionsAndCoreCalculatorsGiveEqualResults() {

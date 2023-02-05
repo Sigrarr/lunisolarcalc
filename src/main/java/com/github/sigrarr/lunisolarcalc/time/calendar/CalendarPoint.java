@@ -60,7 +60,7 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
      */
     public static final CalendarPoint GREGORIAN_RULES_START = new CalendarPoint(REFORM_Y, REFORM_M, GREGORIAN_START_D);
     /**
-     * The day (24 hours) before the {@link GREGORIAN_RULES_START introduction of the Gregorian calendar}.
+     * The day (24 hours) before the {@linkplain #GREGORIAN_RULES_START introduction of the Gregorian calendar}.
      */
     public static final CalendarPoint JULIAN_RULES_END_DATE_MIDNIGHT = new CalendarPoint(REFORM_Y, REFORM_M, JULIAN_END_D);
     private static final Date LEGACY_GREGORIAN_CHANGE_DATE = GREGORIAN_RULES_START.toLegacyGregorianCalendar().getGregorianChange();
@@ -88,10 +88,10 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
 
     /**
      * Constructs an instance representing the current moment
-     * (in {@link com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT}).
+     * (in {@linkplain com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT}).
      *
      * @return  an instance representing the current moment
-     *          (in {@link com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT})
+     *          (in {@linkplain com.github.sigrarr.lunisolarcalc.time.TimeScale#UNIVERSAL UT})
      */
     public static CalendarPoint ofNow() {
         return ofLegacyGregorianCalendar(new GregorianCalendar());
@@ -102,9 +102,9 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
      *
      * Note that the new calendar point won't keep the time zone
      * of the passed GregorianCalendar object, nor reflect its custom
-     * {@link GregorianCalendar#getGregorianChange() Gregorian change} setting.
+     * {@linkplain GregorianCalendar#getGregorianChange() Gregorian change} setting.
      *
-     * @param own     {@link GregorianCalendar} object
+     * @param gregorianCalendar     {@link GregorianCalendar} object
      * @return                      corresponding instance of calendar point
      */
     public static CalendarPoint ofLegacyGregorianCalendar(GregorianCalendar gregorianCalendar) {
@@ -148,19 +148,19 @@ public final class CalendarPoint extends NormalCalendarPoint implements Comparab
 
     /**
      * Compares this calendar point to the other chronologically, applying the
-     * {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() timeline's equivalence unit},
+     * {@linkplain com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() timeline's equivalence unit},
      * with the caveat that points of different months will never be equated.
      *
-     * {@link Comparable Consistent} with {@link #equals(Object) equivalence-check}.
+     * {@linkplain Comparable Consistent} with {@linkplain #equals(Object) equivalence-check}.
      *
      * To compare points of time regardless of a calendar month,
-     * use {@link com.github.sigrarr.lunisolarcalc.time.TimelinePoint TimelinePoint}.
+     * use {@linkplain com.github.sigrarr.lunisolarcalc.time.TimelinePoint TimelinePoint}.
      *
      * @param point     calendar point to compare to
      * @return          result of chronological comparison applying the
-     *                  {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
+     *                  {@linkplain com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
      *                  (with the month-difference caveat;
-     *                  in the {@link Comparable#compareTo(Object) parent interface's} format)
+     *                  in the {@linkplain Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(CalendarPoint point) {

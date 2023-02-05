@@ -8,8 +8,8 @@ import com.github.sigrarr.lunisolarcalc.util.Titled;
  * The scales are not just relatively shifted: they differ by the very length of a second.
  *
  * @see TimeScaleDelta
- * @see " Meeus 1998: Ch. 10 (p. 77...)
- * @see " Morrison & Stephenson 2004
+ * @see "Meeus 1998: Ch. 10 (p. 77...)"
+ * @see "Morrison & Stephenson 2004"
  */
 public enum TimeScale implements Titled {
     /**

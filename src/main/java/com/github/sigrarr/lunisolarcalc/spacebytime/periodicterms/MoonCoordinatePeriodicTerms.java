@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 /**
  * Periodic terms for the Moon's coordinate.
  *
- * @see " Meeus 1998: Ch. 47 (p. 337...), Table 47.A-B (pp. 339-341)
+ * @see "Meeus 1998: Ch. 47 (p. 337...), Table 47.A-B (pp. 339-341)"
  */
 public abstract class MoonCoordinatePeriodicTerms {
 

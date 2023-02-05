@@ -9,10 +9,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of longitude of the Moon's center (λ).
- * Costly; processes its own {@link MoonLongitudePeriodicTerms periodic terms} table of considerable size.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Costly; processes its own {@linkplain MoonLongitudePeriodicTerms periodic terms} table of considerable size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 47 (p. 337...)
+ * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */
 public final class MoonLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -25,7 +25,7 @@ public final class MoonLongitudeCalculator implements Provider<Subject, Timeline
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@link MoonLongitudePeriodicTerms periodic terms}
+     * @param elements  intermediate arguments used in {@linkplain MoonLongitudePeriodicTerms periodic terms}
      * @return          longitude of the Moon's center (λ): [0, 2π)
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {

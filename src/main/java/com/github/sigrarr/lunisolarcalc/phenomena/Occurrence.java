@@ -6,13 +6,13 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 
 /**
  * An occurrence of a certain type or stage of some astronomical phenomenon,
- * typically a found instant of specific {@link MoonPhase phase of the Moon} or {@link SunSeasonPoint Equinox/Solstice}.
- * Belongs to one of the {@link TimeScale time scales}.
+ * typically a found instant of specific {@linkplain MoonPhase phase of the Moon} or {@linkplain SunSeasonPoint Equinox/Solstice}.
+ * Belongs to one of the {@linkplain TimeScale time scales}.
  *
  * Natural ordering for this abstract class is not defined;
  * in order to sort an array or a collection of occurrences,
- * it is recommended to {@link #toDynamicalTime() project or convert them all to DynamicalTime}
- * or to {@link #toUniversalTime() Universal Time}.
+ * it is recommended to {@linkplain #toDynamicalTime() project or convert them all to DynamicalTime}
+ * or to {@linkplain #toUniversalTime() Universal Time}.
  *
  * @param <T>   {@link Enum} representing a type or stage of astronomical phenomenon whose occurence is stored,
  *              eg. {@link MoonPhase} or {@link SunSeasonPoint}
@@ -49,24 +49,24 @@ public abstract class Occurrence<T extends Enum<T>> {
     }
 
     /**
-     * Obtains an instance with a {@link UniversalTimelinePoint timeline point in Universal Time}.
+     * Obtains an instance with a {@linkplain UniversalTimelinePoint timeline point in Universal Time}.
      *
      * If this instance belongs to the Universal Time, returns this instance,
      * otherwise prepares a corresponding instance in Universal Time.
      *
-     * @return  instance with a {@link UniversalTimelinePoint timeline point in Universal Time}:
+     * @return  instance with a {@linkplain UniversalTimelinePoint timeline point in Universal Time}:
      *          this instance, if it belongs to the Universal Time,
      *          or a corresponding instance otherwise
      */
     abstract public UniversalOccurrence<T> toUniversalTime();
 
     /**
-     * Obtains an instance with a {@link DynamicalTimelinePoint timeline point in Dynamical Time}.
+     * Obtains an instance with a {@linkplain DynamicalTimelinePoint timeline point in Dynamical Time}.
      *
      * If this instance belongs to the Dynamical Time, returns this instance,
      * otherwise prepares a corresponding instance in Dynamical Time.
      *
-     * @return  instance with a {@link DynamicalTimelinePoint timeline point in Dynamical Time}:
+     * @return  instance with a {@linkplain DynamicalTimelinePoint timeline point in Dynamical Time}:
      *          this instance, if it belongs the Dynamical Time,
      *          or a corresponding instance otherwise
      */
@@ -74,15 +74,15 @@ public abstract class Occurrence<T extends Enum<T>> {
 
     /**
      * Equivalence check: checks whether the other object (Occurrence) is an equivalent of this,
-     * i.e. whether they both store the same {@link #getType() type/stage} of the same phenomenon
-     * and have {@link TimelinePoint#equals(Object) equal timeline points}
-     * (belonging to the same {@link TimeScale time scale} is necessary).
+     * i.e. whether they both store the same {@linkplain #getType() type/stage} of the same phenomenon
+     * and have {@linkplain TimelinePoint#equals(Object) equal timeline points}
+     * (belonging to the same {@linkplain TimeScale time scale} is necessary).
      *
      * @param o     other object (Occurrence), to check its equivalence with this
      * @return      {@code true} - if the other occurence and this
-     *              have the same {@link #getType() type} (of the same class and equal value)
-     *              and {@link TimelinePoint#equals(Object) equal timeline points}
-     *              (belonging to the same {@link TimeScale time scale} is necessary);
+     *              have the same {@linkplain #getType() type} (of the same class and equal value)
+     *              and {@linkplain TimelinePoint#equals(Object) equal timeline points}
+     *              (belonging to the same {@linkplain TimeScale time scale} is necessary);
      *              {@code false } - otherwise
      */
     @Override
@@ -95,12 +95,12 @@ public abstract class Occurrence<T extends Enum<T>> {
     }
 
     /**
-     * Equivalence check: generates a {@link Object#hashCode() hash code} identifying the combination
-     * of this occurrence's {@link TimelinePoint#hashCode() timeline point} and {@link #getType() type}.
+     * Equivalence check: generates a {@linkplain Object#hashCode() hash code} identifying the combination
+     * of this occurrence's {@linkplain TimelinePoint#hashCode() timeline point} and {@linkplain #getType() type}.
      *
-     * @return  {@link Object#hashCode() hash code} identifying the combination
-     *          of this occurrence's {@link TimelinePoint#hashCode() timeline point}
-     *          and {@link #getType() type}
+     * @return  {@linkplain Object#hashCode() hash code} identifying the combination
+     *          of this occurrence's {@linkplain TimelinePoint#hashCode() timeline point}
+     *          and {@linkplain #getType() type}
      */
     @Override
     public int hashCode() {

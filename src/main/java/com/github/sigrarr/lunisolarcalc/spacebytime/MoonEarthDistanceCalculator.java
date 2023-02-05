@@ -8,10 +8,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of distance between the centers of Earth and Moon (Δ).
- * Costly; processes its own {@link MoonDistancePeriodicTerms periodic terms} table of considerable size.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Costly; processes its own {@linkplain MoonDistancePeriodicTerms periodic terms} table of considerable size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 47 (p. 337...)
+ * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */
 public final class MoonEarthDistanceCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -25,7 +25,7 @@ public final class MoonEarthDistanceCalculator implements Provider<Subject, Time
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@link MoonDistancePeriodicTerms periodic terms}
+     * @param elements  intermediate arguments used in {@linkplain MoonDistancePeriodicTerms periodic terms}
      * @return          distance between the centers of Earth and Moon (Δ), in km
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {

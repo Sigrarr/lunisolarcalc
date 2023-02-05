@@ -9,9 +9,9 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Calculator of the Sun's geometric longitude (☉).
  * Given required parameters, it's in itself quick.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 25 (Higher accuracy, p. 166)
+ * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 166)"
  */
 public final class SunGeometricLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -23,7 +23,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
      * Calculates the Sun's geometric longitude (☉): [0, 2π).
      * Quick.
      *
-     * @param heliocentricLongitude {@link EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
+     * @param heliocentricLongitude {@linkplain EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
      * @return                      the Sun's geometric longitude (☉): [0, 2π)
      */
     public double calculate(double heliocentricLongitude) {

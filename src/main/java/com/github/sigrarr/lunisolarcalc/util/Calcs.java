@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.util;
 
 /**
- * Several calculation utilities (static).
+ * Calculation utilities (static).
  */
 public abstract class Calcs {
     /**
@@ -24,12 +24,12 @@ public abstract class Calcs {
     public static final double EPSILON_MIN = EPSILON_16;
 
     /**
-     * Checks whether two numbers are {@link #equal(double, double, double) equal},
+     * Checks whether two numbers are {@linkplain #equal(double, double, double) equal},
      * applying the default delta ({@value #EPSILON}).
      *
      * @param a     first numer
      * @param b     second number
-     * @return      {@code true} - if given numbers are {@link #equal(double, double, double) equal},
+     * @return      {@code true} - if given numbers are {@linkplain #equal(double, double, double) equal},
      *              applying the default delta ({@value #EPSILON}); {@code false} - otherwise
      */
     public static boolean equal(double a, double b) {
@@ -51,12 +51,12 @@ public abstract class Calcs {
     }
 
     /**
-     * {@link #compare(double, double, double) Compares} two numbers,
+     * {@linkplain #compare(double, double, double) Compares} two numbers,
      * applying the default delta ({@value #EPSILON}).
      *
      * @param a     first number
      * @param b     second number
-     * @return      the result of {@link #compare(double, double, double) comparison}
+     * @return      the result of {@linkplain #compare(double, double, double) comparison}
      *              of given numbers, applying the default delta ({@value #EPSILON})
      */
     public static int compare(double a, double b) {
@@ -71,8 +71,8 @@ public abstract class Calcs {
      * @param b         second number
      * @param delta     comparison delta
      * @return          result of comparison of given numbers,
-     *                  in the {@link java.util.Comparator#compare(Object, Object) Comparator's format},
-     *                  0 iff the numbers are {@link #equal(double, double, double) equal with the given delta}
+     *                  in the {@linkplain java.util.Comparator#compare(Object, Object) Comparator's format},
+     *                  0 iff the numbers are {@linkplain #equal(double, double, double) equal with the given delta}
      */
     public static int compare(double a, double b, double delta) {
         return equal(a, b, delta) ? 0 : (a < b ? -1 : 1);

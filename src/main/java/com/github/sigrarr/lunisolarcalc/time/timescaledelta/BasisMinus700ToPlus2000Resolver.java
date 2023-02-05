@@ -5,7 +5,7 @@ import static com.github.sigrarr.lunisolarcalc.time.timescaledelta.Util.*;
 import com.github.sigrarr.lunisolarcalc.time.*;
 
 /**
- * A tool for approximating ΔT = {@link TimeScale TT - UT},
+ * A tool for approximating ΔT = {@linkplain TimeScale TT - UT},
  * adapting the method by Morrison & Stephenson (2004).
  * It is fit for years from -700 to +2000, but can be applied outside this interval
  * with reasonable accuracy (in greater extent to the past than to the future).
@@ -28,7 +28,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
  * [-710-01-01 00:00, -700-01-01 00:00] and [+2000-01-01 00:00, +2001-01-01 00:00]
  * will be resolved linearly in order to smoothen the transition between the scopes.
  *
- * @see " Morrison & Stephenson 2004, esp.: Table 1 (p. 332); p 335
+ * @see "Morrison & Stephenson 2004, esp.: Table 1 (p. 332); p 335"
  */
 public final class BasisMinus700ToPlus2000Resolver implements TimeScaleDelta.Resolver {
 

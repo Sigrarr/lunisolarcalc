@@ -4,8 +4,8 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
  * Subject of calculation supported by this package; provided quantity.
  *
  * This enum class is fit for being the main generic parameter of
- * {@link com.github.sigrarr.lunisolarcalc.util.calccomposition.CalculationComposer compositions},
- * as in {@link SpaceByTimeCalcComposition}.
+ * {@linkplain com.github.sigrarr.lunisolarcalc.util.calccomposition.CalculationComposer compositions},
+ * as in {@link SpaceByTimeCalcCompositions}.
  */
 public enum Subject {
     /**

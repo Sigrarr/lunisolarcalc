@@ -10,20 +10,20 @@ import com.github.sigrarr.lunisolarcalc.spacebytime.*;
  * - whose stage-indicating angle is the Sun's apparent longitude (λ).
  *
  * Internally, works 'by definition' - driven by a core calculator of λ:
- * starts with an initial {@link SunSeasonPointApproximator time approximation} - t,
+ * starts with an initial {@linkplain SunSeasonPointApproximator time approximation} - t,
  * then (re)calculates λ(t) and corrects t until the value λ(t) is close enough to the specific for the stage under search.
  *
  * Uses Meeus' method for time correction.
- * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link SpaceByTimeCalcComposition}.
- * You can {@link #SunSeasonPointFinder(StageIndicatingAngleCalculator) use another λ calculator}
+ * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link SpaceByTimeCalcCompositions}.
+ * You can {@linkplain #SunSeasonPointFinder(StageIndicatingAngleCalculator) use another λ calculator}
  * and set custom value of angular delta for comparing values of λ.
  *
- * @see " Meeus 1998: Ch. 27 ("Of course, higher accuracy...", p. 180)
+ * @see "Meeus 1998: Ch. 27 ("Of course, higher accuracy...", p. 180)"
  */
 public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
     /**
      * Constructs an instance which will use the default calculator of the Sun's apparent longitude (λ),
-     * prepared with {@link SpaceByTimeCalcComposition}.
+     * prepared with {@link SpaceByTimeCalcCompositions}.
      */
     public SunSeasonPointFinder() {
         this(new OwnCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));

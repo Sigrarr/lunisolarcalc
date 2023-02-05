@@ -3,8 +3,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import com.github.sigrarr.lunisolarcalc.time.*;
 
 /**
- * An {@link Occurrence occurrence} of a certain type or stage of some astronomical phenomenon
- * in {@link TimeScale#DYNAMICAL Dynamical Time}.
+ * An {@linkplain Occurrence occurrence} of a certain type or stage of some astronomical phenomenon
+ * in {@linkplain TimeScale#DYNAMICAL Dynamical Time}.
  *
  * @param <T>   {@link Enum} representing a type or stage of astronomical phenomenon whose occurence is stored,
  *              eg. {@link MoonPhase} or {@link SunSeasonPoint}
@@ -14,8 +14,8 @@ public class DynamicalOccurrence<T extends Enum<T>> extends Occurrence<T> implem
     /**
      * Constructs an instance with a timeline point and a specified type or stage
      * of astronomical phenomenon. If the given timeline point belongs to the
-     * {@link TimeScale#UNIVERSAL Universal Time}, it will be
-     * {@link TimelinePoint#toDynamicalTime() converted to Dynamical Time} first.
+     * {@linkplain TimeScale#UNIVERSAL Universal Time}, it will be
+     * {@linkplain TimelinePoint#toDynamicalTime() converted to Dynamical Time} first.
      *
      * @param timelinePoint     time of occurence
      * @param type              type or stage of astronomical phenomenon
@@ -25,11 +25,12 @@ public class DynamicalOccurrence<T extends Enum<T>> extends Occurrence<T> implem
     }
 
     /**
-     * Constructs an instance with a {@link TimelinePoint#julianDay Julian Ephemeris Day}
+     * Constructs an instance with a {@linkplain TimelinePoint#julianDay Julian Ephemeris Day}
      * number and a specified type or stage of astronomical phenomenon.
      *
-     * @param julianEphemerisDay
-     * @param type
+     * @param julianEphemerisDay    time of occurrence,
+     *                              in {@linkplain TimelinePoint#julianDay Julian Ephemeris Day}
+     * @param type                  type or stage of astronomical phenomenon
      */
     public DynamicalOccurrence(double julianEphemerisDay, T type) {
         super(new DynamicalTimelinePoint(julianEphemerisDay), type);
@@ -51,17 +52,17 @@ public class DynamicalOccurrence<T extends Enum<T>> extends Occurrence<T> implem
     }
 
     /**
-     * Compares this occurrence to the other of the same {@link TimeScale time scale}:
-     * (1) chronologically, ie. {@link DynamicalTimelinePoint#compareTo(DynamicalTimelinePoint) by timeline point},
-     * (2) by {@link #getType() type} class name, (3) by type value.
+     * Compares this occurrence to the other of the same {@linkplain TimeScale time scale}:
+     * (1) chronologically, ie. {@linkplain DynamicalTimelinePoint#compareTo(DynamicalTimelinePoint) by timeline point},
+     * (2) by {@linkplain #getType() type} class name, (3) by type value.
      *
-     * {@link Comparable Consistent} with {@link #equals(Object) equivalence-check}.
+     * {@linkplain Comparable Consistent} with {@linkplain #equals(Object) equivalence-check}.
      *
      * @param occurrence    occurrence to compare to
      * @return              result of comparison
-     *                      (1) {@link DynamicalTimelinePoint#compareTo(DynamicalTimelinePoint) by timeline point},
-     *                      (2) by {@link #getType() type} class name, (3) by type value
-     *                      (in the {@link Comparable#compareTo(Object) parent interface's} format)
+     *                      (1) {@linkplain DynamicalTimelinePoint#compareTo(DynamicalTimelinePoint) by timeline point},
+     *                      (2) by {@linkplain #getType() type} class name, (3) by type value
+     *                      (in the {@linkplain Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(DynamicalOccurrence<?> occurrence) {

@@ -3,17 +3,17 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 import java.util.*;
 
 /**
- * A composer of {@link Composition calculations}
+ * A composer of {@linkplain Composition calculations}
  * which yield values of enumerated quantities called "subjects".
  *
- * Gathers {@link Provider providers} of the subjects and composes them
+ * Gathers {@linkplain Provider providers} of the subjects and composes them
  * into a calculation of a selected subject or a set of subjects.
  * Resolves dependencies (detecting circles), avoids redundancy.
  *
- * To utilze this tool optimally, {@link #register(Provider) registered} providers
+ * To utilze this tool optimally, {@linkplain #register(Provider) registered} providers
  * should be 'atomic': each being a simple calculator of a single value.
  *
- * @param <SubjectT>    {@link Enum enumeration type} of the quantities under calculation,
+ * @param <SubjectT>    {@linkplain Enum enumeration type} of the quantities under calculation,
  *                      containing all available "subjects"
  * @param <InT>         type of a root input passed to a composed calculation
  */
@@ -25,7 +25,7 @@ public class CalculationComposer<SubjectT extends Enum<SubjectT>, InT> {
     /**
      * Constructs a new calculation composer.
      *
-     * @param subjectEnumClass  class of the {@link Enum enumeration} of the quantities under
+     * @param subjectEnumClass  class of the {@linkplain Enum enumeration} of the quantities under
      *                          calculation, containing all available "subjects"
      */
     public CalculationComposer(Class<SubjectT> subjectEnumClass) {

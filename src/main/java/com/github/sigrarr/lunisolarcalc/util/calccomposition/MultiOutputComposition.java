@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 /**
  * A composed calculation yielding values of the quantities
  * represented by its "target subjects".
- * It is made of multiple {@link Provider providers}.
+ * It is made of multiple {@linkplain Provider providers}.
  *
- * @param <SubjectT>    {@link Enum enumeration type} of the quantities under calculation,
+ * @param <SubjectT>    {@linkplain Enum enumeration type} of the quantities under calculation,
  *                      containing all available "subjects"
  * @param <InT>         type of an input argument
  * @see                 CalculationComposer
@@ -38,14 +38,14 @@ public class MultiOutputComposition<SubjectT extends Enum<SubjectT>, InT> extend
      * and returns them in the form of a subject-value map.
      *
      * Objects stored in the map may require casting; each will be the same as
-     * {@link Provider#calculate(Object, Map) calculated} by the provider of its key subject.
+     * {@linkplain Provider#calculate(Object, Map) calculated} by the provider of its key subject.
      *
      * @param inputArgument     input argument (will be passed as a root input
-     *                          to every {@link Provider provider} belonging to this composition)
+     *                          to every {@linkplain Provider provider} belonging to this composition)
      * @return                  values of the quantities represented by this composition's target subjects,
      *                          in the form of a subject-value map (objects stored in the map may require
      *                          casting; each will be the same as
-     *                          {@link Provider#calculate(Object, Map) calculated} by the provider
+     *                          {@linkplain Provider#calculate(Object, Map) calculated} by the provider
      *                          of its key subject)
      */
     public Map<SubjectT, Object> calculate(InT inputArgument) {

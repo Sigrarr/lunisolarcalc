@@ -14,7 +14,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
  * by Laskar (for Sun, 1986) and Chapront-Touzé & Chapront (for Moon, 1988),
  * as given by L.E. Doggett.
  *
- * @see " Seidelmann 1992: Ch. 12 by L.E. Doggett, 12.11-12 (p. 576)
+ * @see "Seidelmann 1992: Ch. 12 by L.E. Doggett, 12.11-12 (p. 576)"
  */
 public enum MeanCycle {
     /**
@@ -40,7 +40,7 @@ public enum MeanCycle {
      */
     public final double epochalLengthDays;
     /**
-     * Epoch, at wich a mean length is given as constant. Presumably {@link Timeline#EPOCH_2000_TT Epoch 2000}.
+     * Epoch, at wich a mean length is given as constant. Presumably {@linkplain Timeline#EPOCH_2000_TT Epoch 2000}.
      */
     public final TimelinePoint epoch;
     private final double[] lengthFunctionCTPositivePowersCoefficients;

@@ -9,25 +9,25 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Calculator of excess of the Moon's apparent longitude over the Sun's apparent longitude (indicator of phases of the Moon).
  * Given required parameters, it's in itself quick.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Seidelmann 1992: Ch. 9 by B.D. Yallop & C.Y. Hohenkerk, 9.213 (p. 478)
- * @see " Meeus 1998: Ch. 49 (p. 349)
+ * @see "Seidelmann 1992: Ch. 9 by B.D. Yallop & C.Y. Hohenkerk, 9.213 (p. 478)"
+ * @see "Meeus 1998: Ch. 49 (p. 349)"
  */
 public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Subject, TimelinePoint> {
 
     public static final Subject SUBJECT = Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS;
 
     /**
-     * Calculates excess of {@link MoonApparentLongitudeCalculator the Moon's apparent longitude} over {@link SunApparentLongitudeCalculator the Sun's apparent longitude}: [0, 2π).
+     * Calculates excess of {@linkplain MoonApparentLongitudeCalculator the Moon's apparent longitude} over {@linkplain SunApparentLongitudeCalculator the Sun's apparent longitude}: [0, 2π).
      * By definition, it would take these quantities to subtract one from another
      * - and you can pass them as arguments to this method, instead of those listed below -
-     * but they both include {@link EarthNutuationInLongitudeCalculator the Earth's nutuation} (ΔΨ), so the latter wouldn't affect the result anyway,
+     * but they both include {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation} (ΔΨ), so the latter wouldn't affect the result anyway,
      * while calculating it could turn out to be redundant.
      * Quick operation.
      *
-     * @param moonLongitude             {@link MoonLongitudeCalculator the Moon's longitude}, in radians
-     * @param sunAberratedLongitude     {@link SunAberratedLongitudeCalculator the Sun's aberrated longitude}, in radians
+     * @param moonLongitude             {@linkplain MoonLongitudeCalculator the Moon's longitude}, in radians
+     * @param sunAberratedLongitude     {@linkplain SunAberratedLongitudeCalculator the Sun's aberrated longitude}, in radians
      * @return                          excess of the Moon's apparent longitude over the Sun's apparent longitude: [0, 2π)
      */
     public double calculate(double moonLongitude, double sunAberratedLongitude) {

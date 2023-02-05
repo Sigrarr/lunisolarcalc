@@ -9,10 +9,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of aberration of the Sun's geocentric position (caused by the Earth's motion).
- * Somewhat costly; processes its own {@link SunLongitudeVariationPeriodicTerms periodic terms} table of moderate size.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Somewhat costly; processes its own {@linkplain SunLongitudeVariationPeriodicTerms periodic terms} table of moderate size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: 25.11 (p. 167)
+ * @see "Meeus 1998: 25.11 (p. 167)"
  */
 public final class AberrationEarthSunCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -28,7 +28,7 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Tim
      * Somewhat costly.
      *
      * @param tx        time argument
-     * @param radius    {@link EarthSunRadiusCalculator Earth-Sun radius vector} (R), in AU
+     * @param radius    {@linkplain EarthSunRadiusCalculator Earth-Sun radius vector} (R), in AU
      * @return          aberration of the Sun's geocentric position, in radians
      */
     public double calculate(TimelinePoint tx, double radius) {

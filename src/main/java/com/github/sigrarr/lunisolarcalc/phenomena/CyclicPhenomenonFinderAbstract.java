@@ -12,15 +12,15 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposi
 
 abstract class CyclicPhenomenonFinderAbstract {
     /**
-     * Minimal allowed value of {@link #getAngularDelta() angular delta}, in radians.
+     * Minimal allowed value of {@linkplain #getAngularDelta() angular delta}, in radians.
      */
     public static final double MIN_ANGULAR_DELTA_RADIANS = Calcs.EPSILON;
     /**
-     * {@link #getAngularDeltaTimeSeconds() Time equivalent} of the default {@link #getAngularDelta() angular delta}, in seconds.
+     * {@linkplain #getAngularDeltaTimeSeconds() Time equivalent} of the default {@linkplain #getAngularDelta() angular delta}, in seconds.
      */
     public static final int DEFAULT_ANGULAR_DELTA_TIME_SECONDS = 1;
     /**
-     * The default {@link #getCoreCalculationsLimit() limit} for number of core calculations of a stage-indicating angle per result.
+     * The default {@linkplain #getCoreCalculationsLimit() limit} for number of core calculations of a stage-indicating angle per result.
      */
     public static final int DEFAULT_CORE_CALCULATIONS_LIMIT = 10;
 
@@ -57,11 +57,11 @@ abstract class CyclicPhenomenonFinderAbstract {
     }
 
     /**
-     * Gets the time equivalent of the {@link #getAngularDelta() angular delta}, in seconds.
+     * Gets the time equivalent of the {@linkplain #getAngularDelta() angular delta}, in seconds.
      * This is a mean (epochal) time corresponding to the vlaue of stage-indicating angle equal to delta
      * in the cycle which is measured with this angle, whose phenomena under search are stages of.
      *
-     * @return  time equivalent of the {@link #getAngularDelta() angular delta}, in seconds
+     * @return  time equivalent of the {@linkplain #getAngularDelta() angular delta}, in seconds
      * @see     #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
      * @see     MeanCycle
      */
@@ -70,7 +70,7 @@ abstract class CyclicPhenomenonFinderAbstract {
     }
 
     /**
-     * Sets the {@link #getAngularDelta() angular delta}.
+     * Sets the {@linkplain #getAngularDelta() angular delta}.
      *
      * @param radians   new value of angular delta, in radians, not lesser than {@value #MIN_ANGULAR_DELTA_RADIANS}
      * @see             #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
@@ -81,10 +81,10 @@ abstract class CyclicPhenomenonFinderAbstract {
     }
 
     /**
-     * Sets the {@link #getAngularDelta() angular delta} by its {@link #getAngularDeltaTimeSeconds() time equivalent},
+     * Sets the {@linkplain #getAngularDelta() angular delta} by its {@linkplain #getAngularDeltaTimeSeconds() time equivalent},
      * a positive number of seconds.
      *
-     * @param seconds   {@link #getAngularDeltaTimeSeconds() time equivalent} of the new {@link #getAngularDelta() angular delta},
+     * @param seconds   {@linkplain #getAngularDeltaTimeSeconds() time equivalent} of the new {@linkplain #getAngularDelta() angular delta},
      *                  in seconds, a positive number
      * @see             #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
      */
@@ -96,7 +96,7 @@ abstract class CyclicPhenomenonFinderAbstract {
     /**
      * Gets the limit for number of core calculations of stage-indicating angle
      * to perform in order to find a single result.
-     * If too low (not adequate to a small {@link #getAngularDelta() angular delta}),
+     * If too low (not adequate to a small {@linkplain #getAngularDelta() angular delta}),
      * the limit may be exceeded, so a {@link CalculationLimitExceededException} will be thrown.
      *
      * @return  limit for number of core calculations of stage-indicating angle
@@ -108,9 +108,9 @@ abstract class CyclicPhenomenonFinderAbstract {
     }
 
     /**
-     * Sets the {@link #getCoreCalculationsLimit() limit} for number of core calculations per result.
+     * Sets the {@linkplain #getCoreCalculationsLimit() limit} for number of core calculations per result.
      *
-     * @param limit new {@link #getCoreCalculationsLimit() limit} for number of core calculations per result,
+     * @param limit new {@linkplain #getCoreCalculationsLimit() limit} for number of core calculations per result,
      *              only a positive number makes sense
      * @see         #DEFAULT_CORE_CALCULATIONS_LIMIT
      */
@@ -204,7 +204,7 @@ abstract class CyclicPhenomenonFinderAbstract {
         final SingleOutputComposition<Subject, TimelinePoint> composedCalculator;
 
         OwnCompositionStageIndicatingAngleCalculator(Subject angleSubject) {
-            composedCalculator = SpaceByTimeCalcComposition.compose(angleSubject);
+            composedCalculator = SpaceByTimeCalcCompositions.compose(angleSubject);
         }
 
         @Override

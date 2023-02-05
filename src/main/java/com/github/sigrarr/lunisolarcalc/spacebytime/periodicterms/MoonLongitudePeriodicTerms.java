@@ -8,7 +8,7 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
  * Results are in radians.
  *
  * @see com.github.sigrarr.lunisolarcalc.spacebytime.MoonLongitudeCalculator
- * @see " Meeus 1998: Table 47.A (pp. 339-340)
+ * @see "Meeus 1998: Table 47.A (pp. 339-340)"
  */
 public final class MoonLongitudePeriodicTerms extends MoonCoordinatePeriodicTerms {
 

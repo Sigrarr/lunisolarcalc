@@ -5,7 +5,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
  * Results are in radians.
  *
  * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthLatitudeCalculator
- * @see " Meeus 1998: App. III, Earth, B0-B1 (p. 420)
+ * @see "Meeus 1998: App. III, Earth, B0-B1 (p. 420)"
  */
 public final class EarthLatitudePeriodicTerms extends HeliocentricCoordinatePeriodicTerms {
     protected static final double[][][] SERIES_ARRAY = {

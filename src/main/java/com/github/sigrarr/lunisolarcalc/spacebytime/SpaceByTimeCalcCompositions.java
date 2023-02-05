@@ -6,11 +6,11 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Shortcut for {@link CalculationComposer composing calculations} of quantities supported by this package.
+ * Shortcut for {@linkplain CalculationComposer composing calculations} of quantities supported by this package.
  * Use it to conveniently compose a calculation for a given {@link Subject} or set of Subjects,
  * instead of managing calculators manually. It may help in resolving dependencies and avoinding redundancy.
  */
-public class SpaceByTimeCalcComposition {
+public abstract class SpaceByTimeCalcCompositions {
 
     private static final CalculationComposer<Subject, TimelinePoint> composer = new CalculationComposer<Subject, TimelinePoint>(Subject.class) {{
         register(new AberrationEarthSunCalculator());
@@ -32,8 +32,8 @@ public class SpaceByTimeCalcComposition {
     }};
 
     /**
-     * Composes a calculation which yields a value of a {@link Subject requested quantity}
-     * for a {@link TimelinePoint time argument} given as a root input.
+     * Composes a calculation which yields a value of a {@linkplain Subject requested quantity}
+     * for a {@linkplain TimelinePoint time argument} given as a root input.
      *
      * @param subject   identification of the quantity you want to calculate
      * @return          composed calculation, which will yield a value of quantity
@@ -44,8 +44,8 @@ public class SpaceByTimeCalcComposition {
     }
 
     /**
-     * Composes a calculation which yields a collection of values of {@link Subject requested quantities}
-     * for a {@link TimelinePoint time argument} given as a root input.
+     * Composes a calculation which yields a collection of values of {@linkplain Subject requested quantities}
+     * for a {@linkplain TimelinePoint time argument} given as a root input.
      *
      * @param subjects  identifications' set of the quantities you want to calculate
      * @return          composed calculation, which will yield a collection of values of quantities

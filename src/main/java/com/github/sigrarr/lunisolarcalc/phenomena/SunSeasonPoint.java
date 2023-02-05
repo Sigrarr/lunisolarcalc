@@ -20,7 +20,7 @@ public enum SunSeasonPoint implements Titled {
     public final double apparentLongitude;
     /**
      * The name relating to the
-     * {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint main calendar},
+     * {@linkplain com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint main calendar},
      * independent of localization, apropriate for a wide span of time which
      * started several centuries before the medieval period and will outlast the current Julian Period.
      */

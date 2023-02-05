@@ -7,7 +7,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 /**
  * Periodic terms for the Earth's nutuation.
  *
- * @see " Meeus 1998: Ch. 22, pp. 143-146
+ * @see "Meeus 1998: Ch. 22, pp. 143-146"
  */
 public abstract class EarthNutuationPeriodicTerms {
 

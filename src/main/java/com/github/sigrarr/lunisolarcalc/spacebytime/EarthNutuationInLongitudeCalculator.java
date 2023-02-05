@@ -8,10 +8,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of the Earth's nutuation in longitude (ΔΨ).
- * Costly; processes its own {@link EarthNutuationInLongitudePeriodicTerms periodic terms} table of considerable size.
- * Stateless, {@link CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcComposition}.
+ * Costly; processes its own {@linkplain EarthNutuationInLongitudePeriodicTerms periodic terms} table of considerable size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
- * @see " Meeus 1998: Ch. 22 (pp. 143-144)
+ * @see "Meeus 1998: Ch. 22 (pp. 143-144)"
  */
 public final class EarthNutuationInLongitudeCalculator implements Provider<Subject, TimelinePoint> {
 
@@ -24,7 +24,7 @@ public final class EarthNutuationInLongitudeCalculator implements Provider<Subje
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@link EarthNutuationInLongitudePeriodicTerms periodic terms}
+     * @param elements  intermediate arguments used in {@linkplain EarthNutuationInLongitudePeriodicTerms periodic terms}
      * @return          the Earth's nutuation in longitude (ΔΨ), in radians
      */
     public double calculate(TimelinePoint tx, EarthNutuationElements elements) {

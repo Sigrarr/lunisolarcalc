@@ -4,9 +4,9 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
  * A tool for approximating time of Equinoxes/Solstices.
  * Calculates a "mean" value (JDE0), not complete approximate,
  * which is sufficient and effective as the initial step
- * in a {@link SunSeasonPointFinder more precise search}. Quick.
+ * in a {@linkplain SunSeasonPointFinder more precise search}. Quick.
  *
- * @see " Meeus 1998: Ch. 27, Table 27.A-B (p. 178)
+ * @see "Meeus 1998: Ch. 27, Table 27.A-B (p. 178)"
  */
 public final class SunSeasonPointApproximator {
 
@@ -33,7 +33,7 @@ public final class SunSeasonPointApproximator {
      * Note that for years before -1176, December Solstice may occur in the calendar year after the requested.
      * Quick.
      *
-     * @param calendarYear  {@link com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
+     * @param calendarYear  {@linkplain com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint calendar} year
      *                      of the beginning of the tropical year to look in (in astronomical numbering)
      * @param point         Equinox/Solstice to look for
      * @return              approximate "mean" time of requested Equinox/Solstice (JDE0), in Julian Ephemeris Day

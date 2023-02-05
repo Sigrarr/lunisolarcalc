@@ -61,19 +61,19 @@ public final class ProlepticJulianCalendarPoint extends NormalCalendarPoint impl
 
     /**
      * Compares this proleptic Julian calendar point to the other chronologically, applying the
-     * {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() timeline's equivalence unit},
+     * {@linkplain com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() timeline's equivalence unit},
      * with the caveat that points of different months will never be equated.
      *
-     * {@link Comparable Consistent} with {@link #equals(Object) equivalence-check}.
+     * {@linkplain Comparable Consistent} with {@linkplain #equals(Object) equivalence-check}.
      *
      * To compare points of time regardless of a calendar month,
-     * use {@link com.github.sigrarr.lunisolarcalc.time.TimelinePoint TimelinePoint}.
+     * use {@linkplain com.github.sigrarr.lunisolarcalc.time.TimelinePoint TimelinePoint}.
      *
      * @param point     proleptic Julian calendar point to compare to
      * @return          result of chronological comparison applying the
-     *                  {@link com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
+     *                  {@linkplain com.github.sigrarr.lunisolarcalc.time.Timeline#getEquivUnitDays() equivalence unit}
      *                  (with the month-difference caveat,
-     *                  in the {@link Comparable#compareTo(Object) parent interface's} format)
+     *                  in the {@linkplain Comparable#compareTo(Object) parent interface's} format)
      */
     @Override
     public int compareTo(ProlepticJulianCalendarPoint point) {

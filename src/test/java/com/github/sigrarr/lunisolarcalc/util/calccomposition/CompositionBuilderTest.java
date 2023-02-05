@@ -115,9 +115,9 @@ public class CompositionBuilderTest {
                 if (node.calculator.requires().contains(otherNode.calculator.provides())) {
                     assertTrue(
                         nodePosition > otherNodePosition,
-                        "" + node.calculator.getClass().getName() + " requires " + otherNode.calculator.provides().name()
+                        node.calculator.getClass().getName() + " requires " + otherNode.calculator.provides().name()
                             + " so its node is expected to be after the one of " + otherNode.calculator.getClass().getName() + ","
-                            + " but their positions are " + nodePosition + " and " + otherNodePosition + " respectively." 
+                            + " but their positions are " + nodePosition + " and " + otherNodePosition + " respectively."
                     );
                 }
                 if (node != otherNode) {
