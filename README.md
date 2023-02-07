@@ -65,7 +65,7 @@ The package `com.github.sigrarr.lunisolarcalc.spacebytime` provides a group of c
 #### Example S.1
 ```java
 SingleOutputComposition<Subject, TimelinePoint> lambdaCalc
-    = SpaceByTimeCalcComposition.compose(Subject.SUN_APPARENT_LONGITUDE);
+    = SpaceByTimeCalcCompositions.compose(Subject.SUN_APPARENT_LONGITUDE);
 TimelinePoint newYear2000 = TimelinePoint.ofCalendaricParameters(2000, 1, 1.0);
 double newYear2000Lambda = (Double) lambdaCalc.calculate(newYear2000);
 
