@@ -19,6 +19,7 @@ public class SpaceByTimeCalcCompositionsTest {
     private EarthSunRadiusCalculator earthSunRadiusCalculator = new EarthSunRadiusCalculator();
     private SunGeometricLongitudeCalculator sunGeometricLongitudeCalculator = new SunGeometricLongitudeCalculator();
     private EarthNutuationInLongitudeCalculator earthNutuationInLongitudeCalculator = new EarthNutuationInLongitudeCalculator();
+    private EarthNutuationInObliquityCalculator earthNutuationInObliquityCalculator = new EarthNutuationInObliquityCalculator();
     private AberrationEarthSunCalculator aberrationEarthSunCalculator = new AberrationEarthSunCalculator();
     private MoonLongitudeCalculator moonLongitudeCalculator = new MoonLongitudeCalculator();
     private EarthLatitudeCalculator earthLatitudeCalculator = new EarthLatitudeCalculator();
@@ -48,6 +49,7 @@ public class SpaceByTimeCalcCompositionsTest {
         double earthSunRadius = earthSunRadiusCalculator.calculate(tx);
         double sunGeometricLongitude = sunGeometricLongitudeCalculator.calculate(earthLongitude);
         double earthNutuationInLongitude = earthNutuationInLongitudeCalculator.calculate(tx, earthNutuationElements);
+        double earthNutuationInObliquity = earthNutuationInObliquityCalculator.calculate(tx, earthNutuationElements);
         double aberrationEarthSun = aberrationEarthSunCalculator.calculate(tx, earthSunRadius);
         double moonLongitude = moonLongitudeCalculator.calculate(tx, moonCoordinateElements);
         double earthLatitude = earthLatitudeCalculator.calculate(tx);
@@ -63,6 +65,7 @@ public class SpaceByTimeCalcCompositionsTest {
         assertEquals(earthSunRadius, getCompositionNumericResult(Subject.EARTH_SUN_RADIUS, tx), Calcs.EPSILON_MIN);
         assertEquals(sunGeometricLongitude, getCompositionNumericResult(Subject.SUN_GEOMETRIC_LONGITUDE, tx), Calcs.EPSILON_MIN);
         assertEquals(earthNutuationInLongitude, getCompositionNumericResult(Subject.EARTH_NUTUATION_IN_LONGITUDE, tx), Calcs.EPSILON_MIN);
+        assertEquals(earthNutuationInObliquity, getCompositionNumericResult(Subject.EARTH_NUTUATION_IN_OBLIQUITY, tx), Calcs.EPSILON_MIN);
         assertEquals(aberrationEarthSun, getCompositionNumericResult(Subject.ABERRATION_EARTH_SUN, tx), Calcs.EPSILON_MIN);
         assertEquals(moonLongitude, getCompositionNumericResult(Subject.MOON_LONGITUDE, tx), Calcs.EPSILON_MIN);
         assertEquals(earthLatitude, getCompositionNumericResult(Subject.EARTH_LATITUDE, tx), Calcs.EPSILON_MIN);

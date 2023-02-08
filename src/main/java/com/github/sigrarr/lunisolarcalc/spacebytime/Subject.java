@@ -36,11 +36,18 @@ public enum Subject {
     EARTH_NUTUATION_ELEMENTS,
 
     /**
-     * The Earth's nutuation in longitude (ΔΨ). Presumably in radians.
+     * The Earth's nutuation in longitude (Δψ). Presumably in radians.
      *
      * @see EarthNutuationInLongitudeCalculator
      */
     EARTH_NUTUATION_IN_LONGITUDE,
+
+    /**
+     * The Earht's nutuation in obliquity (Δε). Presumably in radians.
+     *
+     * @see EarthNutuationInObliquityCalculator
+     */
+    EARTH_NUTUATION_IN_OBLIQUITY,
 
     /**
      * The Earth's radius vector (distance to the Sun; R).
@@ -51,7 +58,7 @@ public enum Subject {
     EARTH_SUN_RADIUS,
 
     /**
-     * Apparent longitude of the center of the Moon (λ + ΔΨ).
+     * Apparent longitude of the center of the Moon (λ + Δψ).
      * Presumably in radians.
      *
      * @see MoonApparentLongitudeCalculator

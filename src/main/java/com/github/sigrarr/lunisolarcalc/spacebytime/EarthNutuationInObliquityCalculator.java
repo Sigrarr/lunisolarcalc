@@ -2,30 +2,30 @@ package com.github.sigrarr.lunisolarcalc.spacebytime;
 
 import java.util.*;
 
-import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.EarthNutuationInLongitudePeriodicTerms;
+import com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms.EarthNutuationInObliquityPeriodicTerms;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Earth's nutuation in longitude (Δψ).
- * Costly; processes its own {@linkplain EarthNutuationInLongitudePeriodicTerms periodic terms} table of considerable size.
+ * Calculator of the Earth's nutuation in obliquity (Δε).
+ * Costly; processes its own {@linkplain EarthNutuationInObliquityPeriodicTerms periodic terms} table.
  * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link SpaceByTimeCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 22 (pp. 143-144)"
  */
-public final class EarthNutuationInLongitudeCalculator implements Provider<Subject, TimelinePoint> {
+public final class EarthNutuationInObliquityCalculator implements Provider<Subject, TimelinePoint> {
 
-    public static final Subject SUBJECT = Subject.EARTH_NUTUATION_IN_LONGITUDE;
+    private static final Subject SUBJECT = Subject.EARTH_NUTUATION_IN_OBLIQUITY;
 
-    private EarthNutuationInLongitudePeriodicTerms periodicTerms = new EarthNutuationInLongitudePeriodicTerms();
+    private EarthNutuationInObliquityPeriodicTerms periodicTerms = new EarthNutuationInObliquityPeriodicTerms();
 
     /**
-     * Calculates the Earth's nutuation in longitude (Δψ), in radians.
+     * Calculates the Earth's nutuation in obliquity (Δε), in radians.
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@linkplain EarthNutuationInLongitudePeriodicTerms periodic terms}
-     * @return          the Earth's nutuation in longitude (Δψ), in radians
+     * @param elements  intermediate arguments used in {@linkplain EarthNutuationInObliquityPeriodicTerms periodic terms}
+     * @return          the Earth's nutuation in in obliquity (Δε), in radians
      */
     public double calculate(TimelinePoint tx, EarthNutuationElements elements) {
         return periodicTerms.evaluate(tx.toDynamicalTime(), elements);

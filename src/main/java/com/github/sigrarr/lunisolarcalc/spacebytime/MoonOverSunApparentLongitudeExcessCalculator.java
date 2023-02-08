@@ -22,7 +22,7 @@ public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Su
      * Calculates excess of {@linkplain MoonApparentLongitudeCalculator the Moon's apparent longitude} over {@linkplain SunApparentLongitudeCalculator the Sun's apparent longitude}: [0, 2π).
      * By definition, it would take these quantities to subtract one from another
      * - and you can pass them as arguments to this method, instead of those listed below -
-     * but they both include {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation} (ΔΨ), so the latter wouldn't affect the result anyway,
+     * but they both include {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation} (Δψ), so the latter wouldn't affect the result anyway,
      * while calculating it could turn out to be redundant.
      * Quick operation.
      *

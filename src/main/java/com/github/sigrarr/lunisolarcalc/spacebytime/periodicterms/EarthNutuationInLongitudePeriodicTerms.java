@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 /**
- * Periodic terms for the Earth's nutuation in longitude (ΔΨ).
+ * Periodic terms for the Earth's nutuation in longitude (Δψ).
  * Results are in radians.
  *
  * @see com.github.sigrarr.lunisolarcalc.spacebytime.EarthNutuationInLongitudeCalculator
@@ -9,74 +9,7 @@ package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
  */
 public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriodicTerms {
 
-    // : Argument \ multiple of D M M' F Ω
-    protected final static short[][] ELEMENTS_MULTIPLIERS = {
-        { 0 , 0 , 0 , 0 , 1 },
-        { -2 , 0 , 0 , 2 , 2 },
-        { 0 , 0 , 0 , 2 , 2 },
-        { 0 , 0 , 0 , 0 , 2 },
-        { 0 , 1 , 0 , 0 , 0 },
-        { 0 , 0 , 1 , 0 , 0 },
-        { -2 , 1 , 0 , 2 , 2 },
-        { 0 , 0 , 0 , 2 , 1 },
-        { 0 , 0 , 1 , 2 , 2 },
-        { -2 , -1 , 0 , 2 , 2 },
-        { -2 , 0 , 1 , 0 , 0 },
-        { -2 , 0 , 0 , 2 , 1 },
-        { 0 , 0 , -1 , 2 , 2 },
-        { 2 , 0 , 0 , 0 , 0 },
-        { 0 , 0 , 1 , 0 , 1 },
-        { 2 , 0 , -1 , 2 , 2 },
-        { 0 , 0 , -1 , 0 , 1 },
-        { 0 , 0 , 1 , 2 , 1 },
-        { -2 , 0 , 2 , 0 , 0 },
-        { 0 , 0 , -2 , 2 , 1 },
-        { 2 , 0 , 0 , 2 , 2 },
-        { 0 , 0 , 2 , 2 , 2 },
-        { 0 , 0 , 2 , 0 , 0 },
-        { -2 , 0 , 1 , 2 , 2 },
-        { 0 , 0 , 0 , 2 , 0 },
-        { -2 , 0 , 0 , 2 , 0 },
-        { 0 , 0 , -1 , 2 , 1 },
-        { 0 , 2 , 0 , 0 , 0 },
-        { 2 , 0 , -1 , 0 , 1 },
-        { -2 , 2 , 0 , 2 , 2 },
-        { 0 , 1 , 0 , 0 , 1 },
-        { -2 , 0 , 1 , 0 , 1 },
-        { 0 , -1 , 0 , 0 , 1 },
-        { 0 , 0 , 2 , -2 , 0 },
-        { 2 , 0 , -1 , 2 , 1 },
-        { 2 , 0 , 1 , 2 , 2 },
-        { 0 , 1 , 0 , 2 , 2 },
-        { -2 , 1 , 1 , 0 , 0 },
-        { 0 , -1 , 0 , 2 , 2 },
-        { 2 , 0 , 0 , 2 , 1 },
-        { 2 , 0 , 1 , 0 , 0 },
-        { -2 , 0 , 2 , 2 , 2 },
-        { -2 , 0 , 1 , 2 , 1 },
-        { 2 , 0 , -2 , 0 , 1 },
-        { 2 , 0 , 0 , 0 , 1 },
-        { 0, -1 , 1 , 0 , 0 },
-        { -2 , -1 , 0 , 2 , 1 },
-        { -2 , 0 , 0 , 0 , 1 },
-        { 0 , 0 , 2 , 2 , 1 },
-        { -2 , 0 , 2 , 0 , 1 },
-        { -2 , 1 , 0 , 2 , 1 },
-        { 0 , 0 , 1 , -2 , 0 },
-        { -1 , 0  , 1 , 0 , 0 },
-        { -2 , 1 , 0 , 0 , 0 },
-        { 1 , 0 , 0 , 0 , 0 },
-        { 0 , 0 , 1 , 2 , 0 },
-        { 0 , 0 , -2 , 2 , 2 },
-        { -1 , -1 , 1 , 0 , 0 },
-        { 0 , 1 , 1 , 0 , 0 },
-        { 0 , -1 , 1 , 2 , 2 },
-        { 2 , -1 , -1 , 2 , 2 },
-        { 0 , 0 , 3 , 2 , 2 },
-        { 2 , -1 , 0 , 2 , 2 },
-    };
-
-    // : Delta Psi \ Coefficient of the sine...
+    // : Δψ \ Coefficient of the sine...
     protected static final double[][] COEFFICIENTS = {
         { -171996.0 , -174.2 },
         { -13187.0 , -1.6 },
@@ -142,16 +75,6 @@ public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriod
         { -3.0 , 0.0 },
         { -3.0 , 0.0 },
     };
-
-    @Override
-    protected int getSeriesLength() {
-        return ELEMENTS_MULTIPLIERS.length;
-    }
-
-    @Override
-    protected short[] getElementMultiplierRow(int n) {
-        return ELEMENTS_MULTIPLIERS[n];
-    }
 
     @Override
     protected double[] getCoefficientRow(int n) {

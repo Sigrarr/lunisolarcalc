@@ -22,7 +22,7 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, T
      * Quick operation.
      *
      * @param geometricLongitude    {@linkplain SunGeometricLongitudeCalculator the Sun's geometric longitude} (☉), in radians
-     * @param nutuationInLongitude  {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (ΔΨ), in radians
+     * @param nutuationInLongitude  {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude} (Δψ), in radians
      * @param aberration            {@linkplain AberrationEarthSunCalculator aberration of the Sun's geocentric position}, in radians
      * @return                      the Sun's apparent longitude (λ): [0, 2π)
      */

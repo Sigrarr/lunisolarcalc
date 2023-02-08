@@ -18,6 +18,7 @@ public abstract class SpaceByTimeCalcCompositions {
         register(new EarthLongitudeCalculator());
         register(EarthNutuationElements.makeUnevaluatedInstance());
         register(new EarthNutuationInLongitudeCalculator());
+        register(new EarthNutuationInObliquityCalculator());
         register(new EarthSunRadiusCalculator());
         register(new MoonApparentLongitudeCalculator());
         register(MoonCoordinateElements.makeUnevaluatedInstance());

@@ -12,6 +12,72 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 public abstract class EarthNutuationPeriodicTerms {
 
     protected final static double SCALE_ARCSECONDS = 0.0001;
+    // Table 22.A : Argument \ multiple of D M M' F Ω
+    protected final static int[][] ELEMENTS_MULTIPLIERS = {
+        { 0 , 0 , 0 , 0 , 1 },
+        { -2 , 0 , 0 , 2 , 2 },
+        { 0 , 0 , 0 , 2 , 2 },
+        { 0 , 0 , 0 , 0 , 2 },
+        { 0 , 1 , 0 , 0 , 0 },
+        { 0 , 0 , 1 , 0 , 0 },
+        { -2 , 1 , 0 , 2 , 2 },
+        { 0 , 0 , 0 , 2 , 1 },
+        { 0 , 0 , 1 , 2 , 2 },
+        { -2 , -1 , 0 , 2 , 2 },
+        { -2 , 0 , 1 , 0 , 0 },
+        { -2 , 0 , 0 , 2 , 1 },
+        { 0 , 0 , -1 , 2 , 2 },
+        { 2 , 0 , 0 , 0 , 0 },
+        { 0 , 0 , 1 , 0 , 1 },
+        { 2 , 0 , -1 , 2 , 2 },
+        { 0 , 0 , -1 , 0 , 1 },
+        { 0 , 0 , 1 , 2 , 1 },
+        { -2 , 0 , 2 , 0 , 0 },
+        { 0 , 0 , -2 , 2 , 1 },
+        { 2 , 0 , 0 , 2 , 2 },
+        { 0 , 0 , 2 , 2 , 2 },
+        { 0 , 0 , 2 , 0 , 0 },
+        { -2 , 0 , 1 , 2 , 2 },
+        { 0 , 0 , 0 , 2 , 0 },
+        { -2 , 0 , 0 , 2 , 0 },
+        { 0 , 0 , -1 , 2 , 1 },
+        { 0 , 2 , 0 , 0 , 0 },
+        { 2 , 0 , -1 , 0 , 1 },
+        { -2 , 2 , 0 , 2 , 2 },
+        { 0 , 1 , 0 , 0 , 1 },
+        { -2 , 0 , 1 , 0 , 1 },
+        { 0 , -1 , 0 , 0 , 1 },
+        { 0 , 0 , 2 , -2 , 0 },
+        { 2 , 0 , -1 , 2 , 1 },
+        { 2 , 0 , 1 , 2 , 2 },
+        { 0 , 1 , 0 , 2 , 2 },
+        { -2 , 1 , 1 , 0 , 0 },
+        { 0 , -1 , 0 , 2 , 2 },
+        { 2 , 0 , 0 , 2 , 1 },
+        { 2 , 0 , 1 , 0 , 0 },
+        { -2 , 0 , 2 , 2 , 2 },
+        { -2 , 0 , 1 , 2 , 1 },
+        { 2 , 0 , -2 , 0 , 1 },
+        { 2 , 0 , 0 , 0 , 1 },
+        { 0, -1 , 1 , 0 , 0 },
+        { -2 , -1 , 0 , 2 , 1 },
+        { -2 , 0 , 0 , 0 , 1 },
+        { 0 , 0 , 2 , 2 , 1 },
+        { -2 , 0 , 2 , 0 , 1 },
+        { -2 , 1 , 0 , 2 , 1 },
+        { 0 , 0 , 1 , -2 , 0 },
+        { -1 , 0  , 1 , 0 , 0 },
+        { -2 , 1 , 0 , 0 , 0 },
+        { 1 , 0 , 0 , 0 , 0 },
+        { 0 , 0 , 1 , 2 , 0 },
+        { 0 , 0 , -2 , 2 , 2 },
+        { -1 , -1 , 1 , 0 , 0 },
+        { 0 , 1 , 1 , 0 , 0 },
+        { 0 , -1 , 1 , 2 , 2 },
+        { 2 , -1 , -1 , 2 , 2 },
+        { 0 , 0 , 3 , 2 , 2 },
+        { 2 , -1 , 0 , 2 , 2 },
+    };
 
     public double evaluate(TimelinePoint tx, EarthNutuationElements elements) {
         double centurialT = tx.toCenturialT();
@@ -27,7 +93,7 @@ public abstract class EarthNutuationPeriodicTerms {
         return evaluateTerm(tx, elements, getCoefficientRow(n), getElementMultiplierRow(n));
     }
 
-    protected double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
+    protected double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, int[] elementsMultipliers) {
         return scale(evaluateTermRaw(tx.toCenturialT(), elements, coefficientRow, elementsMultipliers));
     }
 
@@ -35,7 +101,7 @@ public abstract class EarthNutuationPeriodicTerms {
         return evaluateTermRaw(centurialT, elements, getCoefficientRow(n), getElementMultiplierRow(n));
     }
 
-    protected double evaluateTermRaw(double centurialT, EarthNutuationElements elements, double[] coefficientRow, short[] elementsMultipliers) {
+    protected double evaluateTermRaw(double centurialT, EarthNutuationElements elements, double[] coefficientRow, int[] elementsMultipliers) {
         double argument = 0.0;
         for (int dim = 0; dim < EarthNutuationElements.ELEMENTS_N; dim++) {
             argument += elements.getValue(dim) * elementsMultipliers[dim];
@@ -47,8 +113,14 @@ public abstract class EarthNutuationPeriodicTerms {
         return Math.toRadians(Calcs.Angle.arcsecondsToDegrees(rawValue * SCALE_ARCSECONDS));
     }
 
-    abstract protected int getSeriesLength();
-    abstract protected short[] getElementMultiplierRow(int n);
+    protected int getSeriesLength() {
+        return ELEMENTS_MULTIPLIERS.length;
+    }
+
+    protected int[] getElementMultiplierRow(int n) {
+        return ELEMENTS_MULTIPLIERS[n];
+    }
+
     abstract protected double[] getCoefficientRow(int n);
     abstract protected double applyTrigonometricFunction(double argument);
 }
