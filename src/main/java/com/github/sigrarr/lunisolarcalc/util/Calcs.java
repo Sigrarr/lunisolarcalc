@@ -114,6 +114,27 @@ public abstract class Calcs {
         }
 
         /**
+         * Normalizes an angle to a proper longitude: [0, 360°).
+         * Reduces full rounds. Converts a negative sub-round angle α to 360°-α.
+         *
+         * @param degrees   input angle, in degrees
+         * @return          normalized angle, in degrees: [0, 360°)
+         */
+        public static double normalizeDegreesLongitudinally(double degrees) {
+            return degrees - (360.0 * Math.floor(degrees / 360.0));
+        }
+
+        /**
+         * Normalizes an angle to a proper latitude: [-90°, 90°].
+         *
+         * @param degrees   input angle, in degrees
+         * @return          normalized angle, in degrees: [-90°, 90°]
+         */
+        public static double normalizeDegreesLatitudinally(double degrees) {
+            return degrees - (360.0 * Math.floor((degrees + 180.0) / 360.0));
+        }
+
+        /**
          * Converts degrees to arcminutes.
          *
          * @param degrees   angle, in degrees
@@ -197,7 +218,7 @@ public abstract class Calcs {
          * @param s     number of seconds
          * @return      number of days (with fraction)
          */
-        public static double timeToDays(int h, int min, int s) {
+        public static double timeToDays(int h, int min, double s) {
             return SECOND_TO_DAY * (s + (60.0 * (min + (60.0 * h))));
         }
 

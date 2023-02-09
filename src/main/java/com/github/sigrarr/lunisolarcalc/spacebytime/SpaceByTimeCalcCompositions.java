@@ -28,6 +28,8 @@ public abstract class SpaceByTimeCalcCompositions {
         register(new MoonLatitudeCalculator());
         register(new MoonLongitudeCalculator());
         register(new MoonOverSunApparentLongitudeExcessCalculator());
+        register(new SiderealMeanTimeCalculator());
+        register(new SiderealApparentTimeCalculator());
         register(new SunAberratedLongitudeCalculator());
         register(new SunApparentLongitudeCalculator());
         register(new SunGeometricLongitudeCalculator());

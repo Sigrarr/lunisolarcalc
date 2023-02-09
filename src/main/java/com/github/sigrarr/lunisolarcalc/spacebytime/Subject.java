@@ -117,6 +117,18 @@ public enum Subject {
     MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS,
 
     /**
+     * Mean sidereal time at the Greenwich meridian (θ0).
+     * Presumably in degrees (1h ~ 15°).
+     */
+    SIDEREAL_MEAN_TIME,
+
+    /**
+     * Apparent sidereal time at the Greenwich meridian (θ0).
+     * Presumably in degrees (1h ~ 15°).
+     */
+    SIDEREAL_APPARENT_TIME,
+
+    /**
      * The Sun's longitude with correction due to aberration. Presumably in radians.
      *
      * @see SunAberratedLongitudeCalculator

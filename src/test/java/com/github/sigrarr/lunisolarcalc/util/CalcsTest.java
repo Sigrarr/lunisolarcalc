@@ -34,6 +34,11 @@ public class CalcsTest {
         assertEquals(0.5 * Math.PI, Calcs.Angle.normalizeLongitudinally(0.5 * Math.PI), Calcs.EPSILON_12);
         assertEquals(0.1 * Math.PI, Calcs.Angle.normalizeLongitudinally( 12.1 * Math.PI), Calcs.EPSILON_12);
         assertEquals(1.9 * Math.PI, Calcs.Angle.normalizeLongitudinally(-12.1 * Math.PI), Calcs.EPSILON_12);
+
+        assertEquals(0.0, Calcs.Angle.normalizeDegreesLongitudinally(0.0), Calcs.EPSILON_12);
+        assertEquals(90.0, Calcs.Angle.normalizeDegreesLongitudinally(90.0), Calcs.EPSILON_12);
+        assertEquals(0.1 * 180.0, Calcs.Angle.normalizeDegreesLongitudinally( 12.1 * 180.0), Calcs.EPSILON_12);
+        assertEquals(1.9 * 180.0, Calcs.Angle.normalizeDegreesLongitudinally(-12.1 * 180.0), Calcs.EPSILON_12);
     }
 
     @Test
@@ -43,6 +48,12 @@ public class CalcsTest {
         assertEquals(-0.5 * Math.PI, Calcs.Angle.normalizeLatitudinally( 1.5 * Math.PI), Calcs.EPSILON_12);
         assertEquals( 0.5 * Math.PI, Calcs.Angle.normalizeLatitudinally(-1.5 * Math.PI), Calcs.EPSILON_12);
         assertEquals(-0.25 * Math.PI, Calcs.Angle.normalizeLatitudinally(-0.25 * Math.PI), Calcs.EPSILON_12);
+
+        assertEquals( 0.0, Calcs.Angle.normalizeDegreesLatitudinally(0.0), Calcs.EPSILON_12);
+        assertEquals( 90.0, Calcs.Angle.normalizeDegreesLatitudinally( 90.0), Calcs.EPSILON_12);
+        assertEquals(-90.0, Calcs.Angle.normalizeDegreesLatitudinally( 270.0), Calcs.EPSILON_12);
+        assertEquals( 90.0, Calcs.Angle.normalizeDegreesLatitudinally(-270.0), Calcs.EPSILON_12);
+        assertEquals(-0.25 * 180.0, Calcs.Angle.normalizeDegreesLatitudinally(-0.25 * 180.0), Calcs.EPSILON_12);
     }
 
     @Test

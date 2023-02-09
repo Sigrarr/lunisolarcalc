@@ -25,6 +25,8 @@ public class SpaceByTimeCalcCompositionsTest {
     private AberrationEarthSunCalculator aberrationEarthSunCalculator = new AberrationEarthSunCalculator();
     private MoonLongitudeCalculator moonLongitudeCalculator = new MoonLongitudeCalculator();
     private EarthLatitudeCalculator earthLatitudeCalculator = new EarthLatitudeCalculator();
+    private SiderealMeanTimeCalculator siderealMeanTimeCalculator = new SiderealMeanTimeCalculator();
+    private SiderealApparentTimeCalculator siderealApparentTimeCalculator = new SiderealApparentTimeCalculator();
     private SunLatitudeCalculator sunLatitudeCalculator = new SunLatitudeCalculator();
     private SunApparentLongitudeCalculator sunApparentLongitudeCalculator = new SunApparentLongitudeCalculator();
     private SunAberratedLongitudeCalculator sunAberratedLongitudeCalculator = new SunAberratedLongitudeCalculator();
@@ -59,6 +61,8 @@ public class SpaceByTimeCalcCompositionsTest {
         double earthNutuationInLongitude = earthNutuationInLongitudeCalculator.calculate(tx, earthNutuationElements);
         double earthNutuationInObliquity = earthNutuationInObliquityCalculator.calculate(tx, earthNutuationElements);
         double eclipticTrueObliquity = eclipticTrueObliquityCalculator.calculate(eclipticMeanObliquity, earthNutuationInObliquity);
+        double siderealMeanTime = siderealMeanTimeCalculator.calculate(tx);
+        double siderealApparentTime = siderealApparentTimeCalculator.calculate(siderealMeanTime, earthNutuationInLongitude, eclipticTrueObliquity);
         double aberrationEarthSun = aberrationEarthSunCalculator.calculate(tx, earthSunRadius);
         double moonLongitude = moonLongitudeCalculator.calculate(tx, moonCoordinateElements);
         double earthLatitude = earthLatitudeCalculator.calculate(tx);
@@ -79,6 +83,8 @@ public class SpaceByTimeCalcCompositionsTest {
         assertForNumber(earthNutuationInLongitude, Subject.EARTH_NUTUATION_IN_LONGITUDE);
         assertForNumber(earthNutuationInObliquity, Subject.EARTH_NUTUATION_IN_OBLIQUITY);
         assertForNumber(eclipticTrueObliquity, Subject.ECLIPTIC_TRUE_OBLIQUITY);
+        assertForNumber(siderealMeanTime, Subject.SIDEREAL_MEAN_TIME);
+        assertForNumber(siderealApparentTime, Subject.SIDEREAL_APPARENT_TIME);
         assertForNumber(aberrationEarthSun, Subject.ABERRATION_EARTH_SUN);
         assertForNumber(moonLongitude, Subject.MOON_LONGITUDE);
         assertForNumber(earthLatitude, Subject.EARTH_LATITUDE);

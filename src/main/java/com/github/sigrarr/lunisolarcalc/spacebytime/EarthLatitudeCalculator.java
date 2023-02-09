@@ -42,7 +42,7 @@ public final class EarthLatitudeCalculator implements Provider<Subject, Timeline
     }
 
     @Override
-    public Object calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
         return calculate(tx);
     }
 }
