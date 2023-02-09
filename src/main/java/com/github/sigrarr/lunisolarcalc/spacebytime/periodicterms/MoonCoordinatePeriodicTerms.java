@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.MoonCoordinateElements;
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 /**
  * Periodic terms for the Moon's coordinate.
@@ -15,7 +15,7 @@ public abstract class MoonCoordinatePeriodicTerms {
     protected final static int INDEX_MULTIPLIER_M_PRIM = 2;
     protected final static int INDEX_MULTIPLIER_F = 3;
 
-    public double evaluate(TimelinePoint tx, MoonCoordinateElements elements) {
+    public double evaluate(DynamicalTimelinePoint tx, MoonCoordinateElements elements) {
         double value = 0.0;
         int seriesLength = getSeriesLength();
         for (int n = 0; n < seriesLength; n++) {
@@ -24,7 +24,7 @@ public abstract class MoonCoordinatePeriodicTerms {
         return scale(value);
     }
 
-    protected double evaluateTerm(TimelinePoint tx, MoonCoordinateElements elements, int n) {
+    protected double evaluateTerm(DynamicalTimelinePoint tx, MoonCoordinateElements elements, int n) {
         return scale(evaluateTermRaw(tx.toCenturialT(), elements, getCoefficient(n), getElementMultiplierRow(n)));
     }
 

@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.MoonCoordinateElements;
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 /**
  * Periodic terms for latitude of the Moon's center (β).
@@ -143,7 +143,7 @@ public final class MoonLatitudePeriodicTerms extends MoonCoordinatePeriodicTerms
     };
 
     @Override
-    public double evaluate(TimelinePoint tx, MoonCoordinateElements elements) {
+    public double evaluate(DynamicalTimelinePoint tx, MoonCoordinateElements elements) {
         return super.evaluate(tx, elements) + scale(
             - (2235 * Math.sin(elements.getLPrim()))
             + ( 382 * Math.sin(elements.getA3()))

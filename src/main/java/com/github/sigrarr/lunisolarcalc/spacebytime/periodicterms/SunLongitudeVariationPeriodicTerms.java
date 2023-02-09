@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
@@ -64,7 +64,7 @@ public final class SunLongitudeVariationPeriodicTerms {
      * @param tx    time argument
      * @return      daily variation of the Sun's geocentric longitude (Δλ), in radians
      */
-    public double evaluate(TimelinePoint tx) {
+    public double evaluate(DynamicalTimelinePoint tx) {
         double result = INITIAL_TERM;
         for (int n = 0; n < SERIES_ARRAY.length; n++) {
             for (double[] row : SERIES_ARRAY[n]) {
@@ -77,7 +77,7 @@ public final class SunLongitudeVariationPeriodicTerms {
     /**
      * @return  value of a single term, in radians
      */
-    protected double evaluateTerm(TimelinePoint tx, int seriexIndex, double[] row) {
+    protected double evaluateTerm(DynamicalTimelinePoint tx, int seriexIndex, double[] row) {
         return scale(evaluateTermRaw(tx.toMillenialTau(), seriexIndex, row));
     }
 

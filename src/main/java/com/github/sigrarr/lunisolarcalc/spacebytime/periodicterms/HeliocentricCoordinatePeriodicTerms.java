@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 /**
  * Periodic terms for heliocentric coordinate.
@@ -11,7 +11,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
 
     protected final static double SCALE = 0.00000001;
 
-    public double evaluate(TimelinePoint tx) {
+    public double evaluate(DynamicalTimelinePoint tx) {
         double tau = tx.toMillenialTau();
         double total = 0.0;
         int seriesCount = getNumberOfSeries();
@@ -21,7 +21,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return total * SCALE;
     }
 
-    protected double evaluateSeries(TimelinePoint tx, int seriesIndex) {
+    protected double evaluateSeries(DynamicalTimelinePoint tx, int seriesIndex) {
         return evaluateSeries(tx.toMillenialTau(), getSeries(seriesIndex));
     }
 
@@ -33,7 +33,7 @@ public abstract class HeliocentricCoordinatePeriodicTerms {
         return sum;
     }
 
-    protected double evaluateTerm(TimelinePoint tx, int seriesIndex, int rowIndex) {
+    protected double evaluateTerm(DynamicalTimelinePoint tx, int seriesIndex, int rowIndex) {
         return evaluateTerm(tx.toMillenialTau(), getSeries(seriesIndex)[rowIndex]);
     }
 

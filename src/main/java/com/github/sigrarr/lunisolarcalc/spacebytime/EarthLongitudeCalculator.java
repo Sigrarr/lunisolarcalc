@@ -28,7 +28,7 @@ public final class EarthLongitudeCalculator implements Provider<Subject, Timelin
      * @return      the Earth's heliocentric longitude (L): [0, 2π)
      */
     public double calculate(TimelinePoint tx) {
-        return Calcs.Angle.normalizeLongitudinally(periodicTerms.evaluate(tx));
+        return Calcs.Angle.normalizeLongitudinally(periodicTerms.evaluate(tx.toDynamicalTime()));
     }
 
     @Override
@@ -42,7 +42,7 @@ public final class EarthLongitudeCalculator implements Provider<Subject, Timelin
     }
 
     @Override
-    public Object calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
+    public Double calculate(TimelinePoint tx, Map<Subject, Object> precalculatedValues) {
         return calculate(tx);
     }
 }

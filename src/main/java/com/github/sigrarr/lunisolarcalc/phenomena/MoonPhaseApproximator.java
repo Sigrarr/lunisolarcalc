@@ -40,7 +40,7 @@ public final class MoonPhaseApproximator {
         /**
          * Theoretically, from this step on we would get a better result if we used
          * a value of mean L calculated for Tx, not for an interval.
-         * However, in the scope of this project it would give a precision gain lesser than 1 s,
+         * However, in the scope of this project it would improve accuracy by lesser than 1 s,
          * which is neglectible - for we're only approximating here.
          */
         double approximate = meanFloorNewMoon + (phase.lunationFraction * meanL);

@@ -27,7 +27,7 @@ public final class EarthSunRadiusCalculator implements Provider<Subject, Timelin
      * @return      the Earth's radius vector (distance to the Sun; R), in AU
      */
     public double calculate(TimelinePoint tx) {
-        return periodicTerms.evaluate(tx);
+        return periodicTerms.evaluate(tx.toDynamicalTime());
     }
 
     @Override

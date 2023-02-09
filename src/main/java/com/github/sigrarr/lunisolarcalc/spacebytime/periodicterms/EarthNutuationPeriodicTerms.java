@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.spacebytime.periodicterms;
 
 import com.github.sigrarr.lunisolarcalc.spacebytime.EarthNutuationElements;
-import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
@@ -79,7 +79,7 @@ public abstract class EarthNutuationPeriodicTerms {
         { 2 , -1 , 0 , 2 , 2 },
     };
 
-    public double evaluate(TimelinePoint tx, EarthNutuationElements elements) {
+    public double evaluate(DynamicalTimelinePoint tx, EarthNutuationElements elements) {
         double centurialT = tx.toCenturialT();
         double value = 0.0;
         int seriesLength = getSeriesLength();
@@ -89,11 +89,11 @@ public abstract class EarthNutuationPeriodicTerms {
         return scale(value);
     }
 
-    protected double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, int n) {
+    protected double evaluateTerm(DynamicalTimelinePoint tx, EarthNutuationElements elements, int n) {
         return evaluateTerm(tx, elements, getCoefficientRow(n), getElementMultiplierRow(n));
     }
 
-    protected double evaluateTerm(TimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, int[] elementsMultipliers) {
+    protected double evaluateTerm(DynamicalTimelinePoint tx, EarthNutuationElements elements, double[] coefficientRow, int[] elementsMultipliers) {
         return scale(evaluateTermRaw(tx.toCenturialT(), elements, coefficientRow, elementsMultipliers));
     }
 
