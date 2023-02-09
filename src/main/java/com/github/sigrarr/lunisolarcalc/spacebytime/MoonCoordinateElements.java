@@ -5,6 +5,7 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.normalizeLongitu
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.util.DoubleRow;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
@@ -14,7 +15,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  *
  * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */
-public class MoonCoordinateElements implements Provider<Subject, TimelinePoint> {
+public class MoonCoordinateElements implements Provider<Subject, TimelinePoint>, DoubleRow {
 
     public static final Subject SUBJECT = Subject.MOON_COORDINATE_ELEMENTS;
     public static final int INDEX_MEAN_LONGITUDE = 0;
@@ -91,16 +92,6 @@ public class MoonCoordinateElements implements Provider<Subject, TimelinePoint> 
     private MoonCoordinateElements() {}
 
     /**
-     * Gets the value: one of intermediate arguments used in periodic terms for the Moon's coordinates (L', D, M, M', F, A1, A2, A3): [0, 2π).
-     *
-     * @param index     from 0, lesser than {@value #ELEMENTS_N}
-     * @return          value: one of intermediate arguments used in periodic terms for the Moon's coordinates (L', D, M, M', F, A1, A2, A3): [0, 2π)
-     */
-    public double getValue(int index) {
-        return values[index];
-    }
-
-    /**
      * Gets the value: the Moon's mean longitude (L'): [0, 2π)
      * @return  value: the Moon's mean longitude (L'): [0, 2π)
      */
@@ -162,6 +153,22 @@ public class MoonCoordinateElements implements Provider<Subject, TimelinePoint> 
      */
     public double getA3() {
         return values[INDEX_ADDITIONAL_ARGUMENT_3];
+    }
+
+    /**
+     * Gets the value: one of intermediate arguments used in periodic terms for the Moon's coordinates (L', D, M, M', F, A1, A2, A3): [0, 2π).
+     *
+     * @param index     from 0, lesser than {@value #ELEMENTS_N}
+     * @return          value: one of intermediate arguments used in periodic terms for the Moon's coordinates (L', D, M, M', F, A1, A2, A3): [0, 2π)
+     */
+    @Override
+    public double getValue(int index) {
+        return values[index];
+    }
+
+    @Override
+    public int getSize() {
+        return ELEMENTS_N;
     }
 
     @Override

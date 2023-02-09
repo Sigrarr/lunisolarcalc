@@ -5,6 +5,7 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.normalizeLongitu
 import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.util.DoubleRow;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
@@ -14,7 +15,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  *
  * @see "Meeus 1998: Ch. 22 (p. 143...)"
  */
-public class EarthNutuationElements implements Provider<Subject, TimelinePoint> {
+public class EarthNutuationElements implements Provider<Subject, TimelinePoint>, DoubleRow {
 
     public static final Subject SUBJECT = Subject.EARTH_NUTUATION_ELEMENTS;
 
@@ -79,16 +80,6 @@ public class EarthNutuationElements implements Provider<Subject, TimelinePoint> 
     private EarthNutuationElements() {}
 
     /**
-     * Gets the value: one of intermediate arguments used in periodic terms for the Earth's nutuation, by index: [0, 2π).
-     *
-     * @param index     from 0, lesser than {@value #ELEMENTS_N}
-     * @return          value: one of intermediate arguments used in periodic terms for the Earth's nutuation: [0, 2π)
-     */
-    public double getValue(int index) {
-        return values[index];
-    }
-
-    /**
      * Gets the value: mean elongation of the Moon from the Sun (D): [0, 2π)
      * @return  value: mean elongation of the Moon from the Sun (D): [0, 2π)
      */
@@ -126,6 +117,22 @@ public class EarthNutuationElements implements Provider<Subject, TimelinePoint> 
      */
     public double getOmega() {
         return values[INDEX_LONGITUDE_OF_ASCENDING_NODE_OF_MEAN_ORBIT_OF_MOON];
+    }
+
+    /**
+     * Gets the value: one of intermediate arguments used in periodic terms for the Earth's nutuation, by index: [0, 2π).
+     *
+     * @param index     from 0, lesser than {@value #ELEMENTS_N}
+     * @return          value: one of intermediate arguments used in periodic terms for the Earth's nutuation: [0, 2π)
+     */
+    @Override
+    public double getValue(int index) {
+        return values[index];
+    }
+
+    @Override
+    public int getSize() {
+        return ELEMENTS_N;
     }
 
     @Override

@@ -58,6 +58,22 @@ public enum Subject {
     EARTH_SUN_RADIUS,
 
     /**
+     * The mean obliquity of the ecliptic (the mean angle between the ecliptic
+     * and the celestial equator; ε0). Presumably in radians.
+     *
+     * @see EclipticMeanObliquityCalculator
+     */
+    ECLIPTIC_MEAN_OBLIQUITY,
+
+    /**
+     * The true obliquity of the ecliptic (the angle between the ecliptic
+     * and the celestial equator; ε = ε0 + Δε). Presumably in radians.
+     *
+     * @see EclipticTrueObliquityCalculator
+     */
+    ECLIPTIC_TRUE_OBLIQUITY,
+
+    /**
      * Apparent longitude of the center of the Moon (λ + Δψ).
      * Presumably in radians.
      *

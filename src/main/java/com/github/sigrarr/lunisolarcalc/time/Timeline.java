@@ -14,7 +14,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
  * from -4712.01.01 12:00 of the Julian calendar to +3268-01-23 12:00 of the Gregorian calendar
  * (a Julian Period's length is defined as 7980 {@linkplain #JULIAN_YEAR_DAYS Julian years},
  * so the end point is equal to +3268-01-01 12:00 of the proleptic Julian calendar).
- * Some algorithms used in this package might give quite imprecise results outside of this scope,
+ * Some algorithms used in the project might give quite imprecise results outside of this scope,
  * or even don't work at all.
  *
  * The Luni-Solar Calc's leading time unit is Julian Day: the number of days from the beginning
