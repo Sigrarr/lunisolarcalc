@@ -7,7 +7,7 @@ public abstract class Calcs {
     /**
      * 2π radians (round angle).
      */
-    public static final double ROUND = 2.0 * Math.PI;
+    public static final double TURN = 2.0 * Math.PI;
     public static final double DEGREE_ARCSECONDS = 60 * 60;
     public static final double ARCMINUTE_TO_DEGREE = 1.0 / 60.0;
     public static final double ARCSECOND_TO_DEGREE = 1.0 / DEGREE_ARCSECONDS;
@@ -93,14 +93,37 @@ public abstract class Calcs {
 
     public static abstract class Angle {
         /**
+         * Normalizes an angle to a proper longitude: [0, 1 turn).
+         * Reduces full turns. Converts a negative sub-round angle α to 1 turn subtract α.
+         *
+         * @param angle         input angle
+         * @param scaleTurn     1 turn (round angle) in the same scale as the input angle
+         * @return              normalized angle, in the same scale: [0, 1 turn)
+         */
+        public static double normalizeLongitudinally(double angle, double scaleTurn) {
+            return angle - (scaleTurn * Math.floor(angle / scaleTurn));
+        }
+
+        /**
+         * Normalizes an angle to a proper latitude: [-1/4 turn, 1/4 turn].
+         *
+         * @param angle         input angle
+         * @param scaleTurn     1 turn (round angle) in the same scale as the input angle
+         * @return              normalized angle, in the same scale: [-1/4 turn, 1/4 turn]
+         */
+        public static double normalizeLatitudinally(double angle, double scaleTurn) {
+            return angle - (scaleTurn * Math.floor((angle + 0.5*scaleTurn) / scaleTurn));
+        }
+
+        /**
          * Normalizes an angle to a proper longitude: [0, 2π).
-         * Reduces full rounds. Converts a negative sub-round angle α to 2π-α.
+         * Reduces full turns. Converts a negative sub-round angle α to 2π-α.
          *
          * @param radians   input angle, in radians
          * @return          normalized angle, in radians: [0, 2π)
          */
         public static double normalizeLongitudinally(double radians) {
-            return radians - (ROUND * Math.floor(radians / ROUND));
+            return radians - (TURN * Math.floor(radians / TURN));
         }
 
         /**
@@ -110,28 +133,7 @@ public abstract class Calcs {
          * @return          normalized angle, in radians: [-π/2, π/2]
          */
         public static double normalizeLatitudinally(double radians) {
-            return radians - (ROUND * Math.floor((radians + Math.PI) / ROUND));
-        }
-
-        /**
-         * Normalizes an angle to a proper longitude: [0, 360°).
-         * Reduces full rounds. Converts a negative sub-round angle α to 360°-α.
-         *
-         * @param degrees   input angle, in degrees
-         * @return          normalized angle, in degrees: [0, 360°)
-         */
-        public static double normalizeDegreesLongitudinally(double degrees) {
-            return degrees - (360.0 * Math.floor(degrees / 360.0));
-        }
-
-        /**
-         * Normalizes an angle to a proper latitude: [-90°, 90°].
-         *
-         * @param degrees   input angle, in degrees
-         * @return          normalized angle, in degrees: [-90°, 90°]
-         */
-        public static double normalizeDegreesLatitudinally(double degrees) {
-            return degrees - (360.0 * Math.floor((degrees + 180.0) / 360.0));
+            return radians - (TURN * Math.floor((radians + Math.PI) / TURN));
         }
 
         /**
@@ -213,9 +215,9 @@ public abstract class Calcs {
          *
          * Eg: 12 hours, 14 minutes and 24 seconds would be converted to 0.51 (of a day).
          *
-         * @param h     number of hours
-         * @param min   number of minutes
-         * @param s     number of seconds
+         * @param h     number of hours (positive)
+         * @param min   number of minutes (positive)
+         * @param s     number of seconds (positive)
          * @return      number of days (with fraction)
          */
         public static double timeToDays(int h, int min, double s) {
@@ -228,7 +230,7 @@ public abstract class Calcs {
          *
          * The input number should be as small as possible, to avoid loss of precision.
          *
-         * @param dayFraction   fraction of a day (or number of days)
+         * @param dayFraction   fraction of a day (or number of days; positive)
          * @return              array of numbers: whole hours of a day (0-23),
          *                      whole minutes of an hour (0-59), whole seconds of a minute (0-59)
          */
@@ -248,7 +250,7 @@ public abstract class Calcs {
          *
          * The input number should be as small as possible, to avoid loss of precision.
          *
-         * @param dayFraction   fraction of a day (or number of days)
+         * @param dayFraction   fraction of a day (or number of days; positive)
          * @return              number of whole hours of a day (0-23)
          */
         public static int dayFractionToWholeHours(double dayFraction) {
@@ -260,7 +262,7 @@ public abstract class Calcs {
          *
          * The input number should be as small as possible, to avoid loss of precision.
          *
-         * @param dayFraction   fraction of a day (or number of days)
+         * @param dayFraction   fraction of a day (or number of days; positive)
          * @return              number of whole minutes of an hour (0-59)
          */
         public static int dayFractionToWholeMinutes(double dayFraction) {
@@ -272,7 +274,7 @@ public abstract class Calcs {
          *
          * The input number should be as small as possible, to avoid loss of precision.
          *
-         * @param dayFraction   fraction of a day (or number of days)
+         * @param dayFraction   fraction of a day (or number of days; positive)
          * @return              number of whole seconds of a minute (0-59)
          */
         public static int dayFractionToWholeSeconds(double dayFraction) {
@@ -291,7 +293,7 @@ public abstract class Calcs {
          * @return                      progress angle, in radians
          */
         public static double radiansPerTimeSeconds(double cycleLengthSeconds, int seconds) {
-            return seconds / cycleLengthSeconds * ROUND;
+            return seconds / cycleLengthSeconds * TURN;
         }
 
         /**
@@ -317,7 +319,7 @@ public abstract class Calcs {
          * @return                      time of progress, in seconds
          */
         public static double secondsPerRadians(double cycleLengthSeconds, double radians) {
-            return cycleLengthSeconds * radians / ROUND;
+            return cycleLengthSeconds * radians / TURN;
         }
 
         /**

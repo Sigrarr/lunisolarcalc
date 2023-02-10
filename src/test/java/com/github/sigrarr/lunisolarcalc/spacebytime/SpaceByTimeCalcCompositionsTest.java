@@ -30,10 +30,16 @@ public class SpaceByTimeCalcCompositionsTest {
     private SunLatitudeCalculator sunLatitudeCalculator = new SunLatitudeCalculator();
     private SunApparentLongitudeCalculator sunApparentLongitudeCalculator = new SunApparentLongitudeCalculator();
     private SunAberratedLongitudeCalculator sunAberratedLongitudeCalculator = new SunAberratedLongitudeCalculator();
+    private SunDeclinationCalculator sunDeclinationCalculator = new SunDeclinationCalculator();
+    private SunRightAscensionCalculator sunRightAscensionCalculator = new SunRightAscensionCalculator();
+    private SunHourAngleCalculator sunHourAngleCalculator = new SunHourAngleCalculator();
     private MoonLatitudeCalculator moonLatitudeCalculator = new MoonLatitudeCalculator();
     private MoonEarthDistanceCalculator moonEarthDistanceCalculator = new MoonEarthDistanceCalculator();
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
     private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
+    private MoonDeclinationCalculator moonDeclinationCalculator = new MoonDeclinationCalculator();
+    private MoonRightAscensionCalculator moonRightAscensionCalculator = new MoonRightAscensionCalculator();
+    private MoonHourAngleCalculator moonHourAngleCalculator = new MoonHourAngleCalculator();
     private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
         .collect(Collectors.toMap(s -> s, s -> SpaceByTimeCalcCompositions.compose(s)));
 
@@ -69,10 +75,16 @@ public class SpaceByTimeCalcCompositionsTest {
         double sunLatitude = sunLatitudeCalculator.calculate(tx, earthLatitude, earthLongitude);
         double sunApparentLongitude = sunApparentLongitudeCalculator.calculate(sunGeometricLongitude, earthNutuationInLongitude, aberrationEarthSun);
         double sunAberratedLongitude = sunAberratedLongitudeCalculator.calculate(sunGeometricLongitude, aberrationEarthSun);
+        double sunDeclination = sunDeclinationCalculator.calculate(sunLatitude, sunApparentLongitude, eclipticTrueObliquity);
+        double sunRightAscension = sunRightAscensionCalculator.calculate(sunApparentLongitude, sunLatitude, eclipticTrueObliquity);
+        double sunHourAngle = sunHourAngleCalculator.calculate(siderealApparentTime, sunRightAscension);
         double moonLatitude = moonLatitudeCalculator.calculate(tx, moonCoordinateElements);
         double moonEarthDistance = moonEarthDistanceCalculator.calculate(tx, moonCoordinateElements);
         double moonApparentLongitude = moonApparentLongitudeCalculator.calculate(moonLongitude, earthNutuationInLongitude);
         double moonOverSunApparentLongitudeExcess = moonOverSunApparentLongitudeExcessCalculator.calculate(moonLongitude, sunAberratedLongitude);
+        double moonDeclination = moonDeclinationCalculator.calculate(moonLatitude, moonApparentLongitude, eclipticTrueObliquity);
+        double moonRightAscension = moonRightAscensionCalculator.calculate(moonApparentLongitude, moonLatitude, eclipticTrueObliquity);
+        double moonHourAngle = moonHourAngleCalculator.calculate(siderealApparentTime, moonRightAscension);
 
         assertForElements(moonCoordinateElements, Subject.MOON_COORDINATE_ELEMENTS);
         assertForElements(earthNutuationElements, Subject.EARTH_NUTUATION_ELEMENTS);
@@ -91,10 +103,16 @@ public class SpaceByTimeCalcCompositionsTest {
         assertForNumber(sunLatitude, Subject.SUN_LATITUDE);
         assertForNumber(sunApparentLongitude, Subject.SUN_APPARENT_LONGITUDE);
         assertForNumber(sunAberratedLongitude, Subject.SUN_ABERRATED_LONGITUDE);
+        assertForNumber(sunDeclination, Subject.SUN_DECLINATION);
+        assertForNumber(sunRightAscension, Subject.SUN_RIGHT_ASCENSION);
+        assertForNumber(sunHourAngle, Subject.SUN_HOUR_ANGLE);
         assertForNumber(moonLatitude, Subject.MOON_LATITUDE);
         assertForNumber(moonEarthDistance, Subject.MOON_EARTH_DISTANCE);
         assertForNumber(moonApparentLongitude, Subject.MOON_APPARENT_LONGITUDE);
         assertForNumber(moonOverSunApparentLongitudeExcess, Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS);
+        assertForNumber(moonDeclination, Subject.MOON_DECLINATION);
+        assertForNumber(moonRightAscension, Subject.MOON_RIGHT_ASCENSION);
+        assertForNumber(moonHourAngle, Subject.MOON_HOUR_ANGLE);
     }
 
     private void assertForElements(DoubleRow elements, Subject subject) {

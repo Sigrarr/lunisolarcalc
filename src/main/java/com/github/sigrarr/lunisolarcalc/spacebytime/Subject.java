@@ -74,7 +74,7 @@ public enum Subject {
     ECLIPTIC_TRUE_OBLIQUITY,
 
     /**
-     * Apparent longitude of the center of the Moon (λ + Δψ).
+     * Apparent ecliptical longitude of the center of the Moon (λ).
      * Presumably in radians.
      *
      * @see MoonApparentLongitudeCalculator
@@ -87,6 +87,14 @@ public enum Subject {
     MOON_COORDINATE_ELEMENTS,
 
     /**
+     * The Moon's declination (δ).
+     * An equatorial coordinate. Presumably in radians.
+     *
+     * @see MoonDeclinationCalculator
+     */
+    MOON_DECLINATION,
+
+    /**
      * Distance between the centers of Earth and Moon (Δ).
      * Presumably in kilometers.
      *
@@ -95,14 +103,24 @@ public enum Subject {
     MOON_EARTH_DISTANCE,
 
     /**
-     * Latitude of the Moon's center (β). Presumably in radians.
+     * The Moon's apparent hour angle at the Greenwich meridian (H0).
+     * An equatorial coordinate. Presumably in degrees.
+     *
+     * @see MoonHourAngleCalculator
+     */
+    MOON_HOUR_ANGLE,
+
+    /**
+     * Ecliptical latitude of the Moon's center (β).
+     * Presumably in radians.
      *
      * @see MoonLatitudeCalculator
      */
     MOON_LATITUDE,
 
     /**
-     * Longitude of the Moon's center (λ). Presumably in radians.
+     * Ecliptical longitude of the Moon's center (λ).
+     * Presumably in radians.
      *
      * @see MoonLongitudeCalculator
      */
@@ -117,26 +135,39 @@ public enum Subject {
     MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS,
 
     /**
+     * The Moon's right ascension (α).
+     * An equatorial coordinate. Presumably in radians.
+     *
+     * @see MoonRightAscensionCalculator
+     */
+    MOON_RIGHT_ASCENSION,
+
+    /**
      * Mean sidereal time at the Greenwich meridian (θ0).
      * Presumably in degrees (1h ~ 15°).
+     *
+     * @see SiderealMeanTimeCalculator
      */
     SIDEREAL_MEAN_TIME,
 
     /**
      * Apparent sidereal time at the Greenwich meridian (θ0).
      * Presumably in degrees (1h ~ 15°).
+     *
+     * @see SiderealApparentTimeCalculator
      */
     SIDEREAL_APPARENT_TIME,
 
     /**
-     * The Sun's longitude with correction due to aberration. Presumably in radians.
+     * The Sun's ecliptical longitude with correction due to aberration.
+     * Presumably in radians.
      *
      * @see SunAberratedLongitudeCalculator
      */
     SUN_ABERRATED_LONGITUDE,
 
     /**
-     * The Sun's apparent longitude (λ) (indicator of Equinoxes/Solstices).
+     * The Sun's apparent ecliptical longitude (λ) (indicator of Equinoxes/Solstices).
      * Presumably in radians.
      *
      * @see SunApparentLongitudeCalculator
@@ -144,16 +175,42 @@ public enum Subject {
     SUN_APPARENT_LONGITUDE,
 
     /**
-     * The Sun's geometric longitude (☉). Presumably in radians.
+     * The Sun's declination (δ).
+     * An equatorial coordinate. Presumably in radians.
+     *
+     * @see SunDeclinationCalculator
+     */
+    SUN_DECLINATION,
+
+    /**
+     * The Sun's geometric ecliptical longitude (☉).
+     * Presumably in radians.
      *
      * @see SunGeometricLongitudeCalculator
      */
     SUN_GEOMETRIC_LONGITUDE,
 
     /**
-     * The Sun's geometric latitude (β). Presumably in radians.
+     * The Sun's apparent hour angle at the Greenwich meridian (H0).
+     * An equatorial coordinate. Presumably in degrees.
+     *
+     * @see SunHourAngleCalculator
+     */
+    SUN_HOUR_ANGLE,
+
+    /**
+     * The Sun's geometric ecliptical latitude (β).
+     * Presumably in radians.
      *
      * @see SunLatitudeCalculator
      */
     SUN_LATITUDE,
+
+    /**
+     * The Sun's right ascension (α).
+     * An equatorial coordinate. Presumably in radians.
+     *
+     * @see SunRightAscensionCalculator
+     */
+    SUN_RIGHT_ASCENSION,
 }

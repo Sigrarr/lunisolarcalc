@@ -28,7 +28,7 @@ public enum MoonPhase implements Titled {
 
     private MoonPhase(double lunationFraction, String title) {
         this.lunationFraction = lunationFraction;
-        this.moonOverSunApparentLongitudeExcess = lunationFraction * Calcs.ROUND;
+        this.moonOverSunApparentLongitudeExcess = lunationFraction * Calcs.TURN;
         this.title = title;
     }
 

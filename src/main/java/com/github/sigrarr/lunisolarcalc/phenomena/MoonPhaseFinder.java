@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.TURN;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.spacebytime.*;
@@ -70,7 +70,7 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     }
 
     private double calculateJdeCorrection() {
-        return diff * (excess.hasTwoValues() ? estimateSlopeInverseFromRecentEvaluations() : MeanCycle.LUNATION.epochalLengthDays / ROUND);
+        return diff * (excess.hasTwoValues() ? estimateSlopeInverseFromRecentEvaluations() : MeanCycle.LUNATION.epochalLengthDays / TURN);
     }
 
     private double estimateSlopeInverseFromRecentEvaluations() {
@@ -79,14 +79,14 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
     private void setDiffAndExcessProjectingOnContinuousLine(MoonPhase phase) {
         diff = phase.moonOverSunApparentLongitudeExcess - excess.getCurrent();
-        if (phase == MoonPhase.NEW_MOON && diff < -0.75 * ROUND) {
-            projectExcessFromNearRoundAndDiffFromNearNegativeRoundToNearZero();
+        if (phase == MoonPhase.NEW_MOON && diff < -0.75 * TURN) {
+            projectExcessFromNearTurnAndDiffFromNearNegativeTurnToNearZero();
         }
     }
 
-    private void projectExcessFromNearRoundAndDiffFromNearNegativeRoundToNearZero() {
-        excess.setCurrent(excess.getCurrent() - ROUND);
-        diff += ROUND;
+    private void projectExcessFromNearTurnAndDiffFromNearNegativeTurnToNearZero() {
+        excess.setCurrent(excess.getCurrent() - TURN);
+        diff += TURN;
     }
 
     @Override

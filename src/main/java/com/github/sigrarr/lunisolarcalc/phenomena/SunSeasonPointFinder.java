@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.ROUND;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.TURN;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.spacebytime.*;
@@ -59,8 +59,8 @@ public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
 
     private double calculateAbsoluteDiff(SunSeasonPoint point, double lambda) {
         double diff = point.apparentLongitude - lambda;
-        if (point.apparentLongitude == 0.0 && diff < -0.75 * ROUND) {
-            diff += ROUND;
+        if (point.apparentLongitude == 0.0 && diff < -0.75 * TURN) {
+            diff += TURN;
         }
         return Math.abs(diff);
     }

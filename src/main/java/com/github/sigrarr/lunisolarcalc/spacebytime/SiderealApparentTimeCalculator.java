@@ -28,8 +28,9 @@ public class SiderealApparentTimeCalculator implements Provider<Subject, Timelin
      *                                  in degrees: [0, 360°)
      */
     public double calculate(double meanSiderealTimeDegrees, double earthNutuationInLongitude, double eclipticObliquity) {
-        return Calcs.Angle.normalizeDegreesLongitudinally(
-            meanSiderealTimeDegrees + calculateNutuationInRightAscensionDegrees(earthNutuationInLongitude, eclipticObliquity)
+        return Calcs.Angle.normalizeLongitudinally(
+            meanSiderealTimeDegrees + calculateNutuationInRightAscensionDegrees(earthNutuationInLongitude, eclipticObliquity),
+            360.0
         );
     }
 

@@ -35,10 +35,10 @@ public class CalcsTest {
         assertEquals(0.1 * Math.PI, Calcs.Angle.normalizeLongitudinally( 12.1 * Math.PI), Calcs.EPSILON_12);
         assertEquals(1.9 * Math.PI, Calcs.Angle.normalizeLongitudinally(-12.1 * Math.PI), Calcs.EPSILON_12);
 
-        assertEquals(0.0, Calcs.Angle.normalizeDegreesLongitudinally(0.0), Calcs.EPSILON_12);
-        assertEquals(90.0, Calcs.Angle.normalizeDegreesLongitudinally(90.0), Calcs.EPSILON_12);
-        assertEquals(0.1 * 180.0, Calcs.Angle.normalizeDegreesLongitudinally( 12.1 * 180.0), Calcs.EPSILON_12);
-        assertEquals(1.9 * 180.0, Calcs.Angle.normalizeDegreesLongitudinally(-12.1 * 180.0), Calcs.EPSILON_12);
+        assertEquals(0.0, Calcs.Angle.normalizeLongitudinally(0.0, 1.0), Calcs.EPSILON_12);
+        assertEquals(90.0, Calcs.Angle.normalizeLongitudinally(90.0, 360.0), Calcs.EPSILON_12);
+        assertEquals(0.1 * 180.0, Calcs.Angle.normalizeLongitudinally( 12.1 * 180.0, 360.0), Calcs.EPSILON_12);
+        assertEquals(0.9, Calcs.Angle.normalizeLongitudinally(-12.1, 1.0), Calcs.EPSILON_12);
     }
 
     @Test
@@ -49,11 +49,11 @@ public class CalcsTest {
         assertEquals( 0.5 * Math.PI, Calcs.Angle.normalizeLatitudinally(-1.5 * Math.PI), Calcs.EPSILON_12);
         assertEquals(-0.25 * Math.PI, Calcs.Angle.normalizeLatitudinally(-0.25 * Math.PI), Calcs.EPSILON_12);
 
-        assertEquals( 0.0, Calcs.Angle.normalizeDegreesLatitudinally(0.0), Calcs.EPSILON_12);
-        assertEquals( 90.0, Calcs.Angle.normalizeDegreesLatitudinally( 90.0), Calcs.EPSILON_12);
-        assertEquals(-90.0, Calcs.Angle.normalizeDegreesLatitudinally( 270.0), Calcs.EPSILON_12);
-        assertEquals( 90.0, Calcs.Angle.normalizeDegreesLatitudinally(-270.0), Calcs.EPSILON_12);
-        assertEquals(-0.25 * 180.0, Calcs.Angle.normalizeDegreesLatitudinally(-0.25 * 180.0), Calcs.EPSILON_12);
+        assertEquals( 0.0, Calcs.Angle.normalizeLatitudinally(0.0, 1.0), Calcs.EPSILON_12);
+        assertEquals( 90.0, Calcs.Angle.normalizeLatitudinally( 90.0, 360.0), Calcs.EPSILON_12);
+        assertEquals(-90.0, Calcs.Angle.normalizeLatitudinally( 270.0, 360.0), Calcs.EPSILON_12);
+        assertEquals( 0.25, Calcs.Angle.normalizeLatitudinally(-0.75, 1.0), Calcs.EPSILON_12);
+        assertEquals(-0.25 * 180.0, Calcs.Angle.normalizeLatitudinally(-0.25 * 180.0, 360.0), Calcs.EPSILON_12);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class CalcsTest {
         double deltaDeg = Calcs.Angle.arcsecondsToDegrees(0.1);
         double deltaRad = Math.toRadians(deltaDeg);
         assertEquals(0.01 * 360, Calcs.CircularMotion.degreesPerTimeSeconds(length, (int) Math.round(percent)), deltaDeg);
-        assertEquals(0.01 * Calcs.ROUND, Calcs.CircularMotion.radiansPerTimeSeconds(length, (int) Math.round(percent)), deltaRad);
+        assertEquals(0.01 * Calcs.TURN, Calcs.CircularMotion.radiansPerTimeSeconds(length, (int) Math.round(percent)), deltaRad);
         assertEquals(0.01 * 360, Calcs.CircularMotion.degreesPerTimeMiliseconds(length, (int) Math.round(1000.0 * percent)), deltaDeg);
         assertEquals(Calcs.Angle.toArcseconds(0.01 * 360), Calcs.CircularMotion.arcsecondsPerTimeMiliseconds(length, (int) Math.round(1000.0 * percent)), 0.001);
     }
@@ -117,7 +117,7 @@ public class CalcsTest {
         assertEquals(0.0, Calcs.CircularMotion.secondsPerRadians(1000000, 0.0));
         assertEquals(0.0, Calcs.CircularMotion.secondsPerDegrees(2000000, 0.0));
 
-        double permilleOfRound = Calcs.ROUND * 0.001;
+        double permilleOfRound = Calcs.TURN * 0.001;
         double permilleOfRoundDegrees = Math.toDegrees(permilleOfRound);
         double length = 123456789;
         assertEquals(length * 0.001, Calcs.CircularMotion.secondsPerRadians(length, permilleOfRound), decimalAutoDelta(0.001));

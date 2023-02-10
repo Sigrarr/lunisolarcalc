@@ -32,7 +32,7 @@ public class SiderealMeanTimeCalculator implements Provider<Subject, TimelinePoi
             + 360.98564736629 * (utX.julianDay - Timeline.EPOCH_2000_JD)
             + 0.000387933 * cT * cT
             - cT * cT * cT / 38710000.0;
-        return Calcs.Angle.normalizeDegreesLongitudinally(thetaZero);
+        return Calcs.Angle.normalizeLongitudinally(thetaZero, 360.0);
     }
 
     @Override

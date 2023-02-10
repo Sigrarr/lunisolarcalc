@@ -24,16 +24,22 @@ public abstract class SpaceByTimeCalcCompositions {
         register(new EclipticTrueObliquityCalculator());
         register(new MoonApparentLongitudeCalculator());
         register(MoonCoordinateElements.makeUnevaluatedInstance());
+        register(new MoonDeclinationCalculator());
         register(new MoonEarthDistanceCalculator());
+        register(new MoonHourAngleCalculator());
         register(new MoonLatitudeCalculator());
         register(new MoonLongitudeCalculator());
         register(new MoonOverSunApparentLongitudeExcessCalculator());
+        register(new MoonRightAscensionCalculator());
         register(new SiderealMeanTimeCalculator());
         register(new SiderealApparentTimeCalculator());
         register(new SunAberratedLongitudeCalculator());
         register(new SunApparentLongitudeCalculator());
+        register(new SunDeclinationCalculator());
         register(new SunGeometricLongitudeCalculator());
+        register(new SunHourAngleCalculator());
         register(new SunLatitudeCalculator());
+        register(new SunRightAscensionCalculator());
     }};
 
     /**

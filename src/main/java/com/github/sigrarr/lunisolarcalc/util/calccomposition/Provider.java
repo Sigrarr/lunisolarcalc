@@ -16,6 +16,13 @@ import java.util.*;
  */
 public interface Provider<SubjectT extends Enum<SubjectT>, InT> {
     /**
+     * Specifies the subject of calculation provided by this object.
+     *
+     * @return  subject of calculation provided by this object
+     */
+    public SubjectT provides();
+
+    /**
      * Specifies the set of subjects whose values are required by this provider
      * in order to perform its own {@linkplain #calculate(Object, Map) calculation}.
      *
@@ -27,13 +34,6 @@ public interface Provider<SubjectT extends Enum<SubjectT>, InT> {
      *          (may be empty, must not be null)
      */
     public EnumSet<SubjectT> requires();
-
-    /**
-     * Specifies the subject of calculation provided by this object.
-     *
-     * @return  subject of calculation provided by this object
-     */
-    public SubjectT provides();
 
     /**
      * Calculates a value of the subject {@linkplain #provides() provided} by this object.
