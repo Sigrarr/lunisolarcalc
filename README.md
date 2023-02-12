@@ -60,12 +60,12 @@ Output:
 ```
 
 ### Space-by-time calculators
-The package `com.github.sigrarr.lunisolarcalc.spacebytime` provides a group of calculators of certain spatial coordinates. Some of them need to receive results yielded by the others, which constitutes a dependency graph. You can use the in-built *calculation composer* to resolve those dependencies (which is recommended) or do it manually. For the list of quantities supported by the package, see the `Subject` enumeration class. The package may be extended in the future.
+The package `com.github.sigrarr.lunisolarcalc.coords` provides a group of calculators of certain spatial coordinates. Some of them need to receive results yielded by the others, which constitutes a dependency graph. You can use the in-built *calculation composer* to resolve those dependencies (which is recommended) or do it manually. For the list of quantities supported by the package, see the `Subject` enumeration class. The package may be extended in the future.
 
 #### Example S.1
 ```java
 SingleOutputComposition<Subject, TimelinePoint> lambdaCalc
-    = SpaceByTimeCalcCompositions.compose(Subject.SUN_APPARENT_LONGITUDE);
+    = CalcCompositions.compose(Subject.SUN_APPARENT_LONGITUDE);
 TimelinePoint newYear2000 = TimelinePoint.ofCalendaricParameters(2000, 1, 1.0);
 double newYear2000Lambda = (Double) lambdaCalc.calculate(newYear2000);
 

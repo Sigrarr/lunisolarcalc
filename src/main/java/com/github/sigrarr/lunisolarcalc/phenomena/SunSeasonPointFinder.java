@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.TURN;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
-import com.github.sigrarr.lunisolarcalc.spacebytime.*;
+import com.github.sigrarr.lunisolarcalc.coords.*;
 
 /**
  * A tool for finding occurrences of Equinoxes/Solstices, i.e. distinguished stages of the tropical year cycle
@@ -14,7 +14,7 @@ import com.github.sigrarr.lunisolarcalc.spacebytime.*;
  * then (re)calculates λ(t) and corrects t until the value λ(t) is close enough to the specific for the stage under search.
  *
  * Uses Meeus' method for time correction.
- * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link SpaceByTimeCalcCompositions}.
+ * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link CalcCompositions}.
  * You can {@linkplain #SunSeasonPointFinder(StageIndicatingAngleCalculator) use another λ calculator}
  * and set custom value of angular delta for comparing values of λ.
  *
@@ -23,7 +23,7 @@ import com.github.sigrarr.lunisolarcalc.spacebytime.*;
 public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
     /**
      * Constructs an instance which will use the default calculator of the Sun's apparent longitude (λ),
-     * prepared with {@link SpaceByTimeCalcCompositions}.
+     * prepared with {@link CalcCompositions}.
      */
     public SunSeasonPointFinder() {
         this(new OwnCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));

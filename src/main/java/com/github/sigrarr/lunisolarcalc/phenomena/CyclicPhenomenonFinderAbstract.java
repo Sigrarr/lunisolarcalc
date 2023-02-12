@@ -5,7 +5,7 @@ import java.util.function.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
-import com.github.sigrarr.lunisolarcalc.spacebytime.*;
+import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
@@ -204,7 +204,7 @@ abstract class CyclicPhenomenonFinderAbstract {
         final SingleOutputComposition<Subject, TimelinePoint> composedCalculator;
 
         OwnCompositionStageIndicatingAngleCalculator(Subject angleSubject) {
-            composedCalculator = SpaceByTimeCalcCompositions.compose(angleSubject);
+            composedCalculator = CalcCompositions.compose(angleSubject);
         }
 
         @Override
