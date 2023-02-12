@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Group of intermediate arguments used in periodic terms for the Moon's coordinates (L', D, M, M', F, A1, A2, A3).
  * Rather quick calculation. An instance is stateful, contains the last calculation's results.
- * {@linkplain CalculationComposer Composable}, pre-registered in {@link CalcCompositions}.
+ * {@linkplain CalculationComposer Composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */

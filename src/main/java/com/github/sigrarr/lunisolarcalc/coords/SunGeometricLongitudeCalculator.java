@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Sun's geometric longitude (☉).
+ * Calculator of {@linkplain Subject#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 166)"
  */
@@ -20,11 +20,12 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
     private static final double HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND = Math.PI + BASIC_TO_FK5_DELTA;
 
     /**
-     * Calculates the Sun's geometric longitude (☉): [0, 2π).
+     * Calculates {@linkplain Subject#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)}: [0, 2π).
      * Quick.
      *
-     * @param heliocentricLongitude {@linkplain EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
-     * @return                      the Sun's geometric longitude (☉): [0, 2π)
+     * @param heliocentricLongitude {@linkplain Subject#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}, in radians
+     * @return                      {@linkplain Subject#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)},
+     *                              in radians: [0, 2π)
      */
     public double calculate(double heliocentricLongitude) {
         return Calcs.Angle.normalizeLongitudinally(heliocentricLongitude + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);

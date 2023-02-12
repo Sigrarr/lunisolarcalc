@@ -6,9 +6,9 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Moon's apparent hour angle at the Greenwich meridian (H0).
+ * Calculator of {@linkplain Subject#MOON_HOUR_ANGLE the Moon's hour angle at the Greenwich meridian (H0)}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see Transformations
  */
@@ -17,16 +17,16 @@ public final class MoonHourAngleCalculator implements Provider<Subject, Timeline
     public static final Subject SUBJECT = Subject.MOON_HOUR_ANGLE;
 
     /**
-     * Calculates the Moon's apparent hour angle at the Greenwich meridian (H0): [0, 360°).
+     * Calculates {@linkplain Subject#MOON_HOUR_ANGLE the Moon's hour angle at the Greenwich meridian (H0)}: [0, 360°).
      * Quick.
      *
-     * @param siderealApparentTimeDegrees   {@linkplain Subject#SIDEREAL_APPARENT_TIME apparent sidereal time at the Greenwich meridian (θ0)},
-     *                                      in degrees
-     * @param moonRightAscension            {@linkplain Subject#MOON_RIGHT_ASCENSION the Moon's right ascension (α)}, in radians
-     * @return                              the Moon's apparent hour angle at the Greenwich meridian (H0), in degrees: [0, 360°)
+     * @param siderealTimeDegrees   {@linkplain Subject#SIDEREAL_APPARENT_TIME sidereal time at the Greenwich meridian (θ0)}, in degrees
+     * @param moonRightAscension    {@linkplain Subject#MOON_RIGHT_ASCENSION the Moon's right ascension (α)}, in radians
+     * @return                      {@linkplain Subject#MOON_HOUR_ANGLE the Moon's hour angle at the Greenwich meridian (H0)},
+     *                              in degrees: [0, 360°)
      */
-    public double calculate(double siderealApparentTimeDegrees, double moonRightAscension) {
-        return Transformations.calculateHourAngle(siderealApparentTimeDegrees, Math.toDegrees(moonRightAscension), 360.0);
+    public double calculate(double siderealTimeDegrees, double moonRightAscension) {
+        return Transformations.calculateHourAngle(siderealTimeDegrees, Math.toDegrees(moonRightAscension), 360.0);
     }
 
     @Override

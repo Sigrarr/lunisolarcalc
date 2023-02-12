@@ -6,9 +6,9 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Moon's declination (δ).
+ * Calculator of {@linkplain Subject#MOON_DECLINATION the Moon's declination (δ)}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see Transformations
  */
@@ -17,15 +17,13 @@ public final class MoonDeclinationCalculator implements Provider<Subject, Timeli
     public static final Subject SUBJECT = Subject.MOON_DECLINATION;
 
     /**
-     * Calculates the Moon's declination (δ): [-π/2, π/2].
+     * Calculates {@linkplain Subject#MOON_DECLINATION the Moon's declination (δ)}: [-π/2, π/2].
      * Quick.
      *
      * @param moonLatitude              {@linkplain Subject#MOON_LATITUDE the Moon's latitude (β)}, in radians
-     * @param moonApparentLongitude     {@linkplain Subject#MOON_APPARENT_LONGITUDE the Moon's apparent longitude (λ)},
-     *                                  in radians
-     * @param eclipticObliquity         {@link Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)},
-     *                                  in radians
-     * @return                          the Moon's declination (δ), in radians: [-π/2, π/2]
+     * @param moonApparentLongitude     {@linkplain Subject#MOON_APPARENT_LONGITUDE the Moon's apparent longitude (λ)}, in radians
+     * @param eclipticObliquity         {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians
+     * @return                          {@linkplain Subject#MOON_DECLINATION the Moon's declination (δ)}, in radians: [-π/2, π/2]
      */
     public double calculate(double moonLatitude, double moonApparentLongitude, double eclipticObliquity) {
         return Transformations.eclipticalToDeclination(moonLatitude, moonApparentLongitude, eclipticObliquity);

@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the apparent sidereal time at the Greenwich meridian (θ0).
+ * Calculator of the {@linkplain Subject#SIDEREAL_APPARENT_TIME apparent sidereal time at the Greenwich meridian (θ0)}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 12 (pp. 87-89)"
  */
@@ -18,18 +18,18 @@ public class SiderealApparentTimeCalculator implements Provider<Subject, Timelin
     public static final Subject SUBJECT = Subject.SIDEREAL_APPARENT_TIME;
 
     /**
-     * Calculates the apparent sidereal time at the Greenwich meridian (θ0),
-     * in degrees: [0, 360°). 15° corresponds to 1 hour.
+     * Calculates the {@linkplain Subject#SIDEREAL_APPARENT_TIME apparent sidereal time at the Greenwich meridian (θ0)}
+     * expressed in degrees: [0, 360°). 15° corresponds to 1 hour.
      *
-     * @param meanSiderealTimeDegrees   {@linkplain SiderealMeanTimeCalculator mean sidereal time (θ0)}, in degrees
-     * @param earthNutuationInLongitude {@linkplain EarthNutuationInLongitudeCalculator the Earth's nutuation in longitude (Δψ)}, in radians
-     * @param eclipticObliquity         {@linkplain EclipticTrueObliquityCalculator true obliquity of the ecliptic (ε)}, in radians
-     * @return                          the apparent sidereal time at the Greenwich meridian (θ0),
+     * @param meanSiderealTimeDegrees   {@linkplain Subject#SIDEREAL_MEAN_TIME mean sidereal time (θ0)}, in degrees
+     * @param nutuationInLongitude      {@linkplain Subject#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)}, in radians
+     * @param eclipticObliquity         {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians
+     * @return                          {@linkplain Subject#SIDEREAL_APPARENT_TIME apparent sidereal time at the Greenwich meridian (θ0)},
      *                                  in degrees: [0, 360°)
      */
-    public double calculate(double meanSiderealTimeDegrees, double earthNutuationInLongitude, double eclipticObliquity) {
+    public double calculate(double meanSiderealTimeDegrees, double nutuationInLongitude, double eclipticObliquity) {
         return Calcs.Angle.normalizeLongitudinally(
-            meanSiderealTimeDegrees + calculateNutuationInRightAscensionDegrees(earthNutuationInLongitude, eclipticObliquity),
+            meanSiderealTimeDegrees + calculateNutuationInRightAscensionDegrees(nutuationInLongitude, eclipticObliquity),
             360.0
         );
     }

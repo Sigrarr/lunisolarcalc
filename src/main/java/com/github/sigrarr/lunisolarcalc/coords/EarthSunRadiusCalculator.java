@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Earth's radius vector (distance to the Sun; R).
+ * Calculator of the Earth's {@linkplain Subject#EARTH_SUN_RADIUS radius vector (R)}.
  * Costly; processes its own {@linkplain EarthSunRadiusPeriodicTerms periodic terms} table.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 32 (p. 217...)"
  */
@@ -20,11 +20,11 @@ public final class EarthSunRadiusCalculator implements Provider<Subject, Timelin
     private EarthSunRadiusPeriodicTerms periodicTerms = new EarthSunRadiusPeriodicTerms();
 
     /**
-     * Calculates the Earth's radius vector (distance to the Sun; R), in AU.
+     * Calculates the Earth's {@linkplain Subject#EARTH_SUN_RADIUS radius vector (R)}, in AU.
      * Costly.
      *
      * @param tx    time argument
-     * @return      the Earth's radius vector (distance to the Sun; R), in AU
+     * @return      the Earth's {@linkplain Subject#EARTH_SUN_RADIUS radius vector (R)}, in AU
      */
     public double calculate(TimelinePoint tx) {
         return periodicTerms.evaluate(tx.toDynamicalTime());

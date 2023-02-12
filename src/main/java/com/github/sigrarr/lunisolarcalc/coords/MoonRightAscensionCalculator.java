@@ -6,9 +6,9 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Moon's right ascension (α).
+ * Calculator of {@linkplain Subject#MOON_RIGHT_ASCENSION the Moon's right ascension (α)}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see Transformations
  */
@@ -17,15 +17,13 @@ public final class MoonRightAscensionCalculator implements Provider<Subject, Tim
     public static final Subject SUBJECT = Subject.MOON_RIGHT_ASCENSION;
 
     /**
-     * Calculates the Moon's right ascension (α): [0, 2π).
+     * Calculates {@linkplain Subject#MOON_RIGHT_ASCENSION the Moon's right ascension (α)}: [0, 2π).
      * Quick.
      *
-     * @param moonApparentLongitude     {@linkplain Subject#MOON_APPARENT_LONGITUDE the Moon's apparent longitude (λ)},
-     *                                  in radians
+     * @param moonApparentLongitude     {@linkplain Subject#MOON_APPARENT_LONGITUDE the Moon's apparent longitude (λ)}, in radians
      * @param moonLatitude              {@linkplain Subject#MOON_LATITUDE the Moon's latitude (β)}, in radians
-     * @param eclipticObliquity         {@link Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)},
-     *                                  in radians
-     * @return                          the Moon's right ascension (α), in radians: [0, 2π)
+     * @param eclipticObliquity         {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians
+     * @return                          {@linkplain Subject#MOON_RIGHT_ASCENSION the Moon's right ascension (α)}, in radians: [0, 2π)
      */
     public double calculate(double moonApparentLongitude, double moonLatitude, double eclipticObliquity) {
         return Transformations.eclipticalToRightAscension(moonApparentLongitude, moonLatitude, eclipticObliquity);

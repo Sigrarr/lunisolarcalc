@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Sun's longitude with correction due to aberration.
+ * Calculator of {@linkplain Subject#SUN_ABERRATED_LONGITUDE the Sun's longitude with correction due to aberration}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 167)"
  */
@@ -18,12 +18,13 @@ public final class SunAberratedLongitudeCalculator implements Provider<Subject, 
     public static final Subject SUBJECT = Subject.SUN_ABERRATED_LONGITUDE;
 
     /**
-     * Calculates the Sun's longitude with correction due to aberration: [0, 2π).
+     * Calculates {@linkplain Subject#SUN_ABERRATED_LONGITUDE the Sun's longitude with correction due to aberration}: [0, 2π).
      * Quick.
      *
-     * @param geometricLongitude    {@linkplain SunGeometricLongitudeCalculator the Sun's geometric longitude} (☉), in radians
-     * @param aberration            {@linkplain AberrationEarthSunCalculator aberration of the Sun's geocentric position}, in radians
-     * @return                      the Sun's longitude with correction due to aberration: [0, 2π)
+     * @param geometricLongitude    {@linkplain Subject#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)}, in radians
+     * @param aberration            {@linkplain Subject#ABERRATION_EARTH_SUN aberration of the Sun's geocentric position}, in radians
+     * @return                      {@linkplain Subject#SUN_ABERRATED_LONGITUDE the Sun's longitude with correction due to aberration},
+     *                              in radians: [0, 2π)
      */
     public double calculate(double geometricLongitude, double aberration) {
         return Calcs.Angle.normalizeLongitudinally(geometricLongitude + aberration);

@@ -8,9 +8,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of latitude of the Moon's center (β).
+ * Calculator of the {@linkplain Subject#MOON_LATITUDE latitude of the Moon's center (β)}.
  * Costly; processes its own {@linkplain MoonLatitudePeriodicTerms periodic terms} table of considerable size.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */
@@ -21,12 +21,12 @@ public final class MoonLatitudeCalculator implements Provider<Subject, TimelineP
     private MoonLatitudePeriodicTerms periodicTerms = new MoonLatitudePeriodicTerms();
 
     /**
-     * Calcules latitude of the Moon's center (β): [-π/2, π/2].
+     * Calcules the {@linkplain Subject#MOON_LATITUDE latitude of the Moon's center (β)}: [-π/2, π/2].
      * Costly.
      *
      * @param tx        time argument
      * @param elements  intermediate arguments used in {@linkplain MoonLatitudePeriodicTerms periodic terms}
-     * @return          latitude of the Moon's center (β): [-π/2, π/2]
+     * @return          {@linkplain Subject#MOON_LATITUDE latitude of the Moon's center (β)}: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {
         return Calcs.Angle.normalizeLatitudinally(periodicTerms.evaluate(tx.toDynamicalTime(), elements));

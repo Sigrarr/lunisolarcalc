@@ -8,9 +8,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Earth's heliocentric longitude (L).
+ * Calculator of {@linkplain Subject#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}.
  * Costly; processes its own {@linkplain EarthLongitudePeriodicTerms periodic terms} table of considerable size.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 32 (p. 217...)"
  */
@@ -21,11 +21,11 @@ public final class EarthLongitudeCalculator implements Provider<Subject, Timelin
     private EarthLongitudePeriodicTerms periodicTerms = new EarthLongitudePeriodicTerms();
 
     /**
-     * Calculates the Earth's heliocentric longitude (L): [0, 2π).
+     * Calculates {@linkplain Subject#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}: [0, 2π).
      * Costly.
      *
      * @param tx    time argument
-     * @return      the Earth's heliocentric longitude (L): [0, 2π)
+     * @return      {@linkplain Subject#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}: [0, 2π)
      */
     public double calculate(TimelinePoint tx) {
         return Calcs.Angle.normalizeLongitudinally(periodicTerms.evaluate(tx.toDynamicalTime()));

@@ -14,7 +14,7 @@ import com.github.sigrarr.lunisolarcalc.coords.*;
  * then (re)calculates λ(t) and corrects t until the value λ(t) is close enough to the specific for the stage under search.
  *
  * Uses Meeus' method for time correction.
- * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link CalcCompositions}.
+ * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link CoordsCalcCompositions}.
  * You can {@linkplain #SunSeasonPointFinder(StageIndicatingAngleCalculator) use another λ calculator}
  * and set custom value of angular delta for comparing values of λ.
  *
@@ -23,7 +23,7 @@ import com.github.sigrarr.lunisolarcalc.coords.*;
 public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
     /**
      * Constructs an instance which will use the default calculator of the Sun's apparent longitude (λ),
-     * prepared with {@link CalcCompositions}.
+     * prepared with {@link CoordsCalcCompositions}.
      */
     public SunSeasonPointFinder() {
         this(new OwnCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));

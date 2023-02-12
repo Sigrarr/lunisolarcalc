@@ -10,7 +10,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * Use it to conveniently compose a calculation for a given {@link Subject} or set of Subjects,
  * instead of managing calculators manually. It may help in resolving dependencies and avoinding redundancy.
  */
-public abstract class CalcCompositions {
+public abstract class CoordsCalcCompositions {
 
     private static final CalculationComposer<Subject, TimelinePoint> composer = new CalculationComposer<Subject, TimelinePoint>(Subject.class) {{
         register(new AberrationEarthSunCalculator());
@@ -46,9 +46,9 @@ public abstract class CalcCompositions {
      * Composes a calculation which yields a value of a {@linkplain Subject requested quantity}
      * for a {@linkplain TimelinePoint time argument} given as a root input.
      *
-     * @param subject   identification of the quantity you want to calculate
-     * @return          composed calculation, which will yield a value of quantity
-     *                  identified by subject, for input {@link TimelinePoint}
+     * @param subject   the quantity you want to calculate
+     * @return          a composed calculation, which will yield a value of the requested quantity
+     *                  for an input {@link TimelinePoint}
      */
     public static SingleOutputComposition<Subject, TimelinePoint> compose(Subject subject) {
         return composer.compose(subject);
@@ -58,9 +58,9 @@ public abstract class CalcCompositions {
      * Composes a calculation which yields a collection of values of {@linkplain Subject requested quantities}
      * for a {@linkplain TimelinePoint time argument} given as a root input.
      *
-     * @param subjects  identifications' set of the quantities you want to calculate
-     * @return          composed calculation, which will yield a collection of values of quantities
-     *                  identified by subjects, for input {@link TimelinePoint}
+     * @param subjects  the quantities you want to calculate
+     * @return          a composed calculation, which will yield a collection of values
+     *                  of the requested quantities for input {@link TimelinePoint}
      */
     public static MultiOutputComposition<Subject, TimelinePoint> compose(EnumSet<Subject> subjects) {
         return composer.compose(subjects);

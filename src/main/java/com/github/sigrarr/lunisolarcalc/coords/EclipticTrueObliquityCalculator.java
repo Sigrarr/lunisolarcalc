@@ -6,10 +6,9 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the true obliquity of the ecliptic (the angle between the ecliptc
- * and the celestial equator; ε = ε0 + Δε).
+ * Calculator of the {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}.
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 22 (pp. 147-148)"
  */
@@ -18,15 +17,15 @@ public final class EclipticTrueObliquityCalculator implements Provider<Subject, 
     public static final Subject SUBJECT = Subject.ECLIPTIC_TRUE_OBLIQUITY;
 
     /**
-     * Calculates the true obliquity of the ecliptic (ε = ε0 + Δε), in radians.
+     * Calculates the {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians.
      * Quick operation.
      *
-     * @param eclipticMeanObliquity         {@linkplain EclipticMeanObliquityCalculator mean obliquity of the ecliptic (ε0)}, in radians
-     * @param earthNutuationInObliquity     {@linkplain EarthNutuationInObliquityCalculator nutuation in obliquity (Δε)}, in radians
-     * @return                              the true obliquity of the ecliptic (ε = ε0 + Δε), in radians
+     * @param eclipticMeanObliquity     {@linkplain Subject#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}, in radians
+     * @param nutuationInObliquity      {@linkplain Subject#EARTH_NUTUATION_IN_OBLIQUITY nutuation in obliquity (Δε)}, in radians
+     * @return                          {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians
      */
-    public double calculate(double eclipticMeanObliquity, double earthNutuationInObliquity) {
-        return eclipticMeanObliquity + earthNutuationInObliquity;
+    public double calculate(double eclipticMeanObliquity, double nutuationInObliquity) {
+        return eclipticMeanObliquity + nutuationInObliquity;
     }
 
     @Override

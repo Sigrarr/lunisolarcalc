@@ -15,7 +15,7 @@ import com.github.sigrarr.lunisolarcalc.util.*;
  * and corrects t until the value of excess is close enough to the specific for the phase under search.
  *
  * Uses an original method for time correction.
- * By default utilizes a {@link MoonOverSunApparentLongitudeExcessCalculator} composed with {@link CalcCompositions}.
+ * By default utilizes a {@link MoonOverSunApparentLongitudeExcessCalculator} composed with {@link CoordsCalcCompositions}.
  * You can {@linkplain #MoonPhaseFinder(StageIndicatingAngleCalculator) use another excess calculator}
  * and set custom value of angular delta for comparing values of excess.
  *
@@ -31,7 +31,7 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     /**
      * Constructs an instance which will use the default calculator of excess
      * of the Moon's apparent longitude over the Sun's apparent longitude,
-     * prepared with {@link CalcCompositions}.
+     * prepared with {@link CoordsCalcCompositions}.
      */
     public MoonPhaseFinder() {
         this(new OwnCompositionStageIndicatingAngleCalculator(Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS));

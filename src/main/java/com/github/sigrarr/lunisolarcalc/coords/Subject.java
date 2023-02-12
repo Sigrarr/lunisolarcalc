@@ -5,7 +5,7 @@ package com.github.sigrarr.lunisolarcalc.coords;
  *
  * This enum class is fit for being the main generic parameter of
  * {@linkplain com.github.sigrarr.lunisolarcalc.util.calccomposition.CalculationComposer compositions},
- * as in {@link CalcCompositions}.
+ * as in {@link CoordsCalcCompositions}.
  */
 public enum Subject {
     /**
@@ -95,7 +95,7 @@ public enum Subject {
     MOON_DECLINATION,
 
     /**
-     * Distance between the centers of Earth and Moon (Δ).
+     * Distance between the centers of the Moon and the Earth (Δ).
      * Presumably in kilometers.
      *
      * @see MoonEarthDistanceCalculator

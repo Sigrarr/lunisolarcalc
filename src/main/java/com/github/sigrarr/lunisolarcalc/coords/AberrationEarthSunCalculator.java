@@ -8,9 +8,9 @@ import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of aberration of the Sun's geocentric position (caused by the Earth's motion).
+ * Calculator of {@linkplain Subject#ABERRATION_EARTH_SUN aberration of the Sun's geocentric position}.
  * Somewhat costly; processes its own {@linkplain SunLongitudeVariationPeriodicTerms periodic terms} table of moderate size.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: 25.11 (p. 167)"
  */
@@ -24,12 +24,14 @@ public final class AberrationEarthSunCalculator implements Provider<Subject, Tim
     private SunLongitudeVariationPeriodicTerms periodicTerms = new SunLongitudeVariationPeriodicTerms();
 
     /**
-     * Calculates aberration of the Sun's geocentric position, in radians.
+     * Calculates the {@linkplain Subject#ABERRATION_EARTH_SUN aberration of the Sun's geocentric position},
+     * in radians.
      * Somewhat costly.
      *
      * @param tx        time argument
-     * @param radius    {@linkplain EarthSunRadiusCalculator Earth-Sun radius vector} (R), in AU
-     * @return          aberration of the Sun's geocentric position, in radians
+     * @param radius    Earth-Sun {@linkplain Subject#EARTH_SUN_RADIUS radius vector (R)}, in AU
+     * @return          {@linkplain Subject#ABERRATION_EARTH_SUN aberration of the Sun's geocentric position},
+     *                  in radians
      */
     public double calculate(TimelinePoint tx, double radius) {
         double deltaLambda = periodicTerms.evaluate(tx.toDynamicalTime());

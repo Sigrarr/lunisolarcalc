@@ -8,9 +8,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Earth's heliocentric latitude (B).
+ * Calculator of {@linkplain Subject#EARTH_LATITUDE the Earth's heliocentric latitude (B)}.
  * Somewhat costly; processes its own {@linkplain EarthLatitudePeriodicTerms periodic terms} table of small size.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 32 (p. 217...)"
  */
@@ -21,11 +21,11 @@ public final class EarthLatitudeCalculator implements Provider<Subject, Timeline
     private EarthLatitudePeriodicTerms periodicTerms = new EarthLatitudePeriodicTerms();
 
     /**
-     * Calculates the Earth's heliocentric latitude (B): [-π/2, π/2].
+     * Calculates {@linkplain Subject#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2].
      * Somewhat costly.
      *
      * @param tx    time argument
-     * @return      the Earth's heliocentric latitude (B): [-π/2, π/2]
+     * @return      {@linkplain Subject#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx) {
         return Calcs.Angle.normalizeLatitudinally(periodicTerms.evaluate(tx.toDynamicalTime()));

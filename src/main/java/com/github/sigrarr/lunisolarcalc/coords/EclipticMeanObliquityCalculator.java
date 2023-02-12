@@ -8,10 +8,9 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the mean obliquity of the ecliptic (the mean angle between the ecliptc
- * and the celestial equator; ε0).
+ * Calculator of the {@linkplain Subject#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}.
  * Rather quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 22 (22.3; pp. 147-148)"
  */
@@ -33,11 +32,11 @@ public final class EclipticMeanObliquityCalculator implements Provider<Subject, 
     };
 
     /**
-     * Calculates the mean obliquity of the ecliptic (ε0), in radians.
+     * Calculates the {@linkplain Subject#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}, in radians.
      * Rather quick.
      *
      * @param tx        time argument
-     * @return          mean obliquity of the ecliptic (ε0), in radians
+     * @return          {@linkplain Subject#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}, in radians
      */
     public double calculate(TimelinePoint tx) {
         double u = (tx.toDynamicalTime().julianDay - Timeline.EPOCH_2000_JD) / (10 * Timeline.JULIAN_MILLENIUM_DAYS);

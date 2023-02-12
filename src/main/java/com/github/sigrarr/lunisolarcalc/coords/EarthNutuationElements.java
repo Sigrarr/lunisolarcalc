@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 /**
  * Group of intermediate arguments used in periodic terms for the Earth's nutuation (D, M, M', F, Ω).
  * Rather quick calculation. An instance is stateful, contains the last calculation's results.
- * {@linkplain CalculationComposer Composable}, pre-registered in {@link CalcCompositions}.
+ * {@linkplain CalculationComposer Composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 22 (p. 143...)"
  */
@@ -136,13 +136,13 @@ public class EarthNutuationElements implements Provider<Subject, TimelinePoint>,
     }
 
     @Override
-    public EnumSet<Subject> requires() {
-        return EnumSet.noneOf(Subject.class);
+    public Subject provides() {
+        return SUBJECT;
     }
 
     @Override
-    public Subject provides() {
-        return SUBJECT;
+    public EnumSet<Subject> requires() {
+        return EnumSet.noneOf(Subject.class);
     }
 
     @Override

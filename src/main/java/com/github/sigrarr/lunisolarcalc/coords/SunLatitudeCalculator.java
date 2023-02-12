@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the Sun's geometric latitude (β).
+ * Calculator of {@linkplain Subject#SUN_LATITUDE the Sun's geometric latitude (β)}.
  * Given required parameters, it's in itself rather quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 166)"
  */
@@ -18,13 +18,13 @@ public final class SunLatitudeCalculator implements Provider<Subject, TimelinePo
     public static final Subject SUBJECT = Subject.SUN_LATITUDE;
 
     /**
-     * Calculates the Sun's geometric latitude (β): [-π/2, π/2].
+     * Calculates {@linkplain Subject#SUN_LATITUDE the Sun's geometric latitude (β)}: [-π/2, π/2].
      * Rather quick.
      *
      * @param tx                        time argument
-     * @param heliocentricLatitude      {@linkplain EarthLatitudeCalculator the Earth's heliocentric latitude} (B), in radians
-     * @param heliocentricLongitude     {@linkplain EarthLongitudeCalculator the Earth's heliocentric longitude} (L), in radians
-     * @return                          the Sun's geometric latitude (β): [-π/2, π/2]
+     * @param heliocentricLatitude      {@linkplain Subject#EARTH_LATITUDE the Earth's heliocentric latitude (B)}, in radians
+     * @param heliocentricLongitude     {@linkplain Subject#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}, in radians
+     * @return                          {@linkplain Subject#SUN_LATITUDE the Sun's geometric latitude (β)}, in radians: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx, double heliocentricLatitude, double heliocentricLongitude) {
         double basicLongitude = heliocentricLongitude + Math.PI;

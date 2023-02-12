@@ -204,7 +204,7 @@ abstract class CyclicPhenomenonFinderAbstract {
         final SingleOutputComposition<Subject, TimelinePoint> composedCalculator;
 
         OwnCompositionStageIndicatingAngleCalculator(Subject angleSubject) {
-            composedCalculator = CalcCompositions.compose(angleSubject);
+            composedCalculator = CoordsCalcCompositions.compose(angleSubject);
         }
 
         @Override

@@ -7,9 +7,9 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the mean sidereal time at the Greenwich meridian (θ0).
+ * Calculator of the {@linkplain Subject#SIDEREAL_MEAN_TIME mean sidereal time at the Greenwich meridian (θ0)}.
  * Quick operation.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CalcCompositions}.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 12 (pp. 87-89)"
  */
@@ -18,11 +18,11 @@ public class SiderealMeanTimeCalculator implements Provider<Subject, TimelinePoi
     public static final Subject SUBJECT = Subject.SIDEREAL_MEAN_TIME;
 
     /**
-     * Calculates the mean sidereal time at the Greenwich meridian (θ0),
-     * in degrees: [0, 360°). 15° corresponds to 1 hour.
+     * Calculates the {@linkplain Subject#SIDEREAL_MEAN_TIME mean sidereal time at the Greenwich meridian (θ0)},
+     * expressed in degrees: [0, 360°). 15° corresponds to 1 hour.
      *
      * @param tx    time argument
-     * @return      the mean sidereal time at the Greenwich meridian(θ0),
+     * @return      {@linkplain Subject#SIDEREAL_MEAN_TIME mean sidereal time at the Greenwich meridian (θ0)},
      *              in degrees: [0, 360°)
      */
     public double calculate(TimelinePoint tx) {

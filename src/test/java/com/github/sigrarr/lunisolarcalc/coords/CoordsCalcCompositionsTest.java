@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
-public class CalcCompositionsTest {
+public class CoordsCalcCompositionsTest {
 
     private EarthNutuationElements earthNutuationElements = EarthNutuationElements.makeUnevaluatedInstance();
     private MoonCoordinateElements moonCoordinateElements = MoonCoordinateElements.makeUnevaluatedInstance();
@@ -41,7 +41,7 @@ public class CalcCompositionsTest {
     private MoonRightAscensionCalculator moonRightAscensionCalculator = new MoonRightAscensionCalculator();
     private MoonHourAngleCalculator moonHourAngleCalculator = new MoonHourAngleCalculator();
     private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
-        .collect(Collectors.toMap(s -> s, s -> CalcCompositions.compose(s)));
+        .collect(Collectors.toMap(s -> s, s -> CoordsCalcCompositions.compose(s)));
 
     private TimelinePoint tx;
     private int checkedSubjectsCount = 0;
@@ -53,7 +53,7 @@ public class CalcCompositionsTest {
             tx = new DynamicalTimelinePoint(random.nextDouble() * Timeline.JULIAN_PERIOD_END_JD);
             checkedSubjectsCount = 0;
             assertForCurrentRootArgument();
-            assertEquals(subjectToComposition.size(), checkedSubjectsCount);
+            assertEquals(Subject.values().length, checkedSubjectsCount);
         }
     }
 
