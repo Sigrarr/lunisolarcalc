@@ -4,11 +4,11 @@ package com.github.sigrarr.lunisolarcalc.util;
  * A pair of numbers of the {@code double} type
  * with the functionality of accepting a new number.
  *
- * The numbers are labelled as "current" (the last added number)
- * and "previous". They are kept in a manner resembling a queue:
+ * The numbers are labelled "current" (the last added number)
+ * and "previous". They are kept and cycled in a manner resembling a queue:
  * first in is first to forget.
  */
-public class DoubleStepPair {
+public class DoubleStrictPairBuffer {
 
     private double current = 0.0;
     private double previous = 0.0;
@@ -17,14 +17,14 @@ public class DoubleStepPair {
     /**
      * Constructs an empty pair.
      */
-    public DoubleStepPair() {}
+    public DoubleStrictPairBuffer() {}
 
     /**
      * Constructs a pair with a single number ("current").
      *
      * @param current   a number ("current")
      */
-    public DoubleStepPair(double current) {
+    public DoubleStrictPairBuffer(double current) {
         this.current = current;
         count = 1;
     }
@@ -36,7 +36,7 @@ public class DoubleStepPair {
      * @param previous  a number ("previous")
      * @param current   a number ("current")
      */
-    public DoubleStepPair(double previous, double current) {
+    public DoubleStrictPairBuffer(double previous, double current) {
         this.previous = previous;
         this.current = current;
         count = 2;
@@ -69,7 +69,7 @@ public class DoubleStepPair {
     }
 
     /**
-     * Push a new number. The new number will be now the "current".
+     * Pushes a new number. The new number will be now the "current".
      * The old "current" number, if exists, will be now the "previous".
      * The old "previous" number, if exists, will be forgotten.
      *
@@ -131,7 +131,7 @@ public class DoubleStepPair {
      * @return  {@code true} if this pair has got two numbers;
      *          {@code false} - otherwise
      */
-    public boolean hasTwoValues() {
+    public boolean hasBothValues() {
         return hasPrevious();
     }
 
@@ -146,7 +146,7 @@ public class DoubleStepPair {
     }
 
     /**
-     * Clears any values of the pair, makes it empty.
+     * Clears the pair, makes it empty.
      */
     public void clear() {
         count = 0;

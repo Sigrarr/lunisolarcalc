@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class DoubleStepPairTest {
+public class DoubleStrictPairBufferTest {
 
-    private DoubleStepPair pair;
+    private DoubleStrictPairBuffer pair;
 
     @Test
     public void shouldKeepNumbersInFifoMannerWithLastInLabelledAsCurrent() {
-        pair = new DoubleStepPair();
+        pair = new DoubleStrictPairBuffer();
         assertStateInformationByExpectedCount(0);
 
         pair.push(1.13);
@@ -30,11 +30,11 @@ public class DoubleStepPairTest {
         pair.clear();
         assertStateInformationByExpectedCount(0);
 
-        pair = new DoubleStepPair(1.0);
+        pair = new DoubleStrictPairBuffer(1.0);
         assertStateInformationByExpectedCount(1);
         assertEquals(1.0, pair.getCurrent());
 
-        pair = new DoubleStepPair(2.0, 3.0);
+        pair = new DoubleStrictPairBuffer(2.0, 3.0);
         assertStateInformationByExpectedCount(2);
         assertEquals(3.0, pair.getCurrent());
         assertEquals(2.0, pair.getPrevious());
@@ -42,7 +42,7 @@ public class DoubleStepPairTest {
 
     @Test
     public void shouldTrhowIllegalStateException() {
-        pair = new DoubleStepPair();
+        pair = new DoubleStrictPairBuffer();
         assertThrows(IllegalStateException.class, () -> pair.getCurrent());
         assertThrows(IllegalStateException.class, () -> pair.getPrevious());
 
@@ -61,7 +61,7 @@ public class DoubleStepPairTest {
 
     @Test
     public void shouldDistinguishBetweenAddedZeroAndLackOfValue() {
-        pair = new DoubleStepPair();
+        pair = new DoubleStrictPairBuffer();
         assertStateInformationByExpectedCount(0);
         pair.push(0.0);
         assertStateInformationByExpectedCount(1);
@@ -74,19 +74,19 @@ public class DoubleStepPairTest {
         switch (expectedCount) {
             case 0:
                 assertTrue(pair.isEmpty());
-                assertFalse(pair.hasTwoValues());
+                assertFalse(pair.hasBothValues());
                 assertFalse(pair.hasCurrent());
                 assertFalse(pair.hasPrevious());
                 break;
             case 1:
                 assertFalse(pair.isEmpty());
-                assertFalse(pair.hasTwoValues());
+                assertFalse(pair.hasBothValues());
                 assertTrue(pair.hasCurrent());
                 assertFalse(pair.hasPrevious());
                 break;
             case 2:
                 assertFalse(pair.isEmpty());
-                assertTrue(pair.hasTwoValues());
+                assertTrue(pair.hasBothValues());
                 assertTrue(pair.hasCurrent());
                 assertTrue(pair.hasPrevious());
                 break;

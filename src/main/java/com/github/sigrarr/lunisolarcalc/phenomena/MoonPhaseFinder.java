@@ -24,8 +24,8 @@ import com.github.sigrarr.lunisolarcalc.util.*;
  */
 public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
 
-    private DoubleStepPair excess = new DoubleStepPair();
-    private DoubleStepPair jde = new DoubleStepPair();
+    private DoubleStrictPairBuffer excess = new DoubleStrictPairBuffer();
+    private DoubleStrictPairBuffer jde = new DoubleStrictPairBuffer();
     private double diff;
 
     /**
@@ -70,7 +70,7 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
     }
 
     private double calculateJdeCorrection() {
-        return diff * (excess.hasTwoValues() ? estimateSlopeInverseFromRecentEvaluations() : MeanCycle.LUNATION.epochalLengthDays / TURN);
+        return diff * (excess.hasBothValues() ? estimateSlopeInverseFromRecentEvaluations() : MeanCycle.LUNATION.epochalLengthDays / TURN);
     }
 
     private double estimateSlopeInverseFromRecentEvaluations() {

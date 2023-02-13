@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.util;
 
 /**
- * Calculation utilities (static).
+ * Simple calculation utilities (static).
  */
 public abstract class Calcs {
     /**
