@@ -189,7 +189,8 @@ public abstract class Calcs {
          * @return                  number of degrees (with fraction)
          */
         public static double toSingleDegreesValue(int signedDegrees, int absArcminutes, double absArcseconds) {
-            return signedDegrees + ((arcminutesToDegrees(absArcminutes) + arcsecondsToDegrees(absArcseconds)) * Math.signum(signedDegrees));
+            int signumMultiplier = signedDegrees < 0 ? -1 : 1;
+            return signedDegrees + signumMultiplier*(arcminutesToDegrees(absArcminutes) + arcsecondsToDegrees(absArcseconds));
         }
 
         /**
@@ -205,7 +206,8 @@ public abstract class Calcs {
          * @return                  number of arcseconds
          */
         public static double toSingleArcsecondsValue(int signedDegrees, int absArcminutes, double absArcseconds) {
-            return toArcseconds(signedDegrees) + (((60.0 * absArcminutes) + absArcseconds) * Math.signum(signedDegrees));
+            int signumMultiplier = signedDegrees < 0 ? -1 : 1;
+            return toArcseconds(signedDegrees) + signumMultiplier*((60.0 * absArcminutes) + absArcseconds);
         }
     }
 

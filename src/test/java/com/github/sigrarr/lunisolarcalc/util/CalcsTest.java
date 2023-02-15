@@ -57,14 +57,18 @@ public class CalcsTest {
     }
 
     @Test
-    public void shouldDecimalizeAngleFromDegMinSec() {
+    public void shouldDecimalizeAngle() {
         assertEquals( 199.0, Calcs.Angle.toSingleDegreesValue(199,  0, 0.0), Calcs.EPSILON_MIN);
+        assertEquals( 0.5, Calcs.Angle.toSingleDegreesValue(0,  30, 0.0), Calcs.EPSILON_MIN);
+        assertEquals(0.01, Calcs.Angle.toSingleDegreesValue(0, 0, 36), Calcs.EPSILON);
         assertEquals( 199.5, Calcs.Angle.toSingleDegreesValue(199, 30, 0.0), Calcs.EPSILON_MIN);
         assertEquals(-90.51, Calcs.Angle.toSingleDegreesValue(-90, 30, 36));
         assertEquals( 199.008333333, Calcs.Angle.toSingleDegreesValue( 199,  0, 30.0 ), decimalAutoDelta(0.000000001));
         assertEquals( 199.508333333, Calcs.Angle.toSingleDegreesValue( 199, 30, 30.0 ), decimalAutoDelta(0.000000001));
         assertEquals(-199.737830556, Calcs.Angle.toSingleDegreesValue(-199, 44, 16.19), decimalAutoDelta(0.000000001));
 
+        assertEquals(1.0, Calcs.Angle.toSingleArcsecondsValue(0, 0, 1));
+        assertEquals(60.0, Calcs.Angle.toSingleArcsecondsValue(0, 1, 0));
         assertEquals( 716400.0,  Calcs.Angle.toSingleArcsecondsValue( 199,  0, 0.0),   Calcs.EPSILON_MIN);
         assertEquals( 718200.0,  Calcs.Angle.toSingleArcsecondsValue( 199, 30, 0.0),   Calcs.EPSILON_MIN);
         assertEquals(-110451.0, Calcs.Angle.toSingleArcsecondsValue(-30, 40, 51));
