@@ -26,6 +26,7 @@ public abstract class CoordsCalcCompositions {
         register(MoonCoordinateElements.makeUnevaluatedInstance());
         register(new MoonDeclinationCalculator());
         register(new MoonEarthDistanceCalculator());
+        register(new MoonEquatorialHorizontalParallaxCalculator());
         register(new MoonHourAngleCalculator());
         register(new MoonLatitudeCalculator());
         register(new MoonLongitudeCalculator());

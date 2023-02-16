@@ -103,6 +103,14 @@ public enum Subject {
     MOON_EARTH_DISTANCE,
 
     /**
+     * The Moon's equatorial horizontal parallax (π).
+     * Presumably in radians.
+     *
+     * @see MoonEquatorialHorizontalParallaxCalculator
+     */
+    MOON_EQUATORIAL_HORIZONTA_PARALLAX,
+
+    /**
      * The Moon's apparent hour angle at the Greenwich meridian (H0).
      * An equatorial coordinate. Presumably in degrees.
      *

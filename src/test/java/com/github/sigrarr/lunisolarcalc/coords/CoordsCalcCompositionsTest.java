@@ -35,6 +35,7 @@ public class CoordsCalcCompositionsTest {
     private SunHourAngleCalculator sunHourAngleCalculator = new SunHourAngleCalculator();
     private MoonLatitudeCalculator moonLatitudeCalculator = new MoonLatitudeCalculator();
     private MoonEarthDistanceCalculator moonEarthDistanceCalculator = new MoonEarthDistanceCalculator();
+    private MoonEquatorialHorizontalParallaxCalculator moonEquatorialHorizontalParallaxCalculator = new MoonEquatorialHorizontalParallaxCalculator();
     private MoonApparentLongitudeCalculator moonApparentLongitudeCalculator = new MoonApparentLongitudeCalculator();
     private MoonOverSunApparentLongitudeExcessCalculator moonOverSunApparentLongitudeExcessCalculator = new MoonOverSunApparentLongitudeExcessCalculator();
     private MoonDeclinationCalculator moonDeclinationCalculator = new MoonDeclinationCalculator();
@@ -80,6 +81,7 @@ public class CoordsCalcCompositionsTest {
         double sunHourAngle = sunHourAngleCalculator.calculate(siderealApparentTime, sunRightAscension);
         double moonLatitude = moonLatitudeCalculator.calculate(tx, moonCoordinateElements);
         double moonEarthDistance = moonEarthDistanceCalculator.calculate(tx, moonCoordinateElements);
+        double moonEquatorialHorizontalParallax = moonEquatorialHorizontalParallaxCalculator.calculate(moonEarthDistance);
         double moonApparentLongitude = moonApparentLongitudeCalculator.calculate(moonLongitude, earthNutuationInLongitude);
         double moonOverSunApparentLongitudeExcess = moonOverSunApparentLongitudeExcessCalculator.calculate(moonLongitude, sunAberratedLongitude);
         double moonDeclination = moonDeclinationCalculator.calculate(moonLatitude, moonApparentLongitude, eclipticTrueObliquity);
@@ -108,6 +110,7 @@ public class CoordsCalcCompositionsTest {
         assertForNumber(sunHourAngle, Subject.SUN_HOUR_ANGLE);
         assertForNumber(moonLatitude, Subject.MOON_LATITUDE);
         assertForNumber(moonEarthDistance, Subject.MOON_EARTH_DISTANCE);
+        assertForNumber(moonEquatorialHorizontalParallax, Subject.MOON_EQUATORIAL_HORIZONTA_PARALLAX);
         assertForNumber(moonApparentLongitude, Subject.MOON_APPARENT_LONGITUDE);
         assertForNumber(moonOverSunApparentLongitudeExcess, Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS);
         assertForNumber(moonDeclination, Subject.MOON_DECLINATION);
