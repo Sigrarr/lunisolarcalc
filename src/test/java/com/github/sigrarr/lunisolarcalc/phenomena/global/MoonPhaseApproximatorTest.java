@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.util.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * + {@link com.github.sigrarr.lunisolarcalc.phenomena.MoonPhaseFinderTest#shouldOutputOfDefaultApproximatorBeCloseToResult}
+ * + {@link com.github.sigrarr.lunisolarcalc.phenomena.global.MoonPhaseFinderTest#shouldOutputOfDefaultApproximatorBeCloseToResult}
  */
 public class MoonPhaseApproximatorTest {
 

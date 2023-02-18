@@ -1,8 +1,9 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import java.util.*;
 import java.util.function.*;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
 import com.github.sigrarr.lunisolarcalc.coords.*;

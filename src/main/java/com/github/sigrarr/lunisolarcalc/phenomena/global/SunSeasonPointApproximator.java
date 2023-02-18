@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 /**
  * A tool for approximating time of Equinoxes/Solstices.

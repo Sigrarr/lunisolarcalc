@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.Time.*;
@@ -117,7 +117,7 @@ public class MoonPhaseFinderTest {
             finder.findMany(UniversalTimelinePoint.ofCalendar(startAroundPoints[i]))
                 .limit(partLimit)
                 .reduce((previous, next) -> {
-                    double diff = next.timelinePoint.julianDay - previous.timelinePoint.julianDay;
+                    double diff = next.getTimelinePoint().julianDay - previous.getTimelinePoint().julianDay;
                     assertTrue(
                         Math.signum(diff) > 0.0,
                         "Wrong order: " + previous + " -> " + next
@@ -146,13 +146,13 @@ public class MoonPhaseFinderTest {
 
             assertEquals(2, finder.findMany(start)
                 .limit(13)
-                .filter(r -> matchesOne(r.timelinePoint.julianDay, aJde, bJde, delta)).count());
+                .filter(r -> matchesOne(r.getTimelinePoint().julianDay, aJde, bJde, delta)).count());
             assertEquals(2, finder.findMany(start, MoonPhase.NEW_MOON)
                 .limit(4)
-                .filter(r -> matchesOne(r.timelinePoint.julianDay, aJde, bJde, delta)).count());
+                .filter(r -> matchesOne(r.getTimelinePoint().julianDay, aJde, bJde, delta)).count());
             assertEquals(2, finder.findMany(start, EnumSet.of(MoonPhase.NEW_MOON))
                 .limit(4)
-                .filter(r -> matchesOne(r.timelinePoint.julianDay, aJde, bJde, delta)).count());
+                .filter(r -> matchesOne(r.getTimelinePoint().julianDay, aJde, bJde, delta)).count());
             assertEquals(2, finder.findManyJulianEphemerisDays(start, MoonPhase.NEW_MOON)
                 .limit(4)
                 .filter(jde -> matchesOne(jde, aJde, bJde, delta)).count());

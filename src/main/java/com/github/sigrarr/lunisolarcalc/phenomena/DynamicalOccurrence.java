@@ -7,7 +7,8 @@ import com.github.sigrarr.lunisolarcalc.time.*;
  * in {@linkplain TimeScale#DYNAMICAL Dynamical Time}.
  *
  * @param <T>   {@link Enum} representing a type or stage of astronomical phenomenon whose occurence is stored,
- *              eg. {@link MoonPhase} or {@link SunSeasonPoint}
+ *              eg. {@link com.github.sigrarr.lunisolarcalc.phenomena.global.MoonPhase MoonPhase}
+ *              or {@link com.github.sigrarr.lunisolarcalc.phenomena.global.SunSeasonPoint SunSeasonPoint}
  * @see         UniversalOccurrence
  */
 public class DynamicalOccurrence<T extends Enum<T>> extends Occurrence<T> implements Comparable<DynamicalOccurrence<?>> {

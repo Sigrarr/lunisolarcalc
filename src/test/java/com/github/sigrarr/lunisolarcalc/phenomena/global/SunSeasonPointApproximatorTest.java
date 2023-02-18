@@ -1,9 +1,10 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
+
 
 public class SunSeasonPointApproximatorTest {
 

@@ -1,8 +1,8 @@
 package com.github.sigrarr.lunisolarcalc.coords;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.github.sigrarr.lunisolarcalc.phenomena.global.MeanCycle.TROPICAL_YEAR;
 import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
-import static com.github.sigrarr.lunisolarcalc.phenomena.MeanCycle.TROPICAL_YEAR;
 
 import org.junit.jupiter.api.Test;
 

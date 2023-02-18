@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.coords;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.MoonPhase;
+import com.github.sigrarr.lunisolarcalc.phenomena.global.MoonPhase;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 import org.junit.jupiter.api.Test;

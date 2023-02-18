@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 

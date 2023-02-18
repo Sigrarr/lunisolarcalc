@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
@@ -179,7 +179,7 @@ public class SunSeasonPointFinderTest {
             finder.findMany(partYearScopes[i][0])
                 .limit((partYearScopes[i][1] - partYearScopes[i][0] + 1) * 4)
                 .reduce((previous, next) -> {
-                    double diff = next.timelinePoint.julianDay - previous.timelinePoint.julianDay;
+                    double diff = next.getTimelinePoint().julianDay - previous.getTimelinePoint().julianDay;
                     assertTrue(
                         Math.signum(diff) > 0.0,
                         "Wrong order: " + previous + " -> " + next
@@ -215,19 +215,19 @@ public class SunSeasonPointFinderTest {
         Iterator<String> allIt1 = allYMDs.listIterator();
         finder.findMany(1996)
             .limit(allYMDs.size())
-            .map(r -> r.timelinePoint.toCalendarPoint().formatDate())
+            .map(r -> r.getTimelinePoint().toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(allIt1.next(), ymd));
 
         Iterator<String> marchEquinoxIt1 = marchEquinoxYMDs.listIterator();
         finder.findMany(1996, SunSeasonPoint.MARCH_EQUINOX)
             .limit(marchEquinoxYMDs.size())
-            .map(r -> r.timelinePoint.toCalendarPoint().formatDate())
+            .map(r -> r.getTimelinePoint().toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(marchEquinoxIt1.next(), ymd));
 
         Iterator<String> solsticeIt1 = solsticeYMDs.listIterator();
         finder.findMany(1996, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
             .limit(solsticeYMDs.size())
-            .map(r -> r.timelinePoint.toCalendarPoint().formatDate())
+            .map(r -> r.getTimelinePoint().toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(solsticeIt1.next(), ymd));
 
         Iterator<String> allIt2 = allYMDs.listIterator();

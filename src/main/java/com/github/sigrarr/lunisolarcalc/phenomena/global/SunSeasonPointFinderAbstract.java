@@ -1,8 +1,9 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import java.util.*;
 import java.util.stream.*;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
 import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 

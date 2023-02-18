@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.exceptions;
 import java.util.EnumSet;
 import java.util.stream.Collectors;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.MoonPhase;
+import com.github.sigrarr.lunisolarcalc.phenomena.global.MoonPhase;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 

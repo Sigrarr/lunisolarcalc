@@ -1,7 +1,6 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
-import com.github.sigrarr.lunisolarcalc.util.Calcs;
-import com.github.sigrarr.lunisolarcalc.util.Titled;
+import com.github.sigrarr.lunisolarcalc.util.*;
 
 /**
  * A principal phase of the Moon.

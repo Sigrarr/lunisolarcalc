@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 
 /**
  * An occurrence of a certain type or stage of some astronomical phenomenon,
- * typically a found instant of specific {@linkplain MoonPhase phase of the Moon} or {@linkplain SunSeasonPoint Equinox/Solstice}.
+ * typically an instant found by a finding tool.
  * Belongs to one of the {@linkplain TimeScale time scales}.
  *
  * Natural ordering for this abstract class is not defined;
@@ -15,7 +15,8 @@ import com.github.sigrarr.lunisolarcalc.time.*;
  * or to {@linkplain #toUniversalTime() Universal Time}.
  *
  * @param <T>   {@link Enum} representing a type or stage of astronomical phenomenon whose occurence is stored,
- *              eg. {@link MoonPhase} or {@link SunSeasonPoint}
+ *              eg. {@link com.github.sigrarr.lunisolarcalc.phenomena.global.MoonPhase MoonPhase}
+ *              or {@link com.github.sigrarr.lunisolarcalc.phenomena.global.SunSeasonPoint SunSeasonPoint}
  * @see         DynamicalOccurrence
  * @see         UniversalOccurrence
  */

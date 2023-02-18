@@ -1,10 +1,11 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.stream.*;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
 import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.NoMoonPhaseResultAroundInScopeException;
 import com.github.sigrarr.lunisolarcalc.time.*;
@@ -73,7 +74,10 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
                 }
             })
             .filter(ph -> ph != null)
-            .min((f1, f2) -> Double.compare(Math.abs(f1.timelinePoint.julianDay - baseJde), Math.abs(f2.timelinePoint.julianDay - baseJde)));
+            .min((f1, f2) -> Double.compare(
+                Math.abs(f1.getTimelinePoint().julianDay - baseJde),
+                Math.abs(f2.getTimelinePoint().julianDay - baseJde)
+            ));
 
         if (!uncertainCloseApproximate.isPresent()) {
             throw new NoMoonPhaseResultAroundInScopeException(tx, phases);
@@ -81,8 +85,8 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
         DynamicalOccurrence<MoonPhase> closeApproximate = uncertainCloseApproximate.get();
 
         return new DynamicalOccurrence<>(
-            findJulianEphemerisDay(closeApproximate.timelinePoint.julianDay, closeApproximate.type),
-            closeApproximate.type
+            findJulianEphemerisDay(closeApproximate.getTimelinePoint().julianDay, closeApproximate.getType()),
+            closeApproximate.getType()
         );
     }
 
@@ -147,7 +151,7 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
     private ResultSupplier prepareResultSupplierWithInitialResult(TimelinePoint startAroundPoint, EnumSet<MoonPhase> phases) {
         DynamicalOccurrence<MoonPhase> initial = findAround(startAroundPoint, phases);
-        List<MoonPhase> orderedPhases = orderPhasesByCyclingToStartAtInitial(phases, initial.type);
+        List<MoonPhase> orderedPhases = orderPhasesByCyclingToStartAtInitial(phases, initial.getType());
         return new ResultSupplier(initial, orderedPhases);
     }
 
@@ -170,14 +174,14 @@ abstract class MoonPhaseFinderAbstract extends CyclicPhenomenonFinderAbstract {
             super(orderedStagesInScope);
             this.initialResult = initialResult;
             this.stageToJde = new EnumMap<>(MoonPhase.class);
-            stageToJde.put(initialResult.type, initialResult.timelinePoint.julianDay);
+            stageToJde.put(initialResult.getType(), initialResult.getTimelinePoint().julianDay);
             currentStage = stageIterator.next();
         }
 
         @Override
         public double getAsDouble() {
             if (pullInitialPendingFlag())
-                return initialResult.timelinePoint.julianDay;
+                return initialResult.getTimelinePoint().julianDay;
             previousStage = currentStage;
             forward();
             double newValue = findJulianEphemerisDay(approximateJde(), currentStage);

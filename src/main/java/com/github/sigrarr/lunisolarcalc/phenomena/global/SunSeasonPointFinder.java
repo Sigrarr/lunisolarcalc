@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena;
+package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.TURN;
 

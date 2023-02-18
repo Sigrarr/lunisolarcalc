@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.coords;
 
+import static com.github.sigrarr.lunisolarcalc.phenomena.global.MeanCycle.TROPICAL_YEAR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static com.github.sigrarr.lunisolarcalc.phenomena.MeanCycle.TROPICAL_YEAR;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
