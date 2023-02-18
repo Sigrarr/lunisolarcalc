@@ -17,7 +17,7 @@ import com.github.sigrarr.lunisolarcalc.util.*;
  * Uses an original method for time correction.
  * By default utilizes a {@link MoonOverSunApparentLongitudeExcessCalculator} composed with {@link CoordsCalcCompositions}.
  * You can {@linkplain #MoonPhaseFinder(StageIndicatingAngleCalculator) use another excess calculator}
- * and set custom value of angular delta for comparing values of excess.
+ * and set custom precision for comparing values of excess.
  *
  * @see "Seidelmann 1992: Ch. 9 by B.D. Yallop & C.Y. Hohenkerk, 9.213 (p. 478)"
  * @see "Meeus 1998: Ch. 49, p. 349"
@@ -56,7 +56,7 @@ public final class MoonPhaseFinder extends MoonPhaseFinderAbstract {
         excess.push(calculateMoonOverSunLambdaExcess());
         setDiffAndExcessProjectingOnContinuousLine(phase);
 
-        while (Math.abs(diff) > getAngularDelta()) {
+        while (Math.abs(diff) > getPrecision()) {
             jde.push(jde.getCurrent() + calculateJdeCorrection());
             excess.push(calculateMoonOverSunLambdaExcess());
             setDiffAndExcessProjectingOnContinuousLine(phase);

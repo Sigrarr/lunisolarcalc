@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.coords;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.normalizeLongitudinally;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.toNormalLongitude;
 
 import java.util.*;
 
@@ -39,19 +39,19 @@ public class EarthNutuationElements implements Provider<Subject, TimelinePoint>,
         double cT = tx.toDynamicalTime().toCenturialT();
         double cT2 = cT * cT;
         double cT3 = cT2 * cT;
-        values[INDEX_MEAN_ELONGATION_OF_MOON_FROM_SUN] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_ELONGATION_OF_MOON_FROM_SUN] = toNormalLongitude(Math.toRadians(
             297.85036 + (445267.11148 * cT) - (0.0019142 * cT2) + (cT3 / 189474.0)
         ));
-        values[INDEX_MEAN_ANOMALY_OF_SUN] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_ANOMALY_OF_SUN] = toNormalLongitude(Math.toRadians(
             357.52772 + (35999.05034 * cT) - (0.0001603 * cT2) - (cT3 / 300000.0)
         ));
-        values[INDEX_MEAN_ANOMALY_OF_MOON] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_ANOMALY_OF_MOON] = toNormalLongitude(Math.toRadians(
             134.96298 + (477198.867398 * cT) + (0.0086972 * cT2) + (cT3 / 56250.0)
         ));
-        values[INDEX_ARGUMENT_OF_LATITUDE_OF_MOON] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_ARGUMENT_OF_LATITUDE_OF_MOON] = toNormalLongitude(Math.toRadians(
             93.27191 + (483202.017538 * cT) - (0.0036825 * cT2) + (cT3 / 327270.0)
         ));
-        values[INDEX_LONGITUDE_OF_ASCENDING_NODE_OF_MEAN_ORBIT_OF_MOON] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_LONGITUDE_OF_ASCENDING_NODE_OF_MEAN_ORBIT_OF_MOON] = toNormalLongitude(Math.toRadians(
             125.04452 - (1934.136261 * cT) + (0.0020708 * cT2) + (cT3 / 450000.0)
         ));
     }

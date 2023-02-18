@@ -28,7 +28,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<Subject, 
      *                              in radians: [0, 2π)
      */
     public double calculate(double heliocentricLongitude) {
-        return Calcs.Angle.normalizeLongitudinally(heliocentricLongitude + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);
+        return Calcs.Angle.toNormalLongitude(heliocentricLongitude + HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND);
     }
 
     @Override

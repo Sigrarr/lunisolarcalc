@@ -7,7 +7,7 @@ public final class CalculationLimitExceededException extends IllegalStateExcepti
     public CalculationLimitExceededException(int limit) {
         super(
             "Calculation limit exceeded (" + limit + ")."
-            + " Set higher limit (if you need to keep your accuracy expectation), or a greater angular delta."
+            + " Set higher limit (if you need to keep your accuracy expectation), or loosen the precision setting."
         );
         this.limit = limit;
     }

@@ -29,31 +29,66 @@ public class CalcsTest {
     }
 
     @Test
-    public void shouldNormalizeAngleLongitudinallyToSubRound() {
-        assertEquals(0.0, Calcs.Angle.normalizeLongitudinally(0.0), Calcs.EPSILON_12);
-        assertEquals(0.5 * Math.PI, Calcs.Angle.normalizeLongitudinally(0.5 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(0.1 * Math.PI, Calcs.Angle.normalizeLongitudinally( 12.1 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(1.9 * Math.PI, Calcs.Angle.normalizeLongitudinally(-12.1 * Math.PI), Calcs.EPSILON_12);
-
-        assertEquals(0.0, Calcs.Angle.normalizeLongitudinally(0.0, 1.0), Calcs.EPSILON_12);
-        assertEquals(90.0, Calcs.Angle.normalizeLongitudinally(90.0, 360.0), Calcs.EPSILON_12);
-        assertEquals(0.1 * 180.0, Calcs.Angle.normalizeLongitudinally( 12.1 * 180.0, 360.0), Calcs.EPSILON_12);
-        assertEquals(0.9, Calcs.Angle.normalizeLongitudinally(-12.1, 1.0), Calcs.EPSILON_12);
+    public void shouldCalculateAbsoluteModuloTwo() {
+        assertEquals(0, Calcs.absMod2(0));
+        assertEquals(0, Calcs.absMod2(2));
+        assertEquals(0, Calcs.absMod2(-2));
+        assertEquals(0, Calcs.absMod2(1278));
+        assertEquals(0, Calcs.absMod2(-131910));
+        assertEquals(1, Calcs.absMod2(1));
+        assertEquals(1, Calcs.absMod2(-1));
+        assertEquals(1, Calcs.absMod2(1277));
+        assertEquals(1, Calcs.absMod2(-131903));
     }
 
     @Test
-    public void shouldNormalizeAngleLatitudinallyToSubHalfRounds() {
-        assertEquals( 0.0, Calcs.Angle.normalizeLatitudinally(0.0), Calcs.EPSILON_12);
-        assertEquals( 0.5 * Math.PI, Calcs.Angle.normalizeLatitudinally( 0.5 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(-0.5 * Math.PI, Calcs.Angle.normalizeLatitudinally( 1.5 * Math.PI), Calcs.EPSILON_12);
-        assertEquals( 0.5 * Math.PI, Calcs.Angle.normalizeLatitudinally(-1.5 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(-0.25 * Math.PI, Calcs.Angle.normalizeLatitudinally(-0.25 * Math.PI), Calcs.EPSILON_12);
+    public void shouldNormalizeAngleToAbsoluteLongitude() {
+        assertEquals(0.0, Calcs.Angle.toNormalLongitude(0.0), Calcs.EPSILON_12);
+        assertEquals(0.5 * Math.PI, Calcs.Angle.toNormalLongitude(0.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(0.1 * Math.PI, Calcs.Angle.toNormalLongitude( 12.1 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(1.9 * Math.PI, Calcs.Angle.toNormalLongitude(-12.1 * Math.PI), Calcs.EPSILON_12);
 
-        assertEquals( 0.0, Calcs.Angle.normalizeLatitudinally(0.0, 1.0), Calcs.EPSILON_12);
-        assertEquals( 90.0, Calcs.Angle.normalizeLatitudinally( 90.0, 360.0), Calcs.EPSILON_12);
-        assertEquals(-90.0, Calcs.Angle.normalizeLatitudinally( 270.0, 360.0), Calcs.EPSILON_12);
-        assertEquals( 0.25, Calcs.Angle.normalizeLatitudinally(-0.75, 1.0), Calcs.EPSILON_12);
-        assertEquals(-0.25 * 180.0, Calcs.Angle.normalizeLatitudinally(-0.25 * 180.0, 360.0), Calcs.EPSILON_12);
+        assertEquals(0.0, Calcs.Angle.toNormalLongitude(0.0, 1.0), Calcs.EPSILON_12);
+        assertEquals(90.0, Calcs.Angle.toNormalLongitude(90.0, 360.0), Calcs.EPSILON_12);
+        assertEquals(0.1 * 180.0, Calcs.Angle.toNormalLongitude( 12.1 * 180.0, 360.0), Calcs.EPSILON_12);
+        assertEquals(0.9, Calcs.Angle.toNormalLongitude(-12.1, 1.0), Calcs.EPSILON_12);
+    }
+
+    @Test
+    public void shouldNormalizeAngleToSignedLongitude() {
+        assertEquals(0.0, Calcs.Angle.toNormalSignedLongtiude(0.0), Calcs.EPSILON_12);
+        assertEquals(0.5 * Math.PI, Calcs.Angle.toNormalSignedLongtiude(0.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(-0.25 * Math.PI, Calcs.Angle.toNormalSignedLongtiude(1.75 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(0.75 * Math.PI, Calcs.Angle.toNormalSignedLongtiude(-3.25 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(Math.PI, Math.abs(Calcs.Angle.toNormalSignedLongtiude(11 * Math.PI)), Calcs.EPSILON_12);
+
+        assertEquals(0.0, Calcs.Angle.toNormalSignedLongtiude(0.0, 1.0), Calcs.EPSILON_12);
+        assertEquals(0.25, Calcs.Angle.toNormalSignedLongtiude(0.25, 1.0), Calcs.EPSILON_12);
+        assertEquals(-45, Calcs.Angle.toNormalSignedLongtiude(315, 360), Calcs.EPSILON_12);
+        assertEquals(135, Calcs.Angle.toNormalSignedLongtiude(-585, 360), Calcs.EPSILON_12);
+        assertEquals(0.5, Math.abs(Calcs.Angle.toNormalSignedLongtiude(5.5, 1.0)), Calcs.EPSILON_12);
+    }
+
+    @Test
+    public void shouldNormalizeAngleToLatitude() {
+        double[][] inputAndLatitudePairs = {
+            {0.0, 0.0},
+            {0.5 * Math.PI, 0.5 * Math.PI}, {-0.5 * Math.PI, -0.5 * Math.PI},
+            {1.0 * Math.PI, 0.0}, {-1.0 * Math.PI, 0.0},
+            {1.5 * Math.PI, -0.5 * Math.PI}, {-1.5 * Math.PI, 0.5 * Math.PI},
+            {2.5 * Math.PI, 0.5 * Math.PI}, {-2.5 * Math.PI, -0.5 * Math.PI},
+            {0.25 * Math.PI, 0.25 * Math.PI}, {-0.25 * Math.PI, -0.25 * Math.PI},
+            {0.75 * Math.PI, 0.25 * Math.PI}, {-0.75 * Math.PI, -0.25 * Math.PI},
+            {1.25 * Math.PI, -0.25 * Math.PI}, {-1.25 * Math.PI, 0.25 * Math.PI},
+            {3.3 * Math.PI, -0.3 * Math.PI}, {-5.6 * Math.PI, 0.4 * Math.PI}
+        };
+        for (double[] inputAndLatitude : inputAndLatitudePairs) {
+            double input = inputAndLatitude[0];
+            double expectedLatitude = inputAndLatitude[1];
+            assertEquals(expectedLatitude, Calcs.Angle.toNormalLatitude(input), Calcs.EPSILON_12);
+            assertEquals(Math.toDegrees(expectedLatitude), Calcs.Angle.toNormalLatitude(Math.toDegrees(input), 360), Calcs.EPSILON_12);
+            assertEquals(expectedLatitude / Calcs.TURN, Calcs.Angle.toNormalLatitude(input / Calcs.TURN, 1.0), Calcs.EPSILON_12);
+        }
     }
 
     @Test

@@ -12,20 +12,20 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposi
 
 abstract class CyclicPhenomenonFinderAbstract {
     /**
-     * Minimal allowed value of {@linkplain #getAngularDelta() angular delta}, in radians.
+     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in radians.
      */
-    public static final double MIN_ANGULAR_DELTA_RADIANS = Calcs.EPSILON;
+    public static final double MIN_PRECISION_RADIANS = Calcs.EPSILON;
     /**
-     * {@linkplain #getAngularDeltaTimeSeconds() Time equivalent} of the default {@linkplain #getAngularDelta() angular delta}, in seconds.
+     * {@linkplain #getPrecisionTimeSeconds() Time equivalent} of the default {@linkplain #getPrecision() angular precision}, in seconds.
      */
-    public static final int DEFAULT_ANGULAR_DELTA_TIME_SECONDS = 1;
+    public static final int DEFAULT_PRECISION_TIME_SECONDS = 1;
     /**
      * The default {@linkplain #getCoreCalculationsLimit() limit} for number of core calculations of a stage-indicating angle per result.
      */
     public static final int DEFAULT_CORE_CALCULATIONS_LIMIT = 10;
 
     private final StageIndicatingAngleCalculator coreCalculator;
-    private double deltaRadians;
+    private double precisionRadians;
     private int coreCalculationsLimit = DEFAULT_CORE_CALCULATIONS_LIMIT;
     private int coreCalculationsInCurrentFindingCount = 0;
     private int totalCoreCalculationsCount = 0;
@@ -33,70 +33,71 @@ abstract class CyclicPhenomenonFinderAbstract {
 
     public CyclicPhenomenonFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
         this.coreCalculator = coreCalculator;
-        setAngularDeltaTime(DEFAULT_ANGULAR_DELTA_TIME_SECONDS);
+        setPrecisionTime(DEFAULT_PRECISION_TIME_SECONDS);
     }
 
     /**
-     * Gets the angular delta, in radians.
+     * Gets the angular precision, in radians.
      *
-     * This settings determines the precision of searching:
-     * proximity to the best values achievable by this object's core calculator.
+     * This setting determines the results' proximity
+     * to the best values achievable by this object's core calculator.
      * While searching, a time argument of a newly calculated value of stage-indicating angle
-     * is accepted as a result iff it differs by less than delta
+     * is accepted as a result iff it differs by less than 'angular precision'
      * from the value indicating the stage which is currently under search;
      * otherwise a time argument is corrected, then stage-indicating angle recalculated.
      *
-     * The smaller the delta, the better the results' precision
-     * but also the higher mean number of core calculations needed to get them.
+     * A smaller value implies better precision,
+     * but also a higher mean number of core calculations needed to obtain a result.
      *
-     * @return  value of angular delta, in radians
-     * @see     #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     * @return  the angular precision value, in radians
+     * @see     #DEFAULT_PRECISION_TIME_SECONDS
      */
-    public double getAngularDelta() {
-        return deltaRadians;
+    public double getPrecision() {
+        return precisionRadians;
     }
 
     /**
-     * Gets the time equivalent of the {@linkplain #getAngularDelta() angular delta}, in seconds.
-     * This is a mean (epochal) time corresponding to the vlaue of stage-indicating angle equal to delta
-     * in the cycle which is measured with this angle, whose phenomena under search are stages of.
+     * Gets the time equivalent of the {@linkplain #getPrecision() angular precision}, in seconds.
+     * This is a mean (epochal) time corresponding to the vlaue of stage-indicating angle equal to
+     * the precision setting in the cycle which is measured with this angle,
+     * whose phenomena under search are stages of.
      *
-     * @return  time equivalent of the {@linkplain #getAngularDelta() angular delta}, in seconds
-     * @see     #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     * @return  time equivalent of the {@linkplain #getPrecision() angular precision}, in seconds
+     * @see     #DEFAULT_PRECISION_TIME_SECONDS
      * @see     MeanCycle
      */
-    public double getAngularDeltaTimeSeconds() {
-        return getMeanCycle().secondsPerRadians(deltaRadians);
+    public double getPrecisionTimeSeconds() {
+        return getMeanCycle().secondsPerRadians(precisionRadians);
     }
 
     /**
-     * Sets the {@linkplain #getAngularDelta() angular delta}.
+     * Sets the {@linkplain #getPrecision() angular precision}.
      *
-     * @param radians   new value of angular delta, in radians, not lesser than {@value #MIN_ANGULAR_DELTA_RADIANS}
-     * @see             #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     * @param radians   new value of angular precision, in radians, not lesser than {@value #MIN_PRECISION_RADIANS}
+     * @see             #DEFAULT_PRECISION_TIME_SECONDS
      */
-    public void setAngularDelta(double radians) {
-        validateDeltaRadians(radians);
-        deltaRadians = radians;
+    public void setPrecision(double radians) {
+        validatePrecisionRadians(radians);
+        precisionRadians = radians;
     }
 
     /**
-     * Sets the {@linkplain #getAngularDelta() angular delta} by its {@linkplain #getAngularDeltaTimeSeconds() time equivalent},
+     * Sets the {@linkplain #getPrecision() angular precision} with its {@linkplain #getPrecisionTimeSeconds() time equivalent},
      * a positive number of seconds.
      *
-     * @param seconds   {@linkplain #getAngularDeltaTimeSeconds() time equivalent} of the new {@linkplain #getAngularDelta() angular delta},
+     * @param seconds   {@linkplain #getPrecisionTimeSeconds() time equivalent} of the new {@linkplain #getPrecision() precision delta},
      *                  in seconds, a positive number
-     * @see             #DEFAULT_ANGULAR_DELTA_TIME_SECONDS
+     * @see             #DEFAULT_PRECISION_TIME_SECONDS
      */
-    public void setAngularDeltaTime(int seconds) {
-        validateEpsilonTimeSeconds(seconds);
-        deltaRadians = getMeanCycle().radiansPerTimeSeconds(seconds);
+    public void setPrecisionTime(int seconds) {
+        validatePrecisionTimeSeconds(seconds);
+        precisionRadians = getMeanCycle().radiansPerTimeSeconds(seconds);
     }
 
     /**
      * Gets the limit for number of core calculations of stage-indicating angle
      * to perform in order to find a single result.
-     * If too low (not adequate to a small {@linkplain #getAngularDelta() angular delta}),
+     * If too low (not adequate to a small {@linkplain #getPrecision() angular delta}),
      * the limit may be exceeded, so a {@link CalculationLimitExceededException} will be thrown.
      *
      * @return  limit for number of core calculations of stage-indicating angle
@@ -162,14 +163,14 @@ abstract class CyclicPhenomenonFinderAbstract {
 
     protected abstract MeanCycle getMeanCycle();
 
-    protected final void validateDeltaRadians(double radians) {
-        if (radians < MIN_ANGULAR_DELTA_RADIANS)
-            throw new DeltaAngleTooSmallException(radians, MIN_ANGULAR_DELTA_RADIANS);
+    protected final void validatePrecisionRadians(double radians) {
+        if (radians < MIN_PRECISION_RADIANS)
+            throw new PrecisionAngleTooSmallException(radians, MIN_PRECISION_RADIANS);
     }
 
-    protected final void validateEpsilonTimeSeconds(int seconds) {
+    protected final void validatePrecisionTimeSeconds(int seconds) {
         if (seconds < 1)
-            throw new DeltaTimeNotPositiveException(seconds);
+            throw new PrecisionTimeNotPositiveException(seconds);
     }
 
     abstract protected class ResultSupplierAbstract<PhT extends Enum<PhT>> implements DoubleSupplier, Supplier<DynamicalOccurrence<PhT>> {

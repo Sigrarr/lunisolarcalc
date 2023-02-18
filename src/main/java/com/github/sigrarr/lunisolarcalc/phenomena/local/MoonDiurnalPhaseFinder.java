@@ -25,7 +25,7 @@ public final class MoonDiurnalPhaseFinder extends DiurnalPhaseFinderAbstract {
         }
 
         @Override double getCenterStandardAltitude() {
-            double pi = (Double) piCalc.calculate(midnight.getCenter());
+            double pi = (Double) piCalc.calculate(midnightTT.getCenter());
             return STANDARD_ALTITUDE_PI_COEFFICIENT * pi + STANDARD_ALTITUDE_FREE_TERM;
         }
     }

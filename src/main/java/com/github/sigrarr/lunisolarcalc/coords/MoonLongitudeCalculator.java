@@ -29,7 +29,7 @@ public final class MoonLongitudeCalculator implements Provider<Subject, Timeline
      * @return          {@linkplain Subject#MOON_LONGITUDE longitude of the Moon's center (λ)}: [0, 2π)
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {
-        return Calcs.Angle.normalizeLongitudinally(elements.getLPrim() + periodicTerms.evaluate(tx.toDynamicalTime(), elements));
+        return Calcs.Angle.toNormalLongitude(elements.getLPrim() + periodicTerms.evaluate(tx.toDynamicalTime(), elements));
     }
 
     @Override

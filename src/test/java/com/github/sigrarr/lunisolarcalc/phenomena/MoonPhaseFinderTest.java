@@ -136,7 +136,7 @@ public class MoonPhaseFinderTest {
 
     @Test
     public void shouldFindManyResultsWithVariousParameterLists() {
-        double delta = timeToDays(0, 0, 2 * (int) finder.getAngularDeltaTimeSeconds());
+        double delta = timeToDays(0, 0, 2 * (int) finder.getPrecisionTimeSeconds());
         for (CalendarPoint[] subsequentNewMoonsPairApproximates : LUNATION_START_END_TO_DURATION.keySet()) {
             TimelinePoint ta = UniversalTimelinePoint.ofCalendar(subsequentNewMoonsPairApproximates[0]);
             TimelinePoint tb = UniversalTimelinePoint.ofCalendar(subsequentNewMoonsPairApproximates[1]);

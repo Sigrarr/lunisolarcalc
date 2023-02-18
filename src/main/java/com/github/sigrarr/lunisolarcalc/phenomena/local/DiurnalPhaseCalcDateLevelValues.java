@@ -1,6 +1,5 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
-import com.github.sigrarr.lunisolarcalc.coords.Subject;
 import com.github.sigrarr.lunisolarcalc.time.TimeScaleDelta;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
@@ -11,21 +10,21 @@ class DiurnalPhaseCalcDateLevelValues {
     private boolean present;
     double standardAltitude;
     double hourAngle;
-    double siderealTimeDegrees;
-    double deltaTSeconds;
+    double deltaTDays;
+    double utSiderealTimeDegrees;
     double initialTransitM;
 
     DiurnalPhaseCalcDateLevelValues(DiurnalPhaseCalcCore core) {
         this.core = core;
     }
 
-    public boolean areDiurnalPhasesPresent() {
+    boolean areDiurnalPhasesPresent() {
         return present;
     }
 
-    public void recalculate() {
+    void recalculate() {
         standardAltitude = core.getCenterStandardAltitude();
-        double frontDeclination = (Double) core.getFrontCoords().get(core.body.declinationSubject);
+        double frontDeclination = (Double) core.getFrontEquatorialCoords().get(core.body.declinationSubject);
 
         double cosH0 = (Math.sin(standardAltitude) - Math.sin(core.getRequest().latitude) * Math.sin(frontDeclination))
             / (Math.cos(core.getRequest().latitude) * Math.cos(frontDeclination));
@@ -35,13 +34,20 @@ class DiurnalPhaseCalcDateLevelValues {
             return;
 
         hourAngle = Math.acos(cosH0);
-        siderealTimeDegrees = (Double) core.getCenterCoords().get(Subject.SIDEREAL_APPARENT_TIME);
+        deltaTDays = Calcs.SECOND_TO_DAY * TimeScaleDelta.getDeltaTSeconds(core.midnightTT.getCenter());
+        utSiderealTimeDegrees = core.getCenterUniversalMidnightSiderealTimeDegrees();
 
-        double frontAscension = (Double) core.getFrontCoords().get(core.body.rightAscensionSubject);
-        initialTransitM = Calcs.Angle.normalizeLongitudinally(
-            frontAscension + core.getRequest().longitude - Math.toRadians(siderealTimeDegrees)
+        double frontAscension = (Double) core.getFrontEquatorialCoords().get(core.body.rightAscensionSubject);
+        initialTransitM = Calcs.Angle.toNormalLongitude(
+            frontAscension + core.getRequest().longitude - Math.toRadians(utSiderealTimeDegrees)
         ) / Calcs.TURN;
+    }
 
-        deltaTSeconds = TimeScaleDelta.getDeltaTSeconds(core.midnight.getCenter());
+    double calculateInitialRiseM() {
+        return Calcs.Angle.toNormalLongitude(initialTransitM - hourAngle / Calcs.TURN, 1.0);
+    }
+
+    double calculateInitialSetM() {
+        return Calcs.Angle.toNormalLongitude(initialTransitM + hourAngle / Calcs.TURN, 1.0);
     }
 }

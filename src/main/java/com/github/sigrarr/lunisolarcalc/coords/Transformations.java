@@ -77,7 +77,7 @@ public abstract class Transformations {
      * @return                  hour angle (H), in the same scale: [0, 1 turn)
      */
     public static double calculateHourAngle(double siderealTime, double rightAscension, double scaleTurn) {
-        return Calcs.Angle.normalizeLongitudinally(siderealTime - rightAscension, scaleTurn);
+        return Calcs.Angle.toNormalLongitude(siderealTime - rightAscension, scaleTurn);
     }
 
     /**
@@ -88,6 +88,6 @@ public abstract class Transformations {
      * @return                  hour angle (H), in radians: [0, 2π)
      */
     public static double calculateHourAngle(double siderealTime, double rightAscension) {
-        return Calcs.Angle.normalizeLongitudinally(siderealTime - rightAscension);
+        return Calcs.Angle.toNormalLongitude(siderealTime - rightAscension);
     }
 }

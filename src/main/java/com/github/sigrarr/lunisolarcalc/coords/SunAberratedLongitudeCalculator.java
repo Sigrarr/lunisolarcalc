@@ -27,7 +27,7 @@ public final class SunAberratedLongitudeCalculator implements Provider<Subject, 
      *                              in radians: [0, 2π)
      */
     public double calculate(double geometricLongitude, double aberration) {
-        return Calcs.Angle.normalizeLongitudinally(geometricLongitude + aberration);
+        return Calcs.Angle.toNormalLongitude(geometricLongitude + aberration);
     }
 
     @Override

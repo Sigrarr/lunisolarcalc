@@ -37,7 +37,7 @@ public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Su
      *                                  of the Moon's apparent longitude over the Sun's apparent longitude, in radians: [0, 2π)
      */
     public double calculate(double moonLongitude, double sunAberratedLongitude) {
-        return Calcs.Angle.normalizeLongitudinally(moonLongitude - sunAberratedLongitude);
+        return Calcs.Angle.toNormalLongitude(moonLongitude - sunAberratedLongitude);
     }
 
     @Override

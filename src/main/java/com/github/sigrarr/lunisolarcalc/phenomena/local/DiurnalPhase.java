@@ -4,9 +4,9 @@ import com.github.sigrarr.lunisolarcalc.util.Titled;
 
 public enum DiurnalPhase implements Titled {
 
-    RISING("Rising"),
+    RISE("Rise"),
     TRANSIT("Transit"),
-    SETTING("Setting");
+    SET("Set");
 
     private final String title;
 

@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.coords;
 
-import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.normalizeLongitudinally;
+import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.toNormalLongitude;
 
 import java.util.*;
 
@@ -42,28 +42,28 @@ public class MoonCoordinateElements implements Provider<Subject, TimelinePoint>,
         double cT2 = cT * cT;
         double cT3 = cT2 * cT;
         double cT4 = cT3 * cT;
-        values[INDEX_MEAN_LONGITUDE] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_LONGITUDE] = toNormalLongitude(Math.toRadians(
             218.3164477 + (481267.88123421 * cT) - (0.0015786 * cT2) + (cT3 / 538841.0) - (cT4 / 65194000.0)
         ));
-        values[INDEX_MEAN_ELONGATION] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_ELONGATION] = toNormalLongitude(Math.toRadians(
             297.8501921 + (445267.1114034 * cT) - (0.0018819 * cT2) + (cT3 / 545868.0) - (cT4 / 113065000.0)
         ));
-        values[INDEX_MEAN_ANOMALY_OF_SUN] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_ANOMALY_OF_SUN] = toNormalLongitude(Math.toRadians(
             357.5291092 + (35999.0502909 * cT) - (0.0001536 * cT2) + (cT3 / 24490000.0)
         ));
-        values[INDEX_MEAN_ANOMALY] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_ANOMALY] = toNormalLongitude(Math.toRadians(
             134.9633964 + (477198.8675055 * cT) + (0.0087414 * cT2) + (cT3 / 69699.0) - (cT4 / 14712000.0)
         ));
-        values[INDEX_MEAN_DISTANCE_FROM_ASCENDING_NODE] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_MEAN_DISTANCE_FROM_ASCENDING_NODE] = toNormalLongitude(Math.toRadians(
             93.2720950 + (483202.0175233 * cT) - (0.0036539 * cT2) - (cT3 / 3526000.0) + (cT4 / 863310000.0)
         ));
-        values[INDEX_ADDITIONAL_ARGUMENT_VENUS] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_ADDITIONAL_ARGUMENT_VENUS] = toNormalLongitude(Math.toRadians(
             119.75 + (131.849 * cT)
         ));
-        values[INDEX_ADDITIONAL_ARGUMENT_JUPITER] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_ADDITIONAL_ARGUMENT_JUPITER] = toNormalLongitude(Math.toRadians(
             53.09 + (479264.290 * cT)
         ));
-        values[INDEX_ADDITIONAL_ARGUMENT_3] = normalizeLongitudinally(Math.toRadians(
+        values[INDEX_ADDITIONAL_ARGUMENT_3] = toNormalLongitude(Math.toRadians(
             313.45 + (481266.484 * cT)
         ));
     }

@@ -27,32 +27,32 @@ public class CyclicPhenomenonFinderAbstractTest {
     }
 
     @Test
-    public void shouldThrowDeltaTooLowException() {
+    public void shouldValidatePrecisionSetting() {
         for (CyclicPhenomenonFinderAbstract finder : finders) {
-            DeltaTimeNotPositiveException exT = assertThrows(DeltaTimeNotPositiveException.class, () -> finder.setAngularDeltaTime(0));
+            PrecisionTimeNotPositiveException exT = assertThrows(PrecisionTimeNotPositiveException.class, () -> finder.setPrecisionTime(0));
             assertEquals(0, exT.getSeconds());
 
-            exT = assertThrows(DeltaTimeNotPositiveException.class, () -> finder.setAngularDeltaTime(-1));
+            exT = assertThrows(PrecisionTimeNotPositiveException.class, () -> finder.setPrecisionTime(-1));
             assertEquals(-1, exT.getSeconds());
 
-            DeltaAngleTooSmallException exA = assertThrows(DeltaAngleTooSmallException.class, () -> finder.setAngularDelta(0.0));
+            PrecisionAngleTooSmallException exA = assertThrows(PrecisionAngleTooSmallException.class, () -> finder.setPrecision(0.0));
             assertEquals(0.0, exA.getRadians());
 
-            exA = assertThrows(DeltaAngleTooSmallException.class, () -> finder.setAngularDelta(
-                CyclicPhenomenonFinderAbstract.MIN_ANGULAR_DELTA_RADIANS - Calcs.EPSILON_MIN
+            exA = assertThrows(PrecisionAngleTooSmallException.class, () -> finder.setPrecision(
+                CyclicPhenomenonFinderAbstract.MIN_PRECISION_RADIANS - Calcs.EPSILON_MIN
             ));
-            exA = assertThrows(DeltaAngleTooSmallException.class, () -> finder.setAngularDelta(-1.0));
+            exA = assertThrows(PrecisionAngleTooSmallException.class, () -> finder.setPrecision(-1.0));
             assertEquals(-1.0, exA.getRadians(), Calcs.EPSILON_MIN);
         }
     }
 
     @Test
-    public void shouldMinTimeDeltaYieldLegalAngularDelta() {
+    public void shouldMinTimeDeltaYieldLegalPrecision() {
         for (CyclicPhenomenonFinderAbstract finder : finders) {
-            finder.setAngularDeltaTime(1);
+            finder.setPrecisionTime(1);
             double radians = finder.getMeanCycle().radiansPerTimeSeconds(1);
-            assertEquals(radians, finder.getAngularDelta(), Calcs.EPSILON_MIN);
-            assertDoesNotThrow(() -> finder.setAngularDelta(radians));
+            assertEquals(radians, finder.getPrecision(), Calcs.EPSILON_MIN);
+            assertDoesNotThrow(() -> finder.setPrecision(radians));
         }
     }
 
@@ -61,12 +61,12 @@ public class CyclicPhenomenonFinderAbstractTest {
         int[] secondSettings = {2, 4, 13, 119};
         for (int seconds : secondSettings)
             for (CyclicPhenomenonFinderAbstract finder : finders) {
-                finder.setAngularDeltaTime(seconds);
+                finder.setPrecisionTime(seconds);
                 double radians = finder.getMeanCycle().radiansPerTimeSeconds(seconds);
-                assertEquals(radians, finder.getAngularDelta(), Calcs.EPSILON_MIN);
+                assertEquals(radians, finder.getPrecision(), Calcs.EPSILON_MIN);
 
-                finder.setAngularDelta(radians);
-                assertEquals(seconds, Math.round(finder.getAngularDeltaTimeSeconds()));
+                finder.setPrecision(radians);
+                assertEquals(seconds, Math.round(finder.getPrecisionTimeSeconds()));
             }
     }
 }

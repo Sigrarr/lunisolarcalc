@@ -27,7 +27,7 @@ public final class MoonApparentLongitudeCalculator implements Provider<Subject, 
      *                              in radians: [0, 2π)
      */
     public double calculate(double longitude, double nutuationInLongitude) {
-        return Calcs.Angle.normalizeLongitudinally(longitude + nutuationInLongitude);
+        return Calcs.Angle.toNormalLongitude(longitude + nutuationInLongitude);
     }
 
     @Override

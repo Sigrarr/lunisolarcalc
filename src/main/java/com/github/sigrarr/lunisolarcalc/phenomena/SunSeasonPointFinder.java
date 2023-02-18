@@ -16,7 +16,7 @@ import com.github.sigrarr.lunisolarcalc.coords.*;
  * Uses Meeus' method for time correction.
  * By default utilizes a {@link SunApparentLongitudeCalculator} composed with {@link CoordsCalcCompositions}.
  * You can {@linkplain #SunSeasonPointFinder(StageIndicatingAngleCalculator) use another λ calculator}
- * and set custom value of angular delta for comparing values of λ.
+ * and set custom precision for comparing values of λ.
  *
  * @see "Meeus 1998: Ch. 27 ("Of course, higher accuracy...", p. 180)"
  */
@@ -45,7 +45,7 @@ public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
         double jde = approximator.approximateJulianEphemerisDay(calendarYear, point);
         double lambda = calculateStageIndicatingAngle(jde);
 
-        while (calculateAbsoluteDiff(point, lambda) > getAngularDelta()) {
+        while (calculateAbsoluteDiff(point, lambda) > getPrecision()) {
             jde += calculateJdeCorrection(point, lambda);
             lambda = calculateStageIndicatingAngle(jde);
         }

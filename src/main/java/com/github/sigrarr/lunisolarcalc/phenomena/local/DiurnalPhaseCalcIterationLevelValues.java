@@ -29,38 +29,38 @@ class DiurnalPhaseCalcIterationLevelValues {
         interpolateRightAscension();
         calculateLocalHourAngle();
         mCorrection = -localHourAngle/Calcs.TURN;
-        return core.dateLevel.initialTransitM + mCorrection;
+        return Calcs.Angle.toNormalLongitude(m + mCorrection, 1.0);
     }
 
-    double calculateRising(double m) {
+    double calculateRise(double m) {
         calculateSiderealTimeAndInterpolatingFactor(m);
         interpolateRightAscension();
         interpolateDeclination();
         calculateLocalHourAngle();
         claculateMCorrectionForLiminalPhase();
-        return m + mCorrection;
+        return Calcs.Angle.toNormalLongitude(m + mCorrection, 1.0);
     }
 
-    double calculateSetting(double m) {
+    double calculateSet(double m) {
         calculateSiderealTimeAndInterpolatingFactor(m);
         interpolateRightAscension();
         interpolateDeclination();
         calculateLocalHourAngle();
         claculateMCorrectionForLiminalPhase();
-        return m + mCorrection;
+        return Calcs.Angle.toNormalLongitude(m + mCorrection, 1.0);
     }
 
     private void calculateSiderealTimeAndInterpolatingFactor(double m) {
-        siderealTime = Math.toRadians(core.dateLevel.siderealTimeDegrees + M_TO_SIDEREAL_TIME_DEGREES_MULTIPLIER * m);
-        interpolatingFactor = m + Calcs.SECOND_TO_DAY*core.dateLevel.deltaTSeconds;
+        siderealTime = Math.toRadians(core.dateLevel.utSiderealTimeDegrees + M_TO_SIDEREAL_TIME_DEGREES_MULTIPLIER * m);
+        interpolatingFactor = m + core.dateLevel.deltaTDays;
     }
 
     private void interpolateRightAscension() {
         rightAscension = TabularInterpolation.interpolateFromThreeValuesAndFactor(
             new double[] {
-                (Double) core.getBackCoords().get(core.body.rightAscensionSubject),
-                (Double) core.getCenterCoords().get(core.body.rightAscensionSubject),
-                (Double) core.getFrontCoords().get(core.body.rightAscensionSubject),
+                (Double) core.getBackEquatorialCoords().get(core.body.rightAscensionSubject),
+                (Double) core.getCenterEquatorialCoords().get(core.body.rightAscensionSubject),
+                (Double) core.getFrontEquatorialCoords().get(core.body.rightAscensionSubject),
             },
             interpolatingFactor
         );
@@ -69,16 +69,16 @@ class DiurnalPhaseCalcIterationLevelValues {
     private void interpolateDeclination() {
         declination = TabularInterpolation.interpolateFromThreeValuesAndFactor(
             new double[] {
-                (Double) core.getBackCoords().get(core.body.declinationSubject),
-                (Double) core.getCenterCoords().get(core.body.declinationSubject),
-                (Double) core.getFrontCoords().get(core.body.declinationSubject),
+                (Double) core.getBackEquatorialCoords().get(core.body.declinationSubject),
+                (Double) core.getCenterEquatorialCoords().get(core.body.declinationSubject),
+                (Double) core.getFrontEquatorialCoords().get(core.body.declinationSubject),
             },
             interpolatingFactor
         );
     }
 
     private void calculateLocalHourAngle() {
-        localHourAngle = siderealTime - core.getRequest().longitude - rightAscension;
+        localHourAngle = Calcs.Angle.toNormalSignedLongtiude(siderealTime - core.getRequest().longitude - rightAscension);
     }
 
     private void claculateMCorrectionForLiminalPhase() {

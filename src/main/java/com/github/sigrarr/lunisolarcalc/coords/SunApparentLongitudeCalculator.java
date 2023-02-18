@@ -27,7 +27,7 @@ public final class SunApparentLongitudeCalculator implements Provider<Subject, T
      * @return                      {@linkplain Subject#SUN_APPARENT_LONGITUDE the Sun's apparent longitude (λ)}, in radians: [0, 2π)
      */
     public double calculate(double geometricLongitude, double nutuationInLongitude, double aberration) {
-        return Calcs.Angle.normalizeLongitudinally(geometricLongitude + nutuationInLongitude + aberration);
+        return Calcs.Angle.toNormalLongitude(geometricLongitude + nutuationInLongitude + aberration);
     }
 
     @Override

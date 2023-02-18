@@ -29,7 +29,7 @@ public final class MoonLatitudeCalculator implements Provider<Subject, TimelineP
      * @return          {@linkplain Subject#MOON_LATITUDE latitude of the Moon's center (β)}: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {
-        return Calcs.Angle.normalizeLatitudinally(periodicTerms.evaluate(tx.toDynamicalTime(), elements));
+        return Calcs.Angle.toNormalLatitude(periodicTerms.evaluate(tx.toDynamicalTime(), elements));
     }
 
     @Override

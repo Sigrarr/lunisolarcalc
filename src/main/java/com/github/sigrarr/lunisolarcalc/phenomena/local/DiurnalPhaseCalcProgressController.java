@@ -3,6 +3,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 import java.util.*;
 import java.util.stream.Collector;
 
+import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
+
 class DiurnalPhaseCalcProgressController {
 
     private final static Collector<DiurnalPhase, List<DiurnalPhase>, List<DiurnalPhase>> TO_UNMODIFIABLE_LIST = Collector.of(
@@ -29,9 +31,9 @@ class DiurnalPhaseCalcProgressController {
         orderedPhasesInScope = core.getRequest().phases.stream().sorted().collect(TO_UNMODIFIABLE_LIST);
         phaseIt = orderedPhasesInScope.listIterator();
         currentPhase = phaseIt.next();
-        core.midnight.setBack(core.getRequest().baseMidnight.add(-1.0));
-        core.midnight.setCenter(core.getRequest().baseMidnight);
-        core.midnight.setFront(core.getRequest().baseMidnight.add(+1.0));
+        core.midnightTT.setCenter(DynamicalTimelinePoint.ofCalendarPoint(core.getRequest().baseMidnight));
+        core.midnightTT.setBack(core.midnightTT.getCenter().add(-1.0));
+        core.midnightTT.setFront(core.midnightTT.getCenter().add(+1.0));
         core.equatorialCoords.clear();
         core.dateLevel.recalculate();
         startFlag = true;
@@ -46,7 +48,7 @@ class DiurnalPhaseCalcProgressController {
 
     void dateForward() {
         phaseIt = orderedPhasesInScope.listIterator();
-        core.midnight.push(core.midnight.getFront().add(1.0));
+        core.midnightTT.push(core.midnightTT.getFront().add(1.0));
         core.equatorialCoords.push(null);
         core.dateLevel.recalculate();
     }

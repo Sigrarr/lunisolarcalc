@@ -2,29 +2,23 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.*;
 
-import com.github.sigrarr.lunisolarcalc.time.UniversalTimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 
 class DiurnalPhaseCalcRequest {
 
-    public static enum Mode {
-        PRECISION, APPROXIMATION
-    }
-
-    final double longitude;
+    final CalendarPoint baseMidnight;
     final double latitude;
-    final UniversalTimelinePoint baseMidnight;
+    final double longitude;
     final Set<DiurnalPhase> phases;
-    final Mode mode;
 
-    DiurnalPhaseCalcRequest(UniversalTimelinePoint baseMidnight, Set<DiurnalPhase> phases, double longitude, double latitude, Mode mode) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.baseMidnight = baseMidnight;
+    DiurnalPhaseCalcRequest(CalendarPoint baseDate, GeoCoords geoCoords, Set<DiurnalPhase> phases) {
+        this.baseMidnight = reduceToMidnight(baseDate);
+        this.latitude = geoCoords.latitude;
+        this.longitude = geoCoords.longitude;
         this.phases = phases;
-        this.mode = mode;
     }
 
-    DiurnalPhaseCalcRequest(UniversalTimelinePoint baseMidnight, Set<DiurnalPhase> phases, double longitude, double latitude) {
-        this(baseMidnight, phases, longitude, latitude, Mode.PRECISION);
+    private CalendarPoint reduceToMidnight(CalendarPoint baseDate) {
+        return Double.compare(baseDate.getTime(), 0.0) == 0 ? baseDate : new CalendarPoint(baseDate.y, baseDate.m, baseDate.getDay());
     }
 }

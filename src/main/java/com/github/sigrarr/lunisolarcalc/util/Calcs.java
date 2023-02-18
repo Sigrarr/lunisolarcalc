@@ -91,49 +91,92 @@ public abstract class Calcs {
         return delta == 0 ? number : Math.round(number / delta) * delta;
     }
 
+    /**
+     * Calculates the absolute (non-negative) remainder
+     * of the dividend's division by two.
+     *
+     * Equivalent of {@link Math#floorMod(int, int) Math.floorMod(dividend, 2)}.
+     *
+     * @param dividend  dividend, a number to divide
+     * @return          absolute remainder of the dividend's division by two:
+     *                  {@code 0} or {@code 1}
+     */
+    public static int absMod2(int dividend) {
+        return dividend & 1;
+    }
+
     public static abstract class Angle {
         /**
-         * Normalizes an angle to a proper longitude: [0, 1 turn).
+         * Normalizes an angle to fit the interval [0, 1 turn).
          * Reduces full turns. Converts a negative sub-round angle α to 1 turn subtract α.
          *
          * @param angle         input angle
          * @param scaleTurn     1 turn (round angle) in the same scale as the input angle
          * @return              normalized angle, in the same scale: [0, 1 turn)
          */
-        public static double normalizeLongitudinally(double angle, double scaleTurn) {
-            return angle - (scaleTurn * Math.floor(angle / scaleTurn));
+        public static double toNormalLongitude(double angle, double scaleTurn) {
+            return angle - scaleTurn * Math.floor(angle / scaleTurn);
+        }
+
+        /**
+         * Normalizes an angle to a signed longitude: [-1/2 turn, 1/2 turn).
+         * Reduces full turns. Preserves the angle-determined point of a circle.
+         *
+         * @param angle         input angle
+         * @param scaleTurn     1 turn (round angle) in the same scale as the input angle
+         * @return              normalized angle, in the same scale: [-1/2 turn, 1/2 turn)
+         */
+        public static double toNormalSignedLongtiude(double angle, double scaleTurn) {
+            return angle - scaleTurn * Math.floor(angle / scaleTurn + 0.5);
         }
 
         /**
          * Normalizes an angle to a proper latitude: [-1/4 turn, 1/4 turn].
+         * Preserves the angle-determined point of a circle.
          *
          * @param angle         input angle
          * @param scaleTurn     1 turn (round angle) in the same scale as the input angle
          * @return              normalized angle, in the same scale: [-1/4 turn, 1/4 turn]
          */
-        public static double normalizeLatitudinally(double angle, double scaleTurn) {
-            return angle - (scaleTurn * Math.floor((angle + 0.5*scaleTurn) / scaleTurn));
+        public static double toNormalLatitude(double angle, double scaleTurn) {
+            int halfTurnIndex = (int) Math.round(2 * angle / scaleTurn);
+            double halfTurnMultiple = 0.5 * scaleTurn * halfTurnIndex;
+            return (1 - 2 * absMod2(halfTurnIndex)) * (angle - halfTurnMultiple);
         }
 
         /**
-         * Normalizes an angle to a proper longitude: [0, 2π).
+         * Normalizes an angle to fit the interval: [0, 2π).
          * Reduces full turns. Converts a negative sub-round angle α to 2π-α.
          *
          * @param radians   input angle, in radians
          * @return          normalized angle, in radians: [0, 2π)
          */
-        public static double normalizeLongitudinally(double radians) {
-            return radians - (TURN * Math.floor(radians / TURN));
+        public static double toNormalLongitude(double radians) {
+            return radians - TURN * Math.floor(radians / TURN);
+        }
+
+        /**
+         * Normalizes an angle to a signed longitude: [-π, π).
+         * Reduces full turns. Preserves the angle-determined point of a circle.
+         *
+         * @param radians   input angle, in radians
+         * @return          normalized angle, in radians: [-π, π)
+         */
+        public static double toNormalSignedLongtiude(double radians) {
+            return radians - TURN * Math.floor((radians + Math.PI) / TURN);
         }
 
         /**
          * Normalizes an angle to a proper latitude: [-π/2, π/2].
+         * Preserves the angle-determined point of a circle.
          *
          * @param radians   input angle, in radians
          * @return          normalized angle, in radians: [-π/2, π/2]
          */
-        public static double normalizeLatitudinally(double radians) {
-            return radians - (TURN * Math.floor((radians + Math.PI) / TURN));
+        public static double toNormalLatitude(double radians) {
+            int piIndex = (int) Math.round(radians / Math.PI);
+            double piMultiple = Math.PI * piIndex;
+            return (1 - 2 * absMod2(piIndex)) * (radians - piMultiple);
         }
 
         /**

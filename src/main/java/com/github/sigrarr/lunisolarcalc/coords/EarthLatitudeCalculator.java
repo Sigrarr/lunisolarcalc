@@ -28,7 +28,7 @@ public final class EarthLatitudeCalculator implements Provider<Subject, Timeline
      * @return      {@linkplain Subject#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx) {
-        return Calcs.Angle.normalizeLatitudinally(periodicTerms.evaluate(tx.toDynamicalTime()));
+        return Calcs.Angle.toNormalLatitude(periodicTerms.evaluate(tx.toDynamicalTime()));
     }
 
     @Override
