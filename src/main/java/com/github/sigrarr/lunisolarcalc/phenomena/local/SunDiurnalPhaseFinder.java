@@ -20,5 +20,9 @@ public final class SunDiurnalPhaseFinder extends DiurnalPhaseFinderAbstract {
         @Override double getCenterStandardAltitude() {
             return STANDARD_ALTITUDE;
         }
+
+        @Override boolean doesNeedNextCorrection() {
+            return iterationLevel.getCorrectionsCount() < 1;
+        }
     }
 }

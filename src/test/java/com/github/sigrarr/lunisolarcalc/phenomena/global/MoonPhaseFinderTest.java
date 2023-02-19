@@ -27,6 +27,7 @@ public class MoonPhaseFinderTest {
 
     /**
      * https://www.timeanddate.com/moon/phases/spain/madrid?year=1600 UTC -0:14:44
+     * The source does not give seconds.
      */
     private static final CalendarPoint[] NEW_MOONS_MADRID_1600 = new CalendarPoint[] {
         new CalendarPoint(1600, 1, 16, 4, 51, 0),

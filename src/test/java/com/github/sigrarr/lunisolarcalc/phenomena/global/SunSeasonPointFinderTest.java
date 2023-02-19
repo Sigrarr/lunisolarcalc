@@ -23,7 +23,7 @@ public class SunSeasonPointFinderTest {
         put(new CalendarPoint(1997,  3, 20,  13, 55, 42), SunSeasonPoint.MARCH_EQUINOX);
         put(new CalendarPoint(1998,  3, 20,  19, 55, 35), SunSeasonPoint.MARCH_EQUINOX);
         put(new CalendarPoint(1999,  3, 21,   1, 46, 53), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2000,  3, 20,   7, 36, 10), SunSeasonPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2000,  3, 20,   7, 36, 19), SunSeasonPoint.MARCH_EQUINOX);
         put(new CalendarPoint(2001,  3, 20,  13, 31, 47), SunSeasonPoint.MARCH_EQUINOX);
         put(new CalendarPoint(2002,  3, 20,  19, 17, 13), SunSeasonPoint.MARCH_EQUINOX);
         put(new CalendarPoint(2003,  3, 21,   1,  0, 50), SunSeasonPoint.MARCH_EQUINOX);
@@ -95,12 +95,13 @@ public class SunSeasonPointFinderTest {
 
     /**
      * https://aa.usno.navy.mil/calculated/seasons?year=1700&tz=0.00&tz_sign=1&tz_label=false&dst=false
+     * The source precision is 1 minute. Seconds value :30 set as a midpoint.
      */
     private static final CalendarPoint[] SEASON_POINTS_1700 = new CalendarPoint[] {
-        new CalendarPoint(1700, 3, 20, 14, 26, 0),
-        new CalendarPoint(1700, 6, 21, 13, 52, 0),
-        new CalendarPoint(1700, 9, 23, 2, 28, 0),
-        new CalendarPoint(1700, 12, 21, 17, 37, 0)
+        new CalendarPoint(1700, 3, 20, 14, 26, 30),
+        new CalendarPoint(1700, 6, 21, 13, 52, 30),
+        new CalendarPoint(1700, 9, 23, 2, 28, 30),
+        new CalendarPoint(1700, 12, 21, 17, 37, 30)
     };
 
     private static SunSeasonPointFinder finder;
@@ -121,7 +122,7 @@ public class SunSeasonPointFinderTest {
             double actualJde = finder.findJulianEphemerisDay(vsop87CalendarPoint.y, entry.getValue());
             CalendarPoint actualCalendarPoint = Timeline.julianDayToCalendar(actualJde);
 
-            assertEquals(vsop87Jde, actualJde, Calcs.Time.timeToDays(0, 0, 16), tooMuchDiffMsg(vsop87CalendarPoint, actualCalendarPoint));
+            assertEquals(vsop87Jde, actualJde, Calcs.Time.timeToDays(0, 0, 12), tooMuchDiffMsg(vsop87CalendarPoint, actualCalendarPoint));
 
             if (!vsop87CalendarPoint.formatDateTimeToMinutes().equals(actualCalendarPoint.formatDateTimeToMinutes())) {
                 minuteNumberMismatches.put(vsop87CalendarPoint, actualCalendarPoint);
@@ -129,7 +130,7 @@ public class SunSeasonPointFinderTest {
         }
 
         assertTrue(
-            minuteNumberMismatches.size() <= VSOP87_SUN_SEASON_POINTS.size() / 6,
+            minuteNumberMismatches.size() <= VSOP87_SUN_SEASON_POINTS.size() / 10,
             tooManyMinuteNumberMismatchesMsg(minuteNumberMismatches)
         );
     }
@@ -144,7 +145,7 @@ public class SunSeasonPointFinderTest {
 
         for (int i = 0; i < 4; i++) {
             double expectedJd = Timeline.normalCalendarToJulianDay(SEASON_POINTS_1700[i]);
-            assertEquals(expectedJd, actualJds.next(), Calcs.Time.timeToDays(0, 1, 5));
+            assertEquals(expectedJd, actualJds.next(), Calcs.Time.timeToDays(0, 0, 40));
         }
     }
 

@@ -35,7 +35,8 @@ class DiurnalPhaseCalcProgressController {
         core.midnightTT.setBack(core.midnightTT.getCenter().add(-1.0));
         core.midnightTT.setFront(core.midnightTT.getCenter().add(+1.0));
         core.equatorialCoords.clear();
-        core.dateLevel.recalculate();
+        core.dayLevel.recalculate();
+        core.iterationLevel.reset();;
         startFlag = true;
     }
 
@@ -44,13 +45,14 @@ class DiurnalPhaseCalcProgressController {
             dateForward();
         }
         currentPhase = phaseIt.next();
+        core.iterationLevel.reset();
     }
 
     void dateForward() {
         phaseIt = orderedPhasesInScope.listIterator();
         core.midnightTT.push(core.midnightTT.getFront().add(1.0));
         core.equatorialCoords.push(null);
-        core.dateLevel.recalculate();
+        core.dayLevel.recalculate();
     }
 
     DiurnalPhase getCurrentPhase() {

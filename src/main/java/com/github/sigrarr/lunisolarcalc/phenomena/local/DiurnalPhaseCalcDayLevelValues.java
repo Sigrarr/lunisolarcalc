@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 import com.github.sigrarr.lunisolarcalc.time.TimeScaleDelta;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-class DiurnalPhaseCalcDateLevelValues {
+class DiurnalPhaseCalcDayLevelValues {
 
     private final DiurnalPhaseCalcCore core;
 
@@ -14,7 +14,7 @@ class DiurnalPhaseCalcDateLevelValues {
     double utSiderealTimeDegrees;
     double initialTransitM;
 
-    DiurnalPhaseCalcDateLevelValues(DiurnalPhaseCalcCore core) {
+    DiurnalPhaseCalcDayLevelValues(DiurnalPhaseCalcCore core) {
         this.core = core;
     }
 
@@ -44,10 +44,10 @@ class DiurnalPhaseCalcDateLevelValues {
     }
 
     double calculateInitialRiseM() {
-        return Calcs.Angle.toNormalLongitude(initialTransitM - hourAngle / Calcs.TURN, 1.0);
+        return initialTransitM - hourAngle / Calcs.TURN;
     }
 
     double calculateInitialSetM() {
-        return Calcs.Angle.toNormalLongitude(initialTransitM + hourAngle / Calcs.TURN, 1.0);
+        return initialTransitM + hourAngle / Calcs.TURN;
     }
 }

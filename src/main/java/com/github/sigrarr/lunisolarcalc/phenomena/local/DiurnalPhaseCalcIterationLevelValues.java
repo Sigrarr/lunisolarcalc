@@ -15,13 +15,22 @@ class DiurnalPhaseCalcIterationLevelValues {
     private double declination;
     private double localHourAngle;
     private double mCorrection;
+    private int correctionsCount = 0;
 
     DiurnalPhaseCalcIterationLevelValues(DiurnalPhaseCalcCore core) {
         this.core = core;
     }
 
+    void reset() {
+        correctionsCount = 0;
+    }
+
     double getLastMCorrection() {
         return mCorrection;
+    }
+
+    int getCorrectionsCount() {
+        return correctionsCount;
     }
 
     double calculateTransit(double m) {
@@ -29,6 +38,7 @@ class DiurnalPhaseCalcIterationLevelValues {
         interpolateRightAscension();
         calculateLocalHourAngle();
         mCorrection = -localHourAngle/Calcs.TURN;
+        correctionsCount++;
         return Calcs.Angle.toNormalLongitude(m + mCorrection, 1.0);
     }
 
@@ -38,7 +48,8 @@ class DiurnalPhaseCalcIterationLevelValues {
         interpolateDeclination();
         calculateLocalHourAngle();
         claculateMCorrectionForLiminalPhase();
-        return Calcs.Angle.toNormalLongitude(m + mCorrection, 1.0);
+        correctionsCount++;
+        return m + mCorrection;
     }
 
     double calculateSet(double m) {
@@ -47,12 +58,13 @@ class DiurnalPhaseCalcIterationLevelValues {
         interpolateDeclination();
         calculateLocalHourAngle();
         claculateMCorrectionForLiminalPhase();
-        return Calcs.Angle.toNormalLongitude(m + mCorrection, 1.0);
+        correctionsCount++;
+        return m + mCorrection;
     }
 
     private void calculateSiderealTimeAndInterpolatingFactor(double m) {
-        siderealTime = Math.toRadians(core.dateLevel.utSiderealTimeDegrees + M_TO_SIDEREAL_TIME_DEGREES_MULTIPLIER * m);
-        interpolatingFactor = m + core.dateLevel.deltaTDays;
+        siderealTime = Math.toRadians(core.dayLevel.utSiderealTimeDegrees + M_TO_SIDEREAL_TIME_DEGREES_MULTIPLIER * m);
+        interpolatingFactor = m + core.dayLevel.deltaTDays;
     }
 
     private void interpolateRightAscension() {
@@ -90,7 +102,7 @@ class DiurnalPhaseCalcIterationLevelValues {
             + cosPhi * cosDelta * Math.cos(localHourAngle)
         );
 
-        mCorrection = (altitude - core.dateLevel.standardAltitude) / (
+        mCorrection = (altitude - core.dayLevel.standardAltitude) / (
             Calcs.TURN * cosDelta * cosPhi * Math.sin(localHourAngle)
         );
     }

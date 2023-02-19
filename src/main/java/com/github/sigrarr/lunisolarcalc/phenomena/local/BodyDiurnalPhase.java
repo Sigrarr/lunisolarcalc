@@ -6,7 +6,7 @@ public enum BodyDiurnalPhase implements Titled {
 
     MOON_RISE(Body.MOON, DiurnalPhase.RISE),
     MOON_TRANSIT(Body.MOON, DiurnalPhase.TRANSIT),
-    MOON_SE(Body.MOON, DiurnalPhase.SET),
+    MOON_SET(Body.MOON, DiurnalPhase.SET),
     SUN_RISE(Body.SUN, DiurnalPhase.RISE),
     SUN_TRANSIT(Body.SUN, DiurnalPhase.TRANSIT),
     SUN_SET(Body.SUN, DiurnalPhase.SET);

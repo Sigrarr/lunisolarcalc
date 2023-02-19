@@ -11,12 +11,6 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 abstract class DiurnalPhaseCalcCore {
 
-    final Supplier<OptionalDouble> timeSupplier = new Supplier<OptionalDouble>() {
-        @Override public OptionalDouble get() {
-            return resolveNextTime();
-        }
-    };
-
     final Supplier<Optional<UniversalOccurrence<BodyDiurnalPhase>>> occurrenceSupplier = new Supplier<Optional<UniversalOccurrence<BodyDiurnalPhase>>>() {
         @Override public Optional<UniversalOccurrence<BodyDiurnalPhase>> get() {
             OptionalDouble time = resolveNextTime();
@@ -32,7 +26,7 @@ abstract class DiurnalPhaseCalcCore {
     final FlexTriadBuffer<DynamicalTimelinePoint> midnightTT = new FlexTriadBuffer<>();
     final FlexTriadBuffer<Map<Subject, ?>> equatorialCoords = new FlexTriadBuffer<>();
     final DiurnalPhaseCalcProgressController controller = new DiurnalPhaseCalcProgressController(this);
-    final DiurnalPhaseCalcDateLevelValues dateLevel = new DiurnalPhaseCalcDateLevelValues(this);
+    final DiurnalPhaseCalcDayLevelValues dayLevel = new DiurnalPhaseCalcDayLevelValues(this);
     final DiurnalPhaseCalcIterationLevelValues iterationLevel = new DiurnalPhaseCalcIterationLevelValues(this);
     private final MultiOutputComposition<Subject, TimelinePoint> equatorialCoordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
         body.rightAscensionSubject, body.declinationSubject
@@ -43,28 +37,27 @@ abstract class DiurnalPhaseCalcCore {
 
     private DiurnalPhaseCalcRequest request;
     boolean approximationMode = false;
-    double precision = Calcs.SECOND_TO_DAY;
 
     OptionalDouble resolveNextTime() {
         if (!controller.pullStartFlag())
             controller.phaseForward();
-        if (!dateLevel.areDiurnalPhasesPresent())
+        if (!dayLevel.areDiurnalPhasesPresent())
             return OptionalDouble.empty();
 
         double initialM;
         DoubleUnaryOperator mCorrectionFunction;
         switch (controller.getCurrentPhase()) {
             case RISE:
-                initialM = dateLevel.calculateInitialRiseM();
+                initialM = dayLevel.calculateInitialRiseM();
                 mCorrectionFunction = iterationLevel::calculateRise;
                 break;
             case SET:
-                initialM = dateLevel.calculateInitialSetM();
+                initialM = dayLevel.calculateInitialSetM();
                 mCorrectionFunction = iterationLevel::calculateSet;
                 break;
             case TRANSIT:
             default:
-                initialM = dateLevel.initialTransitM;
+                initialM = dayLevel.initialTransitM;
                 mCorrectionFunction = iterationLevel::calculateTransit;
                 break;
         }
@@ -79,12 +72,15 @@ abstract class DiurnalPhaseCalcCore {
     }
 
     private double calculateCorrectM(double initialM, DoubleUnaryOperator mCorrectionFunction) {
+        iterationLevel.reset();
         double m = mCorrectionFunction.applyAsDouble(initialM);
-        while (Math.abs(iterationLevel.getLastMCorrection()) > precision) {
+        while (doesNeedNextCorrection()) {
             m = mCorrectionFunction.applyAsDouble(m);
         }
         return m;
     }
+
+    abstract boolean doesNeedNextCorrection();
 
     DiurnalPhaseCalcRequest getRequest() {
         return request;
@@ -95,7 +91,7 @@ abstract class DiurnalPhaseCalcCore {
     abstract double getCenterStandardAltitude();
 
     double getCenterUniversalMidnightSiderealTimeDegrees() {
-        return (Double) siderealTimeCalc.calculate(midnightTT.getCenter().add(dateLevel.deltaTDays));
+        return (Double) siderealTimeCalc.calculate(midnightTT.getCenter().add(dayLevel.deltaTDays));
     }
 
     Map<Subject, ?> getBackEquatorialCoords() {

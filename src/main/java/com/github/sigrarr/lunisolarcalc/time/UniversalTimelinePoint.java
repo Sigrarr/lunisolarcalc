@@ -9,7 +9,7 @@ import com.github.sigrarr.lunisolarcalc.time.calendar.*;
  * A {@linkplain TimelinePoint timeline point} in the {@linkplain TimeScale#UNIVERSAL Universal Time}.
  *
  * This class introduces several additional conversion methods (named "to...")
- * and static construction methods (named "of..."), which reflects the support of
+ * and static construction methods (named "of..."), including the support of
  * {@link LocalDateTime}, {@link LocalDate} and legacy {@link java.util.GregorianCalendar}.
  *
  * @see DynamicalTimelinePoint
@@ -127,6 +127,20 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     }
 
     /**
+     * Obtains an instance with given local date-time and its time offset from Universal Time.
+     * Result timeline point won't keep the offset (will be converted in Universal Time).
+     *
+     * @param localDateTime             local date-time
+     * @param timeOffsetDayFraction     time offset from Universal Time, as a fraction of day
+     *                                  (e.g.: 1.0/24 for UTC+1, -0.2 for local solar time UTC−4:48)
+     * @return                          instance (in Universal Time)
+     */
+    public static UniversalTimelinePoint ofLocalTimeCalendarPoint(NormalCalendarPoint localDateTime, double timeOffsetDayFraction) {
+        double jd = Timeline.normalCalendarToJulianDay(localDateTime) - timeOffsetDayFraction;
+        return new UniversalTimelinePoint(jd);
+    }
+
+    /**
      * Obtains an instance with a given {@link LocalDateTime} object.
      *
      * @param localDateTime     {@link LocalDateTime} object
@@ -176,6 +190,30 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
     @Override
     public UniversalTimelinePoint toUniversalTime() {
         return this;
+    }
+
+    /**
+     * Expresses this timeline point as a date-time in given local time.
+     *
+     * @param timeOffsetDayFraction     time offset from Universal Time, as a fraction of day
+     *                                  (e.g.: 1.0/24 for UTC+1, -0.2 for local solar time UTC−4:48)
+     * @return                          date-time in local time of given offset
+     */
+    public CalendarPoint toLocalTimeCalendarPoint(double timeOffsetDayFraction) {
+        return Timeline.julianDayToCalendar(julianDay + timeOffsetDayFraction);
+    }
+
+    /**
+     * Expresses this timeline point as a date-time in given local time, in chosen calendar.
+     *
+     * @param timeOffsetDayFraction     time offset from Universal Time, as a fraction of day
+     *                                  (e.g.: 1.0/24 for UTC+1, -0.2 for local solar time UTC−4:48)
+     * @param calendar                  target calendar
+     * @return                          date-time in local time of given offset,
+     *                                  in the chosen calendar
+     */
+    public NormalCalendarPoint toLocalTimeNormalCalendarPoint(double timeOffsetDayFraction, NormalCalendar calendar) {
+        return Timeline.julianDayToNormalCalendar(julianDay + timeOffsetDayFraction, calendar);
     }
 
     /**

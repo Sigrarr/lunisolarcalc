@@ -1,8 +1,10 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
+import java.util.Objects;
+
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public final class GeoCoords {
+public class GeoCoords {
 
     public static enum LatitudeDirection {
         N(+1), S(-1);
@@ -20,6 +22,8 @@ public final class GeoCoords {
         }
     }
 
+    public static final double EQUIV_UNIT_RADIANS = Math.toRadians(Calcs.ARCSECOND_TO_DEGREE);
+
     protected final double latitude;
     protected final double longitude;
 
@@ -28,16 +32,16 @@ public final class GeoCoords {
         this.longitude = Calcs.Angle.toNormalSignedLongtiude(longitude);
     }
 
-    public static GeoCoords ofConventionalDegrees(
+    public static GeoCoords ofDegreesWithDirections(
         double latitudeDegrees,
         LatitudeDirection latitudeDirection,
         double longitudeDegrees,
         LongitudeDirection longitudeDirection
     ) {
-        return ofConventional(Math.toRadians(latitudeDegrees), latitudeDirection, Math.toRadians(longitudeDegrees), longitudeDirection);
+        return ofAnglesWithDirections(Math.toRadians(latitudeDegrees), latitudeDirection, Math.toRadians(longitudeDegrees), longitudeDirection);
     }
 
-    public static GeoCoords ofConventional(
+    public static GeoCoords ofAnglesWithDirections(
         double latitude,
         LatitudeDirection latitudeDirection,
         double longitude,
@@ -46,24 +50,51 @@ public final class GeoCoords {
         return ofPlanetographic(latitudeDirection.sign * latitude, longitudeDirection.counterRotationSign * longitude);
     }
 
+    public static GeoCoords ofConventional(double latitude, double longitude) {
+        return ofPlanetographic(latitude, -longitude);
+    }
+
     public static GeoCoords ofPlanetographic(double latitude, double longitude) {
         return new GeoCoords(latitude, longitude);
     }
 
-    public double getPlanetographicLatitude() {
+    public final double getPlanetographicLatitude() {
         return latitude;
     }
 
-    public double getPlanetographicLongitude() {
+    public final double getPlanetographicLongitude() {
         return longitude;
     }
 
-    public double getConventionalLatitude() {
+    public final double getConventionalLatitude() {
         return latitude;
     }
 
-    public double getConventionalLongitude() {
+    public final double getConventionalLongitude() {
         return -longitude;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof GeoCoords))
+            return false;
+        GeoCoords gc = (GeoCoords) o;
+        return Double.compare(
+            Calcs.roundToDelta(latitude, EQUIV_UNIT_RADIANS),
+            Calcs.roundToDelta(gc.latitude, EQUIV_UNIT_RADIANS)
+        ) == 0
+        && Double.compare(
+            Calcs.roundToDelta(longitude, EQUIV_UNIT_RADIANS),
+            Calcs.roundToDelta(gc.longitude, EQUIV_UNIT_RADIANS)
+        ) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            Calcs.roundToDelta(latitude, EQUIV_UNIT_RADIANS),
+            Calcs.roundToDelta(longitude, EQUIV_UNIT_RADIANS)
+        );
     }
 
     @Override
