@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders;
+package com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders;
 
 /**
  * A calculator of stage-indicating angle of an astronomical phenomenon.

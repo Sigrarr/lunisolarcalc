@@ -73,7 +73,6 @@ public class MoonDiurnalPhaseFinderTest {
                     TimelinePoint expectedTime = UniversalTimelinePoint.ofLocalTimeCalendarPoint(exampleEntry.getValue(), example.timeOffset);
                     assertEquals(expectedPhase, actualResult.getType().diurnalPhase);
                     assertEquals(expectedTime.julianDay, actualResult.getTimelinePoint().julianDay, 40 * Calcs.SECOND_TO_DAY);
-                    System.err.println(finder.core.iterationLevel.getCorrectionsCount());
                 });
     }
 }

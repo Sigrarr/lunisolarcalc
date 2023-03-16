@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
+import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
 import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstract {

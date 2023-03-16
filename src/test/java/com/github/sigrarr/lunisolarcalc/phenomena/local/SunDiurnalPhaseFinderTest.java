@@ -116,7 +116,15 @@ public class SunDiurnalPhaseFinderTest {
                                     next.get().getTimelinePoint().formatCalendrically()
                                 )
                             );
-                            assertFalse(Double.compare(progress, 1.0) > 0);
+                            assertFalse(
+                                Double.compare(progress, 1.0) > 0,
+                                String.format("@%s %s %s then %s %s", geoCoords.toString(),
+                                    prev.get().getType().diurnalPhase.toString(),
+                                    prev.get().getTimelinePoint().formatCalendrically(),
+                                    next.get().getType().diurnalPhase.toString(),
+                                    next.get().getTimelinePoint().formatCalendrically()
+                                )
+                            );
                         }
                         return next;
                     });

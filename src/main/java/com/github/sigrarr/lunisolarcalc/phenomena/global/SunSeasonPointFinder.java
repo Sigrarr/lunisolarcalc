@@ -2,8 +2,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.TURN;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.*;
 
 /**
  * A tool for finding occurrences of Equinoxes/Solstices, i.e. distinguished stages of the tropical year cycle

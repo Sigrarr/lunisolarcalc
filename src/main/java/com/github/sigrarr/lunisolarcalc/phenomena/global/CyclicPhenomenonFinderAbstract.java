@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.function.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
-import com.github.sigrarr.lunisolarcalc.phenomena.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;

@@ -46,16 +46,16 @@ public class TabularInterpolationTest {
     }
 
     @Test
-    public void shouldInterpolateZeroValueArgument() {
+    public void shouldInterpolateZeroPointArgument() {
         // Meeus 1998: Example 3.c, p. 26
-        OptionalDouble actualResult = TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(EXAMPLE_3C_ARGUMENTS, EXAMPLE_3C_VALUES);
+        OptionalDouble actualResult = TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3C_ARGUMENTS, EXAMPLE_3C_VALUES);
         assertEquals(26.79873, actualResult.getAsDouble(), decimalAutoDelta(0.00001));
 
         // Meeus 1998: Example 3.d, p. 27
-        actualResult = TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, EXAMPLE_3D_VALUES);
+        actualResult = TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, EXAMPLE_3D_VALUES);
         assertEquals(-0.720759220056, actualResult.getAsDouble(), decimalAutoDelta(0.000000000001));
 
-        actualResult = TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, new double[] {2.0, 1.0, 2.0});
+        actualResult = TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, new double[] {2.0, 1.0, 2.0});
         assertFalse(actualResult.isPresent());
     }
 
@@ -84,16 +84,16 @@ public class TabularInterpolationTest {
             new double[] {1.0, 2.0, 3.0, 4.0}, 0.1
         ));
 
-        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
             new double[] {1.0, 2.0}, new double[] {1.0, 2.0, 3.0}
         ));
-        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
             new double[] {1.0, 2.0, 3.0}, new double[] {1.0, 2.0}
         ));
-        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
             new double[] {1.0, 2.0, 3.0, 4.0}, new double[] {1.0, 2.0, 3.0}
         ));
-        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
             new double[] {1.0, 2.0, 3.0}, new double[] {1.0, 2.0, 3.0, 4.0}
         ));
     }

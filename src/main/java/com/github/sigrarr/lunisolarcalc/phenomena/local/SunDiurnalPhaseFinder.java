@@ -11,7 +11,7 @@ public final class SunDiurnalPhaseFinder extends DiurnalPhaseFinderAbstract {
     }
 
     private static final class SunDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
-        private static double STANDARD_ALTITUDE = Math.toRadians(Calcs.Angle.arcminutesToDegrees(-50));
+        private static final double STANDARD_ALTITUDE = Math.toRadians(Calcs.Angle.arcminutesToDegrees(-50));
 
         @Override Body specifyBody() {
             return BODY;

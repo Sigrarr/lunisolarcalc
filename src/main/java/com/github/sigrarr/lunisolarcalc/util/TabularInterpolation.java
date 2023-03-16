@@ -72,7 +72,7 @@ public abstract class TabularInterpolation {
      *                      or an empty optional object if the function seems to have
      *                      no zero point between the given arguments
      */
-    public static OptionalDouble interpolateZeroValueArgumentFromThreePoints(double arguments[], double values[])
+    public static OptionalDouble interpolateZeroPointArgumentFromThreePoints(double arguments[], double values[])
     {
         if (arguments.length != 3 || values.length != 3)
             throw new IllegalArgumentException();
