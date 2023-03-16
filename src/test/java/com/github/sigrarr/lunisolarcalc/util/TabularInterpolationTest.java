@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 
@@ -16,6 +16,10 @@ public class TabularInterpolationTest {
     private static final double[] EXAMPLE_3A_VALUES = {0.898013, 0.891109, 0.884226, 0.877366, 0.870531};
     private static final double[] EXAMPLE_15_A_ASCENSION_VALUES = {40.68021, 41.73129, 42.78204};
     private static final double[] EXAMPLE_15_A_DECLINATION_VALUES = {18.04761, 18.44092, 18.82742};
+    private static final double[] EXAMPLE_3C_ARGUMENTS = {26.0, 27.0, 28.0};
+    private static final double[] EXAMPLE_3C_VALUES = {-(28.0*60 + 13.4), 6.0*60 + 46.3, 38*60 + 23.2};
+    private static final double[] EXAMPLE_3D_ARGUMENTS = {-1.0, 0.0, 1.0};
+    private static final double[] EXAMPLE_3D_VALUES = {-2.0, 3.0, 2.0};
 
     @Test
     public void shouldInterpolateFromThreeValuesAndFactor() {
@@ -42,6 +46,20 @@ public class TabularInterpolationTest {
     }
 
     @Test
+    public void shouldInterpolateZeroValueArgument() {
+        // Meeus 1998: Example 3.c, p. 26
+        OptionalDouble actualResult = TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(EXAMPLE_3C_ARGUMENTS, EXAMPLE_3C_VALUES);
+        assertEquals(26.79873, actualResult.getAsDouble(), decimalAutoDelta(0.00001));
+
+        // Meeus 1998: Example 3.d, p. 27
+        actualResult = TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, EXAMPLE_3D_VALUES);
+        assertEquals(-0.720759220056, actualResult.getAsDouble(), decimalAutoDelta(0.000000000001));
+
+        actualResult = TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, new double[] {2.0, 1.0, 2.0});
+        assertFalse(actualResult.isPresent());
+    }
+
+    @Test
     public void shouldValidateParameters() {
         assertThrows(IllegalArgumentException.class, () -> {
             TabularInterpolation.interpolate(new double[] {1.0, 2.0}, new double[] {3.0, 4.0}, 1.5);
@@ -64,6 +82,19 @@ public class TabularInterpolationTest {
         ));
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromThreeValuesAndFactor(
             new double[] {1.0, 2.0, 3.0, 4.0}, 0.1
+        ));
+
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+            new double[] {1.0, 2.0}, new double[] {1.0, 2.0, 3.0}
+        ));
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+            new double[] {1.0, 2.0, 3.0}, new double[] {1.0, 2.0}
+        ));
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+            new double[] {1.0, 2.0, 3.0, 4.0}, new double[] {1.0, 2.0, 3.0}
+        ));
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroValueArgumentFromThreePoints(
+            new double[] {1.0, 2.0, 3.0}, new double[] {1.0, 2.0, 3.0, 4.0}
         ));
     }
 }
