@@ -126,7 +126,7 @@ public abstract class Calcs {
          * @param scaleTurn     1 turn (round angle) in the same scale as the input angle
          * @return              normalized angle, in the same scale: [-1/2 turn, 1/2 turn)
          */
-        public static double toNormalSignedLongtiude(double angle, double scaleTurn) {
+        public static double toNormalSignedLongitude(double angle, double scaleTurn) {
             return angle - scaleTurn * Math.floor(angle / scaleTurn + 0.5);
         }
 
@@ -162,7 +162,7 @@ public abstract class Calcs {
          * @param radians   input angle, in radians
          * @return          normalized angle, in radians: [-π, π)
          */
-        public static double toNormalSignedLongtiude(double radians) {
+        public static double toNormalSignedLongitude(double radians) {
             return radians - TURN * Math.floor((radians + Math.PI) / TURN);
         }
 

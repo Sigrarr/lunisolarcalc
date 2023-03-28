@@ -108,7 +108,7 @@ public enum Subject {
      *
      * @see MoonEquatorialHorizontalParallaxCalculator
      */
-    MOON_EQUATORIAL_HORIZONTA_PARALLAX,
+    MOON_EQUATORIAL_HORIZONTAL_PARALLAX,
 
     /**
      * The Moon's apparent hour angle at the Greenwich meridian (H0).

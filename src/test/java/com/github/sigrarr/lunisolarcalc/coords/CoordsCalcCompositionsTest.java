@@ -110,7 +110,7 @@ public class CoordsCalcCompositionsTest {
         assertForNumber(sunHourAngle, Subject.SUN_HOUR_ANGLE);
         assertForNumber(moonLatitude, Subject.MOON_LATITUDE);
         assertForNumber(moonEarthDistance, Subject.MOON_EARTH_DISTANCE);
-        assertForNumber(moonEquatorialHorizontalParallax, Subject.MOON_EQUATORIAL_HORIZONTA_PARALLAX);
+        assertForNumber(moonEquatorialHorizontalParallax, Subject.MOON_EQUATORIAL_HORIZONTAL_PARALLAX);
         assertForNumber(moonApparentLongitude, Subject.MOON_APPARENT_LONGITUDE);
         assertForNumber(moonOverSunApparentLongitudeExcess, Subject.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS);
         assertForNumber(moonDeclination, Subject.MOON_DECLINATION);

@@ -17,13 +17,13 @@ public final class SunHourAngleCalculator implements Provider<Subject, TimelineP
     public static final Subject SUBJECT = Subject.SUN_HOUR_ANGLE;
 
     /**
-     * Calculates {@linkplain Subject#SUN_HOUR_ANGLE the Sun's hour angle at the Greenwich meridian (H0)}: [0, 360°).
+     * Calculates {@linkplain Subject#SUN_HOUR_ANGLE the Sun's hour angle at the Greenwich meridian (H0)}: [-180°, +180°).
      * Quick.
      *
      * @param siderealTimeDegrees   {@linkplain Subject#SIDEREAL_APPARENT_TIME sidereal time at the Greenwich meridian (θ0)}, in degrees
      * @param sunRightAscension     {@linkplain Subject#SUN_RIGHT_ASCENSION the Sun's right ascension (α)}, in radians
      * @return                      {@linkplain Subject#SUN_HOUR_ANGLE the Sun's hour angle at the Greenwich meridian (H0)},
-     *                              in degrees: [0, 360°)
+     *                              in degrees: [-180°, +180°)
      */
     public double calculate(double siderealTimeDegrees, double sunRightAscension) {
         return Transformations.calculateHourAngle(siderealTimeDegrees, Math.toDegrees(sunRightAscension), 360.0);

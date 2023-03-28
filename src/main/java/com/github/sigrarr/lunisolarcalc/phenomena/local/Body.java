@@ -5,16 +5,18 @@ import com.github.sigrarr.lunisolarcalc.util.Titled;
 
 public enum Body implements Titled {
 
-    MOON(Subject.MOON_RIGHT_ASCENSION, Subject.MOON_DECLINATION, "Moon"),
-    SUN(Subject.SUN_RIGHT_ASCENSION, Subject.SUN_DECLINATION, "Sun");
+    MOON(Subject.MOON_DECLINATION, Subject.MOON_RIGHT_ASCENSION, Subject.MOON_HOUR_ANGLE, "Moon"),
+    SUN(Subject.SUN_DECLINATION, Subject.SUN_RIGHT_ASCENSION, Subject.SUN_HOUR_ANGLE, "Sun");
 
-    final Subject rightAscensionSubject;
     final Subject declinationSubject;
+    final Subject rightAscensionSubject;
+    final Subject hourAngleSubject;
     private final String title;
 
-    private Body(Subject rightAscensionSubject, Subject declinationSubject, String title) {
-        this.rightAscensionSubject = rightAscensionSubject;
+    private Body(Subject declinationSubject, Subject rightAscensionSubject, Subject hourAngleSubject, String title) {
         this.declinationSubject = declinationSubject;
+        this.rightAscensionSubject = rightAscensionSubject;
+        this.hourAngleSubject = hourAngleSubject;
         this.title = title;
     }
 

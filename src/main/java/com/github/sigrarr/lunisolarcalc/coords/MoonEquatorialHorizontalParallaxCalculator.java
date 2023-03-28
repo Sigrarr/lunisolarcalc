@@ -7,7 +7,7 @@ import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of {@linkplain Subject#MOON_EQUATORIAL_HORIZONTA_PARALLAX the Moon's equatorial horizontal parallax (π)}.
+ * Calculator of {@linkplain Subject#MOON_EQUATORIAL_HORIZONTAL_PARALLAX the Moon's equatorial horizontal parallax (π)}.
  * Given required parameters, it's in itself quick.
  * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
@@ -18,11 +18,11 @@ public final class MoonEquatorialHorizontalParallaxCalculator implements Provide
     private static final double NUMERATOR_KMRAD = 6378.14;
 
     /**
-     * Calculates {@linkplain Subject#MOON_EQUATORIAL_HORIZONTA_PARALLAX the Moon's equatorial horizontal parallax (π)}.
+     * Calculates {@linkplain Subject#MOON_EQUATORIAL_HORIZONTAL_PARALLAX the Moon's equatorial horizontal parallax (π)}.
      * Quick.
      *
      * @param moonEarthDistance     {@linkplain Subject#MOON_EARTH_DISTANCE Moon-Earth distance (Δ)}, in kilometers
-     * @return                      {@linkplain Subject#MOON_EQUATORIAL_HORIZONTA_PARALLAX the Moon's equatorial horizontal parallax (π)},
+     * @return                      {@linkplain Subject#MOON_EQUATORIAL_HORIZONTAL_PARALLAX the Moon's equatorial horizontal parallax (π)},
      *                              in radians
      */
     public double calculate(double moonEarthDistance) {
@@ -31,7 +31,7 @@ public final class MoonEquatorialHorizontalParallaxCalculator implements Provide
 
     @Override
     public Subject provides() {
-        return Subject.MOON_EQUATORIAL_HORIZONTA_PARALLAX;
+        return Subject.MOON_EQUATORIAL_HORIZONTAL_PARALLAX;
     }
 
     @Override

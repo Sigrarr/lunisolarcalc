@@ -56,17 +56,17 @@ public class CalcsTest {
 
     @Test
     public void shouldNormalizeAngleToSignedLongitude() {
-        assertEquals(0.0, Calcs.Angle.toNormalSignedLongtiude(0.0), Calcs.EPSILON_12);
-        assertEquals(0.5 * Math.PI, Calcs.Angle.toNormalSignedLongtiude(0.5 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(-0.25 * Math.PI, Calcs.Angle.toNormalSignedLongtiude(1.75 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(0.75 * Math.PI, Calcs.Angle.toNormalSignedLongtiude(-3.25 * Math.PI), Calcs.EPSILON_12);
-        assertEquals(Math.PI, Math.abs(Calcs.Angle.toNormalSignedLongtiude(11 * Math.PI)), Calcs.EPSILON_12);
+        assertEquals(0.0, Calcs.Angle.toNormalSignedLongitude(0.0), Calcs.EPSILON_12);
+        assertEquals(0.5 * Math.PI, Calcs.Angle.toNormalSignedLongitude(0.5 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(-0.25 * Math.PI, Calcs.Angle.toNormalSignedLongitude(1.75 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(0.75 * Math.PI, Calcs.Angle.toNormalSignedLongitude(-3.25 * Math.PI), Calcs.EPSILON_12);
+        assertEquals(Math.PI, Math.abs(Calcs.Angle.toNormalSignedLongitude(11 * Math.PI)), Calcs.EPSILON_12);
 
-        assertEquals(0.0, Calcs.Angle.toNormalSignedLongtiude(0.0, 1.0), Calcs.EPSILON_12);
-        assertEquals(0.25, Calcs.Angle.toNormalSignedLongtiude(0.25, 1.0), Calcs.EPSILON_12);
-        assertEquals(-45, Calcs.Angle.toNormalSignedLongtiude(315, 360), Calcs.EPSILON_12);
-        assertEquals(135, Calcs.Angle.toNormalSignedLongtiude(-585, 360), Calcs.EPSILON_12);
-        assertEquals(0.5, Math.abs(Calcs.Angle.toNormalSignedLongtiude(5.5, 1.0)), Calcs.EPSILON_12);
+        assertEquals(0.0, Calcs.Angle.toNormalSignedLongitude(0.0, 1.0), Calcs.EPSILON_12);
+        assertEquals(0.25, Calcs.Angle.toNormalSignedLongitude(0.25, 1.0), Calcs.EPSILON_12);
+        assertEquals(-45, Calcs.Angle.toNormalSignedLongitude(315, 360), Calcs.EPSILON_12);
+        assertEquals(135, Calcs.Angle.toNormalSignedLongitude(-585, 360), Calcs.EPSILON_12);
+        assertEquals(0.5, Math.abs(Calcs.Angle.toNormalSignedLongitude(5.5, 1.0)), Calcs.EPSILON_12);
     }
 
     @Test

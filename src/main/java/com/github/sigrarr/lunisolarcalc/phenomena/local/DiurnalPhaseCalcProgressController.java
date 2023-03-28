@@ -1,67 +1,47 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.*;
-import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
+import com.github.sigrarr.lunisolarcalc.time.UniversalTimelinePoint;;
 
 class DiurnalPhaseCalcProgressController {
-
-    private final static Collector<DiurnalPhase, List<DiurnalPhase>, List<DiurnalPhase>> TO_UNMODIFIABLE_LIST = Collector.of(
-        ArrayList::new,
-        List::add,
-        (left, right) -> {
-            left.addAll(right);
-            return left;
-        },
-        Collections::unmodifiableList
-    );
 
     private final DiurnalPhaseCalcCore core;
     private List<DiurnalPhase> orderedPhasesInScope;
     private Iterator<DiurnalPhase> phaseIt;
     private DiurnalPhase currentPhase;
-    private boolean startFlag;
 
     DiurnalPhaseCalcProgressController(DiurnalPhaseCalcCore core) {
         this.core = core;
     }
 
     void reset() {
-        orderedPhasesInScope = core.getRequest().phases.stream().sorted().collect(TO_UNMODIFIABLE_LIST);
+        DiurnalPhaseCalcRequest request = core.getRequest();
+        orderedPhasesInScope = request.phases.stream().sorted().collect(Collectors.toList());
         phaseIt = orderedPhasesInScope.listIterator();
         currentPhase = phaseIt.next();
-        core.midnightTT.setCenter(DynamicalTimelinePoint.ofCalendarPoint(core.getRequest().baseMidnight));
-        core.midnightTT.setBack(core.midnightTT.getCenter().add(-1.0));
-        core.midnightTT.setFront(core.midnightTT.getCenter().add(+1.0));
-        core.equatorialCoords.clear();
-        core.dayLevel.recalculate();
-        core.iterationLevel.reset();;
-        startFlag = true;
+        core.dayValues.setBackBack(core.prepareDayValues(request.baseNoon.add(-2.0)));
+        core.dayValues.setBack(core.prepareDayValues(request.baseNoon.add(-1.0)));
+        core.dayValues.setCenter(core.prepareDayValues(request.baseNoon));
+        core.dayValues.setFront(core.prepareDayValues(request.baseNoon.add(+1.0)));
+        core.dayValues.setFrontFront(core.prepareDayValues(request.baseNoon.add(+2.0)));
     }
 
     void phaseForward() {
         if (!phaseIt.hasNext()) {
-            dateForward();
+            dayForward();
         }
         currentPhase = phaseIt.next();
-        core.iterationLevel.reset();
     }
 
-    void dateForward() {
+    void dayForward() {
         phaseIt = orderedPhasesInScope.listIterator();
-        core.midnightTT.push(core.midnightTT.getFront().add(1.0));
-        core.equatorialCoords.push(null);
-        core.dayLevel.recalculate();
+        UniversalTimelinePoint lastNoon = core.dayValues.getFrontFront().noon;
+        core.dayValues.push(core.prepareDayValues(lastNoon.add(1.0)));
     }
 
     DiurnalPhase getCurrentPhase() {
         return currentPhase;
-    }
-
-    boolean pullStartFlag() {
-        boolean pulledFlag = startFlag;
-        startFlag = false;
-        return pulledFlag;
     }
 }

@@ -2,23 +2,32 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
+import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-class DiurnalPhaseCalcRequest {
+public class DiurnalPhaseCalcRequest {
 
-    final CalendarPoint baseMidnight;
+    final UniversalTimelinePoint baseNoon;
     final double latitude;
     final double longitude;
     final Set<DiurnalPhase> phases;
+    final double precisionAngle;
 
-    DiurnalPhaseCalcRequest(CalendarPoint baseDate, GeoCoords geoCoords, Set<DiurnalPhase> phases) {
-        this.baseMidnight = reduceToMidnight(baseDate);
-        this.latitude = geoCoords.latitude;
-        this.longitude = geoCoords.longitude;
+    public DiurnalPhaseCalcRequest(CalendarPoint baseLocalDate, GeoCoords geoCoords, Set<DiurnalPhase> phases, double precisionAngle) {
+        this.baseNoon = getBaseNoon(baseLocalDate, geoCoords);
+        this.latitude = geoCoords.getPlanetographicLatitude();
+        this.longitude = geoCoords.getPlanetographicLongitude();
         this.phases = phases;
+        this.precisionAngle = precisionAngle;
     }
 
-    private CalendarPoint reduceToMidnight(CalendarPoint baseDate) {
-        return Double.compare(baseDate.getTime(), 0.0) == 0 ? baseDate : new CalendarPoint(baseDate.y, baseDate.m, baseDate.getDay());
+    private UniversalTimelinePoint getBaseNoon(CalendarPoint baseLocalDate, GeoCoords geoCoords) {
+        CalendarPoint baseLocalNoon = Double.compare(baseLocalDate.getTime(), 0.5) == 0 ?
+            baseLocalDate : new CalendarPoint(baseLocalDate.y, baseLocalDate.m, baseLocalDate.getDay() + 0.5);
+        return UniversalTimelinePoint.ofLocalTimeCalendarPoint(
+            baseLocalNoon,
+            geoCoords.getConventionalLongitude() / Calcs.TURN
+        );
     }
 }

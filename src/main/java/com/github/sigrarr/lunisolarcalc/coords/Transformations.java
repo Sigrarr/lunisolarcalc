@@ -69,25 +69,25 @@ public abstract class Transformations {
     }
 
     /**
-     * Determines the hour angle (H): [0, 1 turn).
+     * Determines the hour angle (H): [-1/2 turn, 1/2 turn).
      *
      * @param siderealTime      sidereal time (θ)
      * @param rightAscension    right ascension (α)
      * @param scaleTurn         1 turn (round angle) in the same scale as the previous arguments
-     * @return                  hour angle (H), in the same scale: [0, 1 turn)
+     * @return                  hour angle (H), in the same scale: [-1/2 turn, 1/2 turn)
      */
     public static double calculateHourAngle(double siderealTime, double rightAscension, double scaleTurn) {
-        return Calcs.Angle.toNormalLongitude(siderealTime - rightAscension, scaleTurn);
+        return Calcs.Angle.toNormalSignedLongitude(siderealTime - rightAscension, scaleTurn);
     }
 
     /**
-     * Determines the hour angle (H): [0, 2π).
+     * Determines the hour angle (H): [-π, π).
      *
      * @param siderealTime      sidereal time (θ), in radians
      * @param rightAscension    right ascension (α), in radians
-     * @return                  hour angle (H), in radians: [0, 2π)
+     * @return                  hour angle (H), in radians: [-π, π)
      */
     public static double calculateHourAngle(double siderealTime, double rightAscension) {
-        return Calcs.Angle.toNormalLongitude(siderealTime - rightAscension);
+        return Calcs.Angle.toNormalSignedLongitude(siderealTime - rightAscension);
     }
 }

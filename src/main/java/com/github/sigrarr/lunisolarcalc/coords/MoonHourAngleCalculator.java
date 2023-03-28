@@ -17,13 +17,13 @@ public final class MoonHourAngleCalculator implements Provider<Subject, Timeline
     public static final Subject SUBJECT = Subject.MOON_HOUR_ANGLE;
 
     /**
-     * Calculates {@linkplain Subject#MOON_HOUR_ANGLE the Moon's hour angle at the Greenwich meridian (H0)}: [0, 360°).
+     * Calculates {@linkplain Subject#MOON_HOUR_ANGLE the Moon's hour angle at the Greenwich meridian (H0)}: [-180°, +180°).
      * Quick.
      *
      * @param siderealTimeDegrees   {@linkplain Subject#SIDEREAL_APPARENT_TIME sidereal time at the Greenwich meridian (θ0)}, in degrees
      * @param moonRightAscension    {@linkplain Subject#MOON_RIGHT_ASCENSION the Moon's right ascension (α)}, in radians
      * @return                      {@linkplain Subject#MOON_HOUR_ANGLE the Moon's hour angle at the Greenwich meridian (H0)},
-     *                              in degrees: [0, 360°)
+     *                              in degrees: [-180°, +180°)
      */
     public double calculate(double siderealTimeDegrees, double moonRightAscension) {
         return Transformations.calculateHourAngle(siderealTimeDegrees, Math.toDegrees(moonRightAscension), 360.0);

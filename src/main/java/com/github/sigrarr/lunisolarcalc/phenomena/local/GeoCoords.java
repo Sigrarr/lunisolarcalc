@@ -29,7 +29,7 @@ public class GeoCoords {
 
     GeoCoords(double latitude, double longitude) {
         this.latitude = Calcs.Angle.toNormalLatitude(latitude);
-        this.longitude = Calcs.Angle.toNormalSignedLongtiude(longitude);
+        this.longitude = Calcs.Angle.toNormalSignedLongitude(longitude);
     }
 
     public static GeoCoords ofDegreesWithDirections(

@@ -64,7 +64,7 @@ public abstract class TabularInterpolation {
      * Seeks the zero point's argument by linear interpolation based on three tabular values.
      *
      * Unlike the Meeus's method, solves a quadratic equation (instead of
-     * starting with an approximate interpolation factor and correcting it in iterations).
+     * starting with an approximate interpolating factor and correcting it in iterations).
      *
      * @param arguments     array of three arguments of a function
      * @param values        array of three values corresponding to the arguments
@@ -73,6 +73,24 @@ public abstract class TabularInterpolation {
      *                      no zero point between the given arguments
      */
     public static OptionalDouble interpolateZeroPointArgumentFromThreePoints(double arguments[], double values[])
+    {
+        OptionalDouble factor = interpolateZeroPointFactorFromThreePoints(arguments, values);
+        return factor.isPresent() ? OptionalDouble.of(arguments[1] + factor.getAsDouble()) : factor;
+    }
+
+    /**
+     * Seeks the zero point's interpolating factor by linear interpolation based on three tabular values.
+     *
+     * Unlike the Meeus's method, solves a quadratic equation (instead of
+     * starting with an approximate interpolating factor and correcting it in iterations).
+     *
+     * @param arguments     array of three arguments of a function
+     * @param values        array of three values corresponding to the arguments
+     * @return              the interpolating factor for which the function's value should be zero,
+     *                      or an empty optional object if the function seems to have
+     *                      no zero point between the given arguments
+     */
+    public static OptionalDouble interpolateZeroPointFactorFromThreePoints(double arguments[], double values[])
     {
         if (arguments.length != 3 || values.length != 3)
             throw new IllegalArgumentException();
@@ -102,7 +120,7 @@ public abstract class TabularInterpolation {
             double factor2 = (-qB + qDSqrt)/(2 * qA);
             factor = Double.compare(Math.abs(factor1), Math.abs(factor2)) > 0 ? factor2 : factor1;
         }
-        return OptionalDouble.of(arguments[1] + factor);
+        return OptionalDouble.of(factor);
     }
 
     private static void validateGeneralParameters(double arguments[], double[] values, double x) {

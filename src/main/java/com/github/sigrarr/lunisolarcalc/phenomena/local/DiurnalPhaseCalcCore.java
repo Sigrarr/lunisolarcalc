@@ -1,114 +1,87 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
+import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcDayValues.*;
+
 import java.util.*;
-import java.util.function.*;
+import java.util.function.Supplier;
 
 import com.github.sigrarr.lunisolarcalc.coords.*;
-import com.github.sigrarr.lunisolarcalc.phenomena.UniversalOccurrence;
+import com.github.sigrarr.lunisolarcalc.phenomena.*;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.MultiOutputComposition;
 
-abstract class DiurnalPhaseCalcCore {
+abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurrence<BodyDiurnalPhase>>> {
 
-    final Supplier<Optional<UniversalOccurrence<BodyDiurnalPhase>>> occurrenceSupplier = new Supplier<Optional<UniversalOccurrence<BodyDiurnalPhase>>>() {
-        @Override public Optional<UniversalOccurrence<BodyDiurnalPhase>> get() {
-            OptionalDouble time = resolveNextTime();
-            if (!time.isPresent())
-                return Optional.empty();
-            UniversalTimelinePoint point = new UniversalTimelinePoint(midnightTT.getCenter().julianDay + time.getAsDouble());
-            BodyDiurnalPhase bodyDiurnalPhase = BodyDiurnalPhase.of(body, controller.getCurrentPhase());
-            return Optional.of(new UniversalOccurrence<>(point, bodyDiurnalPhase));
-        }
-    };
-
-    final Body body = specifyBody();
-    final FlexTriadBuffer<DynamicalTimelinePoint> midnightTT = new FlexTriadBuffer<>();
-    final FlexTriadBuffer<Map<Subject, ?>> equatorialCoords = new FlexTriadBuffer<>();
-    final DiurnalPhaseCalcProgressController controller = new DiurnalPhaseCalcProgressController(this);
-    final DiurnalPhaseCalcDayLevelValues dayLevel = new DiurnalPhaseCalcDayLevelValues(this);
-    final DiurnalPhaseCalcIterationLevelValues iterationLevel = new DiurnalPhaseCalcIterationLevelValues(this);
-    private final MultiOutputComposition<Subject, TimelinePoint> equatorialCoordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
-        body.rightAscensionSubject, body.declinationSubject
+    final Body body = prepareBody();
+    final FlexPentadBuffer<DiurnalPhaseCalcDayValues> dayValues = new FlexPentadBuffer<>();
+    final MultiOutputComposition<Subject, TimelinePoint> coordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
+        body.declinationSubject, body.rightAscensionSubject, body.hourAngleSubject,
+        Subject.EARTH_NUTUATION_IN_LONGITUDE, Subject.ECLIPTIC_TRUE_OBLIQUITY
     ));
-    private final SingleOutputComposition<Subject, TimelinePoint> siderealTimeCalc = CoordsCalcCompositions.compose(
-        Subject.SIDEREAL_APPARENT_TIME
-    );
+    final DiurnalPhaseCalcCoordsCombiner coordsCombiner = new DiurnalPhaseCalcCoordsCombiner(this);
 
+    private final DiurnalPhaseCalcTransitResolver transitResolver = new DiurnalPhaseCalcTransitResolver(this);
+    private final DiurnalPhaseCalcExtremeApproximator extremeApproximator = new DiurnalPhaseCalcExtremeApproximator(this);
+    private final DiurnalPhaseCalcExtremeFinder extremeFinder = prepareExtremeFinder();
+    private final DiurnalPhaseCalcProgressController progress = new DiurnalPhaseCalcProgressController(this);
     private DiurnalPhaseCalcRequest request;
-    boolean approximationMode = false;
 
-    OptionalDouble resolveNextTime() {
-        if (!controller.pullStartFlag())
-            controller.phaseForward();
-        if (!dayLevel.areDiurnalPhasesPresent())
-            return OptionalDouble.empty();
-
-        double initialM;
-        DoubleUnaryOperator mCorrectionFunction;
-        switch (controller.getCurrentPhase()) {
-            case RISE:
-                initialM = dayLevel.calculateInitialRiseM();
-                mCorrectionFunction = iterationLevel::calculateRise;
-                break;
-            case SET:
-                initialM = dayLevel.calculateInitialSetM();
-                mCorrectionFunction = iterationLevel::calculateSet;
-                break;
-            case TRANSIT:
-            default:
-                initialM = dayLevel.initialTransitM;
-                mCorrectionFunction = iterationLevel::calculateTransit;
-                break;
-        }
-
-        double m = approximationMode ? initialM : calculateCorrectM(initialM, mCorrectionFunction);
-        return OptionalDouble.of(m);
-    }
-
-    void reset(DiurnalPhaseCalcRequest request) {
+    public void reset(DiurnalPhaseCalcRequest request) {
         this.request = request;
-        controller.reset();
+        progress.reset();
     }
 
-    private double calculateCorrectM(double initialM, DoubleUnaryOperator mCorrectionFunction) {
-        iterationLevel.reset();
-        double m = mCorrectionFunction.applyAsDouble(initialM);
-        while (doesNeedNextCorrection()) {
-            m = mCorrectionFunction.applyAsDouble(m);
-        }
-        return m;
+    @Override
+    public Optional<UniversalOccurrence<BodyDiurnalPhase>> get() {
+        DiurnalPhase phase = progress.getCurrentPhase();
+        Optional<TimelinePoint> result = phase.isExtreme() ? resolveExtremePhase(phase) : Optional.of(resolveTransit());
+
+        progress.phaseForward();
+
+        return result.isPresent() ?
+            Optional.of(new UniversalOccurrence<>(result.get(), BodyDiurnalPhase.of(body, phase)))
+            : Optional.empty();
     }
 
-    abstract boolean doesNeedNextCorrection();
+    private TimelinePoint resolveTransit() {
+        DiurnalPhaseCalcDayValues dayValues = getDay(0);
+        double vector = transitResolver.findCentralNoonToTransitVector();
+        dayValues.set(NOON_TO_TRANSIT_VECTOR, vector);
+        return dayValues.noon.add(vector);
+    }
+
+    private Optional<TimelinePoint> resolveExtremePhase(DiurnalPhase phase) {
+        OptionalDouble transitToApproximateVector = extremeApproximator.approximateVectorFromTransitToExtremePhase(phase.direction);
+        if (!transitToApproximateVector.isPresent())
+            return Optional.empty();
+        OptionalDouble noonToPhaseVector = extremeFinder.findNoonToExtremePhaseVector(phase, transitToApproximateVector.getAsDouble());
+        if (!noonToPhaseVector.isPresent())
+            return Optional.empty();
+        return Optional.of(getDay(0).noon.add(noonToPhaseVector.getAsDouble()));
+    }
 
     DiurnalPhaseCalcRequest getRequest() {
         return request;
     }
 
-    abstract Body specifyBody();
+    abstract protected Body prepareBody();
 
-    abstract double getCenterStandardAltitude();
+    abstract protected DiurnalPhaseCalcExtremeFinder prepareExtremeFinder();
 
-    double getCenterUniversalMidnightSiderealTimeDegrees() {
-        return (Double) siderealTimeCalc.calculate(midnightTT.getCenter().add(dayLevel.deltaTDays));
+    protected DiurnalPhaseCalcDayValues prepareDayValues(UniversalTimelinePoint noon) {
+        return new DiurnalPhaseCalcDayValues(this, noon);
     }
 
-    Map<Subject, ?> getBackEquatorialCoords() {
-        if (!equatorialCoords.hasBack())
-            equatorialCoords.setBack(equatorialCoordsCalc.calculate(midnightTT.getBack()));
-        return equatorialCoords.getBack();
+    abstract protected double getNoonStandardAltitude(int dayPosition);
+
+    double getCloseNoonToTransitVector(int dayPosition) {
+        if (dayPosition > 1 || dayPosition < -1)
+            throw new IllegalArgumentException();
+        return getDay(dayPosition).get(NOON_TO_TRANSIT_VECTOR, () -> transitResolver.findCloseNoonToTransitVector(dayPosition));
     }
 
-    Map<Subject, ?> getCenterEquatorialCoords() {
-        if (!equatorialCoords.hasCenter())
-            equatorialCoords.setCenter(equatorialCoordsCalc.calculate(midnightTT.getCenter()));
-        return equatorialCoords.getCenter();
-    }
-
-    Map<Subject, ?> getFrontEquatorialCoords() {
-        if (!equatorialCoords.hasFront())
-            equatorialCoords.setFront(equatorialCoordsCalc.calculate(midnightTT.getFront()));
-        return equatorialCoords.getFront();
+    DiurnalPhaseCalcDayValues getDay(int dayPosition) {
+        return dayValues.get(dayPosition + 2);
     }
 }

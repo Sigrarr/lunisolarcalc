@@ -18,27 +18,6 @@ public class FlexTriadBuffer<T> {
     public FlexTriadBuffer() {}
 
     /**
-     * Constructs a triad with a single element ("back"/first).
-     *
-     * @param back  an element ("back"/frirst)
-     */
-    public FlexTriadBuffer(T back) {
-        elements[0] = back;
-    }
-
-    /**
-     * Constructs a triad with two elements
-     * ("back"/first and "center"/second).
-     *
-     * @param back      an element ("back"/first)
-     * @param center    an element ("center"/second)
-     */
-    public FlexTriadBuffer(T back, T center) {
-        elements[0] = back;
-        elements[1] = center;
-    }
-
-    /**
      * Constructs a triad with three elements
      * ("back"/first, "center"/second and "front"/third).
      *
@@ -71,8 +50,7 @@ public class FlexTriadBuffer<T> {
     }
 
     /**
-     * Gets the front (third) element
-     * (or throws an {@link IllegalStateException} if it is not set yet).
+     * Gets the front (third) element.
      *
      * @return  the front (third) element (null, if absent)
      */
@@ -90,24 +68,6 @@ public class FlexTriadBuffer<T> {
 
     public void setFront(T newElement) {
         elements[2] = newElement;
-    }
-
-    public void add(T newElement) {
-        for (int i = 0; i < 3; i++)
-            if (elements[i] == null) {
-                elements[i] = newElement;
-                return;
-            }
-        push(newElement);
-    }
-
-    public void addFromFront(T newElement) {
-        for (int i = 2; i >= 0; i--)
-            if (elements[i] == null) {
-                elements[i] = newElement;
-                return;
-            }
-        pushFromBack(newElement);
     }
 
     public void push(T newElement) {
@@ -174,13 +134,6 @@ public class FlexTriadBuffer<T> {
     public boolean isEmpty() {
         for (T element : elements)
             if (element != null)
-                return false;
-        return true;
-    }
-
-    public boolean isNormal() {
-        for (int i = 0; i < 2; i++)
-            if (elements[i] == null && elements[i + 1] != null)
                 return false;
         return true;
     }

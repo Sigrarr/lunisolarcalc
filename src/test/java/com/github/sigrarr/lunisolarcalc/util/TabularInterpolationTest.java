@@ -46,14 +46,15 @@ public class TabularInterpolationTest {
     }
 
     @Test
-    public void shouldInterpolateZeroPointArgument() {
+    public void shouldInterpolateZeroPoint() {
         // Meeus 1998: Example 3.c, p. 26
         OptionalDouble actualResult = TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3C_ARGUMENTS, EXAMPLE_3C_VALUES);
         assertEquals(26.79873, actualResult.getAsDouble(), decimalAutoDelta(0.00001));
 
         // Meeus 1998: Example 3.d, p. 27
-        actualResult = TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, EXAMPLE_3D_VALUES);
+        actualResult = TabularInterpolation.interpolateZeroPointFactorFromThreePoints(EXAMPLE_3D_ARGUMENTS, EXAMPLE_3D_VALUES);
         assertEquals(-0.720759220056, actualResult.getAsDouble(), decimalAutoDelta(0.000000000001));
+        assertEquals(actualResult, TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, EXAMPLE_3D_VALUES));
 
         actualResult = TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(EXAMPLE_3D_ARGUMENTS, new double[] {2.0, 1.0, 2.0});
         assertFalse(actualResult.isPresent());
