@@ -2,6 +2,7 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static com.github.sigrarr.lunisolarcalc.util.calccomposition.ExampleComponents.completeComposer;
+import static com.github.sigrarr.lunisolarcalc.util.calccomposition.ExampleComponents.completeReverseComposer;
 
 import java.util.*;
 
@@ -44,6 +45,33 @@ public class CompositionBuilderTest {
             assertProperOrderAndNoDuplicates(nodes);
             assertEquals(SUBJECT_SET_TO_EXPECTED_NODE_NUMBER.get(subjectSet), nodes.size());
         }
+    }
+
+    @Test
+    public void shouldProperlyMarkTargets() {
+        assertEquals(
+            ExampleSubject.B,
+            completeComposer.compose(ExampleSubject.B)
+                .unmodifableOrderedNodes.stream()
+                .filter(cn -> cn.isTarget)
+                .findAny().get().calculator.provides()
+        );
+
+        assertArrayEquals(
+            new ExampleSubject[] {ExampleSubject.A, ExampleSubject.C},
+            completeComposer.compose(EnumSet.of(ExampleSubject.A, ExampleSubject.C))
+            .unmodifableOrderedNodes.stream()
+            .filter(cn -> cn.isTarget).map(cn -> cn.calculator.provides())
+            .sorted().toArray()
+        );
+
+        assertArrayEquals(
+            new ExampleSubject[] {ExampleSubject.A, ExampleSubject.F},
+            completeReverseComposer.compose(EnumSet.of(ExampleSubject.A, ExampleSubject.F))
+            .unmodifableOrderedNodes.stream()
+            .filter(cn -> cn.isTarget).map(cn -> cn.calculator.provides())
+            .sorted().toArray()
+        );
     }
 
     @Test

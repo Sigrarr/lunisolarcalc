@@ -29,6 +29,14 @@ class ExampleComponents {
         register(new EDependentOnBCProvider());
         register(new FDependentOnADEProvider());
     }};
+    static CalculationComposer<ExampleSubject, Integer> completeReverseComposer = new CalculationComposer<ExampleSubject, Integer>(ExampleSubject.class) {{
+        register(new ExampleReverseProvider.A());
+        register(new ExampleReverseProvider.B());
+        register(new ExampleReverseProvider.C());
+        register(new ExampleReverseProvider.D());
+        register(new ExampleReverseProvider.E());
+        register(new ExampleReverseProvider.F());
+    }};
 
     static abstract class ExampleProvider implements Provider<ExampleSubject, Integer> {
 
@@ -134,6 +142,63 @@ class ExampleComponents {
 
         @Override public ExampleSubject provides() {
             return ExampleSubject.F;
+        }
+    }
+
+    static class ExampleReverseProvider {
+        static class A extends ExampleProvider {
+            @Override public EnumSet<ExampleSubject> requires() {
+                return EnumSet.of(ExampleSubject.D, ExampleSubject.F);
+            }
+
+            @Override public ExampleSubject provides() {
+                return ExampleSubject.A;
+            }
+        }
+        static class B extends ExampleProvider {
+            @Override public EnumSet<ExampleSubject> requires() {
+                return EnumSet.of(ExampleSubject.E);
+            }
+
+            @Override public ExampleSubject provides() {
+                return ExampleSubject.B;
+            }
+        }
+        static class C extends ExampleProvider {
+            @Override public EnumSet<ExampleSubject> requires() {
+                return EnumSet.of(ExampleSubject.E);
+            }
+
+            @Override public ExampleSubject provides() {
+                return ExampleSubject.C;
+            }
+        }
+        static class D extends ExampleProvider {
+            @Override public EnumSet<ExampleSubject> requires() {
+                return EnumSet.of(ExampleSubject.F);
+            }
+
+            @Override public ExampleSubject provides() {
+                return ExampleSubject.D;
+            }
+        }
+        static class E extends ExampleProvider {
+            @Override public EnumSet<ExampleSubject> requires() {
+                return EnumSet.of(ExampleSubject.F);
+            }
+
+            @Override public ExampleSubject provides() {
+                return ExampleSubject.E;
+            }
+        }
+        static class F extends ExampleProvider {
+            @Override public EnumSet<ExampleSubject> requires() {
+                return EnumSet.noneOf(ExampleSubject.class);
+            }
+
+            @Override public ExampleSubject provides() {
+                return ExampleSubject.F;
+            }
         }
     }
 

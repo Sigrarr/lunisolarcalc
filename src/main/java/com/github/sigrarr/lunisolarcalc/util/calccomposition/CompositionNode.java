@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 final class CompositionNode<SubjectT extends Enum<SubjectT>, InT> extends Node<SubjectT, InT> implements Comparable<CompositionNode<SubjectT, InT>> {
 
     protected final int id;
-    protected final boolean isTarget;
+    protected boolean isTarget;
     protected int weight = 1;
 
     CompositionNode(Provider<SubjectT, InT> calculator, int id, boolean isTarget) {

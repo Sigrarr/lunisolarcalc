@@ -50,14 +50,17 @@ class CompositionBuilder<SubjectT extends Enum<SubjectT>, InT> {
         return getCompositionNode(registerNode, false);
     }
 
-    private CompositionNode<SubjectT, InT> getCompositionNode(RegisterNode<SubjectT, InT> registerNode, boolean isTarget) {
+    private CompositionNode<SubjectT, InT> getCompositionNode(RegisterNode<SubjectT, InT> registerNode, boolean markTarget) {
+        CompositionNode<SubjectT, InT> node;
         if (nodeMap.containsKey(registerNode)) {
-            return nodeMap.get(registerNode);
+            node = nodeMap.get(registerNode);
+            if (markTarget)
+                node.isTarget = true;
+        } else {
+            node = new CompositionNode<>(registerNode.calculator.getInstanceForNewComposition(), nodeMap.size(), markTarget);
+            nodeMap.put(registerNode, node);
         }
-
-        CompositionNode<SubjectT, InT> newNode = new CompositionNode<>(registerNode.calculator.getInstanceForNewComposition(), nodeMap.size(), isTarget);
-        nodeMap.put(registerNode, newNode);
-        return newNode;
+        return node;
     }
 
     private void validateRegisterNode(RegisterNode<SubjectT, InT> registerNode, String dependersPath, char nodeCode) {
