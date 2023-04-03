@@ -4,7 +4,7 @@ import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcD
 
 import java.util.function.DoubleUnaryOperator;
 
-import com.github.sigrarr.lunisolarcalc.util.Calcs;
+import com.github.sigrarr.lunisolarcalc.util.*;
 
 class DiurnalPhaseCalcTransitResolver {
 
@@ -41,9 +41,16 @@ class DiurnalPhaseCalcTransitResolver {
             : approximateNoonToTransitVector(dayPosition);
         double lha = lhaEvaluation.applyAsDouble(vector);
 
-        while (Double.compare(Math.abs(lha), core.getRequest().precisionAngle) > 0) {
-            vector -= lha / Calcs.TURN;
+        DoubleStrictPairBuffer correction = new DoubleStrictPairBuffer(vector);
+        correction.push(-lha/Calcs.TURN);
+
+        while (
+            Double.compare(Math.abs(lha), core.getRequest().precisionAngle) > 0
+            && Double.compare(Math.abs(correction.getCurrent()), Math.abs(correction.getPrevious())) < 0
+        ) {
+            vector += correction.getCurrent();
             lha = lhaEvaluation.applyAsDouble(vector);
+            correction.push(-lha/Calcs.TURN);
         }
 
         return vector;

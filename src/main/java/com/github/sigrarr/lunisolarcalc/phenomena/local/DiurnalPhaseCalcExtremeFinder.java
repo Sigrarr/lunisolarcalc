@@ -14,30 +14,35 @@ abstract class DiurnalPhaseCalcExtremeFinder {
 
     OptionalDouble findNoonToExtremePhaseVector(DiurnalPhase phase, double transitToPhaseApproximateVector) {
         double vector = core.getCloseNoonToTransitVector(0) + transitToPhaseApproximateVector;
-        double diff = calculateDiffOverStandardAltitude(vector);
+        double diff = combineDiffOverStandardAltitude(vector);
         double interval = 0.5 / 24.0;
+        DoubleStrictPairBuffer correction = new DoubleStrictPairBuffer(interval);
 
         while (Double.compare(Math.abs(diff), core.getRequest().precisionAngle) > 0) {
             OptionalDouble correctionInIntervalScale = TabularInterpolation.interpolateZeroPointFactorFromThreePoints(
                 new double[] {-interval, 0.0, +interval},
                 new double [] {
-                    calculateDiffOverStandardAltitude(vector - interval),
+                    combineDiffOverStandardAltitude(vector - interval),
                     diff,
-                    calculateDiffOverStandardAltitude(vector + interval)
+                    combineDiffOverStandardAltitude(vector + interval)
                 }
             );
             if (!correctionInIntervalScale.isPresent())
                 return OptionalDouble.empty();
 
-            vector += correctionInIntervalScale.getAsDouble() * interval;
-            diff = calculateDiffOverStandardAltitude(vector);
+            correction.push(correctionInIntervalScale.getAsDouble() * interval);
+            if (Double.compare(Math.abs(correction.getCurrent()), Math.abs(correction.getPrevious())) >= 0)
+                break;
+
+            vector += correction.getCurrent();
+            diff = combineDiffOverStandardAltitude(vector);
             interval *= 0.5;
         }
 
         return OptionalDouble.of(vector);
     }
 
-    private double calculateDiffOverStandardAltitude(double vector) {
+    private double combineDiffOverStandardAltitude(double vector) {
         double altitude = core.coordsCombiner.combineCentralAltitude(vector);
         double standardAltitude = resolveCentralStandardAltitude(vector);
         return altitude - standardAltitude;
