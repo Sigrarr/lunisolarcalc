@@ -43,12 +43,13 @@ class DiurnalPhaseCalcCoordsCombiner {
     }
 
     double interpolateCentralCoord(int coordKey, double vectorFromCenter) {
-        // TODO use 5 values
-        return TabularInterpolation.interpolateFromThreeValuesAndFactor(
+        return TabularInterpolation.interpolateFromFiveValuesAndFactor(
             new double[] {
+                core.getDay(-2).getCoord(coordKey),
                 core.getDay(-1).getCoord(coordKey),
                 core.getDay(0).getCoord(coordKey),
                 core.getDay(+1).getCoord(coordKey),
+                core.getDay(+2).getCoord(coordKey),
             },
             vectorFromCenter
         );

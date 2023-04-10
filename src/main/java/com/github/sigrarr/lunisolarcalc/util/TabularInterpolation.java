@@ -3,13 +3,13 @@ package com.github.sigrarr.lunisolarcalc.util;
 import java.util.*;
 
 /**
- * Simple interpolation based on three tabular values.
+ * Simple interpolation based on three or five tabular values.
  *
  * @see "Meeus 1998: Ch. 3 (pp. 23-25)"
  */
 public abstract class TabularInterpolation {
     /**
-     * Performs simple interpolation based on three tabular values.
+     * Performs simple interpolation based on three or five tabular values.
      *
      * The passed arrays of arguments and values may be longer,
      * the base points will be then selected automatically.
@@ -26,18 +26,31 @@ public abstract class TabularInterpolation {
 
         int centerIndex = -1;
         double interpolatingFactor = Double.MAX_VALUE;
-        for (int i = 1; i < arguments.length - 1; i++) {
+        for (int i = arguments.length - 2; i > 0; i--) {
             double argumentDiff = x - arguments[i];
             if (Math.abs(argumentDiff) < Math.abs(interpolatingFactor)) {
                 centerIndex = i;
                 interpolatingFactor = argumentDiff;
-            }
+            } else break;
         }
 
-        return interpolateFromThreeValuesAndFactor(
-            Arrays.copyOfRange(values, centerIndex - 1, centerIndex + 2),
-            interpolatingFactor
-        );
+        double interval = Math.abs(arguments[centerIndex] - arguments[centerIndex + 1]);
+        if (Double.compare(interval, 1.0) != 0)
+            interpolatingFactor = interpolatingFactor / interval;
+
+        boolean fiveValuesMode = values.length >= 5
+            && centerIndex >= 2
+            && centerIndex <= values.length - 3;
+
+        return fiveValuesMode ?
+            interpolateFromFiveValuesAndFactor(
+                Arrays.copyOfRange(values, centerIndex - 2, centerIndex + 3),
+                interpolatingFactor
+            )
+            : interpolateFromThreeValuesAndFactor(
+                Arrays.copyOfRange(values, centerIndex - 1, centerIndex + 2),
+                interpolatingFactor
+            );
     }
 
     /**
@@ -58,6 +71,38 @@ public abstract class TabularInterpolation {
         double c = b - a;
 
         return values[1] + 0.5 * interpolatingFactor * (a + b + interpolatingFactor * c);
+    }
+
+    /**
+     * Performs simple interpolation based on five tabular values.
+     *
+     * @param values                array of five known values of a function
+     * @param interpolatingFactor   interpolating factor (presumably the distance between
+     *                              the argument of the middle value and the argument
+     *                              whose value is to be found)
+     * @return                      interpolated value
+     */
+    public static double interpolateFromFiveValuesAndFactor(double[] values, double interpolatingFactor) {
+        if (values.length != 5)
+            throw new IllegalArgumentException();
+
+        double a = values[1] - values[0];
+        double b = values[2] - values[1];
+        double c = values[3] - values[2];
+        double d = values[4] - values[3];
+        double e = b - a;
+        double f = c - b;
+        double g = d - c;
+        double h = f - e;
+        double j = g - f;
+        double k = j - h;
+
+        double n2 = interpolatingFactor * interpolatingFactor;
+        return values[2]
+            + interpolatingFactor / 2.0 * (b + c)
+            + n2 / 2.0 * f
+            + interpolatingFactor * (n2 - 1) / 12.0 * (h + j)
+            + n2 * (n2 - 1) / 24.0  * k;
     }
 
     /**

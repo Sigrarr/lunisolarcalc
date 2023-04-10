@@ -20,6 +20,14 @@ public class TabularInterpolationTest {
     private static final double[] EXAMPLE_3C_VALUES = {-(28.0*60 + 13.4), 6.0*60 + 46.3, 38*60 + 23.2};
     private static final double[] EXAMPLE_3D_ARGUMENTS = {-1.0, 0.0, 1.0};
     private static final double[] EXAMPLE_3D_VALUES = {-2.0, 3.0, 2.0};
+    private static final double[] EXAMPLE_3E_ARGUMENTS = {27.0, 27.5, 28.0, 28.5, 29.0};
+    private static final double[] EXAMPLE_3E_VALUES = {
+        Calcs.Angle.toSingleArcsecondsValue(0, 54, 36.125),
+        Calcs.Angle.toSingleArcsecondsValue(0, 54, 24.606),
+        Calcs.Angle.toSingleArcsecondsValue(0, 54, 15.486),
+        Calcs.Angle.toSingleArcsecondsValue(0, 54,  8.694),
+        Calcs.Angle.toSingleArcsecondsValue(0, 54,  4.133),
+    };
 
     @Test
     public void shouldInterpolateFromThreeValuesAndFactor() {
@@ -38,11 +46,26 @@ public class TabularInterpolationTest {
     }
 
     @Test
+    public void shouldInterpolateFromFiveValuesAndFactor() {
+        // Meeus 1998: Example 3.e, pp. 28-29
+        double n = (3.0 + 1.0/3.0) / 12.0;
+        double actualResult = TabularInterpolation.interpolateFromFiveValuesAndFactor(EXAMPLE_3E_VALUES, n);
+        double expectedResult = Calcs.Angle.toSingleArcsecondsValue(0, 54, 13.369);
+        assertEquals(expectedResult, actualResult, decimalAutoDelta(0.001));
+    }
+
+    @Test
     public void shouldInterpolateFromGeneralParameters() {
         // Meeus 1998: Example 3.a, p. 25
         double x = 8.0 + Time.timeToDays(4, 21, 0);
         double actualResult = TabularInterpolation.interpolate(EXAMPLE_3A_ARGUMENTS, EXAMPLE_3A_VALUES, x);
         assertEquals(0.876125, actualResult, decimalAutoDelta(0.000001));
+
+        // Meeus 1998: Example 3.e, pp. 28-29
+        x = 28.0 + Time.timeToDays(3, 20, 0);
+        actualResult = TabularInterpolation.interpolate(EXAMPLE_3E_ARGUMENTS, EXAMPLE_3E_VALUES, x);
+        double expectedResult = Calcs.Angle.toSingleArcsecondsValue(0, 54, 13.369);
+        assertEquals(expectedResult, actualResult, decimalAutoDelta(0.001));
     }
 
     @Test
@@ -83,6 +106,13 @@ public class TabularInterpolationTest {
         ));
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromThreeValuesAndFactor(
             new double[] {1.0, 2.0, 3.0, 4.0}, 0.1
+        ));
+
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromFiveValuesAndFactor(
+            new double[] {1.0, 2.0, 3.0, 4.0}, 0.1
+        ));
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromFiveValuesAndFactor(
+            new double[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0}, 0.1
         ));
 
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(

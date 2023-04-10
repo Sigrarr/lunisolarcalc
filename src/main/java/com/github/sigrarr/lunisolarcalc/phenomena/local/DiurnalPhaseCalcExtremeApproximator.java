@@ -103,12 +103,13 @@ class DiurnalPhaseCalcExtremeApproximator {
     }
 
     private double interpolateCentralExtremeLocalHourAngleCos(double vectorFromCenter) {
-        // TODO use 5 values
-        return TabularInterpolation.interpolateFromThreeValuesAndFactor(
+        return TabularInterpolation.interpolateFromFiveValuesAndFactor(
             new double[] {
+                getNoonExtremeLocalHourAngleCos(-2),
                 getNoonExtremeLocalHourAngleCos(-1),
                 getNoonExtremeLocalHourAngleCos(0),
-                getNoonExtremeLocalHourAngleCos(+1)
+                getNoonExtremeLocalHourAngleCos(+1),
+                getNoonExtremeLocalHourAngleCos(+2),
             },
             vectorFromCenter
         );

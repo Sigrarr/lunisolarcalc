@@ -38,12 +38,13 @@ class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
     protected DiurnalPhaseCalcExtremeFinder prepareExtremeFinder() {
         return new DiurnalPhaseCalcExtremeFinder(this) {
             @Override protected double resolveCentralStandardAltitude(double vectorFromCenter) {
-                // TODO use 5 values
-                return TabularInterpolation.interpolateFromThreeValuesAndFactor(
+                return TabularInterpolation.interpolateFromFiveValuesAndFactor(
                     new double[] {
+                        getNoonStandardAltitude(-2),
                         getNoonStandardAltitude(-1),
                         getNoonStandardAltitude(0),
-                        getNoonStandardAltitude(+1)
+                        getNoonStandardAltitude(+1),
+                        getNoonStandardAltitude(+2),
                     },
                     vectorFromCenter
                 );
