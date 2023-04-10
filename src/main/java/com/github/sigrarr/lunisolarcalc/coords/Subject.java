@@ -112,7 +112,7 @@ public enum Subject {
 
     /**
      * The Moon's apparent hour angle at the Greenwich meridian (H0).
-     * An equatorial coordinate. Presumably in degrees.
+     * An equatorial coordinate. Presumably in radians.
      *
      * @see MoonHourAngleCalculator
      */
@@ -200,7 +200,7 @@ public enum Subject {
 
     /**
      * The Sun's apparent hour angle at the Greenwich meridian (H0).
-     * An equatorial coordinate. Presumably in degrees.
+     * An equatorial coordinate. Presumably in radians.
      *
      * @see SunHourAngleCalculator
      */

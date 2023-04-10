@@ -56,7 +56,6 @@ public class TransformationsTest {
     public void shouldCalculateH() {
         // Meeus 1998: Example 13.b, p. 95
         double refLongitude = 360.0 * Calcs.Time.timeToDays(5, 8, 15.7);
-        // Calcs.Angle.toSingleDegreesValue(77, 3, 56);
         double refThetaZero = 360.0 * Calcs.Time.timeToDays(8, 34, 56.853);
         double refImpliedTheta = refThetaZero - refLongitude;
         double refAlpha = 360.0 * Calcs.Time.timeToDays(23, 9, 16.641);

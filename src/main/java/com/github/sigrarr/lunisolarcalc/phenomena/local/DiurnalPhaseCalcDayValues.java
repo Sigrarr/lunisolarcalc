@@ -52,7 +52,7 @@ class DiurnalPhaseCalcDayValues {
     protected void loadCoords() {
         Map<Subject, Object> values = core.coordsCalc.calculate(noon);
         coordValues[COORD_NOON_LOCAL_HOUR_ANGLE] = Calcs.Angle.toNormalSignedLongitude(
-            Math.toRadians((Double) values.get(core.body.hourAngleSubject)) - core.getRequest().longitude
+            (Double) values.get(core.body.hourAngleSubject) - core.getRequest().longitude
         );
         coordValues[COORD_NOON_DECLINATION] = (Double) values.get(core.body.declinationSubject);
         coordValues[COORD_NOON_RIGHT_ASCENSION] = (Double) values.get(core.body.rightAscensionSubject);
