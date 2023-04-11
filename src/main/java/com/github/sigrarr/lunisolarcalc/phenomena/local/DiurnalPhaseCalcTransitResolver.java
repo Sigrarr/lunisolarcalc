@@ -45,7 +45,7 @@ class DiurnalPhaseCalcTransitResolver {
         correction.push(-lha/Calcs.TURN);
 
         while (
-            Double.compare(Math.abs(lha), core.getRequest().precisionAngle) > 0
+            Double.compare(Math.abs(lha), core.getRequest().precisionRadians) > 0
             && Double.compare(Math.abs(correction.getCurrent()), Math.abs(correction.getPrevious())) < 0
         ) {
             vector += correction.getCurrent();

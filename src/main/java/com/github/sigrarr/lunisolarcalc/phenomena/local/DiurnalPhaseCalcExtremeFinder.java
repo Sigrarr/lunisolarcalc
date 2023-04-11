@@ -6,6 +6,7 @@ import com.github.sigrarr.lunisolarcalc.util.*;
 
 abstract class DiurnalPhaseCalcExtremeFinder {
 
+    private static final double INITIAL_INTERVAL_HOURS = 0.5;
     protected final DiurnalPhaseCalcCore core;
 
     DiurnalPhaseCalcExtremeFinder(DiurnalPhaseCalcCore core) {
@@ -14,17 +15,17 @@ abstract class DiurnalPhaseCalcExtremeFinder {
 
     OptionalDouble findNoonToExtremePhaseVector(DiurnalPhase phase, double transitToPhaseApproximateVector) {
         double vector = core.getCloseNoonToTransitVector(0) + transitToPhaseApproximateVector;
-        double diff = combineDiffOverStandardAltitude(vector);
-        double interval = 0.5 / 24.0;
+        double excess = combineExcessOverStandardAltitude(vector);
+        double interval = INITIAL_INTERVAL_HOURS / 24.0;
         DoubleStrictPairBuffer correction = new DoubleStrictPairBuffer(interval);
 
-        while (Double.compare(Math.abs(diff), core.getRequest().precisionAngle) > 0) {
+        while (Double.compare(Math.abs(excess), core.getRequest().precisionRadians) > 0) {
             OptionalDouble correctionInIntervalScale = TabularInterpolation.interpolateZeroPointFactorFromThreePoints(
                 new double[] {-interval, 0.0, +interval},
                 new double [] {
-                    combineDiffOverStandardAltitude(vector - interval),
-                    diff,
-                    combineDiffOverStandardAltitude(vector + interval)
+                    combineExcessOverStandardAltitude(vector - interval),
+                    excess,
+                    combineExcessOverStandardAltitude(vector + interval)
                 }
             );
             if (!correctionInIntervalScale.isPresent())
@@ -35,14 +36,14 @@ abstract class DiurnalPhaseCalcExtremeFinder {
                 break;
 
             vector += correction.getCurrent();
-            diff = combineDiffOverStandardAltitude(vector);
-            interval *= 0.5;
+            excess = combineExcessOverStandardAltitude(vector);
+            interval *= 0.25;
         }
 
         return OptionalDouble.of(vector);
     }
 
-    private double combineDiffOverStandardAltitude(double vector) {
+    private double combineExcessOverStandardAltitude(double vector) {
         double altitude = core.coordsCombiner.combineCentralAltitude(vector);
         double standardAltitude = resolveCentralStandardAltitude(vector);
         return altitude - standardAltitude;

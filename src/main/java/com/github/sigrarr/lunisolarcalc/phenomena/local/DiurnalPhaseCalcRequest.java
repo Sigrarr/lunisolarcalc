@@ -6,20 +6,20 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
-public class DiurnalPhaseCalcRequest {
+class DiurnalPhaseCalcRequest {
 
     final UniversalTimelinePoint baseNoon;
     final double latitude;
     final double longitude;
     final Set<DiurnalPhase> phases;
-    final double precisionAngle;
+    final double precisionRadians;
 
-    public DiurnalPhaseCalcRequest(CalendarPoint baseLocalDate, GeoCoords geoCoords, Set<DiurnalPhase> phases, double precisionAngle) {
+    DiurnalPhaseCalcRequest(CalendarPoint baseLocalDate, GeoCoords geoCoords, Set<DiurnalPhase> phases, double precisionRadians) {
         this.baseNoon = getBaseNoon(baseLocalDate, geoCoords);
         this.latitude = geoCoords.getPlanetographicLatitude();
         this.longitude = geoCoords.getPlanetographicLongitude();
         this.phases = phases;
-        this.precisionAngle = precisionAngle;
+        this.precisionRadians = precisionRadians;
     }
 
     private UniversalTimelinePoint getBaseNoon(CalendarPoint baseLocalDate, GeoCoords geoCoords) {

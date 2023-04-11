@@ -5,11 +5,14 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
 
-class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
+final class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
 
     private static class DayValues extends DiurnalPhaseCalcDayValues {
-        static final int COORD_NOON_EQUATORIAL_HORIZONTAL_PARALLAX = DiurnalPhaseCalcDayValues.coordsN;
+        static final int COORD_NOON_STANDARD_ALTITUDE = DiurnalPhaseCalcDayValues.coordsN;
         static int coordsN = DiurnalPhaseCalcDayValues.coordsN + 1;
+
+        private static final double STANDARD_ALTITUDE_PI_COEFFICIENT = 0.7275;
+        private static final double STANDARD_ALTITUDE_FREE_TERM = Math.toRadians(Calcs.Angle.arcminutesToDegrees(-34));
 
         DayValues(DiurnalPhaseCalcCore core, UniversalTimelinePoint noon) {
             super(core, noon);
@@ -17,7 +20,8 @@ class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
 
         @Override protected void loadCoords() {
             super.loadCoords();
-            coordValues[COORD_NOON_EQUATORIAL_HORIZONTAL_PARALLAX] = (Double) ((MoonDiurnalPhaseCalcCore) core).parallaxCalc.calculate(noon);
+            double pi = (Double) ((MoonDiurnalPhaseCalcCore) core).parallaxCalc.calculate(noon);
+            coordValues[COORD_NOON_STANDARD_ALTITUDE] = STANDARD_ALTITUDE_PI_COEFFICIENT * pi + STANDARD_ALTITUDE_FREE_TERM;
         }
 
         @Override protected int getCoordsN() {
@@ -25,8 +29,6 @@ class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
         }
     }
 
-    private static final double STANDARD_ALTITUDE_PI_COEFFICIENT = 0.7275;
-    private static final double STANDARD_ALTITUDE_FREE_TERM = Math.toRadians(Calcs.Angle.arcminutesToDegrees(-34));
     final SingleOutputComposition<Subject, TimelinePoint> parallaxCalc = CoordsCalcCompositions.compose(Subject.MOON_EQUATORIAL_HORIZONTAL_PARALLAX);
 
     @Override
@@ -38,16 +40,7 @@ class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
     protected DiurnalPhaseCalcExtremeFinder prepareExtremeFinder() {
         return new DiurnalPhaseCalcExtremeFinder(this) {
             @Override protected double resolveCentralStandardAltitude(double vectorFromCenter) {
-                return TabularInterpolation.interpolateFromFiveValuesAndFactor(
-                    new double[] {
-                        getNoonStandardAltitude(-2),
-                        getNoonStandardAltitude(-1),
-                        getNoonStandardAltitude(0),
-                        getNoonStandardAltitude(+1),
-                        getNoonStandardAltitude(+2),
-                    },
-                    vectorFromCenter
-                );
+                return core.coordsCombiner.interpolateCentralCoord(DayValues.COORD_NOON_STANDARD_ALTITUDE, vectorFromCenter);
             }
         };
     }
@@ -59,7 +52,6 @@ class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
 
     @Override
     protected double getNoonStandardAltitude(int dayPosition) {
-        double pi = getDay(dayPosition).getCoord(DayValues.COORD_NOON_EQUATORIAL_HORIZONTAL_PARALLAX);
-        return STANDARD_ALTITUDE_PI_COEFFICIENT * pi + STANDARD_ALTITUDE_FREE_TERM;
+        return getDay(dayPosition).getCoord(DayValues.COORD_NOON_STANDARD_ALTITUDE);
     }
 }

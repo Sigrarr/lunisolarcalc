@@ -8,9 +8,9 @@ public enum Body implements Titled {
     MOON(Subject.MOON_DECLINATION, Subject.MOON_RIGHT_ASCENSION, Subject.MOON_HOUR_ANGLE, "Moon"),
     SUN(Subject.SUN_DECLINATION, Subject.SUN_RIGHT_ASCENSION, Subject.SUN_HOUR_ANGLE, "Sun");
 
-    final Subject declinationSubject;
-    final Subject rightAscensionSubject;
-    final Subject hourAngleSubject;
+    public final Subject declinationSubject;
+    public final Subject rightAscensionSubject;
+    public final Subject hourAngleSubject;
     private final String title;
 
     private Body(Subject declinationSubject, Subject rightAscensionSubject, Subject hourAngleSubject, String title) {

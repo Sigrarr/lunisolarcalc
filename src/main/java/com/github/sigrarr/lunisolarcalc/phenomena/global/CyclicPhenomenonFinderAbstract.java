@@ -45,7 +45,7 @@ abstract class CyclicPhenomenonFinderAbstract {
      * While searching, a time argument of a newly calculated value of stage-indicating angle
      * is accepted as a result iff it differs by less than 'angular precision'
      * from the value indicating the stage which is currently under search;
-     * otherwise a time argument is corrected, then stage-indicating angle recalculated.
+     * otherwise a time argument is corrected, then the stage-indicating angle is recalculated.
      *
      * A smaller value implies better precision,
      * but also a higher mean number of core calculations needed to obtain a result.
