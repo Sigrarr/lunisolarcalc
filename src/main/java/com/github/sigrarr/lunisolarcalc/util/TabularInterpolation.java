@@ -57,7 +57,7 @@ public abstract class TabularInterpolation {
      * Performs simple interpolation based on three tabular values.
      *
      * @param values                array of three known values of a function
-     * @param interpolatingFactor   interpolating factor (presumably the distance between
+     * @param interpolatingFactor   interpolating factor (presumably the relative distance between
      *                              the argument of the middle value and the argument
      *                              whose value is to be found)
      * @return                      interpolated value
@@ -77,7 +77,7 @@ public abstract class TabularInterpolation {
      * Performs simple interpolation based on five tabular values.
      *
      * @param values                array of five known values of a function
-     * @param interpolatingFactor   interpolating factor (presumably the distance between
+     * @param interpolatingFactor   interpolating factor (presumably the relative distance between
      *                              the argument of the middle value and the argument
      *                              whose value is to be found)
      * @return                      interpolated value
@@ -120,7 +120,11 @@ public abstract class TabularInterpolation {
     public static OptionalDouble interpolateZeroPointArgumentFromThreePoints(double arguments[], double values[])
     {
         OptionalDouble factor = interpolateZeroPointFactorFromThreePoints(arguments, values);
-        return factor.isPresent() ? OptionalDouble.of(arguments[1] + factor.getAsDouble()) : factor;
+        if (!factor.isPresent())
+            return factor;
+        double interval = Math.abs(arguments[1] - arguments[0]);
+        double argumentDiff =  Double.compare(interval, 1.0) == 0 ? factor.getAsDouble() : factor.getAsDouble() * interval;
+        return OptionalDouble.of(arguments[1] + argumentDiff);
     }
 
     /**
@@ -156,15 +160,8 @@ public abstract class TabularInterpolation {
         if (qDSgn < 0)
             return OptionalDouble.empty();
 
-        double factor;
-        if (qDSgn == 0) {
-            factor = -qB / (2 * qA);
-        } else {
-            double qDSqrt = Math.sqrt(qD);
-            double factor1 = (-qB - qDSqrt)/(2 * qA);
-            double factor2 = (-qB + qDSqrt)/(2 * qA);
-            factor = Double.compare(Math.abs(factor1), Math.abs(factor2)) > 0 ? factor2 : factor1;
-        }
+        double factor = qDSgn == 0 ? -qB / (2 * qA)
+            : (-2 * qC) / (qB + Math.signum(qB)*Math.sqrt(qD));
         return OptionalDouble.of(factor);
     }
 

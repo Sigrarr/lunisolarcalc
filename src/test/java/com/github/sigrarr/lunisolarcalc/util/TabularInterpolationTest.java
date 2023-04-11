@@ -109,13 +109,16 @@ public class TabularInterpolationTest {
         ));
 
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromFiveValuesAndFactor(
+            new double[] {1.0, 2.0, 3.0}, 0.1
+        ));
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromFiveValuesAndFactor(
             new double[] {1.0, 2.0, 3.0, 4.0}, 0.1
         ));
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateFromFiveValuesAndFactor(
             new double[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0}, 0.1
         ));
 
-        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointFactorFromThreePoints(
             new double[] {1.0, 2.0}, new double[] {1.0, 2.0, 3.0}
         ));
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
@@ -124,7 +127,7 @@ public class TabularInterpolationTest {
         assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
             new double[] {1.0, 2.0, 3.0, 4.0}, new double[] {1.0, 2.0, 3.0}
         ));
-        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointArgumentFromThreePoints(
+        assertThrows(IllegalArgumentException.class, () -> TabularInterpolation.interpolateZeroPointFactorFromThreePoints(
             new double[] {1.0, 2.0, 3.0}, new double[] {1.0, 2.0, 3.0, 4.0}
         ));
     }
