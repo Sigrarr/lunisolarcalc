@@ -4,7 +4,7 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.*;
 
 import com.github.sigrarr.lunisolarcalc.time.UniversalTimelinePoint;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
-import com.github.sigrarr.lunisolarcalc.util.Titled;
+import com.github.sigrarr.lunisolarcalc.util.*;
 
 class Example implements Titled {
 
@@ -12,6 +12,11 @@ class Example implements Titled {
     final static GeoCoords ADELAIDE = GeoCoords.ofConventional(
         Math.toRadians(toSingleDegreesValue( -67, 13, 0)),
         Math.toRadians(toSingleDegreesValue( -68, 23, 0))
+    );
+    // https://www.timeanddate.com/worldclock/antarctica/belgrano-ii-base
+    final static GeoCoords BELGRANO2 = GeoCoords.ofConventional(
+        Math.toRadians(toSingleDegreesValue( -77, 52, 0)),
+        Math.toRadians(toSingleDegreesValue( -34, 38, 0))
     );
     // https://www.timeanddate.com/worldclock/norway/bodo
     final static GeoCoords BODOE = GeoCoords.ofConventional(
@@ -22,6 +27,16 @@ class Example implements Titled {
     final static GeoCoords HONOLULU = GeoCoords.ofConventional(
         Math.toRadians(toSingleDegreesValue(  21, 19, 0)),
         Math.toRadians(toSingleDegreesValue(-157, 51, 0))
+    );
+    // https://www.timeanddate.com/worldclock/@2617832
+    final static GeoCoords LEJRE = GeoCoords.ofConventional(
+        Math.toRadians(toSingleDegreesValue(  55, 36, 0)),
+        Math.toRadians(toSingleDegreesValue(  11, 58, 0))
+    );
+    // https://www.timeanddate.com/worldclock/norway/longyearbyen
+    final static GeoCoords LONGYEARBYEN = GeoCoords.ofConventional(
+        Math.toRadians(toSingleDegreesValue(  78, 13, 0)),
+        Math.toRadians(toSingleDegreesValue(  15, 38, 0))
     );
     // https://www.timeanddate.com/worldclock/australia/sydney
     final static GeoCoords SYDNEY = GeoCoords.ofConventional(
@@ -37,25 +52,33 @@ class Example implements Titled {
     final String label;
     final GeoCoords geoCoords;
     final double officialOffsetDayFraction;
-    final CalendarPoint baseLocalNoon;
     final CalendarPoint[] expectedLocalDateTimes;
+    final CalendarPoint baseLocalNoon;
 
     Example(
         String label,
         GeoCoords geoCoords,
         double officialOffsetH,
-        CalendarPoint baseLocalNoon,
         CalendarPoint[] expectedLocalDateTimes
     ) {
         this.label = label;
         this.geoCoords = geoCoords;
         this.officialOffsetDayFraction = officialOffsetH / 24.0;
-        this.baseLocalNoon = baseLocalNoon;
         this.expectedLocalDateTimes = expectedLocalDateTimes;
+        this.baseLocalNoon = reduceToNoon(expectedLocalDateTimes[1]);
     }
 
     CalendarPoint toLocalDateTime(UniversalTimelinePoint timelinePoint) {
         return timelinePoint.toLocalTimeCalendarPoint(officialOffsetDayFraction);
+    }
+
+    UniversalTimelinePoint toUniversalPoint(CalendarPoint localDateTime) {
+        return UniversalTimelinePoint.ofLocalTimeCalendarPoint(localDateTime, officialOffsetDayFraction);
+    }
+
+    CalendarPoint reduceToNoon(CalendarPoint transitLocalDateTime) {
+        return Double.compare(transitLocalDateTime.getTime(), 0.5) == 0 ? transitLocalDateTime
+            : new CalendarPoint(transitLocalDateTime.y, transitLocalDateTime.m, transitLocalDateTime.getDay() + 0.5);
     }
 
     @Override
