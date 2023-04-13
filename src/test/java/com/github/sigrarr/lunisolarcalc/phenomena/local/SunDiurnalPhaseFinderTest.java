@@ -32,7 +32,7 @@ public class SunDiurnalPhaseFinderTest {
                 new CalendarPoint(1800,  6,  1, 20, 33, 30),
             }),
         // https://www.timeanddate.com/sun/usa/honolulu?month=12&year=1800
-        new Example("Honolulu (far-West, long ago)",
+        new Example("Honolulu (long ago)",
             HONOLULU, -( 10.0 + 31.0/60.0 + 26.0/3600.0 ), new CalendarPoint[] {
                 new CalendarPoint(1800, 12, 21, 06, 33, 30),
                 new CalendarPoint(1800, 12, 21, 11, 58, 30),
@@ -106,7 +106,7 @@ public class SunDiurnalPhaseFinderTest {
                         String.format("@%s : %s : %s vs %s",
                             example.getTitle(),
                             occ.getType().diurnalPhase.getTitle(),
-                            expectedLocalDateTime.formatDateTimeToSeconds(),
+                            expectedLocalDateTime.formatDateTimeToMinutes(),
                             example.toLocalDateTime(actualPoint).formatDateTimeToSeconds()
                         )
                     );
@@ -138,7 +138,7 @@ public class SunDiurnalPhaseFinderTest {
                             String.format("@%s : %s : %s vs %s",
                                 example.getTitle(),
                                 optOcc.get().getType().diurnalPhase.getTitle(),
-                                expectedLocalDateTime.formatDateTimeToSeconds(),
+                                expectedLocalDateTime.formatDateTimeToMinutes(),
                                 example.toLocalDateTime(actualPoint).formatDateTimeToSeconds()
                             )
                         );
