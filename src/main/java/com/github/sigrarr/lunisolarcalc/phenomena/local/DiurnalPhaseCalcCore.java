@@ -21,7 +21,7 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
     ));
     final DiurnalPhaseCalcCoordsCombiner coordsCombiner = new DiurnalPhaseCalcCoordsCombiner(this);
 
-    private final DiurnalPhaseCalcTransitResolver transitResolver = new DiurnalPhaseCalcTransitResolver(this);
+    private final DiurnalPhaseCalcTransitResolver transitResolver = prepareTransitResolver();
     private final DiurnalPhaseCalcExtremeApproximator extremeApproximator = new DiurnalPhaseCalcExtremeApproximator(this);
     private final DiurnalPhaseCalcExtremeFinder extremeFinder = prepareExtremeFinder();
     private final DiurnalPhaseCalcProgressController progress = new DiurnalPhaseCalcProgressController(this);
@@ -35,7 +35,10 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
     @Override
     public Optional<UniversalOccurrence<BodyDiurnalPhase>> get() {
         DiurnalPhase phase = progress.getCurrentPhase();
-        Optional<TimelinePoint> result = phase.isExtreme() ? resolveExtremePhase(phase) : Optional.of(resolveTransit());
+        Optional<UniversalTimelinePoint> transit = resolveTransit();
+        Optional<UniversalTimelinePoint> result = transit.isPresent() ?
+            (phase.isExtreme() ? resolveExtremePhase(phase) : transit)
+            : Optional.empty();
 
         progress.phaseForward();
 
@@ -44,14 +47,14 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
             : Optional.empty();
     }
 
-    private TimelinePoint resolveTransit() {
+    private Optional<UniversalTimelinePoint> resolveTransit() {
         DiurnalPhaseCalcDayValues dayValues = getDay(0);
-        double vector = transitResolver.findCentralNoonToTransitVector();
-        dayValues.set(NOON_TO_TRANSIT_VECTOR, vector);
-        return dayValues.noon.add(vector);
+        if (!dayValues.hasFinalizedTransit())
+            dayValues.setFinalTransitByVectorFromNoon(transitResolver.findCentralNoonToTransitVector());
+        return dayValues.getFinalTransit();
     }
 
-    private Optional<TimelinePoint> resolveExtremePhase(DiurnalPhase phase) {
+    private Optional<UniversalTimelinePoint> resolveExtremePhase(DiurnalPhase phase) {
         OptionalDouble transitToApproximateVector = extremeApproximator.approximateVectorFromTransitToExtremePhase(phase.direction);
         if (!transitToApproximateVector.isPresent())
             return Optional.empty();
@@ -66,6 +69,10 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
     }
 
     abstract protected Body prepareBody();
+
+    protected DiurnalPhaseCalcTransitResolver prepareTransitResolver() {
+        return new DiurnalPhaseCalcTransitResolver(this);
+    }
 
     abstract protected DiurnalPhaseCalcExtremeFinder prepareExtremeFinder();
 

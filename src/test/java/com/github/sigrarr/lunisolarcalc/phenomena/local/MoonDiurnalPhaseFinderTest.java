@@ -16,7 +16,7 @@ public class MoonDiurnalPhaseFinderTest {
      * The reference data-set's precision is 1 minute.
      * :30 s is choosen here as a minute's midpoint.
      */
-    private static final Example[] EXAMPLES_TYPICAL = {
+    private static final Example[] EXAMPLES_EASY = {
         // https://www.timeanddate.com/moon/@2617832?month=4&year=2000
         new Example("Lejre (moderate, contemporary, around New Moon)",
             LEJRE, +2.0, new CalendarPoint[] {
@@ -39,14 +39,38 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800, 10, 10, 12, 46, 30),
             }),
     };
+    private static Example[] EXAMPLES_FULL_MOON = {
+        // https://www.timeanddate.com/moon/@7670547?month=1&year=1800
+        new Example("Greenwich (long ago, around Full Moon)",
+            GREENWICH_PARK, -( 0.0 + 1.0/60.0 + 15.0/3600.0 ), new CalendarPoint[] {
+                new CalendarPoint(1800,  1,  9, 14,  6, 30),
+                new CalendarPoint(1800,  1,  9, 23, 10, 30),
+                new CalendarPoint(1800,  1, 10,  8, 13, 30),
+                null, null, null,
+                new CalendarPoint(1800,  1, 10, 15,  4, 30),
+                new CalendarPoint(1800,  1, 11,  0,  5, 30),
+                new CalendarPoint(1800,  1, 11,  8, 56, 30),
+            }),
+        // https://www.timeanddate.com/moon/canada/toronto?month=2&year=1800
+        new Example("Vancouver (long ago, around Full Moon)",
+            VANCOUVER, -( 8.0 + 12.0/60.0 + 28.0/3600.0 ), new CalendarPoint[] {
+                new CalendarPoint(1800,  2,  7, 14, 35, 30),
+                new CalendarPoint(1800,  2,  7, 23,  8, 30),
+                new CalendarPoint(1800,  2,  8,  7, 27, 30),
+                null, null, null,
+                new CalendarPoint(1800,  2,  8, 15, 52, 30),
+                new CalendarPoint(1800,  2,  9,  0,  1, 30),
+                new CalendarPoint(1800,  2,  9,  7, 53, 30),
+            }),
+    };
 
     MoonDiurnalPhaseFinder finder = new MoonDiurnalPhaseFinder();
     private int seriesCounter;
 
     @Test
-    public void shouldFindInTypicalSituationInAgreementWithReferenceData() {
+    public void shouldFindInEasyScenarioInAgreementWithReferenceData() {
         double delta = 30.0 * Calcs.SECOND_TO_DAY;
-        for (Example example : EXAMPLES_TYPICAL) {
+        for (Example example : EXAMPLES_EASY) {
             seriesCounter = 0;
             Iterator<CalendarPoint> expectedLocalDateTimeIt = Arrays.stream(example.expectedLocalDateTimes).iterator();
             finder
@@ -66,6 +90,39 @@ public class MoonDiurnalPhaseFinderTest {
                             example.toLocalDateTime(actualPoint).formatDateTimeToSeconds()
                         )
                     );
+                    seriesCounter++;
+                });
+            assertFalse(expectedLocalDateTimeIt.hasNext());
+        }
+    }
+
+    @Test
+    public void shouldFindAroundFullMoonInAgreementWithReferenceData() {
+        double delta = 30.0 * Calcs.SECOND_TO_DAY;
+        for (Example example : EXAMPLES_FULL_MOON) {
+            seriesCounter = 0;
+            Iterator<CalendarPoint> expectedLocalDateTimeIt = Arrays.stream(example.expectedLocalDateTimes).iterator();
+            finder
+                .findMany(example.baseLocalNoon, example.geoCoords)
+                .limit(example.expectedLocalDateTimes.length)
+                .forEach(optOcc -> {
+                    CalendarPoint expectedLocalDateTime = expectedLocalDateTimeIt.next();
+                    if (expectedLocalDateTime == null) {
+                        assertFalse(optOcc.isPresent());
+                    } else {
+                        assertTrue(optOcc.isPresent());
+                        assertEquals(getExpectedPhase(), optOcc.get().getType().diurnalPhase);
+                        UniversalTimelinePoint expectedPoint = example.toUniversalPoint(expectedLocalDateTime);
+                        UniversalTimelinePoint actualPoint = optOcc.get().getTimelinePoint();
+                        assertEquals(expectedPoint.julianDay, actualPoint.julianDay, delta,
+                            String.format("@%s : %s : %s vs %s",
+                                example.getTitle(),
+                                optOcc.get().getType().diurnalPhase.getTitle(),
+                                expectedLocalDateTime.formatDateTimeToMinutes(),
+                                example.toLocalDateTime(actualPoint).formatDateTimeToSeconds()
+                            )
+                        );
+                    }
                     seriesCounter++;
                 });
             assertFalse(expectedLocalDateTimeIt.hasNext());

@@ -23,6 +23,7 @@ class DiurnalPhaseCalcDayValues {
     final UniversalTimelinePoint noon;
     final Double[] coordValues = new Double[getCoordsN()];
     final Double[] dependantValues = new Double[getDependantsN()];
+    Optional<UniversalTimelinePoint> finalTransit = null;
 
     DiurnalPhaseCalcDayValues(DiurnalPhaseCalcCore core, UniversalTimelinePoint noon) {
         this.core = core;
@@ -47,6 +48,22 @@ class DiurnalPhaseCalcDayValues {
         if (coordValues[coordKey] == null)
             loadCoords();
         return coordValues[coordKey];
+    }
+
+    public boolean hasFinalizedTransit() {
+        return finalTransit != null;
+    }
+
+    public Optional<UniversalTimelinePoint> getFinalTransit() {
+        return finalTransit;
+    }
+
+    public void setFinalTransitByVectorFromNoon(OptionalDouble finalNoonToTransitVector) {
+        if (finalNoonToTransitVector.isPresent()) {
+            set(NOON_TO_TRANSIT_VECTOR, finalNoonToTransitVector.getAsDouble());
+            finalTransit = Optional.of(noon.add(finalNoonToTransitVector.getAsDouble()));
+        } else
+            finalTransit = Optional.empty();
     }
 
     protected void loadCoords() {

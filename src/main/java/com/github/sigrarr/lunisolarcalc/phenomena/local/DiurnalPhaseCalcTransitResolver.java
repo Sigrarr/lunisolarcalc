@@ -2,6 +2,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcDayValues.*;
 
+import java.util.OptionalDouble;
 import java.util.function.DoubleUnaryOperator;
 
 import com.github.sigrarr.lunisolarcalc.util.*;
@@ -16,7 +17,7 @@ class DiurnalPhaseCalcTransitResolver {
 
     double approximateNoonToTransitVector(int dayPosition) {
         double lha = core.getDay(dayPosition).getCoord(COORD_NOON_LOCAL_HOUR_ANGLE);
-        return Calcs.Angle.toNormalSignedLongitude(- lha / Calcs.TURN, 1.0);
+        return -lha / Calcs.TURN;
     }
 
     double findCloseNoonToTransitVector(int dayPosition) {
@@ -26,11 +27,12 @@ class DiurnalPhaseCalcTransitResolver {
         );
     }
 
-    double findCentralNoonToTransitVector() {
-        return findNoonToTransitVector(
+    OptionalDouble findCentralNoonToTransitVector() {
+        double resultVector = findNoonToTransitVector(
             0,
             vector -> core.coordsCombiner.combineCentralLocalHourAngle(vector)
         );
+        return OptionalDouble.of(resultVector);
     }
 
     private double findNoonToTransitVector(int dayPosition, DoubleUnaryOperator lhaEvaluation) {
