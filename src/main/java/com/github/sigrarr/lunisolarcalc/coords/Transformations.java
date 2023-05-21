@@ -17,10 +17,10 @@ public abstract class Transformations {
      * @return                      ecliptical longitude (λ), in radians: [0, 2π)
      */
     public static double equatorialToLongitude(double rightAscension, double declination, double eclipticObliquity) {
-        return Math.atan2(
+        return Calcs.Angle.toNormalLongitude(Math.atan2(
             Math.sin(rightAscension) * Math.cos(eclipticObliquity) + Math.tan(declination) * Math.sin(eclipticObliquity),
             Math.cos(rightAscension)
-        );
+        ));
     }
 
     /**
