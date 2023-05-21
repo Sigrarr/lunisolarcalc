@@ -9,15 +9,18 @@ import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 abstract class DiurnalPhaseFinderAbstract {
-
     /**
-     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in radians (0.001 arcsecond).
+     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in arcseconds ({@value}).
      */
-    public static final double MIN_PRECISION_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(0.001));
+    public static final double MIN_PRECISION_ARCSECONDS = GeoCoords.EQUIV_UNIT_ARCSECONDS;
     /**
-     * The default value of {@linkplain #getPrecision() angular precision}, in radians (1 arcsecond).
+     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in radians ({@value #MIN_PRECISION_ARCSECONDS} arcsecond).
      */
-    public static final double DEFAULT_PRECISION_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(1.0));
+    public static final double MIN_PRECISION_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(MIN_PRECISION_ARCSECONDS));
+    /**
+     * The default value of {@linkplain #getPrecision() angular precision}, in radians ({@value #MIN_PRECISION_ARCSECONDS} arcsecond).
+     */
+    public static final double DEFAULT_PRECISION_RADIANS = MIN_PRECISION_RADIANS;
 
     protected final DiurnalPhaseCalcCore core;
     protected double precisionRadians = DEFAULT_PRECISION_RADIANS;

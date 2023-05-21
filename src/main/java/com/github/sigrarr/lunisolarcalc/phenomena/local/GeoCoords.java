@@ -22,7 +22,8 @@ public class GeoCoords {
         }
     }
 
-    public static final double EQUIV_UNIT_RADIANS = Math.toRadians(Calcs.ARCSECOND_TO_DEGREE);
+    public static final double EQUIV_UNIT_ARCSECONDS = 1.0;
+    public static final double EQUIV_UNIT_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(EQUIV_UNIT_ARCSECONDS));
 
     protected final double latitude;
     protected final double longitude;
