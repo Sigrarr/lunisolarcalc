@@ -47,10 +47,10 @@ public abstract class Transformations {
      * @return                      right ascension (α), in radians: [0, 2π)
      */
     public static double eclipticalToRightAscension(double longitude, double latitude, double eclipticObliquity) {
-        return Math.atan2(
+        return Calcs.Angle.toNormalLongitude(Math.atan2(
             Math.sin(longitude) * Math.cos(eclipticObliquity) - Math.tan(latitude) * Math.sin(eclipticObliquity),
             Math.cos(longitude)
-        );
+        ));
     }
 
     /**

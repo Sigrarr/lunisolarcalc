@@ -2,11 +2,18 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcDayValues.*;
 
+import java.util.*;
+import java.util.function.DoubleUnaryOperator;
+
 import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
 class DiurnalPhaseCalcCoordsCombiner {
+
+    private final static Map<Integer, DiscontinuityMitigator> DISCONTINUITY_MITIGATORS = new HashMap<Integer, DiscontinuityMitigator>() {{
+        put(COORD_NOON_RIGHT_ASCENSION, new DiscontinuityMitigator(0.0, Calcs.TURN, Calcs.Monotony.ASCENDING, Calcs.Angle::toNormalLongitude));
+    }};
 
     private final DiurnalPhaseCalcCore core;
     private final SiderealMeanTimeCalculator siderealMeanTimeCalc = new SiderealMeanTimeCalculator();
@@ -43,15 +50,20 @@ class DiurnalPhaseCalcCoordsCombiner {
     }
 
     double interpolateCentralCoord(int coordKey, double vectorFromCenter) {
-        return TabularInterpolation.interpolateFromFiveValuesAndFactor(
-            new double[] {
-                core.getDay(-2).getCoord(coordKey),
-                core.getDay(-1).getCoord(coordKey),
-                core.getDay(0).getCoord(coordKey),
-                core.getDay(+1).getCoord(coordKey),
-                core.getDay(+2).getCoord(coordKey),
-            },
-            vectorFromCenter
+        double[] values = {
+            core.getDay(-2).getCoord(coordKey),
+            core.getDay(-1).getCoord(coordKey),
+            core.getDay(0).getCoord(coordKey),
+            core.getDay(+1).getCoord(coordKey),
+            core.getDay(+2).getCoord(coordKey),
+        };
+        if (!DISCONTINUITY_MITIGATORS.containsKey(coordKey))
+            return TabularInterpolation.interpolateFromFiveValuesAndFactor(values, vectorFromCenter);
+
+        DiscontinuityMitigator mitigator = DISCONTINUITY_MITIGATORS.get(coordKey);
+        mitigator.forceContinuityForInterpolation(values);
+        return mitigator.normalization.applyAsDouble(
+            TabularInterpolation.interpolateFromFiveValuesAndFactor(values, vectorFromCenter)
         );
     }
 
@@ -73,13 +85,45 @@ class DiurnalPhaseCalcCoordsCombiner {
     double interpolateCloseCoord(int dayPosition, int coordKey, double vectorFromNoon) {
         if (dayPosition > 1 || dayPosition < -1)
             throw new IllegalArgumentException();
-        return TabularInterpolation.interpolateFromThreeValuesAndFactor(
-            new double[] {
-                core.getDay(dayPosition - 1).getCoord(coordKey),
-                core.getDay(dayPosition).getCoord(coordKey),
-                core.getDay(dayPosition + 1).getCoord(coordKey)
-            },
-            vectorFromNoon
+
+        double[] values = {
+            core.getDay(dayPosition - 1).getCoord(coordKey),
+            core.getDay(dayPosition).getCoord(coordKey),
+            core.getDay(dayPosition + 1).getCoord(coordKey)
+        };
+        if (!DISCONTINUITY_MITIGATORS.containsKey(coordKey))
+            return TabularInterpolation.interpolateFromThreeValuesAndFactor(values, vectorFromNoon);
+
+        DiscontinuityMitigator mitigator = DISCONTINUITY_MITIGATORS.get(coordKey);
+        mitigator.forceContinuityForInterpolation(values);
+        return mitigator.normalization.applyAsDouble(
+            TabularInterpolation.interpolateFromThreeValuesAndFactor(values, vectorFromNoon)
         );
+    }
+
+    private static class DiscontinuityMitigator {
+        final Calcs.Monotony monotony;
+        final DoubleUnaryOperator normalization;
+        final double breakSize;
+        final double projectionCheckExtremeValue;
+
+        DiscontinuityMitigator(double minValue, double maxValue, Calcs.Monotony monotony, DoubleUnaryOperator normalization) {
+            this.monotony = monotony;
+            this.normalization = normalization;
+            breakSize = maxValue - minValue;
+            projectionCheckExtremeValue = monotony == Calcs.Monotony.ASCENDING ? minValue : maxValue;
+        }
+
+        void forceContinuityForInterpolation(double[] values) {
+            for (int i = 1; i < values.length; i++) {
+                double currentValueDistanceToPrevious = Math.abs(values[i] - values[i-1]);
+                double currentValueDistanceToExtreme = Math.abs(values[i] - projectionCheckExtremeValue);
+                if (Double.compare(currentValueDistanceToExtreme, currentValueDistanceToPrevious) < 0) {
+                    for (int j = i; j < values.length; j++)
+                        values[j] += monotony.progressSignum * breakSize;
+                    return;
+                }
+            }
+        }
     }
 }

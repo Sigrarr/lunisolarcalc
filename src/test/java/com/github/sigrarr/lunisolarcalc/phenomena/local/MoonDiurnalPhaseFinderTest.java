@@ -62,6 +62,17 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800,  2,  9,  0,  1, 30),
                 new CalendarPoint(1800,  2,  9,  7, 53, 30),
             }),
+        // https://www.timeanddate.com/moon/japan/tokyo?month=3&year=1800
+        new Example("Tokyo (long ago, around Full Moon)",
+            TOKYO, +( 9.0 + 18.0/60.0 + 59.0/3600.0 ), new CalendarPoint[] {
+                new CalendarPoint(1800,  3, 10, 16, 55, 30),
+                new CalendarPoint(1800,  3, 10, 23, 44, 30),
+                new CalendarPoint(1800,  3, 11,  6, 23, 30),
+                null, null, null,
+                new CalendarPoint(1800,  3, 11, 18,  4, 30),
+                new CalendarPoint(1800,  3, 12,  0, 33, 30),
+                new CalendarPoint(1800,  3, 12,  6, 51, 30),
+            }),
     };
 
     MoonDiurnalPhaseFinder finder = new MoonDiurnalPhaseFinder();

@@ -23,6 +23,14 @@ public abstract class Calcs {
     public static final double EPSILON = EPSILON_9;
     public static final double EPSILON_MIN = EPSILON_16;
 
+    public static enum Monotony {
+        ASCENDING(+1), DESCENDING(-1);
+        public final int progressSignum;
+        Monotony(int progressSignum) {
+            this.progressSignum = progressSignum;
+        }
+    }
+
     /**
      * Checks whether two numbers are {@linkplain #equal(double, double, double) equal},
      * applying the default delta ({@value #EPSILON}).
