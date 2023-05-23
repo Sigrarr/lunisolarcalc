@@ -60,6 +60,31 @@ final class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
     }
 
     @Override
+    protected DiurnalPhaseCalcExtremeApproximator prepareExtremeApproximator() {
+        return new DiurnalPhaseCalcExtremeApproximator(this) {
+            @Override protected OptionalDouble approximateVectorFromTransitToExtremePhase(int direction) {
+                DiurnalPhaseCalcDayValues adjacent = getDay(direction);
+                if (!(adjacent.hasFinalizedTransit() && adjacent.getFinalTransit().isPresent()) && isTransitCloserToCenterNoonThanToItsOwn(direction))
+                    redirectAdjacentShellTransitToFurtherInDirection(adjacent, direction);
+                return super.approximateVectorFromTransitToExtremePhase(direction);
+            }
+
+            private boolean isTransitCloserToCenterNoonThanToItsOwn(int direction) {
+                double adjacentNoonToTransit = getCloseNoonToTransitVector(direction);
+                return Double.compare(Math.abs(direction + adjacentNoonToTransit), Math.abs(adjacentNoonToTransit)) < 0;
+            }
+
+            private void redirectAdjacentShellTransitToFurtherInDirection(DiurnalPhaseCalcDayValues adjacent, int direction) {
+                DiurnalPhaseCalcDayValues further = getDay(direction*2);
+                double futherNoonToItsTransit = further.has(DayValues.NOON_TO_TRANSIT_VECTOR) ? further.get(DayValues.NOON_TO_TRANSIT_VECTOR, null)
+                    : transitResolver.approximateNoonToTransitVector(direction*2);
+                adjacent.set(DayValues.NOON_TO_TRANSIT_VECTOR, direction + futherNoonToItsTransit);
+                adjacent.clear(DayValues.TRANSIT_EXTREME_LOCAL_HOUR_ANGLE_COS);
+            }
+        };
+    }
+
+    @Override
     protected DiurnalPhaseCalcExtremeFinder prepareExtremeFinder() {
         return new DiurnalPhaseCalcExtremeFinder(this) {
             @Override protected double resolveCentralStandardAltitude(double vectorFromCenter) {

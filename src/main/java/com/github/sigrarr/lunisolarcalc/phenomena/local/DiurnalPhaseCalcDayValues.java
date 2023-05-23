@@ -44,6 +44,10 @@ class DiurnalPhaseCalcDayValues {
         return dependantValues[dependantKey];
     }
 
+    public void clear(int dependantKey) {
+        dependantValues[dependantKey] = null;
+    }
+
     public double getCoord(int coordKey) {
         if (coordValues[coordKey] == null)
             loadCoords();

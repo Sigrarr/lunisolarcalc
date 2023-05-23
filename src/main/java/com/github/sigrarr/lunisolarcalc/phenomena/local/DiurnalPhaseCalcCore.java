@@ -19,11 +19,10 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
         body.declinationSubject, body.rightAscensionSubject, body.hourAngleSubject,
         Subject.EARTH_NUTUATION_IN_LONGITUDE, Subject.ECLIPTIC_TRUE_OBLIQUITY
     ));
-    final DiurnalPhaseCalcCoordsCombiner coordsCombiner = new DiurnalPhaseCalcCoordsCombiner(this);
-
-    private final DiurnalPhaseCalcTransitResolver transitResolver = prepareTransitResolver();
-    private final DiurnalPhaseCalcExtremeApproximator extremeApproximator = new DiurnalPhaseCalcExtremeApproximator(this);
-    private final DiurnalPhaseCalcExtremeFinder extremeFinder = prepareExtremeFinder();
+    protected final DiurnalPhaseCalcCoordsCombiner coordsCombiner = new DiurnalPhaseCalcCoordsCombiner(this);
+    protected final DiurnalPhaseCalcTransitResolver transitResolver = prepareTransitResolver();
+    protected final DiurnalPhaseCalcExtremeApproximator extremeApproximator = prepareExtremeApproximator();
+    protected final DiurnalPhaseCalcExtremeFinder extremeFinder = prepareExtremeFinder();
     private final DiurnalPhaseCalcProgressController progress = new DiurnalPhaseCalcProgressController(this);
     private DiurnalPhaseCalcRequest request;
 
@@ -72,6 +71,10 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
 
     protected DiurnalPhaseCalcTransitResolver prepareTransitResolver() {
         return new DiurnalPhaseCalcTransitResolver(this);
+    }
+
+    protected DiurnalPhaseCalcExtremeApproximator prepareExtremeApproximator() {
+        return new DiurnalPhaseCalcExtremeApproximator(this);
     }
 
     abstract protected DiurnalPhaseCalcExtremeFinder prepareExtremeFinder();

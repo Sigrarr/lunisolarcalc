@@ -14,7 +14,7 @@ class DiurnalPhaseCalcExtremeApproximator {
         this.core = core;
     }
 
-    OptionalDouble approximateVectorFromTransitToExtremePhase(int direction) {
+    protected OptionalDouble approximateVectorFromTransitToExtremePhase(int direction) {
         double centerTransitXlhaCos = getTransitExtremeLocalHourAngleCos(0);
         double adjacentTransitXlhaCos = getTransitExtremeLocalHourAngleCos(direction);
         boolean isCenterTransitPolar = Double.compare(Math.abs(centerTransitXlhaCos), 1.0) > 0;
