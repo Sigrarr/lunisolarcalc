@@ -90,6 +90,42 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(2000, 10, 23,  9, 38, 30),
                 new CalendarPoint(2000, 10, 23, 19, 35, 30),
             }),
+        // https://www.timeanddate.com/moon/greenland/nuuk?month=1&year=1800
+        new Example("Nuuk (near the Arctic Circle, polar Moon-day's ending * Full Moon)",
+            NUUK, -( 3.0 + 26.0/60.0 + 56.0/3600.0), new CalendarPoint[] {
+                null,
+                new CalendarPoint(1800,  1,  9, 23, 19, 30),
+                null,
+                null, null, null,
+                null,
+                new CalendarPoint(1800,  1, 11,  0, 14, 30),
+                new CalendarPoint(1800,  1, 11, 11, 55, 30),
+            }),
+        // https://www.timeanddate.com/moon/@3831442?month=7&year=1800
+        new Example("Etah (far-North, polar Moon-night's middle * Full Moon)",
+            ETAH, -( 4.0 + 35.0/60.0 +  8.0/3600.0), new CalendarPoint[] {
+                null,
+                new CalendarPoint(1800,  7,  5, 23, 54, 30),
+                null,
+                null, null, null,
+                null,
+                new CalendarPoint(1800,  7,  7,  0, 59, 30),
+                null,
+            }),
+        // https://www.timeanddate.com/moon/@3831442?month=5&year=1800
+        new Example("Etah (far-North, polar Moon-night's beginning * Full Moon)",
+            ETAH, -( 4.0 + 35.0/60.0 +  8.0/3600.0), new CalendarPoint[] {
+                new CalendarPoint(1800,  5,  6, 18, 22, 30),
+                new CalendarPoint(1800,  5,  6, 22, 29, 30),
+                new CalendarPoint(1800,  5,  7,  1, 43, 30),
+                null,
+                new CalendarPoint(1800,  5,  7, 23, 22, 30),
+                null,
+                null, null, null,
+                null,
+                new CalendarPoint(1800,  5,  9,  0, 18, 30),
+                null,
+            }),
     };
 
     MoonDiurnalPhaseFinder finder = new MoonDiurnalPhaseFinder();

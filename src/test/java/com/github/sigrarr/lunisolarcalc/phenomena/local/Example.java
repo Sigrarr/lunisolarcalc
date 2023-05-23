@@ -23,6 +23,11 @@ class Example implements Titled {
         Math.toRadians(toSingleDegreesValue(  67, 17, 0)),
         Math.toRadians(toSingleDegreesValue(  14, 23, 0))
     );
+    // https://www.timeanddate.com/worldclock/@3831442
+    final static GeoCoords ETAH = GeoCoords.ofConventional(
+        Math.toRadians(toSingleDegreesValue(  78, 19, 0)),
+        Math.toRadians(toSingleDegreesValue( -72, 35, 0))
+    );
     // https://www.timeanddate.com/worldclock/@7670547
     final static GeoCoords GREENWICH_PARK = GeoCoords.ofConventional(
         Math.toRadians(toSingleDegreesValue( 51, 29, 0)),
@@ -42,6 +47,11 @@ class Example implements Titled {
     final static GeoCoords LONGYEARBYEN = GeoCoords.ofConventional(
         Math.toRadians(toSingleDegreesValue(  78, 13, 0)),
         Math.toRadians(toSingleDegreesValue(  15, 38, 0))
+    );
+    // https://www.timeanddate.com/worldclock/greenland/nuuk
+    final static GeoCoords NUUK = GeoCoords.ofConventional(
+        Math.toRadians(toSingleDegreesValue(  64, 10, 0)),
+        Math.toRadians(toSingleDegreesValue( -51, 44, 0))
     );
     // https://www.timeanddate.com/worldclock/australia/sydney
     final static GeoCoords SYDNEY = GeoCoords.ofConventional(
