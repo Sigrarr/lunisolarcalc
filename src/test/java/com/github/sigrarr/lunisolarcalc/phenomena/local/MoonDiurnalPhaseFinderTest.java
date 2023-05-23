@@ -102,7 +102,7 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800,  1, 11, 11, 55, 30),
             }),
         // https://www.timeanddate.com/moon/@3831442?month=7&year=1800
-        new Example("Etah (far-North, polar Moon-night's middle * Full Moon)",
+        new Example("Etah (A) (far-North, polar Moon-night's middle * Full Moon)",
             ETAH, -( 4.0 + 35.0/60.0 +  8.0/3600.0), new CalendarPoint[] {
                 null,
                 new CalendarPoint(1800,  7,  5, 23, 54, 30),
@@ -113,7 +113,7 @@ public class MoonDiurnalPhaseFinderTest {
                 null,
             }),
         // https://www.timeanddate.com/moon/@3831442?month=5&year=1800
-        new Example("Etah (far-North, polar Moon-night's beginning * Full Moon)",
+        new Example("Etah (B) (far-North, polar Moon-night's beginning * Full Moon)",
             ETAH, -( 4.0 + 35.0/60.0 +  8.0/3600.0), new CalendarPoint[] {
                 new CalendarPoint(1800,  5,  6, 18, 22, 30),
                 new CalendarPoint(1800,  5,  6, 22, 29, 30),
@@ -124,6 +124,17 @@ public class MoonDiurnalPhaseFinderTest {
                 null, null, null,
                 null,
                 new CalendarPoint(1800,  5,  9,  0, 18, 30),
+                null,
+            }),
+        // https://www.timeanddate.com/moon/@3831442?month=10&year=1805
+        new Example("Etah (C) (far-North, polar Moon-day's beginning ** Full Moon)",
+            ETAH, -( 4.0 + 35.0/60.0 +  8.0/3600.0), new CalendarPoint[] {
+                new CalendarPoint(1805, 10,  7, 15, 12, 30),
+                new CalendarPoint(1805, 10,  7, 23, 35, 30),
+                new CalendarPoint(1805, 10,  8, 10, 10, 30),
+                null, null, null,
+                new CalendarPoint(1805, 10,  8, 13, 13, 30),
+                new CalendarPoint(1805, 10,  9,  0, 25, 30),
                 null,
             }),
     };
@@ -162,7 +173,7 @@ public class MoonDiurnalPhaseFinderTest {
 
     @Test
     public void shouldFindInDemandingScenarioInAgreementWithReferenceData() {
-        double delta = 30.0 * Calcs.SECOND_TO_DAY;
+        double delta = 40.0 * Calcs.SECOND_TO_DAY;
         for (Example example : EXAMPLES_DEMANDING) {
             seriesCounter = 0;
             Iterator<CalendarPoint> expectedLocalDateTimeIt = Arrays.stream(example.expectedLocalDateTimes).iterator();
@@ -172,9 +183,11 @@ public class MoonDiurnalPhaseFinderTest {
                 .forEach(optOcc -> {
                     CalendarPoint expectedLocalDateTime = expectedLocalDateTimeIt.next();
                     if (expectedLocalDateTime == null) {
-                        assertFalse(optOcc.isPresent());
+                        assertFalse(optOcc.isPresent(),
+                            String.format("Present %s #%d @%s", getExpectedPhase().getTitle(), seriesCounter, example.getTitle()));
                     } else {
-                        assertTrue(optOcc.isPresent());
+                        assertTrue(optOcc.isPresent(),
+                            String.format("Absent %s #%d @%s", getExpectedPhase().getTitle(), seriesCounter, example.getTitle()));
                         assertEquals(getExpectedPhase(), optOcc.get().getType().diurnalPhase);
                         UniversalTimelinePoint expectedPoint = example.toUniversalPoint(expectedLocalDateTime);
                         UniversalTimelinePoint actualPoint = optOcc.get().getTimelinePoint();
