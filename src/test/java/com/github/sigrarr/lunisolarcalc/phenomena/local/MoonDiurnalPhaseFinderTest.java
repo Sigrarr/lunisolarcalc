@@ -39,7 +39,7 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800, 10, 10, 12, 46, 30),
             }),
     };
-    private static Example[] EXAMPLES_FULL_MOON = {
+    private static Example[] EXAMPLES_DEMANDING = {
         // https://www.timeanddate.com/moon/@7670547?month=1&year=1800
         new Example("Greenwich (long ago, around Full Moon)",
             GREENWICH_PARK, -( 0.0 + 1.0/60.0 + 15.0/3600.0 ), new CalendarPoint[] {
@@ -72,6 +72,23 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800,  3, 11, 18,  4, 30),
                 new CalendarPoint(1800,  3, 12,  0, 33, 30),
                 new CalendarPoint(1800,  3, 12,  6, 51, 30),
+            }),
+        // https://www.timeanddate.com/moon/antarctica/belgrano-ii-base?month=4&year=2000
+        new Example("Belgrano II Base (far-South, a polar Moon-night's beginning, between NM and 1Q)",
+            BELGRANO2, -3.0, new CalendarPoint[] {
+                new CalendarPoint(2000,  4,  6, 10, 58, 30),
+                new CalendarPoint(2000,  4,  6, 13,  2, 30),
+                new CalendarPoint(2000,  4,  6, 14, 35, 30),
+                null,
+                new CalendarPoint(2000,  4,  7, 13, 56, 30),
+                null,
+            }),
+        // https://www.timeanddate.com/moon/norway/longyearbyen?month=10&year=2000
+        new Example("Longyearbyen, Svalbard (far-North, a polar Moon-day's ending, between 3Q and NM)",
+            LONGYEARBYEN, +2.0, new CalendarPoint[] {
+                null,
+                new CalendarPoint(2000, 10, 23,  9, 38, 30),
+                new CalendarPoint(2000, 10, 23, 19, 35, 30),
             }),
     };
 
@@ -108,9 +125,9 @@ public class MoonDiurnalPhaseFinderTest {
     }
 
     @Test
-    public void shouldFindAroundFullMoonInAgreementWithReferenceData() {
+    public void shouldFindInDemandingScenarioInAgreementWithReferenceData() {
         double delta = 30.0 * Calcs.SECOND_TO_DAY;
-        for (Example example : EXAMPLES_FULL_MOON) {
+        for (Example example : EXAMPLES_DEMANDING) {
             seriesCounter = 0;
             Iterator<CalendarPoint> expectedLocalDateTimeIt = Arrays.stream(example.expectedLocalDateTimes).iterator();
             finder
