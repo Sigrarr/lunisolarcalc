@@ -14,11 +14,11 @@ abstract class DiurnalPhaseFinderAbstract {
      */
     public static final double MIN_PRECISION_ARCSECONDS = GeoCoords.EQUIV_UNIT_ARCSECONDS;
     /**
-     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in radians ({@value #MIN_PRECISION_ARCSECONDS} arcsecond).
+     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in radians (={@value #MIN_PRECISION_ARCSECONDS} arcsecond).
      */
     public static final double MIN_PRECISION_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(MIN_PRECISION_ARCSECONDS));
     /**
-     * The default value of {@linkplain #getPrecision() angular precision}, in radians ({@value #MIN_PRECISION_ARCSECONDS} arcsecond).
+     * The default value of {@linkplain #getPrecision() angular precision}, in radians (={@value #MIN_PRECISION_ARCSECONDS} arcsecond).
      */
     public static final double DEFAULT_PRECISION_RADIANS = MIN_PRECISION_RADIANS;
 
@@ -74,7 +74,7 @@ abstract class DiurnalPhaseFinderAbstract {
     /**
      * Sets the {@linkplain #getPrecision() angular precision}.
      *
-     * @param radians   new value of angular precision, in radians, not lesser than {@value #MIN_PRECISION_RADIANS}
+     * @param radians   new value of angular precision, in radians, not lesser than {@link #MIN_PRECISION_RADIANS minimal precision}
      * @see             #DEFAULT_PRECISION_RADIANS
      */
     public void setPrecision(double radians) {
@@ -85,7 +85,7 @@ abstract class DiurnalPhaseFinderAbstract {
     /**
      * Sets the {@linkplain #getPrecision() angular precision}.
      *
-     * @param arcseconds    new value of angular precision, in arcseconds, not lesser than {@value #MIN_PRECISION_RADIANS}
+     * @param arcseconds    new value of angular precision, in arcseconds, not lesser than {@value #MIN_PRECISION_ARCSECONDS}
      * @see                 #DEFAULT_PRECISION_RADIANS
      */
     public void setPrecisionArcseconds(double arcseconds) {

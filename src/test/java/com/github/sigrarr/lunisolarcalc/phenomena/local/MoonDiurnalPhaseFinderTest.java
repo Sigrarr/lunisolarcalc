@@ -41,7 +41,7 @@ public class MoonDiurnalPhaseFinderTest {
     };
     private static Example[] EXAMPLES_DEMANDING = {
         // https://www.timeanddate.com/moon/@7670547?month=1&year=1800
-        new Example("Greenwich (long ago, around Full Moon)",
+        new Example("Greenwich (around Full Moon)",
             GREENWICH_PARK, -( 0.0 + 1.0/60.0 + 15.0/3600.0 ), new CalendarPoint[] {
                 new CalendarPoint(1800,  1,  9, 14,  6, 30),
                 new CalendarPoint(1800,  1,  9, 23, 10, 30),
@@ -52,7 +52,7 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800,  1, 11,  8, 56, 30),
             }),
         // https://www.timeanddate.com/moon/canada/toronto?month=2&year=1800
-        new Example("Vancouver (long ago, around Full Moon)",
+        new Example("Vancouver (around Full Moon)",
             VANCOUVER, -( 8.0 + 12.0/60.0 + 28.0/3600.0 ), new CalendarPoint[] {
                 new CalendarPoint(1800,  2,  7, 14, 35, 30),
                 new CalendarPoint(1800,  2,  7, 23,  8, 30),
@@ -63,7 +63,7 @@ public class MoonDiurnalPhaseFinderTest {
                 new CalendarPoint(1800,  2,  9,  7, 53, 30),
             }),
         // https://www.timeanddate.com/moon/japan/tokyo?month=3&year=1800
-        new Example("Tokyo (long ago, around Full Moon)",
+        new Example("Tokyo (around Full Moon)",
             TOKYO, +( 9.0 + 18.0/60.0 + 59.0/3600.0 ), new CalendarPoint[] {
                 new CalendarPoint(1800,  3, 10, 16, 55, 30),
                 new CalendarPoint(1800,  3, 10, 23, 44, 30),

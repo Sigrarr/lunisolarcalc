@@ -8,7 +8,7 @@ import com.github.sigrarr.lunisolarcalc.util.*;
 
 class DiurnalPhaseCalcExtremeApproximator {
 
-    private final DiurnalPhaseCalcCore core;
+    protected final DiurnalPhaseCalcCore core;
 
     DiurnalPhaseCalcExtremeApproximator(DiurnalPhaseCalcCore core) {
         this.core = core;
@@ -70,7 +70,7 @@ class DiurnalPhaseCalcExtremeApproximator {
 
     private double calculateNoonExtremeLocalHourAngleCos(int dayPosition) {
         double standardAltitude = core.getNoonStandardAltitude(dayPosition);
-        double declination = core.getDay(dayPosition).getCoord(COORD_NOON_DECLINATION);
+        double declination = core.getDay(dayPosition).getNoonCoord(COORD_DECLINATION);
         double latitude = core.getRequest().latitude;
         return (Math.sin(standardAltitude) - Math.sin(latitude) * Math.sin(declination))
             / (Math.cos(latitude) * Math.cos(declination));

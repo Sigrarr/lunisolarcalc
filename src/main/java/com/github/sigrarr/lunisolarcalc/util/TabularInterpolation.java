@@ -23,7 +23,6 @@ public abstract class TabularInterpolation {
      */
     public static double interpolate(double[] arguments, double[] values, double x) {
         validateGeneralParameters(arguments, values, x);
-
         int centerIndex = -1;
         double interpolatingFactor = Double.MAX_VALUE;
         for (int i = arguments.length - 2; i > 0; i--) {

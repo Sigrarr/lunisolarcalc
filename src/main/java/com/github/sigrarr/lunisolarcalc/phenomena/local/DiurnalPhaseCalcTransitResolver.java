@@ -16,7 +16,7 @@ class DiurnalPhaseCalcTransitResolver {
     }
 
     double approximateNoonToTransitVector(int dayPosition) {
-        double lha = core.getDay(dayPosition).getCoord(COORD_NOON_LOCAL_HOUR_ANGLE);
+        double lha = core.getDay(dayPosition).getNoonCoord(COORD_LOCAL_HOUR_ANGLE);
         return -lha / Calcs.TURN;
     }
 

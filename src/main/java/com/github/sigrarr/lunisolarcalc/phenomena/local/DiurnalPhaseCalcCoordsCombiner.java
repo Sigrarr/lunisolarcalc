@@ -12,35 +12,30 @@ import com.github.sigrarr.lunisolarcalc.util.*;
 class DiurnalPhaseCalcCoordsCombiner {
 
     private final static Map<Integer, DiscontinuityMitigator> DISCONTINUITY_MITIGATORS = new HashMap<Integer, DiscontinuityMitigator>() {{
-        put(COORD_NOON_RIGHT_ASCENSION, new DiscontinuityMitigator(0.0, Calcs.TURN, Calcs.Monotony.ASCENDING, Calcs.Angle::toNormalLongitude));
+        put(COORD_RIGHT_ASCENSION, new DiscontinuityMitigator(0.0, Calcs.TURN, Calcs.Monotony.ASCENDING, Calcs.Angle::toNormalLongitude));
     }};
 
-    private final DiurnalPhaseCalcCore core;
+    protected final DiurnalPhaseCalcCore core;
     private final SiderealMeanTimeCalculator siderealMeanTimeCalc = new SiderealMeanTimeCalculator();
     private final SiderealApparentTimeCalculator sideralTimeCalc = new SiderealApparentTimeCalculator();
+    private final Interpolator centralInterpolator = new Interpolator(5);
+    private final Interpolator closeInterpolator = new Interpolator(3);
 
     DiurnalPhaseCalcCoordsCombiner(DiurnalPhaseCalcCore core) {
         this.core = core;
     }
 
-    double combineCentralLocalHourAngle(double vectorFromCenter) {
-        TimelinePoint tx = core.getDay(0).noon.add(vectorFromCenter);
-        double siderealTimeDeg = sideralTimeCalc.calculate(
-            siderealMeanTimeCalc.calculate(tx),
-            interpolateCentralCoord(COORD_NOON_NUTUATION_IN_LONGITUDE, vectorFromCenter),
-            interpolateCentralCoord(COORD_NOON_ECLIPTIC_OBLIQUITY, vectorFromCenter)
-        );
-        double hourAngle0 = Transformations.calculateHourAngle(
-            Math.toRadians(siderealTimeDeg),
-            interpolateCentralCoord(COORD_NOON_RIGHT_ASCENSION, vectorFromCenter)
-        );
+    double combineCloseLocalHourAngle(int dayPosition, double vectorFromNoon) {
+        return combineLocalHourAngle(dayPosition, vectorFromNoon, closeInterpolator);
+    }
 
-        return Calcs.Angle.toNormalSignedLongitude(hourAngle0 - core.getRequest().longitude);
+    double combineCentralLocalHourAngle(double vectorFromCenter) {
+        return combineLocalHourAngle(0, vectorFromCenter, centralInterpolator);
     }
 
     double combineCentralAltitude(double vectorFromCenter) {
-        double localHourAngle = combineCentralLocalHourAngle(vectorFromCenter);
-        double declination = interpolateCentralCoord(COORD_NOON_DECLINATION, vectorFromCenter);
+        double localHourAngle = combineLocalHourAngle(0, vectorFromCenter, centralInterpolator);
+        double declination = centralInterpolator.interpolate(0, COORD_DECLINATION, vectorFromCenter);
         double latitude = core.getRequest().latitude;
 
         return Math.asin(
@@ -49,56 +44,60 @@ class DiurnalPhaseCalcCoordsCombiner {
         );
     }
 
-    double interpolateCentralCoord(int coordKey, double vectorFromCenter) {
-        double[] values = {
-            core.getDay(-2).getCoord(coordKey),
-            core.getDay(-1).getCoord(coordKey),
-            core.getDay(0).getCoord(coordKey),
-            core.getDay(+1).getCoord(coordKey),
-            core.getDay(+2).getCoord(coordKey),
-        };
-        if (!DISCONTINUITY_MITIGATORS.containsKey(coordKey))
-            return TabularInterpolation.interpolateFromFiveValuesAndFactor(values, vectorFromCenter);
-
-        DiscontinuityMitigator mitigator = DISCONTINUITY_MITIGATORS.get(coordKey);
-        mitigator.forceContinuityForInterpolation(values);
-        return mitigator.normalization.applyAsDouble(
-            TabularInterpolation.interpolateFromFiveValuesAndFactor(values, vectorFromCenter)
-        );
+    double interpolateCloseCoord(int dayPosition, int coordKey, double vectorFromNoon) {
+        return closeInterpolator.interpolate(dayPosition, coordKey, vectorFromNoon);
     }
 
-    double combineCloseLocalHourAngle(int dayPosition, double vectorFromNoon) {
-        TimelinePoint tx = core.getDay(dayPosition).noon.add(vectorFromNoon);
+    double interpolateCentralCoord(int coordKey, double vectorFromCenter) {
+        return centralInterpolator.interpolate(0, coordKey, vectorFromCenter);
+    }
+
+    private double combineLocalHourAngle(int dayPosition, double vector, Interpolator interpolator) {
+        TimelinePoint tx = core.getDay(dayPosition).noon.add(vector);
         double siderealTimeDeg = sideralTimeCalc.calculate(
             siderealMeanTimeCalc.calculate(tx),
-            interpolateCloseCoord(dayPosition, COORD_NOON_NUTUATION_IN_LONGITUDE, vectorFromNoon),
-            interpolateCloseCoord(dayPosition, COORD_NOON_ECLIPTIC_OBLIQUITY, vectorFromNoon)
+            interpolator.interpolate(dayPosition, COORD_NUTUATION_IN_LONGITUDE, vector),
+            interpolator.interpolate(dayPosition, COORD_ECLIPTIC_OBLIQUITY, vector)
         );
         double hourAngle0 = Transformations.calculateHourAngle(
             Math.toRadians(siderealTimeDeg),
-            interpolateCloseCoord(dayPosition, COORD_NOON_RIGHT_ASCENSION, vectorFromNoon)
+            interpolator.interpolate(dayPosition, COORD_RIGHT_ASCENSION, vector)
         );
 
         return Calcs.Angle.toNormalSignedLongitude(hourAngle0 - core.getRequest().longitude);
     }
 
-    double interpolateCloseCoord(int dayPosition, int coordKey, double vectorFromNoon) {
-        if (dayPosition > 1 || dayPosition < -1)
-            throw new IllegalArgumentException();
+    private class Interpolator {
+        final InterpolatingFunction function;
+        final double[] values;
+        final int radius;
 
-        double[] values = {
-            core.getDay(dayPosition - 1).getCoord(coordKey),
-            core.getDay(dayPosition).getCoord(coordKey),
-            core.getDay(dayPosition + 1).getCoord(coordKey)
-        };
-        if (!DISCONTINUITY_MITIGATORS.containsKey(coordKey))
-            return TabularInterpolation.interpolateFromThreeValuesAndFactor(values, vectorFromNoon);
+        Interpolator(int pointsNumber) {
+            if (pointsNumber == 5)
+                function = TabularInterpolation::interpolateFromFiveValuesAndFactor;
+            else if (pointsNumber == 3)
+                function = TabularInterpolation::interpolateFromThreeValuesAndFactor;
+            else throw new IllegalArgumentException();
+            values = new double[pointsNumber];
+            radius = pointsNumber / 2;
+        }
 
-        DiscontinuityMitigator mitigator = DISCONTINUITY_MITIGATORS.get(coordKey);
-        mitigator.forceContinuityForInterpolation(values);
-        return mitigator.normalization.applyAsDouble(
-            TabularInterpolation.interpolateFromThreeValuesAndFactor(values, vectorFromNoon)
-        );
+        double interpolate(int dayPosition, int coordKey, double vector) {
+            for (int r = -radius, v = 0; r <= radius; r++, v++)
+                values[v] = core.getDay(dayPosition + r).getNoonCoord(coordKey);
+
+            if (!DISCONTINUITY_MITIGATORS.containsKey(coordKey))
+                return function.apply(values, vector);
+
+            DiscontinuityMitigator mitigator = DISCONTINUITY_MITIGATORS.get(coordKey);
+            mitigator.forceContinuityForInterpolation(values);
+            return mitigator.normalization.applyAsDouble(function.apply(values, vector));
+        }
+    }
+
+    @FunctionalInterface
+    private static interface InterpolatingFunction {
+        public double apply(double[] values, double factor);
     }
 
     private static class DiscontinuityMitigator {

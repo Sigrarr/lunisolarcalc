@@ -9,7 +9,7 @@ public enum DiurnalPhase implements Titled {
     SET("Set", +1);
 
     /**
-     * Signum of vector from to the phase from its transit: -1 if before, +1 if after, 0 for the transit.
+     * Signum of vector to the phase from its transit: -1 if before, +1 if after, 0 for the transit.
      */
     protected final int direction;
     private final String title;

@@ -88,7 +88,7 @@ public class SunDiurnalPhaseFinderTest {
     private int seriesCounter;
 
     @Test
-    public void shouldFindInTypicalSituationInAgreementWithReferenceData() {
+    public void shouldFindInTypicalScenarioInAgreementWithReferenceData() {
         double delta = 30.0 * Calcs.SECOND_TO_DAY;
         for (Example example : EXAMPLES_TYPICAL) {
             seriesCounter = 0;
@@ -117,7 +117,7 @@ public class SunDiurnalPhaseFinderTest {
     }
 
     @Test
-    public void shouldHandlePolarSituationReasonably() {
+    public void shouldFindInPolarScenarioReasonably() {
         double delta = 2.5 * Calcs.MINUTE_TO_DAY;
         for (Example example : EXAMPLES_POLAR) {
             seriesCounter = 0;
@@ -128,9 +128,11 @@ public class SunDiurnalPhaseFinderTest {
                 .forEach(optOcc -> {
                     CalendarPoint expectedLocalDateTime = expectedLocalDateTimeIt.next();
                     if (expectedLocalDateTime == null) {
-                        assertFalse(optOcc.isPresent());
+                        assertFalse(optOcc.isPresent(),
+                            String.format("Present %s #%d @%s", getExpectedPhase().getTitle(), seriesCounter, example.getTitle()));
                     } else {
-                        assertTrue(optOcc.isPresent());
+                        assertTrue(optOcc.isPresent(),
+                            String.format("Absent %s #%d @%s", getExpectedPhase().getTitle(), seriesCounter, example.getTitle()));
                         assertEquals(getExpectedPhase(), optOcc.get().getType().diurnalPhase);
                         UniversalTimelinePoint expectedPoint = example.toUniversalPoint(expectedLocalDateTime);
                         UniversalTimelinePoint actualPoint = optOcc.get().getTimelinePoint();

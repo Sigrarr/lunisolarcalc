@@ -76,29 +76,29 @@ class Example implements Titled {
 
     final String label;
     final GeoCoords geoCoords;
-    final double officialOffsetDayFraction;
+    final double referenceOffsetDayFraction;
     final CalendarPoint[] expectedLocalDateTimes;
     final CalendarPoint baseLocalNoon;
 
     Example(
         String label,
         GeoCoords geoCoords,
-        double officialOffsetH,
+        double referenceOffsetH,
         CalendarPoint[] expectedLocalDateTimes
     ) {
         this.label = label;
         this.geoCoords = geoCoords;
-        this.officialOffsetDayFraction = officialOffsetH / 24.0;
+        this.referenceOffsetDayFraction = referenceOffsetH / 24.0;
         this.expectedLocalDateTimes = expectedLocalDateTimes;
         this.baseLocalNoon = reduceToNoon(expectedLocalDateTimes[1]);
     }
 
     CalendarPoint toLocalDateTime(UniversalTimelinePoint timelinePoint) {
-        return timelinePoint.toLocalTimeCalendarPoint(officialOffsetDayFraction);
+        return timelinePoint.toLocalTimeCalendarPoint(referenceOffsetDayFraction);
     }
 
     UniversalTimelinePoint toUniversalPoint(CalendarPoint localDateTime) {
-        return UniversalTimelinePoint.ofLocalTimeCalendarPoint(localDateTime, officialOffsetDayFraction);
+        return UniversalTimelinePoint.ofLocalTimeCalendarPoint(localDateTime, referenceOffsetDayFraction);
     }
 
     CalendarPoint reduceToNoon(CalendarPoint transitLocalDateTime) {

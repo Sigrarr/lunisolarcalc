@@ -9,6 +9,8 @@ abstract class DiurnalPhaseCalcExtremeFinder {
     private static final double INITIAL_INTERVAL_DAY_FRACTION = 0.5 / 24.0;
     private static final double MIN_INTERVAL_DAY_FRACTION = 0.5 * Calcs.SECOND_TO_DAY;
     protected final DiurnalPhaseCalcCore core;
+    private double[] interpolationX = {0.0, 0.0, 0.0};
+    private double[] interpolationY = new double[3];
 
     DiurnalPhaseCalcExtremeFinder(DiurnalPhaseCalcCore core) {
         this.core = core;
@@ -23,14 +25,8 @@ abstract class DiurnalPhaseCalcExtremeFinder {
             Double.compare(Math.abs(excess), core.getRequest().precisionRadians) > 0
             && Double.compare(interval, MIN_INTERVAL_DAY_FRACTION) >= 0
         ) {
-            OptionalDouble correctionInIntervalScale = TabularInterpolation.interpolateZeroPointFactorFromThreePoints(
-                new double[] {-interval, 0.0, +interval},
-                new double [] {
-                    combineExcessOverStandardAltitude(vector - interval),
-                    excess,
-                    combineExcessOverStandardAltitude(vector + interval)
-                }
-            );
+            combineSurroundingExcessValuesAndUpdateInterpolationPoints(vector, excess, interval);
+            OptionalDouble correctionInIntervalScale = TabularInterpolation.interpolateZeroPointFactorFromThreePoints(interpolationX, interpolationY);
             if (!correctionInIntervalScale.isPresent())
                 return OptionalDouble.empty();
 
@@ -41,6 +37,14 @@ abstract class DiurnalPhaseCalcExtremeFinder {
         }
 
         return OptionalDouble.of(vector);
+    }
+
+    private void combineSurroundingExcessValuesAndUpdateInterpolationPoints(double vector, double excess, double interval) {
+        interpolationX[0] = -interval;
+        interpolationX[2] = interval;
+        interpolationY[0] = combineExcessOverStandardAltitude(vector - interval);
+        interpolationY[1] = excess;
+        interpolationY[2] = combineExcessOverStandardAltitude(vector + interval);
     }
 
     private double combineExcessOverStandardAltitude(double vector) {
