@@ -43,16 +43,9 @@ class DiurnalPhaseCalcTransitResolver {
             : approximateNoonToTransitVector(dayPosition);
         double lha = lhaEvaluation.applyAsDouble(vector);
 
-        DoubleStrictPairBuffer correction = new DoubleStrictPairBuffer(vector);
-        correction.push(-lha/Calcs.TURN);
-
-        while (
-            Double.compare(Math.abs(lha), core.getRequest().precisionRadians) > 0
-            && Double.compare(Math.abs(correction.getCurrent()), Math.abs(correction.getPrevious())) < 0
-        ) {
-            vector += correction.getCurrent();
+        while (Double.compare(Math.abs(lha), core.getRequest().precisionRadians) > 0) {
+            vector -= lha / Calcs.TURN;
             lha = lhaEvaluation.applyAsDouble(vector);
-            correction.push(-lha/Calcs.TURN);
         }
 
         return vector;
