@@ -54,16 +54,12 @@ public class FlexPentadBufferTest {
         assertEquals(expectedElements[3] != null, pentad.hasFront());
         assertEquals(expectedElements[4] != null, pentad.hasFrontFront());
 
-        boolean allEmpty = true;
-        boolean allPresent = true;
-        for (int i = 0; i < 5; i++) {
-            assertEquals(expectedElements[i], pentad.get(i));
-            if (expectedElements[i] == null)
-                allPresent = false;
-            else
-                allEmpty = false;
-        }
-        assertEquals(allPresent, pentad.isComplete());
-        assertEquals(allEmpty, pentad.isEmpty());
+        int expectedCount = 0;
+        for (int i = 0; i < 5; i++)
+            if (expectedElements[i] != null)
+                expectedCount++;
+        assertEquals(expectedCount, pentad.getCount());
+        assertEquals(expectedCount == 5, pentad.isComplete());
+        assertEquals(expectedCount == 0, pentad.isEmpty());
     }
 }

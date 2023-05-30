@@ -14,11 +14,12 @@ public abstract class TabularInterpolation {
      * The passed arrays of arguments and values may be longer,
      * the base points will be then selected automatically.
      *
-     * @param arguments     array of arguments (with known values) of a function
-     * @param values        array of values corresponding to the arguments
+     * @param arguments     array of arguments of a function (with known values,
+     *                      in order, with constant interval between the subsequent ones)
+     * @param values        array of values corresponding to the given arguments
      *                      (both arrays must have the same length)
      * @param x             argument whose value is to be found
-     *                      (must fit between arguments given in array)
+     *                      (must fit between the given arguments)
      * @return              interpolated value corresponding to the requested argument
      */
     public static double interpolate(double[] arguments, double[] values, double x) {
@@ -55,7 +56,9 @@ public abstract class TabularInterpolation {
     /**
      * Performs simple interpolation based on three tabular values.
      *
-     * @param values                array of three known values of a function
+     * @param values                array of three known values of a function (corresponding
+     *                              to ordered arguments with constant interval between
+     *                              the subsequent ones)
      * @param interpolatingFactor   interpolating factor (presumably the relative distance between
      *                              the argument of the middle value and the argument
      *                              whose value is to be found)
@@ -75,7 +78,9 @@ public abstract class TabularInterpolation {
     /**
      * Performs simple interpolation based on five tabular values.
      *
-     * @param values                array of five known values of a function
+     * @param values                array of five known values of a function (corresponding
+     *                              to ordered arguments with constant interval between
+     *                              the subsequent ones)
      * @param interpolatingFactor   interpolating factor (presumably the relative distance between
      *                              the argument of the middle value and the argument
      *                              whose value is to be found)
@@ -110,11 +115,12 @@ public abstract class TabularInterpolation {
      * Unlike the Meeus's method, solves a quadratic equation (instead of
      * starting with an approximate interpolating factor and correcting it in iterations).
      *
-     * @param arguments     array of three arguments of a function
-     * @param values        array of three values corresponding to the arguments
+     * @param arguments     array of three arguments of a function (with known values,
+     *                      in order, with constant interval between subsequent ones)
+     * @param values        array of three values corresponding to the given arguments
      * @return              argument for which the function's value should be zero,
-     *                      or an empty optional object if the function seems to have
-     *                      no zero point between the given arguments
+     *                      or an empty optional if the function does not seem to
+     *                      have a zero point between the given arguments
      */
     public static OptionalDouble interpolateZeroPointArgumentFromThreePoints(double arguments[], double values[])
     {
@@ -132,11 +138,12 @@ public abstract class TabularInterpolation {
      * Unlike the Meeus's method, solves a quadratic equation (instead of
      * starting with an approximate interpolating factor and correcting it in iterations).
      *
-     * @param arguments     array of three arguments of a function
-     * @param values        array of three values corresponding to the arguments
+     * @param arguments     array of three arguments of a function (with known values,
+     *                      in order, with constant interval between subsequent ones)
+     * @param values        array of three values corresponding to the given arguments
      * @return              the interpolating factor for which the function's value should be zero,
-     *                      or an empty optional object if the function seems to have
-     *                      no zero point between the given arguments
+     *                      or an empty optional if the function does not seem to
+     *                      have a zero point between the given arguments
      */
     public static OptionalDouble interpolateZeroPointFactorFromThreePoints(double arguments[], double values[])
     {

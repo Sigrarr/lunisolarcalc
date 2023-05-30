@@ -1,5 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
+import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseFinderAbstract.PRECISION_RADIANS;
+
 import java.util.OptionalDouble;
 
 import com.github.sigrarr.lunisolarcalc.util.*;
@@ -22,7 +24,7 @@ abstract class DiurnalPhaseCalcExtremeFinder {
         double interval = INITIAL_INTERVAL_DAY_FRACTION;
 
         while (
-            Double.compare(Math.abs(excess), core.getRequest().precisionRadians) > 0
+            Double.compare(Math.abs(excess), PRECISION_RADIANS) > 0
             && Double.compare(interval, MIN_INTERVAL_DAY_FRACTION) >= 0
         ) {
             combineSurroundingExcessValuesAndUpdateInterpolationPoints(vector, excess, interval);

@@ -3,14 +3,17 @@ package com.github.sigrarr.lunisolarcalc.time;
 import java.time.*;
 import java.util.GregorianCalendar;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
 import com.github.sigrarr.lunisolarcalc.time.calendar.*;
+import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
  * A {@linkplain TimelinePoint timeline point} in the {@linkplain TimeScale#UNIVERSAL Universal Time}.
  *
  * This class introduces several additional conversion methods (named "to...")
  * and static construction methods (named "of..."), including the support of
- * {@link LocalDateTime}, {@link LocalDate} and legacy {@link java.util.GregorianCalendar}.
+ * local time conversion and the classes: {@link LocalDateTime}, {@link LocalDate}
+ * and legacy {@link java.util.GregorianCalendar}.
  *
  * @see DynamicalTimelinePoint
  */
@@ -128,16 +131,28 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
 
     /**
      * Obtains an instance with given local date-time and its time offset from Universal Time.
-     * Result timeline point won't keep the offset (will be converted in Universal Time).
+     * Result timeline point won't keep the offset (will be converted to Universal Time).
      *
      * @param localDateTime             local date-time
      * @param timeOffsetDayFraction     time offset from Universal Time, as a fraction of day
-     *                                  (e.g.: 1.0/24 for UTC+1, -0.2 for local solar time UTC−4:48)
+     *                                  (e.g.: 1.0/24 for UTC+1, -0.2 for local time UTC−4:48)
      * @return                          instance (in Universal Time)
      */
     public static UniversalTimelinePoint ofLocalTimeCalendarPoint(NormalCalendarPoint localDateTime, double timeOffsetDayFraction) {
         double jd = Timeline.normalCalendarToJulianDay(localDateTime) - timeOffsetDayFraction;
         return new UniversalTimelinePoint(jd);
+    }
+
+    /**
+     * Obtains an instance with given date-time in local solar time specified by given geographical coordinates.
+     * Result timeline point won't keep the geographical information (will be converted to Universal Time).
+     *
+     * @param localDateTime     local date-time
+     * @param geoCoords         geographical coordinates specifying the local solar time
+     * @return                  instance (in Universal Time)
+     */
+    public static UniversalTimelinePoint ofLocalTimeCalendarPoint(NormalCalendarPoint localDateTime, GeoCoords geoCoords) {
+        return ofLocalTimeCalendarPoint(localDateTime, geoCoords.getConventionalLongitude() / Calcs.TURN);
     }
 
     /**
@@ -214,6 +229,29 @@ public final class UniversalTimelinePoint extends TimelinePoint implements Compa
      */
     public NormalCalendarPoint toLocalTimeNormalCalendarPoint(double timeOffsetDayFraction, NormalCalendar calendar) {
         return Timeline.julianDayToNormalCalendar(julianDay + timeOffsetDayFraction, calendar);
+    }
+
+    /**
+     * Expresses this timeline point as a date-time in the local solar time
+     * specified by given geographical coordinates.
+     *
+     * @param geoCoords     geographical coordinates specifying the local solar time
+     * @return              date-time in the local solar time
+     */
+    public CalendarPoint toLocalTimeCalendarPoint(GeoCoords geoCoords) {
+        return toLocalTimeCalendarPoint(geoCoords.getConventionalLongitude() / Calcs.TURN);
+    }
+
+    /**
+     * Expresses this timeline point as a date-time in the local solar time
+     * specified by given geographical coordinates, in chosen calendar.
+     *
+     * @param geoCoords     geographical coordinates specifying the local solar time
+     * @param calendar      target calendar
+     * @return              date-time in the local solar time, in the chosen calendar
+     */
+    public NormalCalendarPoint toLocalTimeNormalCalendarPoint(GeoCoords geoCoords, NormalCalendar calendar) {
+        return toLocalTimeNormalCalendarPoint(geoCoords.getConventionalLongitude() / Calcs.TURN, calendar);
     }
 
     /**

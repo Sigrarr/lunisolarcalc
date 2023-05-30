@@ -12,14 +12,12 @@ class DiurnalPhaseCalcRequest {
     final double latitude;
     final double longitude;
     final Set<DiurnalPhase> phases;
-    final double precisionRadians;
 
-    DiurnalPhaseCalcRequest(CalendarPoint baseLocalDate, GeoCoords geoCoords, Set<DiurnalPhase> phases, double precisionRadians) {
+    DiurnalPhaseCalcRequest(CalendarPoint baseLocalDate, GeoCoords geoCoords, Set<DiurnalPhase> phases) {
         this.baseNoon = getBaseNoon(baseLocalDate, geoCoords);
-        this.latitude = geoCoords.getPlanetographicLatitude();
+        this.latitude = geoCoords.getLatitude();
         this.longitude = geoCoords.getPlanetographicLongitude();
         this.phases = phases;
-        this.precisionRadians = precisionRadians;
     }
 
     private UniversalTimelinePoint getBaseNoon(CalendarPoint baseLocalDate, GeoCoords geoCoords) {

@@ -1,6 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcDayValues.*;
+import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseFinderAbstract.PRECISION_RADIANS;
 
 import java.util.OptionalDouble;
 import java.util.function.DoubleUnaryOperator;
@@ -43,7 +44,7 @@ class DiurnalPhaseCalcTransitResolver {
             : approximateNoonToTransitVector(dayPosition);
         double lha = lhaEvaluation.applyAsDouble(vector);
 
-        while (Double.compare(Math.abs(lha), core.getRequest().precisionRadians) > 0) {
+        while (Double.compare(Math.abs(lha), PRECISION_RADIANS) > 0) {
             vector -= lha / Calcs.TURN;
             lha = lhaEvaluation.applyAsDouble(vector);
         }

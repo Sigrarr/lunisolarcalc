@@ -8,7 +8,6 @@ import java.util.stream.*;
 import org.junit.jupiter.api.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.UniversalOccurrence;
-import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.PrecisionAngleTooSmallException;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
@@ -60,25 +59,5 @@ public class DiurnalPhaseFinderAbstractTest {
                     }
                 }
             }
-    }
-
-    @Test
-    public void shouldValidatePrecisionSetting() {
-        double barelyOkRadians = DiurnalPhaseFinderAbstract.MIN_PRECISION_RADIANS;
-        double wrongRadians = DiurnalPhaseFinderAbstract.MIN_PRECISION_RADIANS - Calcs.EPSILON_12;
-        double barelyOkArcseconds = Calcs.Angle.toArcseconds(Math.toDegrees(barelyOkRadians));
-        double wrongArcseconds = barelyOkArcseconds - Calcs.EPSILON_12;
-
-        for (DiurnalPhaseFinderAbstract finder : finders) {
-            assertDoesNotThrow(() -> finder.setPrecision(barelyOkRadians));
-            PrecisionAngleTooSmallException ex = assertThrows(PrecisionAngleTooSmallException.class,
-                () -> finder.setPrecision(wrongRadians));
-            assertEquals(wrongRadians, ex.getRadians(), Calcs.EPSILON_MIN);
-
-            assertDoesNotThrow(() -> finder.setPrecisionArcseconds(barelyOkArcseconds));
-            ex = assertThrows(PrecisionAngleTooSmallException.class,
-                () -> finder.setPrecisionArcseconds(wrongArcseconds));
-            assertEquals(Math.toRadians(Calcs.Angle.arcsecondsToDegrees(wrongArcseconds)), ex.getRadians(), Calcs.EPSILON_MIN);
-        }
     }
 }

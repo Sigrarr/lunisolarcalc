@@ -43,12 +43,11 @@ public class GeoCoordsTest {
         assertNonEquivalence(pp, new GeoCoords(-unit/2 - Calcs.EPSILON, 0));
     }
 
-    private void assertCorrectStateAndGettersOutput(GeoCoords geoCoords, double planetographicLatitude, double planetographicLongitude) {
-        assertEquals(planetographicLatitude, geoCoords.latitude);
+    private void assertCorrectStateAndGettersOutput(GeoCoords geoCoords, double latitude, double planetographicLongitude) {
+        assertEquals(latitude, geoCoords.latitude);
         assertEquals(planetographicLongitude, geoCoords.longitude);
-        assertEquals(planetographicLatitude, geoCoords.getPlanetographicLatitude());
+        assertEquals(latitude, geoCoords.getLatitude());
         assertEquals(planetographicLongitude, geoCoords.getPlanetographicLongitude());
-        assertEquals(planetographicLatitude, geoCoords.getConventionalLatitude());
         assertEquals(-planetographicLongitude, geoCoords.getConventionalLongitude());
     }
 }

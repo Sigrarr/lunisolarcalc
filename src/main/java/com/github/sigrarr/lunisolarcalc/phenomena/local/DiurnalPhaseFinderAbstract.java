@@ -4,46 +4,98 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.UniversalOccurrence;
-import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.PrecisionAngleTooSmallException;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 abstract class DiurnalPhaseFinderAbstract {
     /**
-     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in arcseconds ({@value}).
+     * The {@linkplain #getPrecision() angular precision}, in arcseconds ({@value}).
      */
-    public static final double MIN_PRECISION_ARCSECONDS = GeoCoords.EQUIV_UNIT_ARCSECONDS;
+    public static final double PRECISION_ARCSECONDS = GeoCoords.EQUIV_UNIT_ARCSECONDS;
     /**
-     * Minimal allowed value of {@linkplain #getPrecision() angular precision}, in radians (={@value #MIN_PRECISION_ARCSECONDS} arcsecond).
+     * The {@linkplain #getPrecision() angular precision}, in radians (={@value #PRECISION_ARCSECONDS} arcsecond).
      */
-    public static final double MIN_PRECISION_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(MIN_PRECISION_ARCSECONDS));
-    /**
-     * The default value of {@linkplain #getPrecision() angular precision}, in radians (={@value #MIN_PRECISION_ARCSECONDS} arcsecond).
-     */
-    public static final double DEFAULT_PRECISION_RADIANS = MIN_PRECISION_RADIANS;
+    public static final double PRECISION_RADIANS = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(PRECISION_ARCSECONDS));
 
     protected final DiurnalPhaseCalcCore core;
-    protected double precisionRadians = DEFAULT_PRECISION_RADIANS;
 
     DiurnalPhaseFinderAbstract(DiurnalPhaseCalcCore core) {
         this.core = core;
     }
 
+    /**
+     * Tries to find an occurrence of the requested diurnal phase of the celestial body
+     * for the specified geographical position, matching the transit which occurrs at the given local date
+     * (expressed in local solar time proper for the given position).
+     *
+     * See the class' description for details.
+     *
+     * @param date          date of a matching transit, in local solar time
+     *                      proper for the given geographical coordinates
+     *                      (preferably with time set to the noon)
+     * @param geoCoords     (the observer's) geographical coordinates
+     * @param phase         the diurnal phase to look for
+     * @return              optional occurrence
+     */
     public Optional<UniversalOccurrence<BodyDiurnalPhase>> find(CalendarPoint date, GeoCoords geoCoords, DiurnalPhase phase) {
-        core.reset(new DiurnalPhaseCalcRequest(date, geoCoords, EnumSet.of(phase), precisionRadians));
+        core.reset(new DiurnalPhaseCalcRequest(date, geoCoords, EnumSet.of(phase)));
         return core.get();
     }
 
+    /**
+     * Looks for occurrences of any principal diurnal phases of the celestial body
+     * for the specified geographical position, starting with the rise matching the transit
+     * which occurrs at the given local date (expressed in local solar time proper for the given position);
+     * streams the results.
+     *
+     * See the class' description for details.
+     *
+     * @param baseDate      date of the transit whose rise will be the first to look for,
+     *                      in local solar time proper for the given geographical coordinates
+     *                      (preferably with time set to the noon)
+     * @param geoCoords     (the observer's) geographical coordinates
+     * @return              unterminated {@link Stream} of optional occurrences
+     */
     public Stream<Optional<UniversalOccurrence<BodyDiurnalPhase>>> findMany(CalendarPoint baseDate, GeoCoords geoCoords) {
         return findMany(baseDate, geoCoords, EnumSet.allOf(DiurnalPhase.class));
     }
 
+    /**
+     * Looks for occurrences of the requested diurnal phase of the celestial body
+     * for the specified geographical position, starting with the one matching the transit
+     * which occurrs at the given local date (expressed in local solar time proper for the given position);
+     * streams the results.
+     *
+     * See the class' description for details.
+     *
+     * @param baseDate      date of the transit matching the first occurrence to look for,
+     *                      in local solar time proper for the given geographical coordinates
+     *                      (preferably with time set to the noon)
+     * @param geoCoords     (the observer's) geographical coordinates
+     * @param phase         diurnal phase to look for
+     * @return              unterminated {@link Stream} of optional occurrences
+     */
     public Stream<Optional<UniversalOccurrence<BodyDiurnalPhase>>> findMany(CalendarPoint baseDate, GeoCoords geoCoords, DiurnalPhase phase) {
         return findMany(baseDate, geoCoords, EnumSet.of(phase));
     }
 
+    /**
+     * Looks for occurrences of the requested diurnal phases of the celestial body
+     * for the specified geographical position, starting with one from the group of the transit
+     * which occurrs at the given local date (expressed in local solar time proper for the given position);
+     * streams the results.
+     *
+     * See the class' description for details.
+     *
+     * @param baseDate      date of the transit matching the first occurrence to look for,
+     *                      in local solar time proper for the given geographical coordinates
+     *                      (preferably with time set to the noon)
+     * @param geoCoords     (the observer's) geographical coordinates
+     * @param phases        diurnal phases to look for
+     * @return              unterminated {@link Stream} of optional occurrences
+     */
     public Stream<Optional<UniversalOccurrence<BodyDiurnalPhase>>> findMany(CalendarPoint baseDate, GeoCoords geoCoords, Set<DiurnalPhase> phases) {
-        core.reset(new DiurnalPhaseCalcRequest(baseDate, geoCoords, phases, precisionRadians));
+        core.reset(new DiurnalPhaseCalcRequest(baseDate, geoCoords, phases));
         return Stream.generate(core);
     }
 
@@ -61,39 +113,10 @@ abstract class DiurnalPhaseFinderAbstract {
      * In the case of transit of the astronomical body, the phase-indicating angle means
      * its local hour angle; in the cases of rise and set it is its altitude.
      *
-     * A smaller value implies better precision,
-     * but also a higher mean number of core calculations needed to obtain a result.
-     *
      * @return  the angular precision value, in radians
-     * @see     #DEFAULT_PRECISION_RADIANS
+     * @see     #PRECISION_RADIANS
      */
     public double getPrecision() {
-        return precisionRadians;
-    }
-
-    /**
-     * Sets the {@linkplain #getPrecision() angular precision}.
-     *
-     * @param radians   new value of angular precision, in radians, not lesser than {@link #MIN_PRECISION_RADIANS minimal precision}
-     * @see             #DEFAULT_PRECISION_RADIANS
-     */
-    public void setPrecision(double radians) {
-        validatePrecisionRadians(radians);
-        precisionRadians = radians;
-    }
-
-    /**
-     * Sets the {@linkplain #getPrecision() angular precision}.
-     *
-     * @param arcseconds    new value of angular precision, in arcseconds, not lesser than {@value #MIN_PRECISION_ARCSECONDS}
-     * @see                 #DEFAULT_PRECISION_RADIANS
-     */
-    public void setPrecisionArcseconds(double arcseconds) {
-        setPrecision(Math.toRadians(Calcs.Angle.arcsecondsToDegrees(arcseconds)));
-    }
-
-    protected final void validatePrecisionRadians(double radians) {
-        if (radians < MIN_PRECISION_RADIANS)
-            throw new PrecisionAngleTooSmallException(radians, MIN_PRECISION_RADIANS);
+        return PRECISION_RADIANS;
     }
 }
