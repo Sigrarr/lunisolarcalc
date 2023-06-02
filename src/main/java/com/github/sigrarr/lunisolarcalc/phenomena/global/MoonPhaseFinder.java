@@ -7,8 +7,8 @@ import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders
 import com.github.sigrarr.lunisolarcalc.util.*;
 
 /**
- * A tool for finding occurrences of principal phases of the Moon, i.e. distinguished stages of the lunation cycle
- * - whose stage-indicating angle is excess of the Moon's apparent longitude over the Sun's apparent longitude.
+ * A tool for finding occurrences of principal phases of the Moon, i.e. distinguished stages of the lunation cycle.
+ * The stage-indicating angle is excess of the Moon's apparent longitude over the Sun's apparent longitude.
  *
  * Internally, works 'by definition' - driven by a core calculator of stage-indicating angle:
  * starts with an initial {@linkplain MoonPhaseApproximator time approximation} - t, then (re)calculates the excess for t

@@ -6,7 +6,8 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 /**
  * Operations concerning time scales, based on the equation
  * ΔT = {@linkplain TimeScale#DYNAMICAL TT} - {@linkplain TimeScale#UNIVERSAL UT}.
- * The default method of ΔT evaluation is based on Morrison & Stephenson (2004);
+ *
+ * The default method of ΔT evaluation is based on {@literal Morrison & Stephenson (2004)};
  * it is best fit for years -700 to +2000, but applicable outside this interval too.
  *
  * Remember that ΔT bears serious uncertainty, regarding both the future and the distant past.

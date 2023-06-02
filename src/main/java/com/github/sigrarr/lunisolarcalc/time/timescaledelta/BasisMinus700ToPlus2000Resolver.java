@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
 
 /**
  * A tool for approximating ΔT = {@linkplain TimeScale TT - UT},
- * adapting the method by Morrison & Stephenson (2004).
+ * adapting the method by {@literal Morrison & Stephenson (2004)}.
  * It is fit for years from -700 to +2000, but can be applied outside this interval
  * with reasonable accuracy (in greater extent to the past than to the future).
  * It does not provide values of high accuracy for contemporary times.
@@ -16,12 +16,12 @@ import com.github.sigrarr.lunisolarcalc.time.*;
  * it does not reflect the results' accuracy, but only the design goal
  * that ΔT should change in time continuously, which prevents contradictional behaviour
  * (sudden changes of discrete values of ΔT would break time order in some cases,
- * i.e. cause situations in which UT1 < UT2 but TT(UT1) ≥ TT(UT2)).
+ * i.e. cause situations in which {@literal UT1 < UT2 but TT(UT1) ≥ TT(UT2)}).
  *
  * The referenced work assigns ΔT values to certain years; this tool
  * takes those points as the years' beginnings in Universal Time
  * and performs linear interpolation between them.
- * Morrison & Stephenson give also a parabolic formula to be used for extrapolation
+ * {@literal Morrison & Stephenson} give also a parabolic formula to be used for extrapolation
  * of ΔT before -700 and after +2000; it is applied by this resolver too,
  * but with a slight modification: values for (start of) -710 and +2001 are precalculated
  * and assigned as if they belonged to the base points, so ΔT for intervals

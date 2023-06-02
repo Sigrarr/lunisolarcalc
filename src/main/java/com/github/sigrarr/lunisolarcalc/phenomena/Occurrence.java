@@ -37,6 +37,8 @@ public abstract class Occurrence<T extends Enum<T>> {
 
     /**
      * Gets the time of occurence.
+     *
+     * @return  time of occurrence
      */
     public TimelinePoint getTimelinePoint() {
         return timelinePoint;
@@ -44,6 +46,8 @@ public abstract class Occurrence<T extends Enum<T>> {
 
     /**
      * Gets the type or stage of astronomical phenomenon.
+     *
+     * @return  type or stage of astronomical phenomenon
      */
     public T getType() {
         return type;
@@ -75,7 +79,7 @@ public abstract class Occurrence<T extends Enum<T>> {
 
     /**
      * Equivalence check: checks whether the other object (Occurrence) is an equivalent of this,
-     * i.e. whether they both store the same {@linkplain #getType() type/stage} of the same phenomenon
+     * i.e. whether they both store the same {@linkplain #getType() type/stage} of the same phenomenon
      * and have {@linkplain TimelinePoint#equals(Object) equal timeline points}
      * (belonging to the same {@linkplain TimeScale time scale} is necessary).
      *

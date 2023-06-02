@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 import com.github.sigrarr.lunisolarcalc.util.Titled;
 
 /**
- * A principal diurnal phase of a celestial body, ie. a distinguished moment
+ * A principal diurnal phase of a celestial body, ie. a distinguished moment
  * in the movement of an astronomical body in the sky caused by the Earth's rotation.
  */
 public enum DiurnalPhase implements Titled {

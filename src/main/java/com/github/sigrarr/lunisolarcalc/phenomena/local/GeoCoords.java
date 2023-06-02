@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
- * Angular geographical coordinates, ie. latitude and longitude.
+ * Angular geographical coordinates, ie. latitude and longitude.
  *
  * Can be construct and expressed with either "planetographic" (default, following Meeus)
  * or "conventional" angles which differ by the longitude's sign
@@ -174,7 +174,7 @@ public class GeoCoords {
     /**
      * Equivalence check applying the {@linkplain #EQUIV_UNIT_ARCSECONDS equivalence unit}:
      * checks whether the other pair of geographical coordintes is an equivalent of this,
-     * i.e. whether they have got equal latitudes and longitudes
+     * i.e. whether they have got equal latitudes and longitudes
      * (belonging to the same equivalence unit).
      *
      * @param o     other object (pair of geographical coordinates), to check its equivalence with this

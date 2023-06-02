@@ -59,6 +59,29 @@
               </execution>
           </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <show>public</show>
+          <bottom>
+            <![CDATA[
+              Luni-Solar Calc by Wiktor Banaszewski
+              • <a href="https://github.com/Sigrarr/lunisolarcalc">https://github.com/Sigrarr/lunisolarcalc</a>
+            ]]>
+          </bottom>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

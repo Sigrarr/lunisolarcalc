@@ -45,7 +45,7 @@ public abstract class Composition<SubjectT extends Enum<SubjectT>, InT> {
 
     /**
      * Replicates the composition,
-     * i.e. prepares a composition instance like this one.
+     * i.e. prepares a composition instance like this one.
      *
      * @return  composition instance like this one
      */

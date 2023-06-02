@@ -11,7 +11,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
  * and for converting between time and stage-indicating angle in the cycle's progress.
  *
  * Based on polynomial functions of time (in centurial T) for mean length at that time
- * by Laskar (for Sun, 1986) and Chapront-Touzé & Chapront (for Moon, 1988),
+ * by Laskar (for Sun, 1986) and {@literal Chapront-Touzé & Chapront} (for Moon, 1988),
  * as given by L.E. Doggett.
  *
  * @see "Seidelmann 1992: Ch. 12 by L.E. Doggett, 12.11-12 (p. 576)"
@@ -26,7 +26,7 @@ public enum MeanCycle {
         Timeline.EPOCH_2000_TT
     ),
     /**
-     * Mean lunation, a.k.a. synodic month, the cycle of the Moon's phases.
+     * Mean lunation, a.k.a. synodic month, the cycle of the Moon's phases.
      */
     LUNATION(
         29.5305888531,
@@ -109,7 +109,7 @@ public enum MeanCycle {
 
     /**
      * Calculates angle corresponding to given amount of time
-     * in a mean cycle at the epoch; i.e. the angle value
+     * in a mean cycle at the epoch; i.e. the angle value
      * by which a mean cycle progresses during given time.
      *
      * @param seconds           amount of time, in seconds
@@ -121,7 +121,7 @@ public enum MeanCycle {
 
     /**
      * Calculates angle corresponding to given amount of time
-     * in a mean cycle at the epoch; i.e. the angle value
+     * in a mean cycle at the epoch; i.e. the angle value
      * by which a mean cycle progresses during given time.
      *
      * @param seconds           amount of time, in seconds
@@ -133,7 +133,7 @@ public enum MeanCycle {
 
     /**
      * Calculates amount of time corresponding to given angle
-     * in a mean cycle at the epoch; i.e. how much time
+     * in a mean cycle at the epoch; i.e. how much time
      * does it take for a mean cycle to progress by given angle.
      *
      * @param radians           angle, in radians
@@ -145,7 +145,7 @@ public enum MeanCycle {
 
     /**
      * Calculates amount of time corresponding to given angle
-     * in a mean cycle at the epoch; i.e. how much time
+     * in a mean cycle at the epoch; i.e. how much time
      * does it take for a mean cycle to progress by given angle.
      *
      * @param degrees           angle, in degrees
@@ -157,7 +157,7 @@ public enum MeanCycle {
 
     /**
      * Calculates angle corresponding to given amount of time
-     * in a mean cycle at the epoch; i.e. the angle value
+     * in a mean cycle at the epoch; i.e. the angle value
      * by which a mean cycle progresses during given time.
      *
      * @param miliseconds       amount of time, in miliseconds
@@ -169,7 +169,7 @@ public enum MeanCycle {
 
     /**
      * Calculates angle corresponding to given amount of time
-     * in a mean cycle at the epoch; i.e. the angle value
+     * in a mean cycle at the epoch; i.e. the angle value
      * by which a mean cycle progresses during given time.
      *
      * @param miliseconds       amount of time, in miliseconds

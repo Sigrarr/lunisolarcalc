@@ -29,7 +29,7 @@ abstract public class TimelinePoint {
     protected static final Comparator<TimelinePoint> NOMINAL_COMPARATOR = (a, b) -> Timeline.compare(a.julianDay, b.julianDay);
 
     /**
-     * The Julian Day number, i.e. the number of days (with a fraction) from the beginning
+     * The Julian Day number, i.e. the number of days (with a fraction) from the beginning
      * of the current Julian Period.
      * It is just "Julian Day" in {@linkplain TimeScale#UNIVERSAL Universal Time} and
      * "Julian Ephemeris Day" in {@linkplain TimeScale#DYNAMICAL Dynamical Time}.
@@ -248,7 +248,7 @@ abstract public class TimelinePoint {
 
     /**
      * Equivalence check applying the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit}:
-     * checks whether the other object (timeline point) is an equivalent of this, i.e. whether
+     * checks whether the other object (timeline point) is an equivalent of this, i.e. whether
      * they represent the same moment (equivalence unit) of time and belong to the same
      * {@linkplain TimeScale time scale}.
      *

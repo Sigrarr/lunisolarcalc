@@ -338,7 +338,7 @@ public abstract class Calcs {
     public static abstract class CircularMotion {
         /**
          * Calculates angle corresponding to given amount of time
-         * in a cycle of given length; i.e. the angle value
+         * in a cycle of given length; i.e. the angle value
          * by which such cycle progresses during given time.
          *
          * @param cycleLengthSeconds    cycle's length, in seconds
@@ -351,7 +351,7 @@ public abstract class Calcs {
 
         /**
          * Calculates angle corresponding to given amount of time
-         * in a cycle of given length; i.e. the angle value
+         * in a cycle of given length; i.e. the angle value
          * by which such cycle progresses during given time.
          *
          * @param cycleLengthSeconds    cycle's length, in seconds
@@ -364,7 +364,7 @@ public abstract class Calcs {
 
         /**
          * Calculates amount of time corresponding to given angle
-         * in a cycle of given length; i.e. how much time
+         * in a cycle of given length; i.e. how much time
          * does it take for a cycle to progress by given angle.
          *
          * @param cycleLengthSeconds    cycle's length, in seconds
@@ -377,7 +377,7 @@ public abstract class Calcs {
 
         /**
          * Calculates amount of time corresponding to given angle
-         * in a cycle of given length; i.e. how much time
+         * in a cycle of given length; i.e. how much time
          * does it take for a cycle to progress by given angle.
          *
          * @param cycleLengthSeconds    cycle's length, in seconds
@@ -390,7 +390,7 @@ public abstract class Calcs {
 
         /**
          * Calculates angle corresponding to given amount of time
-         * in a cycle of given length; i.e. the angle value
+         * in a cycle of given length; i.e. the angle value
          * by which such cycle progresses during given time.
          *
          * @param cycleLengthSeconds    cycle's length, in seconds
@@ -403,7 +403,7 @@ public abstract class Calcs {
 
         /**
          * Calculates angle corresponding to given amount of time
-         * assuming given length of a cycle; i.e. the angle value
+         * assuming given length of a cycle; i.e. the angle value
          * by which such cycle progresses during given time.
          *
          * @param cycleLengthSeconds    cycle's length, in seconds

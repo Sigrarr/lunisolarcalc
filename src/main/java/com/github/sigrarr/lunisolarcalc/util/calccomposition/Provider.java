@@ -3,10 +3,10 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 import java.util.*;
 
 /**
- * A provider of one subject, i.e. a calculator of values of a quantity
+ * A provider of one subject, i.e. a calculator of values of a quantity
  * represented by one subject.
  *
- * It should be 'atomic', i.e. it should {@linkplain #calculate(Object, Map) calculate}
+ * It should be 'atomic', i.e. it should {@linkplain #calculate(Object, Map) calculate}
  * a single value, rather not a complex one (the distinction depending on the context).
  *
  * @param <SubjectT>    {@linkplain Enum enumeration type} of the quantities under calculation,

@@ -6,8 +6,8 @@ import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.*;
 
 /**
- * A tool for finding occurrences of Equinoxes/Solstices, i.e. distinguished stages of the tropical year cycle
- * - whose stage-indicating angle is the Sun's apparent longitude (λ).
+ * A tool for finding occurrences of Equinoxes/Solstices, i.e. distinguished stages of the tropical year cycle.
+ * The stage-indicating angle is the Sun's apparent longitude (λ).
  *
  * Internally, works 'by definition' - driven by a core calculator of λ:
  * starts with an initial {@linkplain SunSeasonPointApproximator time approximation} - t,

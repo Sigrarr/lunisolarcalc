@@ -109,7 +109,7 @@ public abstract class NormalCalendarPoint extends NormalCalendaricExpression {
 
     /**
      * Equivalence check: checks whether the other object (NormalCalendarPoint)
-     * is an equivalent of this, i.e. whether they represent the same date and time
+     * is an equivalent of this, i.e. whether they represent the same date and time
      * in the same calendar. Applies the {@linkplain Timeline#getEquivUnitDays() timeline's equivalence unit},
      * with the caveat that points of different months will never be equated.
      * To check equivalence of points of time regardless of a calendar month, use {@link TimelinePoint}.

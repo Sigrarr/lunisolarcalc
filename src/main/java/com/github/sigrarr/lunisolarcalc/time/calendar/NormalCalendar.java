@@ -52,7 +52,8 @@ public interface NormalCalendar extends Titled {
     /**
      * Obtains a calendar point belonging to this calendar.
      *
-     * @see NormalCalendaricExpression#NormalCalendaricExpression(int, int, double)
+     * @return  a calendar point belonging to this calendar
+     * @see     NormalCalendaricExpression#NormalCalendaricExpression(int, int, double)
      */
     public NormalCalendarPoint point(int y, int m, double dt);
 }

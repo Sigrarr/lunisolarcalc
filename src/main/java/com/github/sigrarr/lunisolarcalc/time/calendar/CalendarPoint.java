@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianGregorianCalendarS
 
 /**
  * A date with time in a normalized proleptic version of the actual calendar used in Europe (Rome);
- * i.e. the Julian calendar up to +1582-10-04 and the Gregorian calendar from +1582-10-15 on
+ * i.e. the Julian calendar up to +1582-10-04 and the Gregorian calendar from +1582-10-15 on
  * (with the deletion of dates inbetween).
  *
  * This is the Luni-Solar Calc's main and default calendar class.

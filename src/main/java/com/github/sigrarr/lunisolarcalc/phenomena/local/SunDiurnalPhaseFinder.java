@@ -19,7 +19,7 @@ import com.github.sigrarr.lunisolarcalc.coords.Subject;
  *      During those periods there are no rises nor sets, every optional occurrence
  *      of an extreme phase will be empty (only transits will be present). \
  *  •   The algorithm takes the atmospheric refraction into account by a simple mean
- *      - assuming the "standard altitude" of −0°50′ (following Meeus), i.e. the geometric altitude
+ *      - assuming the "standard altitude" of −0°50′ (following Meeus), i.e. the geometric altitude
  *      of the Sun-disk's center at the time of its apparent rise or set.
  *      The {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY obliquity of the ecliptic}
  *      and {@linkplain Subject#EARTH_NUTUATION_IN_LONGITUDE the Earth's nutuation}
