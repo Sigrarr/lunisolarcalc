@@ -41,6 +41,7 @@ public class CoordsCalcCompositionsTest {
     private MoonDeclinationCalculator moonDeclinationCalculator = new MoonDeclinationCalculator();
     private MoonRightAscensionCalculator moonRightAscensionCalculator = new MoonRightAscensionCalculator();
     private MoonHourAngleCalculator moonHourAngleCalculator = new MoonHourAngleCalculator();
+    private MoonSunElongationCalculator moonSunElongationCalculator = new MoonSunElongationCalculator();
     private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
         .collect(Collectors.toMap(s -> s, s -> CoordsCalcCompositions.compose(s)));
 
@@ -87,6 +88,7 @@ public class CoordsCalcCompositionsTest {
         double moonDeclination = moonDeclinationCalculator.calculate(moonLatitude, moonApparentLongitude, eclipticTrueObliquity);
         double moonRightAscension = moonRightAscensionCalculator.calculate(moonApparentLongitude, moonLatitude, eclipticTrueObliquity);
         double moonHourAngle = moonHourAngleCalculator.calculate(siderealApparentTime, moonRightAscension);
+        double moonSunElongation = moonSunElongationCalculator.calculate(moonLatitude, moonApparentLongitude, sunLatitude, sunApparentLongitude);
 
         assertForElements(moonCoordinateElements, Subject.MOON_COORDINATE_ELEMENTS);
         assertForElements(earthNutuationElements, Subject.EARTH_NUTUATION_ELEMENTS);
@@ -116,6 +118,7 @@ public class CoordsCalcCompositionsTest {
         assertForNumber(moonDeclination, Subject.MOON_DECLINATION);
         assertForNumber(moonRightAscension, Subject.MOON_RIGHT_ASCENSION);
         assertForNumber(moonHourAngle, Subject.MOON_HOUR_ANGLE);
+        assertForNumber(moonSunElongation, Subject.MOON_SUN_ELONGATION);
     }
 
     private void assertForElements(DoubleRow elements, Subject subject) {

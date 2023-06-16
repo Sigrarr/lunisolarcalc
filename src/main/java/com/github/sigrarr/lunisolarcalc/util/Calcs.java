@@ -115,6 +115,17 @@ public abstract class Calcs {
 
     public static abstract class Angle {
         /**
+         * Calculates the haversine of an angle.
+         *
+         * @param radians   input angle, in radians
+         * @return          haversine of the angle, in radians
+         */
+        public static double hav(double radians) {
+            double sinOfHalf = Math.sin(radians / 2.0);
+            return sinOfHalf * sinOfHalf;
+        }
+
+        /**
          * Normalizes an angle to fit the interval [0, 1 turn).
          * Reduces full turns. Converts a negative sub-round angle α to 1 turn subtract α.
          *

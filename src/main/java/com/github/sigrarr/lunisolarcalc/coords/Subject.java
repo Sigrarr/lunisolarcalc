@@ -151,6 +151,16 @@ public enum Subject {
     MOON_RIGHT_ASCENSION,
 
     /**
+     * The geocentric elongation of the Moon from the Sun (ψ).
+     * I.e. the angular separation between the Moon's and the Sun's centers,
+     * a.k.a. the arc of light.
+     * Presumably in radians.
+     *
+     * @see MoonSunElongationCalculator
+     */
+    MOON_SUN_ELONGATION,
+
+    /**
      * Mean sidereal time at the Greenwich meridian (θ0).
      * Presumably in degrees (1h ~ 15°).
      *

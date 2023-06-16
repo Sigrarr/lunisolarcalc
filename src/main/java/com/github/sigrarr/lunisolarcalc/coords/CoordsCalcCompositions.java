@@ -32,6 +32,7 @@ public abstract class CoordsCalcCompositions {
         register(new MoonLongitudeCalculator());
         register(new MoonOverSunApparentLongitudeExcessCalculator());
         register(new MoonRightAscensionCalculator());
+        register(new MoonSunElongationCalculator());
         register(new SiderealMeanTimeCalculator());
         register(new SiderealApparentTimeCalculator());
         register(new SunAberratedLongitudeCalculator());

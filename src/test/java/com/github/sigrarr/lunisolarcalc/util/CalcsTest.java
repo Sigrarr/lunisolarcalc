@@ -42,6 +42,15 @@ public class CalcsTest {
     }
 
     @Test
+    public void shouldCalculateHaversine() {
+        assertEquals(1.0 , Calcs.Angle.hav(-3 * Math.PI),   Calcs.EPSILON_12);
+        assertEquals(0.25, Calcs.Angle.hav( Math.PI / 3.0), Calcs.EPSILON_12);
+        assertEquals(0.25, Calcs.Angle.hav(-Math.PI / 3.0), Calcs.EPSILON_12);
+        assertEquals(0.0 , Calcs.Angle.hav(0.0),    Calcs.EPSILON_12);
+        assertEquals(0.0 , Calcs.Angle.hav( 2 * Math.PI),   Calcs.EPSILON_12);
+    }
+
+    @Test
     public void shouldNormalizeAngleToAbsoluteLongitude() {
         assertEquals(0.0, Calcs.Angle.toNormalLongitude(0.0), Calcs.EPSILON_12);
         assertEquals(0.5 * Math.PI, Calcs.Angle.toNormalLongitude(0.5 * Math.PI), Calcs.EPSILON_12);
