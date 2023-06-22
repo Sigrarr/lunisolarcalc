@@ -48,9 +48,11 @@ final class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
             double frontLha = getDay(+1).getNoonCoord(DayValues.COORD_LOCAL_HOUR_ANGLE);
             boolean absent = (
                 Math.signum(lha) != Math.signum(backLha)
+                && Double.compare(Math.abs(lha - backLha), Math.PI) > 0
                 && Double.compare(Math.abs(lha), Math.abs(backLha)) > 0
             ) || (
                 Math.signum(lha) != Math.signum(frontLha)
+                && Double.compare(Math.abs(lha - frontLha), Math.PI) > 0
                 && Double.compare(Math.abs(lha), Math.abs(frontLha)) >= 0
             );
             return absent ? OptionalDouble.empty() : super.findCentralNoonToTransitVector();
