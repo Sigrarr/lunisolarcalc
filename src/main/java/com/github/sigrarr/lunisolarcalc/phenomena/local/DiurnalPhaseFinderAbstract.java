@@ -4,7 +4,9 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.UniversalOccurrence;
+import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
+import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 abstract class DiurnalPhaseFinderAbstract {
@@ -38,8 +40,12 @@ abstract class DiurnalPhaseFinderAbstract {
      * @return              optional occurrence
      */
     public Optional<UniversalOccurrence<BodyDiurnalPhase>> find(CalendarPoint date, GeoCoords geoCoords, DiurnalPhase phase) {
-        core.reset(new DiurnalPhaseCalcRequest(date, geoCoords, EnumSet.of(phase)));
-        return core.get();
+        try {
+            core.reset(new DiurnalPhaseCalcRequest(date, geoCoords, EnumSet.of(phase)));
+            return core.get();
+        } catch (JulianDayOutOfPeriodException periodException) {
+            throw new DiurnalPhaseSearchTooCloseToPeriodBoundaryException(periodException);
+        }
     }
 
     /**
@@ -95,8 +101,12 @@ abstract class DiurnalPhaseFinderAbstract {
      * @return              unterminated {@link Stream} of optional occurrences
      */
     public Stream<Optional<UniversalOccurrence<BodyDiurnalPhase>>> findMany(CalendarPoint baseDate, GeoCoords geoCoords, Set<DiurnalPhase> phases) {
-        core.reset(new DiurnalPhaseCalcRequest(baseDate, geoCoords, phases));
-        return Stream.generate(core);
+        try {
+            core.reset(new DiurnalPhaseCalcRequest(baseDate, geoCoords, phases));
+            return Stream.generate(core);
+        } catch (JulianDayOutOfPeriodException periodException) {
+            throw new DiurnalPhaseSearchTooCloseToPeriodBoundaryException(periodException);
+        }
     }
 
     /**

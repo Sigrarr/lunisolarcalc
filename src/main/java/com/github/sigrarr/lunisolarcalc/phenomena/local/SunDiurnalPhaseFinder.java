@@ -29,6 +29,12 @@ import com.github.sigrarr.lunisolarcalc.coords.Subject;
  *      with caution in circumpolar scenarios, especially near a beginning or end of a polar day or night;
  *      then error may reach several minutes and one should not exclude the possibility of a false presence
  *      or false absence of rise or set (however, it did not happen even once during testing). \
+ *  •   In order to find a diurnal phase, the algorithm calculates some values for time points
+ *      in about two-day radius from the transit, so it requires about two-day margin both from the beginning
+ *      and the end of the {@linkplain com.github.sigrarr.lunisolarcalc.time.Timeline current Julian Period}.
+ *      If the requested phase will be too distant in the past or future, or too many iterations will be performed, then an
+ *      {@linkplain com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException exception}
+ *      will be thrown. \
  *
  * The tool is loosly based on the algorithm by Meeus, but modified and expanded with some original
  * detailed logic to be more reliable.

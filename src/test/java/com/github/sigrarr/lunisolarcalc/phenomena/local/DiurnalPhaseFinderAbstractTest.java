@@ -8,8 +8,10 @@ import java.util.stream.*;
 import org.junit.jupiter.api.*;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.UniversalOccurrence;
+import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
+import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public class DiurnalPhaseFinderAbstractTest {
@@ -59,5 +61,39 @@ public class DiurnalPhaseFinderAbstractTest {
                     }
                 }
             }
+    }
+
+    @Test
+    public void shouldProperExceptionBeThrownForJulianPeriodBoundaryProximity() {
+        CalendarPoint[] tooExtremeDates = {
+            new CalendarPoint(Timeline.JULIAN_PERIOD_START_UT.toCalendarPoint().y - 1, 12, 31.5),
+            Timeline.JULIAN_PERIOD_START_UT.toCalendarPoint(),
+            Timeline.JULIAN_PERIOD_START_UT.add(1.0).toCalendarPoint(),
+            Timeline.JULIAN_PERIOD_END_UT.add(-1.0).toCalendarPoint(),
+            Timeline.JULIAN_PERIOD_END_UT.toCalendarPoint(),
+            new CalendarPoint(Timeline.JULIAN_PERIOD_END_UT.toCalendarPoint().y + 1, 1, 1.5)
+        };
+
+        for (DiurnalPhaseFinderAbstract finder : finders) {
+            for (int i = 0; i < tooExtremeDates.length; i++) {
+                CalendarPoint date = tooExtremeDates[i];
+                GeoCoords geoCoords = GeoCoords.ofConventional(Math.pow(-1, i+1) * 0.1 * i * Math.PI, Math.pow(-1, i) * 0.5 * i * Math.PI);
+                DiurnalPhase phase = DiurnalPhase.values()[i % 3];
+
+                DiurnalPhaseSearchTooCloseToPeriodBoundaryException exception = assertThrows(
+                    DiurnalPhaseSearchTooCloseToPeriodBoundaryException.class,
+                    () -> finder.find(date, geoCoords, phase)
+                );
+                assertInstanceOf(JulianDayOutOfPeriodException.class, exception.getCause());
+            }
+
+            CalendarPoint barelySafeDate = Timeline.JULIAN_PERIOD_END_UT.add(-3).toCalendarPoint();
+            assertDoesNotThrow(() -> finder.findMany(barelySafeDate, GeoCoords.ofConventional(0, 0)).limit(3).collect(Collectors.toList()));
+            DiurnalPhaseSearchTooCloseToPeriodBoundaryException exception = assertThrows(
+                DiurnalPhaseSearchTooCloseToPeriodBoundaryException.class,
+                () -> finder.findMany(barelySafeDate, GeoCoords.ofConventional(0, 0)).limit(12).collect(Collectors.toList())
+            );
+            assertInstanceOf(JulianDayOutOfPeriodException.class, exception.getCause());
+        }
     }
 }

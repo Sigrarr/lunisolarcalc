@@ -7,7 +7,9 @@ import java.util.function.Supplier;
 
 import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException;
 import com.github.sigrarr.lunisolarcalc.time.*;
+import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.MultiOutputComposition;
 
@@ -33,17 +35,21 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
 
     @Override
     public Optional<UniversalOccurrence<BodyDiurnalPhase>> get() {
-        DiurnalPhase phase = progress.getCurrentPhase();
-        Optional<UniversalTimelinePoint> transit = resolveTransit();
-        Optional<UniversalTimelinePoint> result = transit.isPresent() ?
-            (phase.isExtreme() ? resolveExtremePhase(phase) : transit)
-            : Optional.empty();
+        try {
+            DiurnalPhase phase = progress.getCurrentPhase();
+            Optional<UniversalTimelinePoint> transit = resolveTransit();
+            Optional<UniversalTimelinePoint> result = transit.isPresent() ?
+                (phase.isExtreme() ? resolveExtremePhase(phase) : transit)
+                : Optional.empty();
 
-        progress.phaseForward();
+            progress.phaseForward();
 
-        return result.isPresent() ?
-            Optional.of(new UniversalOccurrence<>(result.get(), BodyDiurnalPhase.of(body, phase)))
-            : Optional.empty();
+            return result.isPresent() ?
+                Optional.of(new UniversalOccurrence<>(result.get(), BodyDiurnalPhase.of(body, phase)))
+                : Optional.empty();
+        } catch (JulianDayOutOfPeriodException periodException) {
+            throw new DiurnalPhaseSearchTooCloseToPeriodBoundaryException(periodException);
+        }
     }
 
     private Optional<UniversalTimelinePoint> resolveTransit() {
