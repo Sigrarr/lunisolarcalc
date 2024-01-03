@@ -34,13 +34,10 @@ class DiurnalPhaseCalcCoordsCombiner {
     }
 
     double combineCentralAltitude(double vectorFromCenter) {
-        double localHourAngle = combineLocalHourAngle(0, vectorFromCenter, centralInterpolator);
-        double declination = centralInterpolator.interpolate(0, COORD_DECLINATION, vectorFromCenter);
-        double latitude = core.getRequest().latitude;
-
-        return Math.asin(
-            Math.sin(latitude) * Math.sin(declination)
-                + Math.cos(latitude) * Math.cos(declination) * Math.cos(localHourAngle)
+        return Transformations.calculateAltitude(
+            centralInterpolator.interpolate(0, COORD_DECLINATION, vectorFromCenter),
+            combineLocalHourAngle(0, vectorFromCenter, centralInterpolator),
+            core.getRequest().latitude
         );
     }
 
@@ -64,7 +61,7 @@ class DiurnalPhaseCalcCoordsCombiner {
             interpolator.interpolate(dayPosition, COORD_RIGHT_ASCENSION, vector)
         );
 
-        return Calcs.Angle.toNormalSignedLongitude(hourAngle0 - core.getRequest().longitude);
+        return Transformations.calculateLocalHourAngle(hourAngle0, core.getRequest().longitude);
     }
 
     private class Interpolator {

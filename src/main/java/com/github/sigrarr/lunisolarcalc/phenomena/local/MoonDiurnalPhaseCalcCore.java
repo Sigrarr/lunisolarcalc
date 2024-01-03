@@ -3,6 +3,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 import java.util.OptionalDouble;
 
 import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.phenomena.Body;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;

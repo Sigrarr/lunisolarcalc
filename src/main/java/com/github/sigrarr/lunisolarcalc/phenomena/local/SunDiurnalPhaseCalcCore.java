@@ -1,5 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
+import com.github.sigrarr.lunisolarcalc.phenomena.Body;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 final class SunDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {

@@ -135,6 +135,21 @@ public class GeoCoords {
     }
 
     /**
+     * Creates an instance with latitude's and longitude's conventional values
+     * ({@linkplain LongitudeDirection#E Eastern} - positive,
+     * {@linkplain LongitudeDirection#W Western} - negative; expressed in degrees).
+     *
+     * @param latitudeDegrees   conventional latitude, in degrees
+     * @param longitudeDegrees  conventional longitude, in degrees
+     *                          ({@linkplain LongitudeDirection#E Eastern} - positive,
+     *                          {@linkplain LongitudeDirection#W Western} - negative)
+     * @return                  instance
+     */
+    public static GeoCoords ofConventionalDegrees(double latitudeDegrees, double longitudeDegrees) {
+        return ofConventional(Math.toRadians(latitudeDegrees), Math.toRadians(longitudeDegrees));
+    }
+
+    /**
      * Gets the latitude.
      *
      * @return  latitude, in radians: [-π/2, π/2]

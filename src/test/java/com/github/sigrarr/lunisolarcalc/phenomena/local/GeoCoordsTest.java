@@ -22,6 +22,9 @@ public class GeoCoordsTest {
         assertCorrectStateAndGettersOutput(GeoCoords.ofConventional(6.6 * Math.PI, -6.6 * Math.PI),
             0.4 * Math.PI, 0.6 * Math.PI);
 
+        assertCorrectStateAndGettersOutput(GeoCoords.ofConventionalDegrees(-35.0, +127.5),
+            Math.toRadians(-35), Math.toRadians(-127.5));
+
         assertCorrectStateAndGettersOutput(GeoCoords.ofPlanetographic(6.6 * Math.PI, -6.6 * Math.PI),
             0.4 * Math.PI, -0.6 * Math.PI);
     }
