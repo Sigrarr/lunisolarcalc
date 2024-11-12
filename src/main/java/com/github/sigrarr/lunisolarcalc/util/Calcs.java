@@ -113,6 +113,19 @@ public abstract class Calcs {
         return dividend & 1;
     }
 
+    /**
+     * Divides dividend by the divisor, then rounds up.
+     *
+     * Analogous to {@link Math#floorDiv(int, int) Math.floorDiv(dividend, divisor)}.
+     *
+     * @param   dividend
+     * @param   divisor
+     * @return  division rounded up
+     */
+    public static int ceilDiv(int dividend, int divisor) {
+        return -Math.floorDiv(-dividend, divisor);
+    }
+
     public static abstract class Angle {
         /**
          * Calculates the haversine of an angle.

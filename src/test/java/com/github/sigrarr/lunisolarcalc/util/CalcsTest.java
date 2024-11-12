@@ -42,6 +42,16 @@ public class CalcsTest {
     }
 
     @Test
+    public void shouldCalculateCeilDiv() {
+        assertEquals(-1, Calcs.ceilDiv(-4, 3));
+        assertEquals(2, Calcs.ceilDiv(4, 3));
+        assertEquals(0, Calcs.ceilDiv(0, -2));
+        assertEquals(0, Calcs.ceilDiv(0, -2));
+        assertEquals(10, Calcs.ceilDiv(100, 10));
+        assertEquals(-6, Calcs.ceilDiv(-12, 2));
+    }
+
+    @Test
     public void shouldCalculateHaversine() {
         assertEquals(1.0 , Calcs.Angle.hav(-3 * Math.PI),   Calcs.EPSILON_12);
         assertEquals(0.25, Calcs.Angle.hav( Math.PI / 3.0), Calcs.EPSILON_12);
