@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class MultiOutputComposition<SubjectT extends Enum<SubjectT>, InT> extends Composition<SubjectT, InT> {
 
-    MultiOutputComposition(Collection<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
+    MultiOutputComposition(List<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
         super(orderedNodes, subjectEnumClass);
     }
 

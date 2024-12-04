@@ -26,7 +26,7 @@ class CompositionBuilder<SubjectT extends Enum<SubjectT>, InT> {
         return new MultiOutputComposition<>(resolveOrderedNodes(), composer.subjectEnumClass);
     }
 
-    private Collection<CompositionNode<SubjectT, InT>> resolveOrderedNodes() {
+    private List<CompositionNode<SubjectT, InT>> resolveOrderedNodes() {
         for (SubjectT target : targets) {
             RegisterNode<SubjectT, InT> headRegisterNode = composer.register.getRequired(target);
             CompositionNode<SubjectT, InT> headNode = getCompositionNode(headRegisterNode, true);

@@ -313,11 +313,11 @@ public abstract class Calcs {
          */
         public static int[] dayFractionToWholeHMinS(double dayFraction) {
             double time = (dayFraction - Math.floor(dayFraction)) * 24;
-            int h = (int) Math.floor(time);
+            int h = (int) time;
             time = (time - h) * 60;
-            int m = (int) Math.floor(time);
+            int m = (int) time;
             time = (time - m) * 60;
-            int s = (int) Math.floor(time);
+            int s = (int) time;
 
             return new int[] {h, m, s};
         }

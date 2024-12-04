@@ -161,7 +161,7 @@ public abstract class TabularInterpolation {
         double qB = (a + b);
         double qC = 2 * values[1];
         double qD = (qB * qB) - (4 * qA * qC);
-        int qDSgn = (int) Math.signum(Double.compare(qD, 0.0));
+        int qDSgn = Integer.signum(Double.compare(qD, 0.0));
 
         if (qDSgn < 0)
             return OptionalDouble.empty();

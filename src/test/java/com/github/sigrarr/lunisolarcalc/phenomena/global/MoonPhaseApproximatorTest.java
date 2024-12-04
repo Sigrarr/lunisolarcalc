@@ -68,7 +68,7 @@ public class MoonPhaseApproximatorTest {
         // with the dataset's precision the offset of abs <= 1.0 wouldn't make much sense
         double[] argumentOffsetsFromCenter = new double[] {-12.5, -9.0, -2.0, -25.0/24.0, 25.0/24.0, 3.0, 7.0, 10.0};
 
-        DATE_TO_PHASE.entrySet().stream().forEach((e) -> {
+        DATE_TO_PHASE.entrySet().forEach((e) -> {
             TimelinePoint center = UniversalTimelinePoint.ofCalendar(e.getKey());
             for (double offset : argumentOffsetsFromCenter) {
                 TimelinePoint argument = new UniversalTimelinePoint(center.julianDay + offset);

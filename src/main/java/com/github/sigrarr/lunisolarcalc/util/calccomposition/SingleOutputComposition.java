@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class SingleOutputComposition<SubjectT extends Enum<SubjectT>, InT> extends Composition<SubjectT, InT> {
 
-    SingleOutputComposition(Collection<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
+    SingleOutputComposition(List<CompositionNode<SubjectT, InT>> orderedNodes, Class<SubjectT> subjectEnumClass) {
         super(orderedNodes, subjectEnumClass);
     }
 

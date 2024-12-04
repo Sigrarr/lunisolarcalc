@@ -203,7 +203,7 @@ class ExampleComponents {
     }
 
     static class ExampleCompositionClass extends Composition<ExampleSubject, Integer> {
-        public ExampleCompositionClass(Collection<CompositionNode<ExampleSubject, Integer>> orderedNodes, Class<ExampleSubject> subjectEnumClass) {
+        public ExampleCompositionClass(List<CompositionNode<ExampleSubject, Integer>> orderedNodes, Class<ExampleSubject> subjectEnumClass) {
             super(orderedNodes, subjectEnumClass);
         }
 
