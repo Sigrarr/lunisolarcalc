@@ -2,8 +2,9 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.OptionalDouble;
 
+import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.*;
-import com.github.sigrarr.lunisolarcalc.phenomena.Body;
+import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalcComposition;
@@ -13,7 +14,9 @@ final class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
     static class StandardAltitudeCalculator {
         private static final double STANDARD_ALTITUDE_PI_COEFFICIENT = 0.7275;
         private static final double STANDARD_ALTITUDE_FREE_TERM = Math.toRadians(Calcs.Angle.arcminutesToDegrees(-34));
-        private final CalcComposition<Subject, TimelinePoint> parallaxCalc = CoordsCalcCompositions.compose(Subject.MOON_EQUATORIAL_HORIZONTAL_PARALLAX);
+        private final CalcComposition<GlobalCoord, TimelinePoint> parallaxCalc = CoordsCalcCompositions.compose(
+            GlobalCoord.MOON_EQUATORIAL_HORIZONTAL_PARALLAX
+        );
 
         public double calculate(TimelinePoint tx) {
             return STANDARD_ALTITUDE_PI_COEFFICIENT * (Double)parallaxCalc.calculate(tx) + STANDARD_ALTITUDE_FREE_TERM;

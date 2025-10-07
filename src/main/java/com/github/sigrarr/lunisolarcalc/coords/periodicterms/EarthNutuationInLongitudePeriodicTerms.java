@@ -4,7 +4,7 @@ package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
  * Periodic terms for the Earth's nutuation in longitude (Δψ).
  * Results are in radians.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.EarthNutuationInLongitudeCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.EarthNutuationInLongitudeCalculator
  * @see "Meeus 1998: Table 22.A (pp. 145-146)"
  */
 public class EarthNutuationInLongitudePeriodicTerms extends EarthNutuationPeriodicTerms {

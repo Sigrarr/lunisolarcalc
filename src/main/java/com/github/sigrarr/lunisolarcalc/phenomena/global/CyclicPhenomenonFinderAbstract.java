@@ -7,6 +7,7 @@ import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.*;
 import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalcComposition;
@@ -203,9 +204,9 @@ abstract class CyclicPhenomenonFinderAbstract {
 
     protected static final class OwnCompositionStageIndicatingAngleCalculator implements StageIndicatingAngleCalculator {
 
-        final CalcComposition<Subject, TimelinePoint> composedCalculator;
+        final CalcComposition<GlobalCoord, TimelinePoint> composedCalculator;
 
-        OwnCompositionStageIndicatingAngleCalculator(Subject angleSubject) {
+        OwnCompositionStageIndicatingAngleCalculator(GlobalCoord angleSubject) {
             composedCalculator = CoordsCalcCompositions.compose(angleSubject);
         }
 

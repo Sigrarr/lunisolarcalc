@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena;
 
-import static com.github.sigrarr.lunisolarcalc.util.TestUtils.*;
+import static com.github.sigrarr.lunisolarcalc.tutil.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.*;

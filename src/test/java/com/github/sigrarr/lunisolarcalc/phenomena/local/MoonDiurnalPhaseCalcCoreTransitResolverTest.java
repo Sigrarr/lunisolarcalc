@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.github.sigrarr.lunisolarcalc.phenomena.global.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.local.MoonDiurnalPhaseCalcCore.TransitResolver;
 import com.github.sigrarr.lunisolarcalc.time.*;
+import com.github.sigrarr.lunisolarcalc.tutil.ExampleLocation;
 
 public class MoonDiurnalPhaseCalcCoreTransitResolverTest {
 
@@ -19,7 +20,7 @@ public class MoonDiurnalPhaseCalcCoreTransitResolverTest {
 
     @Test
     public void shouldFindEmptyTransitNearFullMoonInNonPolarSituation() {
-        GeoCoords[] exampleGeoCoords = {Example.WROCLAW, Example.LEJRE, Example.HONOLULU, Example.SYDNEY};
+        GeoCoords[] exampleGeoCoords = {ExampleLocation.WROCLAW, ExampleLocation.LEJRE, ExampleLocation.HONOLULU, ExampleLocation.SYDNEY};
         TimelinePoint[] exampleAroundPoints = {Timeline.GREGORIAN_CALENDAR_START, Timeline.EPOCH_2000_UT};
 
         for (GeoCoords geoCoords : exampleGeoCoords)

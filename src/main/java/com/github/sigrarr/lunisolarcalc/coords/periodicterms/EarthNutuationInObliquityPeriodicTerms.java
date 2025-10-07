@@ -4,7 +4,7 @@ package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
  * Periodic terms for the Earth's nutuation in obliquity (Δε).
  * Results are in radians.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.EarthNutuationInObliquityCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.EarthNutuationInObliquityCalculator
  * @see "Meeus 1998: Table 22.A (pp. 145-146)"
  */
 public class EarthNutuationInObliquityPeriodicTerms extends EarthNutuationPeriodicTerms {

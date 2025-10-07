@@ -19,12 +19,24 @@ import java.util.*;
 public class CalculationComposer<KeyT, InT> {
 
     protected final ProvidersRegister<KeyT, InT> register;
+    protected final KeyUtil<KeyT> ku;
 
     /**
      * Constructs a new calculation composer.
      */
     public CalculationComposer() {
-        register = new ProvidersRegister<>();
+        this(new DefaltKeyUtil<>());
+    }
+
+    /**
+     * Constructs a new calculation composer
+     * with a specific implementation of {@link KeyUtil}.
+     *
+     * @param keyUtil   specific implementation of {@link KeyUtil}
+     */
+    public CalculationComposer(KeyUtil<KeyT> keyUtil) {
+        register = new ProvidersRegister<>(keyUtil);
+        this.ku = keyUtil;
     }
 
     /**
@@ -57,7 +69,7 @@ public class CalculationComposer<KeyT, InT> {
      *                  of the target quantity
      */
     public CalcComposition<KeyT, InT> compose(KeyT target) {
-        Set<KeyT> targets = new HashSet<>();
+        Set<KeyT> targets = ku.getSet();
         targets.add(target);
         return getNewCompositionBuilder(targets).buildSingleOutputComposition();
     }
@@ -78,4 +90,6 @@ public class CalculationComposer<KeyT, InT> {
     private CompositionBuilder<KeyT, InT> getNewCompositionBuilder(Set<KeyT> targets) {
         return new CompositionBuilder<KeyT, InT>(this, targets);
     }
+
+    private static final class DefaltKeyUtil<KeyT> implements KeyUtil<KeyT> {}
 }

@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
 
-import com.github.sigrarr.lunisolarcalc.coords.EarthNutuationElements;
+import com.github.sigrarr.lunisolarcalc.coords.global.EarthNutuationElements;
 import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 

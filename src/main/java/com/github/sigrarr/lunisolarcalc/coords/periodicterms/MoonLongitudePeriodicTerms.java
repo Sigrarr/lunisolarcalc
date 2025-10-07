@@ -1,13 +1,13 @@
 package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
 
-import com.github.sigrarr.lunisolarcalc.coords.MoonCoordinateElements;
+import com.github.sigrarr.lunisolarcalc.coords.global.MoonCoordinateElements;
 import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 /**
  * Periodic terms for longitude of the Moon's center (λ).
  * Results are in radians.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.MoonLongitudeCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.MoonLongitudeCalculator
  * @see "Meeus 1998: Table 47.A (pp. 339-340)"
  */
 public final class MoonLongitudePeriodicTerms extends MoonCoordinatePeriodicTerms {

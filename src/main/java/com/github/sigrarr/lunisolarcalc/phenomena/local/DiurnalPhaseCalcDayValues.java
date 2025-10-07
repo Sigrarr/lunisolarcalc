@@ -2,7 +2,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.*;
 import java.util.function.*;
-import com.github.sigrarr.lunisolarcalc.coords.Subject;
+
+import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.time.UniversalTimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
@@ -71,14 +72,14 @@ class DiurnalPhaseCalcDayValues {
     }
 
     protected void loadCoords() {
-        Map<Subject, Object> values = core.coordsCalc.calculate(noon);
+        Map<GlobalCoord, Object> values = core.coordsCalc.calculate(noon);
         coordValues[COORD_LOCAL_HOUR_ANGLE] = Calcs.Angle.toNormalSignedLongitude(
-            (Double) values.get(core.body.hourAngleSubject) - core.getRequest().longitude
+            (Double) values.get(core.body.hourAngleCoord) - core.getRequest().longitude
         );
-        coordValues[COORD_DECLINATION] = (Double) values.get(core.body.declinationSubject);
-        coordValues[COORD_RIGHT_ASCENSION] = (Double) values.get(core.body.rightAscensionSubject);
-        coordValues[COORD_NUTUATION_IN_LONGITUDE] = (Double) values.get(Subject.EARTH_NUTUATION_IN_LONGITUDE);
-        coordValues[COORD_ECLIPTIC_OBLIQUITY] = (Double) values.get(Subject.ECLIPTIC_TRUE_OBLIQUITY);
+        coordValues[COORD_DECLINATION] = (Double) values.get(core.body.declinationCoord);
+        coordValues[COORD_RIGHT_ASCENSION] = (Double) values.get(core.body.rightAscensionCoord);
+        coordValues[COORD_NUTUATION_IN_LONGITUDE] = (Double) values.get(GlobalCoord.EARTH_NUTUATION_IN_LONGITUDE);
+        coordValues[COORD_ECLIPTIC_OBLIQUITY] = (Double) values.get(GlobalCoord.ECLIPTIC_TRUE_OBLIQUITY);
     }
 
     protected int getCoordsN() {

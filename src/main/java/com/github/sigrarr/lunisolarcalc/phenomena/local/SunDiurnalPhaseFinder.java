@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
-import com.github.sigrarr.lunisolarcalc.coords.Subject;
+import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 
 /**
  * A tool for finding occurrences of the Sun's {@linkplain DiurnalPhase principal diurnal phases}.
@@ -21,8 +21,8 @@ import com.github.sigrarr.lunisolarcalc.coords.Subject;
  *  •   The algorithm takes the atmospheric refraction into account by a simple mean
  *      - assuming the "standard altitude" of −0°50′ (following Meeus), i.e. the geometric altitude
  *      of the Sun-disk's center at the time of its apparent rise or set.
- *      The {@linkplain Subject#ECLIPTIC_TRUE_OBLIQUITY obliquity of the ecliptic}
- *      and {@linkplain Subject#EARTH_NUTUATION_IN_LONGITUDE the Earth's nutuation}
+ *      The {@linkplain GlobalCoord#ECLIPTIC_TRUE_OBLIQUITY obliquity of the ecliptic}
+ *      and {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE the Earth's nutuation}
  *      are taken into account. Factors such as the observer's elevation and subtle air parameters
  *      are neglected. \
  *  •   Usually the results should not be off by more than a minute of time, but they have to be taken

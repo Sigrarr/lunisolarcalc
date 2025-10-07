@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 
 public class ProvidersRegisterTest {
 
-    private ProvidersRegister<ExampleSubject, Integer> register = new ProvidersRegister<>();
+    private ProvidersRegister<ExampleSubject, Integer> register = new ProvidersRegister<>(new KeyUtil<ExampleSubject>() {});
 
     @Test
     public void shouldAddAndCheckAndGetAdded() {

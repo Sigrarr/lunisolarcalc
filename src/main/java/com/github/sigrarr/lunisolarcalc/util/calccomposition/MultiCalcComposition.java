@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
  */
 public class MultiCalcComposition<KeyT, InT> extends CalcCompositionAbstract<KeyT, InT> {
 
-    MultiCalcComposition(List<CompositionNode<KeyT, InT>> orderedNodes) {
-        super(orderedNodes);
+    MultiCalcComposition(List<CompositionNode<KeyT, InT>> orderedNodes, KeyUtil<KeyT> ku) {
+        super(orderedNodes, ku);
     }
 
     /**
@@ -52,8 +52,8 @@ public class MultiCalcComposition<KeyT, InT> extends CalcCompositionAbstract<Key
             .collect(Collectors.toMap(
                 n -> n.calculator.provides(),
                 n -> unmodifableValues.get(n.calculator.provides()),
-                (u, v) -> { throw new UnsupportedOperationException(); },
-                () -> new HashMap<>()
+                (u, v) -> { throw new IllegalStateException(); },
+                () -> ku.getMap()
             ));
     }
 }

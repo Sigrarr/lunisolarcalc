@@ -2,7 +2,8 @@ package com.github.sigrarr.lunisolarcalc.phenomena.global;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.TURN;
 
-import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.coords.CoordsCalcCompositions;
+import com.github.sigrarr.lunisolarcalc.coords.global.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.*;
 
 /**
@@ -26,7 +27,7 @@ public final class SunSeasonPointFinder extends SunSeasonPointFinderAbstract {
      * prepared with {@link CoordsCalcCompositions}.
      */
     public SunSeasonPointFinder() {
-        this(new OwnCompositionStageIndicatingAngleCalculator(Subject.SUN_APPARENT_LONGITUDE));
+        this(new OwnCompositionStageIndicatingAngleCalculator(GlobalCoord.SUN_APPARENT_LONGITUDE));
     }
 
     /**

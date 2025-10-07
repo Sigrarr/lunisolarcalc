@@ -4,7 +4,7 @@ package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
  * Periodic terms for the Earth's radius vector (R).
  * Results are in AU.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.EarthSunRadiusCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.EarthSunRadiusCalculator
  * @see "Meeus 1998: App. III, Earth, R0-R4 (pp. 420-421)"
  */
 public final class EarthSunRadiusPeriodicTerms extends HeliocentricCoordinatePeriodicTerms {

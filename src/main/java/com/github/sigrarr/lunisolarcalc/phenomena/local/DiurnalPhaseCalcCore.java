@@ -5,7 +5,9 @@ import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcD
 import java.util.*;
 import java.util.function.Supplier;
 
+import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.phenomena.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException;
 import com.github.sigrarr.lunisolarcalc.time.*;
@@ -17,9 +19,9 @@ abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurr
 
     final Body body = prepareBody();
     final FlexPentadBuffer<DiurnalPhaseCalcDayValues> dayValues = new FlexPentadBuffer<>();
-    final MultiCalcComposition<Subject, TimelinePoint> coordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
-        body.declinationSubject, body.rightAscensionSubject, body.hourAngleSubject,
-        Subject.EARTH_NUTUATION_IN_LONGITUDE, Subject.ECLIPTIC_TRUE_OBLIQUITY
+    final MultiCalcComposition<GlobalCoord, TimelinePoint> coordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
+        body.declinationCoord, body.rightAscensionCoord, body.hourAngleCoord,
+        GlobalCoord.EARTH_NUTUATION_IN_LONGITUDE, GlobalCoord.ECLIPTIC_TRUE_OBLIQUITY
     ));
     protected final DiurnalPhaseCalcCoordsCombiner coordsCombiner = new DiurnalPhaseCalcCoordsCombiner(this);
     protected final DiurnalPhaseCalcTransitResolver transitResolver = prepareTransitResolver();

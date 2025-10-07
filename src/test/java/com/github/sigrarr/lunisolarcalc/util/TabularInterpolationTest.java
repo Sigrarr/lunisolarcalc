@@ -1,10 +1,9 @@
 package com.github.sigrarr.lunisolarcalc.util;
 
+import static com.github.sigrarr.lunisolarcalc.tutil.TestUtils.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
-
-import static com.github.sigrarr.lunisolarcalc.util.TestUtils.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
 

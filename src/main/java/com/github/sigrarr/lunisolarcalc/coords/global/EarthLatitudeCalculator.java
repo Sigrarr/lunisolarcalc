@@ -1,0 +1,49 @@
+package com.github.sigrarr.lunisolarcalc.coords.global;
+
+import java.util.*;
+
+import com.github.sigrarr.lunisolarcalc.coords.CoordsCalcCompositions;
+import com.github.sigrarr.lunisolarcalc.coords.periodicterms.EarthLatitudePeriodicTerms;
+import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
+import com.github.sigrarr.lunisolarcalc.util.Calcs;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
+
+/**
+ * Calculator of {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)}.
+ * Somewhat costly; processes its own {@linkplain EarthLatitudePeriodicTerms periodic terms} table of small size.
+ * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
+ *
+ * @see "Meeus 1998: Ch. 32 (p. 217...)"
+ */
+public final class EarthLatitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
+
+    public static final GlobalCoord SUBJECT = GlobalCoord.EARTH_LATITUDE;
+
+    private EarthLatitudePeriodicTerms periodicTerms = new EarthLatitudePeriodicTerms();
+
+    /**
+     * Calculates {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2].
+     * Somewhat costly.
+     *
+     * @param tx    time argument
+     * @return      {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2]
+     */
+    public double calculate(TimelinePoint tx) {
+        return Calcs.Angle.toNormalLatitude(periodicTerms.evaluate(tx.toDynamicalTime()));
+    }
+
+    @Override
+    public GlobalCoord provides() {
+        return SUBJECT;
+    }
+
+    @Override
+    public EnumSet<GlobalCoord> requires() {
+        return EnumSet.noneOf(GlobalCoord.class);
+    }
+
+    @Override
+    public Double calculate(TimelinePoint tx, Map<GlobalCoord, Object> precalculatedValues) {
+        return calculate(tx);
+    }
+}

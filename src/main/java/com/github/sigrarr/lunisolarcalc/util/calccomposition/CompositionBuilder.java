@@ -17,11 +17,11 @@ class CompositionBuilder<KeyT, InT> {
     }
 
     protected CalcComposition<KeyT, InT> buildSingleOutputComposition() {
-        return new CalcComposition<>(resolveOrderedNodes());
+        return new CalcComposition<>(resolveOrderedNodes(), composer.ku);
     }
 
     protected MultiCalcComposition<KeyT, InT> buildMultiOutputComposition() {
-        return new MultiCalcComposition<>(resolveOrderedNodes());
+        return new MultiCalcComposition<>(resolveOrderedNodes(), composer.ku);
     }
 
     private List<CompositionNode<KeyT, InT>> resolveOrderedNodes() {

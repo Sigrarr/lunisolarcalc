@@ -4,7 +4,7 @@ package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
  * Periodic terms for distance between the centers of Earth and Moon (Δ).
  * Results are in km.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.MoonEarthDistanceCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.MoonEarthDistanceCalculator
  * @see "Meeus 1998: Table 47.A (pp. 339-340)"
  */
 public final class MoonDistancePeriodicTerms extends MoonCoordinatePeriodicTerms {

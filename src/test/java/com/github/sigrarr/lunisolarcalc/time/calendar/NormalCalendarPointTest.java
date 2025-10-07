@@ -1,7 +1,7 @@
 package com.github.sigrarr.lunisolarcalc.time.calendar;
 
+import static com.github.sigrarr.lunisolarcalc.tutil.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static com.github.sigrarr.lunisolarcalc.util.TestUtils.*;
 
 import org.junit.jupiter.api.*;
 

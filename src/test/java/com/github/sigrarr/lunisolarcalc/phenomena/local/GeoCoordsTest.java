@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords.LatitudeDirection.*;
 import static com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords.LongitudeDirection.*;
-import static com.github.sigrarr.lunisolarcalc.util.TestUtils.*;
+import static com.github.sigrarr.lunisolarcalc.tutil.TestUtils.*;
 
 import org.junit.jupiter.api.Test;
 

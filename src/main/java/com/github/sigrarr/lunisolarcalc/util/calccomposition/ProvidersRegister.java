@@ -9,8 +9,8 @@ class ProvidersRegister<KeyT, InT> {
     private final Map<KeyT, RegisterNode<KeyT, InT>> subjectToNode;
     private final List<RegisterNode<KeyT, InT>> pendingNodes = new LinkedList<>();
 
-    ProvidersRegister() {
-        subjectToNode = new HashMap<>();
+    ProvidersRegister(KeyUtil<KeyT> ku) {
+        subjectToNode = ku.getMap();
     }
 
     protected RegisterNode<KeyT, InT> getRequired(KeyT subject) {

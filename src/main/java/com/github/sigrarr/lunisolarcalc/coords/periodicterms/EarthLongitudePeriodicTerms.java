@@ -4,7 +4,7 @@ package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
  * Periodic terms for the Earth's heliocentric longitude (L).
  * Results are in radians.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.EarthLongitudeCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.EarthLongitudeCalculator
  * @see "Meeus 1998: App. III, Earth, L0-L5 (pp. 419-420)"
  */
 public final class EarthLongitudePeriodicTerms extends HeliocentricCoordinatePeriodicTerms {

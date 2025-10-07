@@ -12,8 +12,8 @@ import java.util.*;
  */
 public class CalcComposition<KeyT, InT> extends CalcCompositionAbstract<KeyT, InT> {
 
-    CalcComposition(List<CompositionNode<KeyT, InT>> orderedNodes) {
-        super(orderedNodes);
+    CalcComposition(List<CompositionNode<KeyT, InT>> orderedNodes, KeyUtil<KeyT> ku) {
+        super(orderedNodes, ku);
     }
 
     /**

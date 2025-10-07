@@ -1,13 +1,13 @@
 package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
 
-import com.github.sigrarr.lunisolarcalc.coords.MoonCoordinateElements;
+import com.github.sigrarr.lunisolarcalc.coords.global.MoonCoordinateElements;
 import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
 /**
  * Periodic terms for latitude of the Moon's center (β).
  * Results are in radians.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.MoonLatitudeCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.MoonLatitudeCalculator
  * @see "Meeus 1998: Table 47.B (p. 341)"
  */
 public final class MoonLatitudePeriodicTerms extends MoonCoordinatePeriodicTerms {

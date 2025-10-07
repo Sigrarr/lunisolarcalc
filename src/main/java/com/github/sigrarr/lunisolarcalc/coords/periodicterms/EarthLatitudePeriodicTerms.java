@@ -4,7 +4,7 @@ package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
  * Periodic terms for Earth's heliocentric latitude (B).
  * Results are in radians.
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.EarthLatitudeCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.EarthLatitudeCalculator
  * @see "Meeus 1998: App. III, Earth, B0-B1 (p. 420)"
  */
 public final class EarthLatitudePeriodicTerms extends HeliocentricCoordinatePeriodicTerms {

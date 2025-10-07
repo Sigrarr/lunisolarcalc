@@ -6,12 +6,15 @@ import java.util.stream.Collectors;
 abstract class CalcCompositionAbstract<KeyT, InT> {
 
     protected final List<CompositionNode<KeyT, InT>> unmodifableOrderedNodes;
-    private final Map<KeyT, Object> values = new HashMap<>();
+    private final Map<KeyT, Object> values;
     protected final Map<KeyT, Object> unmodifableValues;
+    protected final KeyUtil<KeyT> ku;
 
-    CalcCompositionAbstract(List<CompositionNode<KeyT, InT>> orderedNodes) {
+    CalcCompositionAbstract(List<CompositionNode<KeyT, InT>> orderedNodes, KeyUtil<KeyT> ku) {
         unmodifableOrderedNodes = Collections.unmodifiableList(orderedNodes);
+        values = ku.getMap();
         unmodifableValues = Collections.unmodifiableMap(values);
+        this.ku = ku;
     }
 
     /**
@@ -22,8 +25,9 @@ abstract class CalcCompositionAbstract<KeyT, InT> {
     public CalcCompositionAbstract(CalcCompositionAbstract<KeyT, InT> composition) {
         this(
             composition.unmodifableOrderedNodes.stream()
-                .map(node -> node.replicate())
-                .collect(Collectors.toCollection(() -> new ArrayList<>(composition.unmodifableOrderedNodes.size())))
+                .map(CompositionNode::replicate)
+                .collect(Collectors.toCollection(() -> new ArrayList<>(composition.unmodifableOrderedNodes.size()))),
+            composition.ku
         );
     }
 

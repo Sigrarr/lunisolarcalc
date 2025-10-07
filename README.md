@@ -117,18 +117,37 @@ Output:
 ```
 
 ### Calculators of spatial coordinates
-The package `com.github.sigrarr.lunisolarcalc.coords` provides a group of calculators of certain spatial coordinates. Some of them need to receive results yielded by the others, which constitutes a dependency graph. You can use the in-built *calculation composer* to resolve those dependencies (which is recommended) or do it manually. For the list of quantities supported by the package, see the `Subject` enumeration class.
+The package `com.github.sigrarr.lunisolarcalc.coords` provides a group of calculators of certain spatial coordinates, divided into `global` and `local` (by depedence on the observer's location on Earth). Some of them need to receive results yielded by the others, which constitutes a dependency graph. You can use the in-built *calculation composer* to resolve those dependencies (which is recommended) or do it manually. For the list of quantities supported by the package, see the enumeration classes `global.GlobalCoord` and `local.LocalCoord`.
 
 #### **Example S.1**
 ```java
-SingleOutputComposition<Subject, TimelinePoint> lambdaCalc
-    = CalcCompositions.compose(Subject.SUN_APPARENT_LONGITUDE);
+CalcComposition<GlobalCoord, TimelinePoint> lambdaCalc
+    = CoordsCalcCompositions.compose(GlobalCoord.SUN_APPARENT_LONGITUDE);
 TimelinePoint newYear2000 = TimelinePoint.ofCalendaricParameters(2000, 1, 1.0);
 double newYear2000Lambda = (Double) lambdaCalc.calculate(newYear2000);
 
 System.out.println(String.format("%.2f", Math.toDegrees(newYear2000Lambda)));
 ```
-Output: `279.86` (over a week after the December solstice defined by λ = 270°).
+Output: `279.86` (over a week after the December Solstice defined by λ = 270°).
+
+#### **Example S.2**
+```java
+Set<Key> keys = com.github.sigrarr.lunisolarcalc.util.Sets.of(
+    LocalCoord.MOON_ALTITUDE.key(),
+    LocalCoord.MOON_AZIMUTH.key()
+);
+
+GeoCoords wroclaw = GeoCoords.ofConventionalDegrees(51.108, 17.039);
+MultiCalcComposition<Key, TimelinePoint> horizontalCalc
+    = CoordsCalcCompositions.compose(keys, wroclaw);
+TimelinePoint tx = TimelinePoint.ofCalendaricParameters(2015,  1,  5, 15, 47,  9);
+
+Map<Key, Object> results = horizontalCalc.calculate(tx);
+double A = (Double) results.get(LocalCoord.MOON_AZIMUTH.key());
+double h = (Double) results.get(LocalCoord.MOON_ALTITUDE.key());
+System.out.printf("A = %.3f  h = %.3f\n", Math.toDegrees(A), Math.toDegrees(h));
+```
+Output: `A = 242.236  h = 0.000` (so it was close to moonrise).
 
 ### Time
 The package `com.github.sigrarr.lunisolarcalc.time` contains classes regarding time.

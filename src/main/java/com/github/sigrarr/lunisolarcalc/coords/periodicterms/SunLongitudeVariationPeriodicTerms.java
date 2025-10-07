@@ -6,7 +6,7 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 /**
  * Terms for daily variation of the Sun's geocentric longitude (Δλ).
  *
- * @see com.github.sigrarr.lunisolarcalc.coords.AberrationEarthSunCalculator
+ * @see com.github.sigrarr.lunisolarcalc.coords.global.AberrationEarthSunCalculator
  * @see "Meeus 1998: Ch. 25 ("Daily variation...", p. 168)"
  */
 public final class SunLongitudeVariationPeriodicTerms {

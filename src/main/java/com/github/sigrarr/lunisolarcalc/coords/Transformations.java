@@ -143,7 +143,7 @@ public abstract class Transformations {
      * @param localHourAngle    local hour angle (H), in radians
      * @param declination       declination (δ), in radians
      * @param observerLatitude  the observer's latitude (φ), in radians
-     * @return                  azimuth (from the South; A): [0, 2π)
+     * @return                  azimuth (from the South; A), in radians: [0, 2π)
      */
     public static double calculateAzimuth(double localHourAngle, double declination, double observerLatitude) {
         return Calcs.Angle.toNormalLongitude(Math.atan2(

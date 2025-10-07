@@ -45,7 +45,8 @@ public interface Provider<KeyT, InT> {
      *
      * @param rootInput             root input passed to the whole composed calculation
      * @param precalculatedValues   a map containing a value for each
-     *                              {@linkplain #requires() required} quantity
+     *                              {@linkplain #requires() required} quantity,
+     *                              presumably immutable
      * @return                      value of the {@linkplain #provides() provided} quantity
      */
     public Object calculate(InT rootInput, Map<KeyT, Object> precalculatedValues);

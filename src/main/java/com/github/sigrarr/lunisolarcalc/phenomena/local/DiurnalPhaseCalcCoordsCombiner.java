@@ -5,7 +5,8 @@ import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcD
 import java.util.*;
 import java.util.function.DoubleUnaryOperator;
 
-import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.coords.Transformations;
+import com.github.sigrarr.lunisolarcalc.coords.global.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.*;
 

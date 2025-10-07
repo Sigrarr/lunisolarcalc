@@ -204,7 +204,7 @@ class ExampleComponents {
 
     static class ExampleCompositionClass extends CalcCompositionAbstract<ExampleSubject, Integer> {
         public ExampleCompositionClass(List<CompositionNode<ExampleSubject, Integer>> orderedNodes) {
-            super(orderedNodes);
+            super(orderedNodes, new KeyUtil<ExampleSubject>() {});
         }
 
         public ExampleCompositionClass(CalcCompositionAbstract<ExampleSubject, Integer> composition) {
