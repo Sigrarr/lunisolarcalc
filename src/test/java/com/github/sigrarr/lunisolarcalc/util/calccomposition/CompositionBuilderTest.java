@@ -25,8 +25,8 @@ public class CompositionBuilderTest {
         put(EnumSet.of(ExampleSubject.F, ExampleSubject.B, ExampleSubject.D), 6);
     }};
 
-    private CalculationComposer<ExampleSubject, Integer> freshComposer = new CalculationComposer<>(ExampleSubject.class);
-    private CalculationComposer<ExampleSubject, Integer> composerBrokenByCD = new CalculationComposer<ExampleSubject, Integer>(ExampleSubject.class) {{
+    private CalculationComposer<ExampleSubject, Integer> freshComposer = new CalculationComposer<>();
+    private CalculationComposer<ExampleSubject, Integer> composerBrokenByCD = new CalculationComposer<ExampleSubject, Integer>() {{
         register(new AIndependentProvider());
         register(new BIndependentProvider());
         register(new CDangerouslyDependentOnFProvider());
@@ -40,7 +40,7 @@ public class CompositionBuilderTest {
     public void shouldBuildCompositionWithProperlyOrderedNodesInMinimalNumber() {
         for (EnumSet<ExampleSubject> subjectSet : SUBJECT_SET_TO_EXPECTED_NODE_NUMBER.keySet()) {
             builder = new CompositionBuilder<>(completeComposer, subjectSet);
-            Composition<ExampleSubject, Integer> composition = subjectSet.size() > 1 ? builder.buildMultiOutputComposition() : builder.buildSingleOutputComposition();
+            CalcCompositionAbstract<ExampleSubject, Integer> composition = subjectSet.size() > 1 ? builder.buildMultiOutputComposition() : builder.buildSingleOutputComposition();
             Collection<CompositionNode<ExampleSubject, Integer>> nodes = composition.unmodifableOrderedNodes;
             assertProperOrderAndNoDuplicates(nodes);
             assertEquals(SUBJECT_SET_TO_EXPECTED_NODE_NUMBER.get(subjectSet), nodes.size());

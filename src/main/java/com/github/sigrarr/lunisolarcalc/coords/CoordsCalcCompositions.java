@@ -12,7 +12,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public abstract class CoordsCalcCompositions {
 
-    private static final CalculationComposer<Subject, TimelinePoint> composer = new CalculationComposer<Subject, TimelinePoint>(Subject.class) {{
+    private static final CalculationComposer<Subject, TimelinePoint> composer = new CalculationComposer<Subject, TimelinePoint>() {{
         register(new AberrationEarthSunCalculator());
         register(new EarthLatitudeCalculator());
         register(new EarthLongitudeCalculator());
@@ -52,7 +52,7 @@ public abstract class CoordsCalcCompositions {
      * @return          a composed calculation, which will yield a value of the requested quantity
      *                  for an input {@link TimelinePoint}
      */
-    public static SingleOutputComposition<Subject, TimelinePoint> compose(Subject subject) {
+    public static CalcComposition<Subject, TimelinePoint> compose(Subject subject) {
         return composer.compose(subject);
     }
 
@@ -64,7 +64,7 @@ public abstract class CoordsCalcCompositions {
      * @return          a composed calculation, which will yield a collection of values
      *                  of the requested quantities for input {@link TimelinePoint}
      */
-    public static MultiOutputComposition<Subject, TimelinePoint> compose(EnumSet<Subject> subjects) {
+    public static MultiCalcComposition<Subject, TimelinePoint> compose(EnumSet<Subject> subjects) {
         return composer.compose(subjects);
     }
 }

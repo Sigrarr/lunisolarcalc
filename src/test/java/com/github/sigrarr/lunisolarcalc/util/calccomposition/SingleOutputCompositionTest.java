@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class SingleOutputCompositionTest {
 
-    private SingleOutputComposition<ExampleSubject, Integer> composition;
+    private CalcComposition<ExampleSubject, Integer> composition;
 
     @Test
     public void shouldCalculateSingleValue() {
@@ -42,7 +42,7 @@ public class SingleOutputCompositionTest {
     public void shouldReplicate() {
         for (ExampleSubject subject : ExampleSubject.values()) {
             composition = completeComposer.compose(subject);
-            SingleOutputComposition<ExampleSubject, Integer> replica = composition.replicate();
+            CalcComposition<ExampleSubject, Integer> replica = composition.replicate();
             assertNotEquals(composition, replica);
             for (int rootInput = 0; rootInput < 10; rootInput++) {
                 assertEquals(composition.calculate(rootInput), replica.calculate(rootInput));

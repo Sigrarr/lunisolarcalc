@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalcComposition;
 
 public class CoordsCalcCompositionsTest {
 
@@ -42,7 +42,7 @@ public class CoordsCalcCompositionsTest {
     private MoonRightAscensionCalculator moonRightAscensionCalculator = new MoonRightAscensionCalculator();
     private MoonHourAngleCalculator moonHourAngleCalculator = new MoonHourAngleCalculator();
     private MoonSunElongationCalculator moonSunElongationCalculator = new MoonSunElongationCalculator();
-    private Map<Subject, SingleOutputComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
+    private Map<Subject, CalcComposition<Subject, TimelinePoint>> subjectToComposition = Arrays.stream(Subject.values())
         .collect(Collectors.toMap(s -> s, s -> CoordsCalcCompositions.compose(s)));
 
     private TimelinePoint tx;

@@ -3,85 +3,79 @@ package com.github.sigrarr.lunisolarcalc.util.calccomposition;
 import java.util.*;
 
 /**
- * A composer of {@linkplain Composition calculations}
- * which yield values of enumerated quantities called "subjects".
+ * A composer of calculations.
  *
- * Gathers {@linkplain Provider providers} of the subjects and composes them
- * into a calculation of a selected subject or a set of subjects.
+ * Gathers {@linkplain Provider providers} of the needed quantities
+ * and composes them into a {@linkplain CalcComposition calculation of a selected quantity}
+ * or {@linkplain MultiCalcComposition of a set of quantities}.
  * Resolves dependencies (detecting circles), avoids redundancy.
  *
  * To utilze this tool optimally, {@linkplain #register(Provider) registered} providers
  * should be 'atomic': each being a simple calculator of a single value.
  *
- * @param <SubjectT>    {@linkplain Enum enumeration type} of the quantities under calculation,
- *                      containing all available "subjects"
- * @param <InT>         type of a root input passed to a composed calculation
+ * @param <KeyT>    type of keys identifying the quantities under calculation
+ * @param <InT>     type of a root input passed to a composed calculation
  */
-public class CalculationComposer<SubjectT extends Enum<SubjectT>, InT> {
+public class CalculationComposer<KeyT, InT> {
 
-    protected final ProvidersRegister<SubjectT, InT> register;
-    protected final Class<SubjectT> subjectEnumClass;
+    protected final ProvidersRegister<KeyT, InT> register;
 
     /**
      * Constructs a new calculation composer.
-     *
-     * @param subjectEnumClass  class of the {@linkplain Enum enumeration} of the quantities under
-     *                          calculation, containing all available "subjects"
      */
-    public CalculationComposer(Class<SubjectT> subjectEnumClass) {
-        register = new ProvidersRegister<>(subjectEnumClass);
-        this.subjectEnumClass = subjectEnumClass;
+    public CalculationComposer() {
+        register = new ProvidersRegister<>();
     }
 
     /**
-     * Registers a new provider of one subject of calculation (a calculator).
+     * Registers a new provider of one quantity (a calculator).
      *
-     * @param provider  a new provider of one subject of calculation (a calculator)
+     * @param provider  a new provider of one quantity (a calculator)
      */
-    public void register(Provider<SubjectT, InT> provider) {
+    public void register(Provider<KeyT, InT> provider) {
         register.add(provider);
     }
 
     /**
-     * Checks whether a provider of a specified subject has been registered
+     * Checks whether a provider of the specified quantity has already been registered
      * in this composer.
      *
-     * @param subject   subject of calculation
-     * @return          {@code true} - if a provider of the subject has been already
-     *                  registered in this composer; {@code false} - otherwise
+     * @param quantityKey      key of the quantity
+     * @return          {@code true} - if a provider of the quantity has already
+     *                  been registered in this composer; {@code false} - otherwise
      */
-    public boolean hasProvider(SubjectT subject) {
-        return register.has(subject);
+    public boolean hasProvider(KeyT quantityKey) {
+        return register.has(quantityKey);
     }
 
     /**
-     * Composes a new calculation which will yield values of a quantity
-     * represented by a specified subject (called "target").
+     * Composes a new calculation which will yield values of
+     * the specified quantity (called "target").
      *
-     * @param target    requested target subject
+     * @param target    key of the requested target quantity
      * @return          newly composed calculation which will yield values
-     *                  of the quantity represented by the target subject
+     *                  of the target quantity
      */
-    public SingleOutputComposition<SubjectT, InT> compose(SubjectT target) {
-        EnumSet<SubjectT> targets = EnumSet.of(target);
+    public CalcComposition<KeyT, InT> compose(KeyT target) {
+        Set<KeyT> targets = new HashSet<>();
+        targets.add(target);
         return getNewCompositionBuilder(targets).buildSingleOutputComposition();
     }
 
     /**
-     * Composes a new calculation which will yield values of quantities
-     * represented by a specified set of subjects (called "targets" or "target subjects").
-     * Values will be returned in the form of a subject-value map.
+     * Composes a new calculation which will yield values
+     * of the specified quantities (called "targets").
+     * Values will be returned in the form of a map.
      *
-     * @param targets   requested set of target subjects
+     * @param targets   set of keys of the requested quantities
      * @return          newly composed calculation which will yield values
-     *                  of quantities represented by the target subjects
-     *                  (in the form of a subject-value map)
+     *                  of the target quantities (in the form of a map)
      */
-    public MultiOutputComposition<SubjectT, InT> compose(EnumSet<SubjectT> targets) {
+    public MultiCalcComposition<KeyT, InT> compose(Set<KeyT> targets) {
         return getNewCompositionBuilder(targets).buildMultiOutputComposition();
     }
 
-    private CompositionBuilder<SubjectT, InT> getNewCompositionBuilder(EnumSet<SubjectT> targets) {
-        return new CompositionBuilder<SubjectT, InT>(this, targets);
+    private CompositionBuilder<KeyT, InT> getNewCompositionBuilder(Set<KeyT> targets) {
+        return new CompositionBuilder<KeyT, InT>(this, targets);
     }
 }

@@ -5,17 +5,17 @@ import java.util.stream.Collectors;
 
 public final class CircularDependencyException extends IllegalStateException {
 
-    private final List<Enum<?>> unmodifableSubjectDependencyPath;
+    private final List<?> unmodifableSubjectDependencyPath;
 
-    public CircularDependencyException(List<Enum<?>> subjectDependencyPath) {
+    public CircularDependencyException(Object[] subjectDependencyPath) {
         super(
             "Cannot compose calculation: Circular dependency detected: "
-            + subjectDependencyPath.stream().map(Enum::name).collect(Collectors.joining(" -> "))
+            + Arrays.stream(subjectDependencyPath).map(Object::toString).collect(Collectors.joining(" -> "))
         );
-        unmodifableSubjectDependencyPath = Collections.unmodifiableList(subjectDependencyPath);
+        unmodifableSubjectDependencyPath = Collections.unmodifiableList(Arrays.asList(subjectDependencyPath));
     }
 
-    public List<Enum<?>> getSubjectDependencyPath() {
+    public List<?> getSubjectDependencyPath() {
         return unmodifableSubjectDependencyPath;
     }
 }

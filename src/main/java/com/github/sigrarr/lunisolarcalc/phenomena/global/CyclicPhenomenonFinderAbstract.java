@@ -9,7 +9,7 @@ import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders
 import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.SingleOutputComposition;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalcComposition;
 
 abstract class CyclicPhenomenonFinderAbstract {
     /**
@@ -203,7 +203,7 @@ abstract class CyclicPhenomenonFinderAbstract {
 
     protected static final class OwnCompositionStageIndicatingAngleCalculator implements StageIndicatingAngleCalculator {
 
-        final SingleOutputComposition<Subject, TimelinePoint> composedCalculator;
+        final CalcComposition<Subject, TimelinePoint> composedCalculator;
 
         OwnCompositionStageIndicatingAngleCalculator(Subject angleSubject) {
             composedCalculator = CoordsCalcCompositions.compose(angleSubject);

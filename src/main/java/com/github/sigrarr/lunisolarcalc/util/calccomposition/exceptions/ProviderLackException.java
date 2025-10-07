@@ -5,22 +5,22 @@ import java.util.stream.Collectors;
 
 public final class ProviderLackException extends IllegalStateException {
 
-    private final Collection<Enum<?>> missingSubjects;
+    private final Collection<?> missingSubjects;
 
-    public ProviderLackException(Enum<?> subject) {
-        super("No provider has been registered for the following subject: " + subject.name());
-        missingSubjects = Collections.unmodifiableCollection(new ArrayList<Enum<?>>(1) {{ add(subject); }});
+    public ProviderLackException(Object subject) {
+        super("No provider has been registered for the following subject: " + subject.toString());
+        missingSubjects = Collections.unmodifiableCollection(new ArrayList<Object>(1) {{ add(subject); }});
     }
 
-    public ProviderLackException(Collection<Enum<?>> subjects) {
+    public ProviderLackException(Collection<?> subjects) {
         super(
             "No providers have been registered for the following subjects: "
-            + subjects.stream().map(Enum::name).collect(Collectors.joining(", "))
+            + subjects.stream().map(Object::toString).collect(Collectors.joining(", "))
         );
         missingSubjects = Collections.unmodifiableCollection(subjects);
     }
 
-    public Collection<Enum<?>> getMissingSubjects() {
+    public Collection<?> getMissingSubjects() {
         return missingSubjects;
     }
 }

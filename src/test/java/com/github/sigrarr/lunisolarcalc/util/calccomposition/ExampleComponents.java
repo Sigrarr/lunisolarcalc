@@ -21,7 +21,7 @@ class ExampleComponents {
         }
     }
 
-    static CalculationComposer<ExampleSubject, Integer> completeComposer = new CalculationComposer<ExampleSubject, Integer>(ExampleSubject.class) {{
+    static CalculationComposer<ExampleSubject, Integer> completeComposer = new CalculationComposer<ExampleSubject, Integer>() {{
         register(new AIndependentProvider());
         register(new BIndependentProvider());
         register(new CIndependentProvider());
@@ -29,7 +29,7 @@ class ExampleComponents {
         register(new EDependentOnBCProvider());
         register(new FDependentOnADEProvider());
     }};
-    static CalculationComposer<ExampleSubject, Integer> completeReverseComposer = new CalculationComposer<ExampleSubject, Integer>(ExampleSubject.class) {{
+    static CalculationComposer<ExampleSubject, Integer> completeReverseComposer = new CalculationComposer<ExampleSubject, Integer>() {{
         register(new ExampleReverseProvider.A());
         register(new ExampleReverseProvider.B());
         register(new ExampleReverseProvider.C());
@@ -60,7 +60,7 @@ class ExampleComponents {
             return calcCount;
         }
 
-        int selectRequiredAndMultiply(EnumSet<ExampleSubject> required, Map<ExampleSubject, Object> precalculatedValues) {
+        int selectRequiredAndMultiply(Set<ExampleSubject> required, Map<ExampleSubject, Object> precalculatedValues) {
             return required.stream().map(s -> (Integer) precalculatedValues.get(s)).reduce(1, (a, b) -> a * b);
         }
     }
@@ -202,16 +202,16 @@ class ExampleComponents {
         }
     }
 
-    static class ExampleCompositionClass extends Composition<ExampleSubject, Integer> {
-        public ExampleCompositionClass(List<CompositionNode<ExampleSubject, Integer>> orderedNodes, Class<ExampleSubject> subjectEnumClass) {
-            super(orderedNodes, subjectEnumClass);
+    static class ExampleCompositionClass extends CalcCompositionAbstract<ExampleSubject, Integer> {
+        public ExampleCompositionClass(List<CompositionNode<ExampleSubject, Integer>> orderedNodes) {
+            super(orderedNodes);
         }
 
-        public ExampleCompositionClass(Composition<ExampleSubject, Integer> composition) {
+        public ExampleCompositionClass(CalcCompositionAbstract<ExampleSubject, Integer> composition) {
             super(composition);
         }
 
-        @Override public Composition<ExampleSubject, Integer> replicate() {
+        @Override public CalcCompositionAbstract<ExampleSubject, Integer> replicate() {
             throw new UnsupportedOperationException();
         }
     }

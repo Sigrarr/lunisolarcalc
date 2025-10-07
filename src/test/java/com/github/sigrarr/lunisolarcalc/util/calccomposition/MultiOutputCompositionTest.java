@@ -49,10 +49,10 @@ public class MultiOutputCompositionTest {
         put("", new HashMap<>());
     }};
 
-    private MultiOutputComposition<ExampleSubject, Integer> composition;
+    private MultiCalcComposition<ExampleSubject, Integer> composition;
 
     @Test
-    public void shouldCalculateSubjectToValueMap() {
+    public void shouldCalculateKeyToValueMap() {
         for (Entry<String, EnumSet<ExampleSubject>> entry : NAMED_EXAMPLE_SUBJECT_SETS.entrySet()) {
             String setName = entry.getKey();
             EnumSet<ExampleSubject> set = entry.getValue();
@@ -65,7 +65,7 @@ public class MultiOutputCompositionTest {
     public void shouldReplicate() {
         for (EnumSet<ExampleSubject> subjectSet: NAMED_EXAMPLE_SUBJECT_SETS.values()) {
             composition = completeComposer.compose(subjectSet);
-            MultiOutputComposition<ExampleSubject, Integer> replica = composition.replicate();
+            MultiCalcComposition<ExampleSubject, Integer> replica = composition.replicate();
             assertNotEquals(composition, replica);
             for (int rootInput = 0; rootInput < 10; rootInput++) {
                 assertEquals(composition.calculate(rootInput), replica.calculate(rootInput));

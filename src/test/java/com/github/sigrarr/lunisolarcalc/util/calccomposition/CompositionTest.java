@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class CompositionTest {
 
-    private Composition<ExampleSubject, Integer> composition;
+    private CalcCompositionAbstract<ExampleSubject, Integer> composition;
 
     @Test
     public void shouldProcessCalculationVisitingEachNodeOnce() {
@@ -41,7 +41,7 @@ public class CompositionTest {
     @Test
     public void shouldNewCompositionInstanceHaveNewNodes() {
         List<Collection<CompositionNode<ExampleSubject, Integer>>> nodeCollections = new LinkedList<>();
-        
+
         composition = completeComposer.compose(ExampleSubject.F);
         nodeCollections.add(composition.unmodifableOrderedNodes);
         composition = new ExampleCompositionClass(composition);

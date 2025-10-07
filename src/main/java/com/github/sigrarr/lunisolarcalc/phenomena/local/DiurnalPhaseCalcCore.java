@@ -11,13 +11,13 @@ import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchT
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 import com.github.sigrarr.lunisolarcalc.util.*;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.MultiOutputComposition;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.MultiCalcComposition;
 
 abstract class DiurnalPhaseCalcCore implements Supplier<Optional<UniversalOccurrence<BodyDiurnalPhase>>> {
 
     final Body body = prepareBody();
     final FlexPentadBuffer<DiurnalPhaseCalcDayValues> dayValues = new FlexPentadBuffer<>();
-    final MultiOutputComposition<Subject, TimelinePoint> coordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
+    final MultiCalcComposition<Subject, TimelinePoint> coordsCalc = CoordsCalcCompositions.compose(EnumSet.of(
         body.declinationSubject, body.rightAscensionSubject, body.hourAngleSubject,
         Subject.EARTH_NUTUATION_IN_LONGITUDE, Subject.ECLIPTIC_TRUE_OBLIQUITY
     ));

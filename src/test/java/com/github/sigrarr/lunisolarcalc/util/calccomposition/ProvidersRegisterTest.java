@@ -12,7 +12,7 @@ import org.junit.jupiter.api.*;
 
 public class ProvidersRegisterTest {
 
-    private ProvidersRegister<ExampleSubject, Integer> register = new ProvidersRegister<>(ExampleSubject.class);
+    private ProvidersRegister<ExampleSubject, Integer> register = new ProvidersRegister<>();
 
     @Test
     public void shouldAddAndCheckAndGetAdded() {
@@ -69,7 +69,7 @@ public class ProvidersRegisterTest {
     }
 
     @Test
-    public void shouldThrowDoubledProviderExceptionOnAddingSameSubjectTwice() {
+    public void shouldThrowDoubledProviderExceptionOnAddingSameKeyTwice() {
         register.add(new AIndependentProvider());
         register.add(new CIndependentProvider());
 
