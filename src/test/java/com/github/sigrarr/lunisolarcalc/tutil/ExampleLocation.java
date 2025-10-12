@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.tutil;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.toSingleDegreesValue;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
 
 public abstract class ExampleLocation {
     // https://www.timeanddate.com/worldclock/@6620709

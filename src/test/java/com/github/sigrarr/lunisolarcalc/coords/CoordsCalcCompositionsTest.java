@@ -9,9 +9,9 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.global.*;
 import com.github.sigrarr.lunisolarcalc.coords.local.*;
+import com.github.sigrarr.lunisolarcalc.subjects.*;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.tutil.ExampleLocation;
 import com.github.sigrarr.lunisolarcalc.util.*;
@@ -55,7 +55,7 @@ public class CoordsCalcCompositionsTest {
     private Map<Key, CalcComposition<Key, TimelinePoint>> keyToComposition = Stream.concat(
         Arrays.stream(GlobalCoord.values()).map(Key.QuantityIndetifier::key),
         Arrays.stream(LocalCoord.values()).map(Key.QuantityIndetifier::key)
-    ).collect(Collectors.toMap(k -> k, k -> CoordsCalcCompositions.compose(k, ExampleLocation.WROCLAW)));
+    ).collect(Collectors.toMap(k -> k, k -> CoordsCalcCompositions.compose(k, GeoPosition.of(ExampleLocation.WROCLAW))));
 
     private TimelinePoint tx;
     private int checkedSubjectsCount = 0;

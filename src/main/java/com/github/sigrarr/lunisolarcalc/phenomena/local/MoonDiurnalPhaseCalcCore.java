@@ -2,9 +2,9 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.OptionalDouble;
 
-import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
+import com.github.sigrarr.lunisolarcalc.subjects.Body;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalcComposition;

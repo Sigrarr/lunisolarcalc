@@ -5,11 +5,11 @@ import static com.github.sigrarr.lunisolarcalc.phenomena.local.DiurnalPhaseCalcD
 import java.util.*;
 import java.util.function.Supplier;
 
-import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.phenomena.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException;
+import com.github.sigrarr.lunisolarcalc.subjects.Body;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 import com.github.sigrarr.lunisolarcalc.util.*;

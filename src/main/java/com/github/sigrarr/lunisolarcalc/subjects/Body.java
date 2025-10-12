@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc;
+package com.github.sigrarr.lunisolarcalc.subjects;
 
 import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.coords.local.LocalCoord;

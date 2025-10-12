@@ -3,7 +3,7 @@ package com.github.sigrarr.lunisolarcalc.time;
 import java.time.*;
 import java.util.GregorianCalendar;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
 import com.github.sigrarr.lunisolarcalc.time.calendar.*;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 

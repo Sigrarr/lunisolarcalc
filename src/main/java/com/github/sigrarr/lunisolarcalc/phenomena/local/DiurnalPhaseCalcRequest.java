@@ -2,6 +2,7 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
 import java.util.*;
 
+import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
 import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;

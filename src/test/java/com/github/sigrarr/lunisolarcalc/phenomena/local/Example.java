@@ -1,5 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
+import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
 import com.github.sigrarr.lunisolarcalc.time.UniversalTimelinePoint;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.util.*;

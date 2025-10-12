@@ -12,4 +12,8 @@ public abstract class ConstantsAndUnits {
      * Speed of light (c), in meters per second.
      */
     public static final int LIGHT_SPEED_METERS_PER_SECOND = 299792458;
+    /**
+     * The Earth's radius at the equator, in meters.
+     */
+    public static final int EARTH_EQUATORIAL_RADIUS_METERS = 6378137;
 }

@@ -2,10 +2,9 @@ package com.github.sigrarr.lunisolarcalc.coords.local;
 
 import java.util.function.Function;
 
-import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.CoordsCalcCompositions;
 import com.github.sigrarr.lunisolarcalc.coords.Key;
-import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
@@ -30,7 +29,7 @@ public enum LocalCoord implements Key.QuantityIndetifier {
      * @see AltitudeCalculator
      */
     MOON_ALTITUDE(
-        (gc) -> new AltitudeCalculator(Body.MOON, gc)
+        (gp) -> new AltitudeCalculator(Body.MOON, gp)
     ),
 
     /**
@@ -42,7 +41,31 @@ public enum LocalCoord implements Key.QuantityIndetifier {
      * @see AzimuthCalculator
      */
     MOON_AZIMUTH(
-        (gc) -> new AzimuthCalculator(Body.MOON, gc)
+        (gp) -> new AzimuthCalculator(Body.MOON, gp)
+    ),
+
+    /**
+     * The ρ*cos(φ′) quantity, useful for several topocentric calculations,
+     * where ρ is the ratio of the observer's geocentric radius
+     * to the Earth equatorial radius.
+     * Presumably in radians.
+     *
+     * @see RhoCosPhiPrimCalculator
+     */
+    RHO_COS_PHI_PRIM(
+        (gp) -> new RhoCosPhiPrimCalculator(gp)
+    ),
+
+    /**
+     * The ρ*sin(φ′) quantity, useful for several topocentric calculations,
+     * where ρ is the ratio of the observer's geocentric radius
+     * to the Earth equatorial radius.
+     * Presumably in radians.
+     *
+     * @see RhoSinPhiPrimCalculator
+     */
+    RHO_SIN_PHI_PRIM(
+        (gp) -> new RhoSinPhiPrimCalculator(gp)
     ),
 
     /**
@@ -54,7 +77,7 @@ public enum LocalCoord implements Key.QuantityIndetifier {
      * @see AltitudeCalculator
      */
     SUN_ALTITUDE(
-        (gc) -> new AltitudeCalculator(Body.SUN, gc)
+        (gp) -> new AltitudeCalculator(Body.SUN, gp)
     ),
 
     /**
@@ -66,13 +89,13 @@ public enum LocalCoord implements Key.QuantityIndetifier {
      * @see AzimuthCalculator
      */
     SUN_AZIMUTH(
-        (gc) -> new AzimuthCalculator(Body.SUN, gc)
+        (gp) -> new AzimuthCalculator(Body.SUN, gp)
     );
 
-    private final Function<GeoCoords, Provider<Key, TimelinePoint>> providerMaker;
+    private final Function<GeoPosition, Provider<Key, TimelinePoint>> providerMaker;
 
     LocalCoord(
-        Function<GeoCoords, Provider<Key, TimelinePoint>> providerMaker
+        Function<GeoPosition, Provider<Key, TimelinePoint>> providerMaker
     ) {
         this.providerMaker = providerMaker;
     }
@@ -80,11 +103,11 @@ public enum LocalCoord implements Key.QuantityIndetifier {
     /**
      * Gets a provider: a calculator of values of this quantity.
      *
-     * @param geoCoords     geo. coordinates of the observer
+     * @param geoPosition   the observer's position on Earth
      * @return              provider: a calculator of values of this quantity
      */
-    public Provider<Key, TimelinePoint> getProvider(GeoCoords geoCoords) {
-        return providerMaker.apply(geoCoords);
+    public Provider<Key, TimelinePoint> getProvider(GeoPosition geoPosition) {
+        return providerMaker.apply(geoPosition);
     }
 
     @Override

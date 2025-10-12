@@ -2,9 +2,8 @@ package com.github.sigrarr.lunisolarcalc.coords.local;
 
 import java.util.*;
 
-import com.github.sigrarr.lunisolarcalc.Body;
 import com.github.sigrarr.lunisolarcalc.coords.*;
-import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Sets;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalculationComposer;
@@ -16,7 +15,7 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
  * (i.e. the angular distance of the celestial body from the horizon).
  *
  * Given required parameters, it's in itself quick.
- * Stateless, {@linkplain CalculationComposer composable}, pre-registered
+ * {@linkplain CalculationComposer Composable}, pre-registered
  * for both celestial bodies in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: 13 (pp. 91-93)"
@@ -36,6 +35,17 @@ public class AltitudeCalculator implements Provider<Key, TimelinePoint> {
     public AltitudeCalculator(Body body, GeoCoords geoCoords) {
         this.body = body;
         this.geoCoords = geoCoords;
+    }
+
+    /**
+     * Constructs an instance for given celestial body (the Moon or the Sun)
+     * and specified observer's position on Earth (elevation is irrelevant though).
+     *
+     * @param body          celestial body (the Moon or the Sun)
+     * @param geoPosition   the observer's position on Earth
+     */
+    public AltitudeCalculator(Body body, GeoPosition geoPosition) {
+        this(body, geoPosition.coords);
     }
 
     /**

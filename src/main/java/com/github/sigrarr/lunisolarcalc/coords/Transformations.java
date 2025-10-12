@@ -96,9 +96,9 @@ public abstract class Transformations {
      *
      * @param hourAngle0                        hour angle at the Greenwich meridian (H0)
      * @param observerPlanetographicLongitude   the observer's planetographic longitude (L;
-     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords.LongitudeDirection#E Eastern}
+     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#E Eastern}
      *                                          - negative,
-     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords.LongitudeDirection#W Western}
+     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#W Western}
      *                                          - positive)
      * @param scaleTurn                         1 turn (round angle) in the same scale as the previous arguments
      * @return                                  local hour angle (H): [-1/2 turn, 1/2 turn)
@@ -112,9 +112,9 @@ public abstract class Transformations {
      *
      * @param hourAngle0                        hour angle at the Greenwich meridian (H0), in radians
      * @param observerPlanetographicLongitude   the observer's planetographic longitude (L), in radians
-     *                                          ({@linkplain com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords.LongitudeDirection#E Eastern}
+     *                                          ({@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#E Eastern}
      *                                          - negative,
-     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords.LongitudeDirection#W Western}
+     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#W Western}
      *                                          - positive)
      * @return                                  local hour angle (H), in radians: [-π, π)
      */
