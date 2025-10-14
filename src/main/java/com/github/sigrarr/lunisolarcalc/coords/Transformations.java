@@ -3,13 +3,13 @@ package com.github.sigrarr.lunisolarcalc.coords;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 /**
- * Transformations between the ecliptical and equatorial coordinates.
+ * Transformations between the ecliptical, equatorial and horizontal coordinates.
  *
  * @see "Meeus 1998: Ch. 13 (pp. 91...)"
  */
 public abstract class Transformations {
     /**
-     * Transforms equatorial coordinates to ecliptical longitude (λ): [0, 2π).
+     * Transforms equatorial coordinates to ecliptical longitude (λ).
      *
      * @param rightAscension        right ascension (α), in radians
      * @param declination           declination (δ), in radians
@@ -24,7 +24,7 @@ public abstract class Transformations {
     }
 
     /**
-     * Transforms equatorial coordinates to ecliptical latitude (β): [-π/2, π/2].
+     * Transforms equatorial coordinates to ecliptical latitude (β).
      *
      * @param declination           declination (δ), in radians
      * @param rightAscension        right ascension (α), in radians
@@ -39,7 +39,7 @@ public abstract class Transformations {
     }
 
     /**
-     * Transforms ecliptical coordinates to right ascension (α): [0, 2π).
+     * Transforms ecliptical coordinates to right ascension (α).
      *
      * @param longitude             ecliptical longitude (λ), in radians
      * @param latitude              ecliptical latitude (β), in radians
@@ -54,7 +54,7 @@ public abstract class Transformations {
     }
 
     /**
-     * Transforms ecliptical coordinates to declination (δ): [-π/2, π/2].
+     * Transforms ecliptical coordinates to declination (δ).
      *
      * @param latitude              ecliptical latitude (β), in radians
      * @param longitude             ecliptical longitude (λ), in radians
@@ -69,61 +69,103 @@ public abstract class Transformations {
     }
 
     /**
-     * Determines the hour angle (H0): [-1/2 turn, 1/2 turn).
+     * Determines the hour angle (H).
+     * This is a general method: output will take the charachteristics
+     * of input; you can pass the local sidereal time (θ) to obtain
+     * the local hour angle (H) or the sidereal time at the Greenwich meridian (θ0)
+     * to get the Greenwich hour angle (H0) accordingly.
      *
-     * @param siderealTime      sidereal time (θ0)
+     * @param siderealTime      sidereal time (θ)
      * @param rightAscension    right ascension (α)
      * @param scaleTurn         1 turn (round angle) in the same scale as the previous arguments
-     * @return                  hour angle (H0), in the same scale: [-1/2 turn, 1/2 turn)
+     * @return                  hour angle (H), bearing the characteristics of arguments
+     *                          (e.g. Greenwich hour angle H0 if the Greenwich sidereal time θ0 was passed),
+     *                          in the same scale: [-1/2 turn, 1/2 turn)
      */
     public static double calculateHourAngle(double siderealTime, double rightAscension, double scaleTurn) {
         return Calcs.Angle.toNormalSignedLongitude(siderealTime - rightAscension, scaleTurn);
     }
 
     /**
-     * Determines the hour angle (H0): [-π, π).
+     * Determines the hour angle (H).
+     * This is a general method: output will take the charachteristics
+     * of input; you can pass the local sidereal time (θ) to obtain
+     * the local hour angle (H) or the sidereal time at the Greenwich meridian (θ0)
+     * to get the Greenwich hour angle (H0) accordingly.
      *
-     * @param siderealTime      sidereal time (θ0), in radians
+     * @param siderealTime      sidereal time (θ), in radians
      * @param rightAscension    right ascension (α), in radians
-     * @return                  hour angle (H0), in radians: [-π, π)
+     * @return                  hour angle (H), bearing the characteristics of arguments
+     *                          (e.g. Greenwich hour angle H0 if the Greenwich sidereal time θ0 was passed),
+     *                          in radians: [-π, π)
      */
     public static double calculateHourAngle(double siderealTime, double rightAscension) {
         return Calcs.Angle.toNormalSignedLongitude(siderealTime - rightAscension);
     }
 
     /**
-     * Determines the local hour angle (H): [-1/2 turn, 1/2 turn).
+     * Determines the local hour angle (H).
      *
-     * @param hourAngle0                        hour angle at the Greenwich meridian (H0)
-     * @param observerPlanetographicLongitude   the observer's planetographic longitude (L;
-     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#E Eastern}
-     *                                          - negative,
-     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#W Western}
-     *                                          - positive)
+     * @param siderealTime0                     sidereal time at the Greenwich meridian (θ0)
+     * @param observerPlanetographicLongitude   the observer's planetographic longitude (L)
+     *                                          (Eastern - negative, Western - positive)
+     * @param rightAscension                    right ascension (α)
      * @param scaleTurn                         1 turn (round angle) in the same scale as the previous arguments
      * @return                                  local hour angle (H): [-1/2 turn, 1/2 turn)
      */
-    public static double calculateLocalHourAngle(double hourAngle0, double observerPlanetographicLongitude, double scaleTurn) {
+    public static double calculateLocalHourAngle(
+        double siderealTime0,
+        double observerPlanetographicLongitude,
+        double rightAscension,
+        double scaleTurn
+    ) {
+        return Calcs.Angle.toNormalSignedLongitude(siderealTime0 - observerPlanetographicLongitude - rightAscension, scaleTurn);
+    }
+
+    /**
+     * Determines the local hour angle (H).
+     *
+     * @param siderealTime0                     sidereal time at the Greenwich meridian (θ0), in radians
+     * @param observerPlanetographicLongitude   the observer's planetographic longitude (L), in radians
+     *                                          (Eastern - negative, Western - positive)
+     * @param rightAscension                    right ascension (α), in radians
+     * @return                                  local hour angle (H), in radians: [-π, π)
+     */
+    public static double calculateLocalHourAngle(
+        double siderealTime0,
+        double observerPlanetographicLongitude,
+        double rightAscension
+    ) {
+        return Calcs.Angle.toNormalSignedLongitude(siderealTime0 - observerPlanetographicLongitude - rightAscension);
+    }
+
+    /**
+     * Determines the local hour angle (H).
+     *
+     * @param hourAngle0                        hour angle at the Greenwich meridian (H0)
+     * @param observerPlanetographicLongitude   the observer's planetographic longitude (L)
+     *                                          (Eastern - negative, Western - positive)
+     * @param scaleTurn                         1 turn (round angle) in the same scale as the previous arguments
+     * @return                                  local hour angle (H): [-1/2 turn, 1/2 turn)
+     */
+    public static double hourAngle0ToLocal(double hourAngle0, double observerPlanetographicLongitude, double scaleTurn) {
         return Calcs.Angle.toNormalSignedLongitude(hourAngle0 - observerPlanetographicLongitude, scaleTurn);
     }
 
     /**
-     * Determines the local hour angle (H): [-π, π).
+     * Determines the local hour angle (H).
      *
      * @param hourAngle0                        hour angle at the Greenwich meridian (H0), in radians
      * @param observerPlanetographicLongitude   the observer's planetographic longitude (L), in radians
-     *                                          ({@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#E Eastern}
-     *                                          - negative,
-     *                                          {@linkplain com.github.sigrarr.lunisolarcalc.subjects.GeoCoords.LongitudeDirection#W Western}
-     *                                          - positive)
+     *                                          (Eastern - negative, Western - positive)
      * @return                                  local hour angle (H), in radians: [-π, π)
      */
-    public static double calculateLocalHourAngle(double hourAngle0, double observerPlanetographicLongitude) {
+    public static double hourAngle0ToLocal(double hourAngle0, double observerPlanetographicLongitude) {
         return Calcs.Angle.toNormalSignedLongitude(hourAngle0 - observerPlanetographicLongitude);
     }
 
     /**
-     * Determines the altitude (h): [-π/2, π/2].
+     * Determines the altitude (h).
      *
      * @param declination       declination (δ), in radians
      * @param localHourAngle    local hour angle (H), in radians
@@ -138,7 +180,7 @@ public abstract class Transformations {
     }
 
     /**
-     * Determines the azimuth (from the South; A): [0, 2π).
+     * Determines the azimuth (from the South; A).
      *
      * @param localHourAngle    local hour angle (H), in radians
      * @param declination       declination (δ), in radians

@@ -6,8 +6,7 @@ import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.subjects.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Sets;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalculationComposer;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
  * Calculator of airless geocentric {@linkplain LocalCoord#MOON_ALTITUDE altitude of the Moon}
@@ -18,12 +17,14 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
  * {@linkplain CalculationComposer Composable}, pre-registered
  * for both celestial bodies in {@link CoordsCalcCompositions}.
  *
- * @see "Meeus 1998: 13 (pp. 91-93)"
+ * @see Transformations
  */
 public class AltitudeCalculator implements Provider<Key, TimelinePoint> {
-
-    final Body body;
-    final GeoCoords geoCoords;
+    /**
+     * The celestial body whose coordinate this calculator provides.
+     */
+    public final Body body;
+    public final GeoCoords geoCoords;
 
     /**
      * Constructs an instance for given celestial body (the Moon or the Sun)
@@ -49,16 +50,15 @@ public class AltitudeCalculator implements Provider<Key, TimelinePoint> {
     }
 
     /**
-     * Determines the celestial body's airless geocentric altitude (h): [-π/2, π/2]
+     * Determines the celestial body's airless geocentric altitude (h)
      * (positive: over the horizon; negative: under).
      *
-     * @param declination       celestial body's declination (δ), in radians
-     * @param hourAngle0        celestial body's hour angle at the Greenwich meridian (H0), in radians
+     * @param declination       declination (δ), in radians
+     * @param localHourAngle    local hour angle (H), in radians
      * @return                  altitude (h), in radians: [-π/2, π/2]
      */
-    public double calculate(double declination, double hourAngle0) {
-        double lha = Transformations.calculateLocalHourAngle(hourAngle0, geoCoords.getPlanetographicLongitude());
-        return Transformations.calculateAltitude(declination, lha, geoCoords.getLatitude());
+    public double calculate(double declination, double localHourAngle) {
+        return Transformations.calculateAltitude(declination, localHourAngle, geoCoords.getLatitude());
     }
 
     @Override
@@ -68,13 +68,14 @@ public class AltitudeCalculator implements Provider<Key, TimelinePoint> {
 
     @Override
     public Set<Key> requires() {
-        return Sets.of(body.declinationCoord.key(), body.hourAngleCoord.key());
+        return Sets.of(body.declinationCoord.key(), body.localHourAngleCoord.key());
     }
 
     @Override
     public Double calculate(TimelinePoint tx, Map<Key, Object> precalculatedValues) {
-        double declination = (Double) precalculatedValues.get(body.declinationCoord.key());
-        double ha0 = (Double) precalculatedValues.get(body.hourAngleCoord.key());
-        return calculate(declination, ha0);
+        return calculate(
+            (Double) precalculatedValues.get(body.declinationCoord.key()),
+            (Double) precalculatedValues.get(body.localHourAngleCoord.key())
+        );
     }
 }

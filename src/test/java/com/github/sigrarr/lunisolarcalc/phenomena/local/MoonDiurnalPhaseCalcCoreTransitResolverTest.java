@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import com.github.sigrarr.lunisolarcalc.phenomena.global.*;
 import com.github.sigrarr.lunisolarcalc.phenomena.local.MoonDiurnalPhaseCalcCore.TransitResolver;
 import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.testing.ExampleLocation;
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.tutil.ExampleLocation;
 
 public class MoonDiurnalPhaseCalcCoreTransitResolverTest {
 

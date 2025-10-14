@@ -14,11 +14,8 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * @see "Meeus 1998: Ch. 22 (pp. 147-148)"
  */
 public final class EclipticTrueObliquityCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.ECLIPTIC_TRUE_OBLIQUITY;
-
     /**
-     * Calculates the {@linkplain GlobalCoord#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians.
+     * Calculates the {@linkplain GlobalCoord#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}.
      * Quick operation.
      *
      * @param eclipticMeanObliquity     {@linkplain GlobalCoord#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}, in radians
@@ -31,7 +28,7 @@ public final class EclipticTrueObliquityCalculator implements Provider<GlobalCoo
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.ECLIPTIC_TRUE_OBLIQUITY;
     }
 
     @Override

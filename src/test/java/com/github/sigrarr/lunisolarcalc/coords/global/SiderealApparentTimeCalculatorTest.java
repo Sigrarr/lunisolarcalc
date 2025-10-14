@@ -5,12 +5,16 @@ import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.tutil.TestUtils;
+import com.github.sigrarr.lunisolarcalc.coords.CoordsCalcCompositions;
+import com.github.sigrarr.lunisolarcalc.testing.TestUtils;
+import com.github.sigrarr.lunisolarcalc.time.*;
 import com.github.sigrarr.lunisolarcalc.util.*;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalcComposition;
 
 public class SiderealApparentTimeCalculatorTest {
 
     private SiderealApparentTimeCalculator calculator = new SiderealApparentTimeCalculator();
+    private CalcComposition<GlobalCoord, TimelinePoint> composedCalculator = CoordsCalcCompositions.compose(GlobalCoord.SIDEREAL_APPARENT_TIME_0);
 
     @Test
     public void shouldCalculateThetaZero() {
@@ -22,6 +26,12 @@ public class SiderealApparentTimeCalculatorTest {
         double expectedThetaZero = 360.0 * Calcs.Time.timeToDays(13, 10, 46.1351);
         double delta = TestUtils.decimalAutoDelta(0.0001) * 360.0 * Calcs.SECOND_TO_DAY;
         assertEquals(expectedThetaZero, actualThetaZero, delta);
+
+        // Meeus 1998: Example 40.a, p. 280
+        UniversalTimelinePoint tx = UniversalTimelinePoint.ofCalendaricParameters(2003,  8, 28,  3, 17,  0);
+        expectedThetaZero = 360.0 * Calcs.Time.timeToDays(1, 40, 45);
+        delta = TestUtils.decimalAutoDelta(1.0) * 360.0 * Calcs.SECOND_TO_DAY;
+        assertEquals(expectedThetaZero, (Double) composedCalculator.calculate(tx), delta);
     }
 
     @Test

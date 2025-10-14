@@ -15,11 +15,8 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 166)"
  */
 public final class SunLatitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.SUN_LATITUDE;
-
     /**
-     * Calculates {@linkplain GlobalCoord#SUN_LATITUDE the Sun's geometric latitude (β)}: [-π/2, π/2].
+     * Calculates {@linkplain GlobalCoord#SUN_LATITUDE the Sun's geometric latitude (β)}.
      * Rather quick.
      *
      * @param tx                        time argument
@@ -40,7 +37,7 @@ public final class SunLatitudeCalculator implements Provider<GlobalCoord, Timeli
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.SUN_LATITUDE;
     }
 
     @Override

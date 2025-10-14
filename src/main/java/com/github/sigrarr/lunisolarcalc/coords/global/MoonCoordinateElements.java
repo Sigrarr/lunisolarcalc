@@ -18,7 +18,6 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public class MoonCoordinateElements implements Provider<GlobalCoord, TimelinePoint>, DoubleRow {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.MOON_COORDINATE_ELEMENTS;
     public static final int INDEX_MEAN_LONGITUDE = 0;
     public static final int INDEX_MEAN_ELONGATION = 1;
     public static final int INDEX_MEAN_ANOMALY_OF_SUN = 2;
@@ -179,7 +178,7 @@ public class MoonCoordinateElements implements Provider<GlobalCoord, TimelinePoi
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.MOON_COORDINATE_ELEMENTS;
     }
 
     @Override

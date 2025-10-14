@@ -1,13 +1,18 @@
 /**
- * Calculators of certain spatial coordinates,
- * divided into `global` and `local` (by depedence on the observer's location on Earth).
+ * Spatial coordinates.
  *
- * Some of them need to receive results yielded by the others, which constitutes a dependency graph.
+ * Supported quantities are distributed between subpackages {@code global} and {@code local}
+ * which contain calculators and enumerations:
+ * {@link com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord GlobalCoord},
+ * {@link com.github.sigrarr.lunisolarcalc.coords.local.LocalCoord LocalCoord}.
+ *
+ * Some of the calculators need to receive results yielded by the others, which constitutes a dependency graph.
  * You can use the {@linkplain com.github.sigrarr.lunisolarcalc.coords.CoordsCalcCompositions in-built calculation composer}
  * to resolve those dependencies (which is recommended) or do it manually.
  *
- * For the list of quantities supported by the package, see the enumeration classes
- * {@link com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord GlobalCoord}
- * and {@link com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord LocalCoord}.
+ * Classes
+ * {@link com.github.sigrarr.lunisolarcalc.coords.Transformations Transformations}
+ * and {@link com.github.sigrarr.lunisolarcalc.coords.Topo Topo}
+ * provide useful static formulae.
  */
 package com.github.sigrarr.lunisolarcalc.coords;

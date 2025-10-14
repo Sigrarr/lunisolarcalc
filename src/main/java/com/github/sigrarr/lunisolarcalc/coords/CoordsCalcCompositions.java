@@ -50,9 +50,7 @@ public abstract class CoordsCalcCompositions {
      * @return              calc. composition
      */
     public static CalcComposition<Key, TimelinePoint> compose(Key target, GeoPosition geoPosition) {
-        CalculationComposer<Key, TimelinePoint> composer = prepareGeneralComposerWithGlobalProviders();
-        Arrays.stream(LocalCoord.values()).map(lc -> lc.getProvider(geoPosition)).forEach(composer::register);
-        return composer.compose(target);
+        return prepareGeneralComposer(geoPosition).compose(target);
     }
 
     /**
@@ -66,14 +64,13 @@ public abstract class CoordsCalcCompositions {
      * @return              calc. composition
      */
     public static MultiCalcComposition<Key, TimelinePoint> compose(Set<Key> targets, GeoPosition geoPosition) {
-        CalculationComposer<Key, TimelinePoint> composer = prepareGeneralComposerWithGlobalProviders();
-        Arrays.stream(LocalCoord.values()).map(lc -> lc.getProvider(geoPosition)).forEach(composer::register);
-        return composer.compose(targets);
+        return prepareGeneralComposer(geoPosition).compose(targets);
     }
 
-    private static CalculationComposer<Key, TimelinePoint> prepareGeneralComposerWithGlobalProviders() {
+    private static CalculationComposer<Key, TimelinePoint> prepareGeneralComposer(GeoPosition geoPosition) {
         CalculationComposer<Key, TimelinePoint> composer = new CalculationComposer<>();
         Arrays.stream(GlobalCoord.values()).map(GlobalCoord::getProvider).map(GlobalCoordCalcKeyAdapter::new).forEach(composer::register);
+        Arrays.stream(LocalCoord.values()).map(lc -> lc.getProvider(geoPosition)).forEach(composer::register);
         return composer;
     }
 

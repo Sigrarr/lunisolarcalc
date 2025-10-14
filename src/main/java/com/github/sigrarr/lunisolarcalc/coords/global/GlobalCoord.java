@@ -3,6 +3,7 @@ package com.github.sigrarr.lunisolarcalc.coords.global;
 import java.util.function.Supplier;
 
 import com.github.sigrarr.lunisolarcalc.coords.*;
+import com.github.sigrarr.lunisolarcalc.subjects.Body;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
 
@@ -125,10 +126,11 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
      * The Moon's declination (δ).
      * An equatorial coordinate. Presumably in radians.
      *
-     * @see MoonDeclinationCalculator
+     * @see DeclinationCalculator
      */
     MOON_DECLINATION(
-        MoonDeclinationCalculator.class
+        DeclinationCalculator.class,
+        () -> new DeclinationCalculator(Body.MOON)
     ),
 
     /**
@@ -142,23 +144,14 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
     ),
 
     /**
-     * The Moon's equatorial horizontal parallax (π).
-     * Presumably in radians.
-     *
-     * @see MoonEquatorialHorizontalParallaxCalculator
-     */
-    MOON_EQUATORIAL_HORIZONTAL_PARALLAX(
-        MoonEquatorialHorizontalParallaxCalculator.class
-    ),
-
-    /**
      * The Moon's apparent hour angle at the Greenwich meridian (H0).
      * An equatorial coordinate. Presumably in radians.
      *
-     * @see MoonHourAngleCalculator
+     * @see HourAngleCalculator
      */
-    MOON_HOUR_ANGLE(
-        MoonHourAngleCalculator.class
+    MOON_HOUR_ANGLE_0(
+        HourAngleCalculator.class,
+        () -> new HourAngleCalculator(Body.MOON)
     ),
 
     /**
@@ -181,7 +174,7 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
         MoonLongitudeCalculator.class
     ),
 
-     /**
+    /**
      * Excess of the Moon's apparent longitude over the Sun's apparent longitude
      * (indicator of phases of the Moon). Presumably in radians.
      *
@@ -192,13 +185,36 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
     ),
 
     /**
+     * The Moon's equatorial horizontal parallax (π).
+     * Presumably in radians.
+     *
+     * @see ParallaxCalculator
+     */
+    MOON_PARALLAX(
+        ParallaxCalculator.class,
+        () -> new ParallaxCalculator(Body.MOON)
+    ),
+
+    /**
+     * The sine of
+     * {@linkplain #MOON_PARALLAX the Moon's equatorial horizontal parallax}
+     * (sin(π)).
+     *
+     * @see MoonParallaxSineCalculator
+     */
+    MOON_PARALLAX_SINE(
+        MoonParallaxSineCalculator.class
+    ),
+
+    /**
      * The Moon's right ascension (α).
      * An equatorial coordinate. Presumably in radians.
      *
-     * @see MoonRightAscensionCalculator
+     * @see RightAscensionCalculator
      */
     MOON_RIGHT_ASCENSION(
-        MoonRightAscensionCalculator.class
+        RightAscensionCalculator.class,
+        () -> new RightAscensionCalculator(Body.MOON)
     ),
 
     /**
@@ -219,7 +235,7 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
      *
      * @see SiderealMeanTimeCalculator
      */
-    SIDEREAL_MEAN_TIME(
+    SIDEREAL_MEAN_TIME_0(
         SiderealMeanTimeCalculator.class
     ),
 
@@ -229,7 +245,7 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
      *
      * @see SiderealApparentTimeCalculator
      */
-    SIDEREAL_APPARENT_TIME(
+    SIDEREAL_APPARENT_TIME_0(
         SiderealApparentTimeCalculator.class
     ),
 
@@ -257,10 +273,11 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
      * The Sun's declination (δ).
      * An equatorial coordinate. Presumably in radians.
      *
-     * @see SunDeclinationCalculator
+     * @see DeclinationCalculator
      */
     SUN_DECLINATION(
-        SunDeclinationCalculator.class
+        DeclinationCalculator.class,
+        () -> new DeclinationCalculator(Body.SUN)
     ),
 
     /**
@@ -277,10 +294,11 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
      * The Sun's apparent hour angle at the Greenwich meridian (H0).
      * An equatorial coordinate. Presumably in radians.
      *
-     * @see SunHourAngleCalculator
+     * @see HourAngleCalculator
      */
-    SUN_HOUR_ANGLE(
-        SunHourAngleCalculator.class
+    SUN_HOUR_ANGLE_0(
+        HourAngleCalculator.class,
+        () -> new HourAngleCalculator(Body.SUN)
     ),
 
     /**
@@ -294,13 +312,36 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
     ),
 
     /**
+     * The Sun's equatorial horizontal parallax (π).
+     * Presumably in radians.
+     *
+     * @see ParallaxCalculator
+     */
+    SUN_PARALLAX(
+        ParallaxCalculator.class,
+        () -> new ParallaxCalculator(Body.SUN)
+    ),
+
+    /**
+     * The sine of
+     * {@linkplain #SUN_PARALLAX the Sun's equatorial horizontal parallax}
+     * (sin(π)).
+     *
+     * @see SunParallaxSineCalculator
+     */
+    SUN_PARALLAX_SINE(
+        SunParallaxSineCalculator.class
+    ),
+
+    /**
      * The Sun's right ascension (α).
      * An equatorial coordinate. Presumably in radians.
      *
-     * @see SunRightAscensionCalculator
+     * @see RightAscensionCalculator
      */
     SUN_RIGHT_ASCENSION(
-        SunRightAscensionCalculator.class
+        RightAscensionCalculator.class,
+        () -> new RightAscensionCalculator(Body.SUN)
     );
 
     protected final Class<? extends Provider<GlobalCoord, TimelinePoint>> providerClass;

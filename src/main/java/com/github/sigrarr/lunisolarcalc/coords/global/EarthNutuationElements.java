@@ -18,8 +18,6 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public class EarthNutuationElements implements Provider<GlobalCoord, TimelinePoint>, DoubleRow {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.EARTH_NUTUATION_ELEMENTS;
-
     public static final int INDEX_MEAN_ELONGATION_OF_MOON_FROM_SUN = 0;
     public static final int INDEX_MEAN_ANOMALY_OF_SUN = 1;
     public static final int INDEX_MEAN_ANOMALY_OF_MOON = 2;
@@ -138,7 +136,7 @@ public class EarthNutuationElements implements Provider<GlobalCoord, TimelinePoi
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.EARTH_NUTUATION_ELEMENTS;
     }
 
     @Override

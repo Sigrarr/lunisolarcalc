@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.tutil;
+package com.github.sigrarr.lunisolarcalc.testing;
 
 import static org.junit.jupiter.api.Assertions.*;
 

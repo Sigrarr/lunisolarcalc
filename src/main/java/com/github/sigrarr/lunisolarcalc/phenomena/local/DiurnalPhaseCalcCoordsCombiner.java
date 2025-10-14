@@ -57,12 +57,11 @@ class DiurnalPhaseCalcCoordsCombiner {
             interpolator.interpolate(dayPosition, COORD_NUTUATION_IN_LONGITUDE, vector),
             interpolator.interpolate(dayPosition, COORD_ECLIPTIC_OBLIQUITY, vector)
         );
-        double hourAngle0 = Transformations.calculateHourAngle(
+        return Transformations.calculateLocalHourAngle(
             Math.toRadians(siderealTimeDeg),
+            core.getRequest().longitude,
             interpolator.interpolate(dayPosition, COORD_RIGHT_ASCENSION, vector)
         );
-
-        return Transformations.calculateLocalHourAngle(hourAngle0, core.getRequest().longitude);
     }
 
     private class Interpolator {

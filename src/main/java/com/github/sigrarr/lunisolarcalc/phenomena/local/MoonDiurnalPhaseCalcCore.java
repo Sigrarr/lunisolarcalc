@@ -15,7 +15,7 @@ final class MoonDiurnalPhaseCalcCore extends DiurnalPhaseCalcCore {
         private static final double STANDARD_ALTITUDE_PI_COEFFICIENT = 0.7275;
         private static final double STANDARD_ALTITUDE_FREE_TERM = Math.toRadians(Calcs.Angle.arcminutesToDegrees(-34));
         private final CalcComposition<GlobalCoord, TimelinePoint> parallaxCalc = CoordsCalcCompositions.compose(
-            GlobalCoord.MOON_EQUATORIAL_HORIZONTAL_PARALLAX
+            GlobalCoord.MOON_PARALLAX
         );
 
         public double calculate(TimelinePoint tx) {

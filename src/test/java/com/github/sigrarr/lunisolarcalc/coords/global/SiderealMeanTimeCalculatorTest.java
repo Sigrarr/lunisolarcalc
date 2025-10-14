@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import com.github.sigrarr.lunisolarcalc.testing.TestUtils;
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.tutil.TestUtils;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
 public class SiderealMeanTimeCalculatorTest {

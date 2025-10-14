@@ -2,7 +2,7 @@ package com.github.sigrarr.lunisolarcalc.coords.global;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.github.sigrarr.lunisolarcalc.phenomena.global.MeanCycle.TROPICAL_YEAR;
-import static com.github.sigrarr.lunisolarcalc.tutil.TestUtils.decimalAutoDelta;
+import static com.github.sigrarr.lunisolarcalc.testing.TestUtils.decimalAutoDelta;
 
 import org.junit.jupiter.api.Test;
 

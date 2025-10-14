@@ -7,8 +7,8 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 import com.github.sigrarr.lunisolarcalc.coords.CoordsCalcCompositions;
+import com.github.sigrarr.lunisolarcalc.testing.TestUtils;
 import com.github.sigrarr.lunisolarcalc.time.*;
-import com.github.sigrarr.lunisolarcalc.tutil.TestUtils;
 import com.github.sigrarr.lunisolarcalc.util.*;
 
 public class MoonSunElongationCalculatorTest {

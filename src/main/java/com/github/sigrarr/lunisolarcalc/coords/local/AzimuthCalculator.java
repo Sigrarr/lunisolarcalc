@@ -6,24 +6,24 @@ import com.github.sigrarr.lunisolarcalc.coords.*;
 import com.github.sigrarr.lunisolarcalc.subjects.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.Sets;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.CalculationComposer;
-import com.github.sigrarr.lunisolarcalc.util.calccomposition.Provider;
+import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of airless geocentric {@linkplain LocalCoord#MOON_AZIMUTH azimuth of the Moon}
- * or {@linkplain LocalCoord#SUN_AZIMUTH of the Sun} (A),
- * measured from the South.
+ * Calculator of geocentric {@linkplain LocalCoord#MOON_AZIMUTH azimuth of the Moon}
+ * or {@linkplain LocalCoord#SUN_AZIMUTH of the Sun} (A), measured from the South.
  *
  * Given required parameters, it's in itself quick.
  * {@linkplain CalculationComposer Composable}, pre-registered
  * for both celestial bodies in {@link CoordsCalcCompositions}.
  *
- * @see "Meeus 1998: 13 (pp. 91-93)"
+ * @see Transformations
  */
 public class AzimuthCalculator implements Provider<Key, TimelinePoint> {
-
-    final Body body;
-    final GeoCoords geoCoords;
+    /**
+     * The celestial body whose coordinate this calculator provides.
+     */
+    public final Body body;
+    public final GeoCoords geoCoords;
 
     /**
      * Constructs an instance for given celestial body (the Moon or the Sun)
@@ -49,15 +49,14 @@ public class AzimuthCalculator implements Provider<Key, TimelinePoint> {
     }
 
     /**
-     * Determines the celestial body's airless geocentric azimuth (from the South; A): [0, 2π).
+     * Determines the celestial body's geocentric azimuth (from the South; A).
      *
-     * @param hourAngle0        celestial body's hour angle at the Greenwich meridian (H0), in radians
+     * @param localHourAngle    local hour angle (H), in radians
      * @param declination       declination (δ), in radians
      * @return                  azimuth (from the South; A), in radians: [0, 2π)
      */
-    public double calculate(double hourAngle0, double declination) {
-        double lha = Transformations.calculateLocalHourAngle(hourAngle0, geoCoords.getPlanetographicLongitude());
-        return Transformations.calculateAzimuth(lha, declination, geoCoords.getLatitude());
+    public double calculate(double localHourAngle, double declination) {
+        return Transformations.calculateAzimuth(localHourAngle, declination, geoCoords.getLatitude());
     }
 
     @Override
@@ -67,13 +66,14 @@ public class AzimuthCalculator implements Provider<Key, TimelinePoint> {
 
     @Override
     public Set<Key> requires() {
-        return Sets.of(body.hourAngleCoord.key(), body.declinationCoord.key());
+        return Sets.of(body.localHourAngleCoord.key(), body.declinationCoord.key());
     }
 
     @Override
     public Double calculate(TimelinePoint tx, Map<Key, Object> precalculatedValues) {
-        double ha0 = (Double) precalculatedValues.get(body.hourAngleCoord.key());
-        double declination = (Double) precalculatedValues.get(body.declinationCoord.key());
-        return calculate(ha0, declination);
+        return calculate(
+            (Double) precalculatedValues.get(body.localHourAngleCoord.key()),
+            (Double) precalculatedValues.get(body.declinationCoord.key())
+        );
     }
 }

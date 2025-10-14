@@ -15,11 +15,8 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * @see "Meeus 1998: Ch. 25 (Higher accuracy, p. 167)"
  */
 public final class SunApparentLongitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.SUN_APPARENT_LONGITUDE;
-
     /**
-     * Calculates {@linkplain GlobalCoord#SUN_APPARENT_LONGITUDE the Sun's apparent longitude (λ)}: [0, 2π).
+     * Calculates {@linkplain GlobalCoord#SUN_APPARENT_LONGITUDE the Sun's apparent longitude (λ)}.
      * Quick operation.
      *
      * @param geometricLongitude    {@linkplain GlobalCoord#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)}, in radians
@@ -33,7 +30,7 @@ public final class SunApparentLongitudeCalculator implements Provider<GlobalCoor
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.SUN_APPARENT_LONGITUDE;
     }
 
     @Override

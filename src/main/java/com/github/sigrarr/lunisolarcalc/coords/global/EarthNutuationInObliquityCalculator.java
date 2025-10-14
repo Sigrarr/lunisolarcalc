@@ -16,17 +16,16 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class EarthNutuationInObliquityCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    private static final GlobalCoord SUBJECT = GlobalCoord.EARTH_NUTUATION_IN_OBLIQUITY;
-
     private EarthNutuationInObliquityPeriodicTerms periodicTerms = new EarthNutuationInObliquityPeriodicTerms();
 
     /**
-     * Calculates the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_OBLIQUITY nutuation in obliquity (Δε)}, in radians.
+     * Calculates the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_OBLIQUITY nutuation in obliquity (Δε)}.
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@linkplain EarthNutuationInObliquityPeriodicTerms periodic terms}
-     * @return          the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_OBLIQUITY nutuation in obliquity (Δε)}, in radians
+     * @param elements  intermediate arguments used in periodic terms
+     * @return          the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_OBLIQUITY nutuation in obliquity (Δε)},
+     *                  in radians
      */
     public double calculate(TimelinePoint tx, EarthNutuationElements elements) {
         return periodicTerms.evaluate(tx.toDynamicalTime(), elements);
@@ -34,7 +33,7 @@ public final class EarthNutuationInObliquityCalculator implements Provider<Globa
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.EARTH_NUTUATION_IN_OBLIQUITY;
     }
 
     @Override

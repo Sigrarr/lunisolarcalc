@@ -8,22 +8,19 @@ import com.github.sigrarr.lunisolarcalc.util.Calcs;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
 /**
- * Calculator of the {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME mean sidereal time at the Greenwich meridian (θ0)}.
+ * Calculator of the {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time at the Greenwich meridian (θ0)}.
  * Quick operation.
  * Stateless, {@linkplain CalculationComposer composable}, pre-registered in {@link CoordsCalcCompositions}.
  *
  * @see "Meeus 1998: Ch. 12 (pp. 87-89)"
  */
 public class SiderealMeanTimeCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.SIDEREAL_MEAN_TIME;
-
     /**
-     * Calculates the {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME mean sidereal time at the Greenwich meridian (θ0)},
+     * Calculates the {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time at the Greenwich meridian (θ0)},
      * expressed in degrees: [0, 360°). 15° corresponds to 1 hour.
      *
      * @param tx    time argument
-     * @return      {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME mean sidereal time at the Greenwich meridian (θ0)},
+     * @return      {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time at the Greenwich meridian (θ0)},
      *              in degrees: [0, 360°)
      */
     public double calculate(TimelinePoint tx) {
@@ -38,7 +35,7 @@ public class SiderealMeanTimeCalculator implements Provider<GlobalCoord, Timelin
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.SIDEREAL_MEAN_TIME_0;
     }
 
     @Override

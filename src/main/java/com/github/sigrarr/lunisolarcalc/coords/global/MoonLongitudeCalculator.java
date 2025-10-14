@@ -17,17 +17,16 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class MoonLongitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.MOON_LONGITUDE;
-
     private MoonLongitudePeriodicTerms periodicTerms = new MoonLongitudePeriodicTerms();
 
     /**
-     * Calcules the {@linkplain GlobalCoord#MOON_LONGITUDE longitude of the Moon's center (λ)}: [0, 2π).
+     * Calcules the {@linkplain GlobalCoord#MOON_LONGITUDE longitude of the Moon's center (λ)}.
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@linkplain MoonLongitudePeriodicTerms periodic terms}
-     * @return          {@linkplain GlobalCoord#MOON_LONGITUDE longitude of the Moon's center (λ)}: [0, 2π)
+     * @param elements  intermediate arguments used in periodic terms
+     * @return          {@linkplain GlobalCoord#MOON_LONGITUDE longitude of the Moon's center (λ)},
+     *                  in radians: [0, 2π)
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {
         return Calcs.Angle.toNormalLongitude(elements.getLPrim() + periodicTerms.evaluate(tx.toDynamicalTime(), elements));
@@ -35,7 +34,7 @@ public final class MoonLongitudeCalculator implements Provider<GlobalCoord, Time
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.MOON_LONGITUDE;
     }
 
     @Override

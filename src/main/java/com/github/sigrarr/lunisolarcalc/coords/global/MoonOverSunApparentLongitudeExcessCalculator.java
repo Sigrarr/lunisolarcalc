@@ -17,13 +17,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * @see "Meeus 1998: Ch. 49 (p. 349)"
  */
 public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS;
-
     /**
      * Calculates the {@linkplain GlobalCoord#MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS excess}
      * of {@linkplain GlobalCoord#MOON_APPARENT_LONGITUDE the Moon's apparent longitude} over
-     * {@linkplain GlobalCoord#SUN_APPARENT_LONGITUDE the Sun's apparent longitude}: [0, 2π).
+     * {@linkplain GlobalCoord#SUN_APPARENT_LONGITUDE the Sun's apparent longitude}.
      *
      * By definition, it would take these quantities to subtract one from another
      * - and you can pass them as arguments to this method, instead of those listed below -
@@ -43,7 +40,7 @@ public class MoonOverSunApparentLongitudeExcessCalculator implements Provider<Gl
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.MOON_OVER_SUN_APPARENT_LONGITUDE_EXCESS;
     }
 
     @Override

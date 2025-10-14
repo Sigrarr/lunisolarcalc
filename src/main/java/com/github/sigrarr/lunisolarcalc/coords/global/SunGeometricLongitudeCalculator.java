@@ -16,12 +16,11 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class SunGeometricLongitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.SUN_GEOMETRIC_LONGITUDE;
     public static final double BASIC_TO_FK5_DELTA = Math.toRadians(Calcs.Angle.arcsecondsToDegrees(-0.09033));
     private static final double HELIOCENTRIC_TO_GEOCENTRIC_FK5_ADDEND = Math.PI + BASIC_TO_FK5_DELTA;
 
     /**
-     * Calculates {@linkplain GlobalCoord#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)}: [0, 2π).
+     * Calculates {@linkplain GlobalCoord#SUN_GEOMETRIC_LONGITUDE the Sun's geometric longitude (☉)}.
      * Quick.
      *
      * @param heliocentricLongitude {@linkplain GlobalCoord#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}, in radians
@@ -34,7 +33,7 @@ public final class SunGeometricLongitudeCalculator implements Provider<GlobalCoo
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.SUN_GEOMETRIC_LONGITUDE;
     }
 
     @Override

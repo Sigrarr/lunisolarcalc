@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.coords.periodicterms;
 
-import static com.github.sigrarr.lunisolarcalc.tutil.TestUtils.decimalAutoDelta;
+import static com.github.sigrarr.lunisolarcalc.testing.TestUtils.decimalAutoDelta;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.*;

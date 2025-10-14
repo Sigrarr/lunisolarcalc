@@ -17,17 +17,16 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class MoonLatitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.MOON_LATITUDE;
-
     private MoonLatitudePeriodicTerms periodicTerms = new MoonLatitudePeriodicTerms();
 
     /**
-     * Calcules the {@linkplain GlobalCoord#MOON_LATITUDE latitude of the Moon's center (β)}: [-π/2, π/2].
+     * Calcules the {@linkplain GlobalCoord#MOON_LATITUDE latitude of the Moon's center (β)}.
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@linkplain MoonLatitudePeriodicTerms periodic terms}
-     * @return          {@linkplain GlobalCoord#MOON_LATITUDE latitude of the Moon's center (β)}: [-π/2, π/2]
+     * @param elements  intermediate arguments used in periodic terms
+     * @return          {@linkplain GlobalCoord#MOON_LATITUDE latitude of the Moon's center (β)},
+     *                  in radians: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx, MoonCoordinateElements elements) {
         return Calcs.Angle.toNormalLatitude(periodicTerms.evaluate(tx.toDynamicalTime(), elements));
@@ -35,7 +34,7 @@ public final class MoonLatitudeCalculator implements Provider<GlobalCoord, Timel
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.MOON_LATITUDE;
     }
 
     @Override

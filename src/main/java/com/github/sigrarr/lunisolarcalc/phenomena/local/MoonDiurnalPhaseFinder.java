@@ -26,7 +26,7 @@ import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
  *      - assuming the "standard altitude" formula:
  *      h0 = 0.7275 π − 0°34′ (following Meeus),
  *      where h0 is the geometric altitude of the Moon-disk's center at the time of its apparent rise or set
- *      and {@linkplain GlobalCoord#MOON_EQUATORIAL_HORIZONTAL_PARALLAX π is the equatorial horizontal parallax}.
+ *      and {@linkplain GlobalCoord#MOON_PARALLAX π is the equatorial horizontal parallax}.
  *      The {@linkplain GlobalCoord#ECLIPTIC_TRUE_OBLIQUITY obliquity of the ecliptic}
  *      and {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE the Earth's nutuation}
  *      are taken into account. Factors such as the observer's elevation and subtle air parameters
