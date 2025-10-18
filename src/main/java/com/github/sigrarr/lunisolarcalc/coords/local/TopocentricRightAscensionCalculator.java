@@ -52,7 +52,7 @@ public class TopocentricRightAscensionCalculator implements Provider<Key, Timeli
     public Set<Key> requires() {
         return Sets.of(
             body.rightAscensionCoord.key(),
-            body.parallaxInRrightAscensionCoord.key()
+            body.parallaxInRightAscensionCoord.key()
         );
     }
 
@@ -60,7 +60,7 @@ public class TopocentricRightAscensionCalculator implements Provider<Key, Timeli
     public Double calculate(TimelinePoint tx, Map<Key, Object> precalculatedValues) {
         return calculate(
             (Double) precalculatedValues.get(body.rightAscensionCoord.key()),
-            (Double) precalculatedValues.get(body.parallaxInRrightAscensionCoord.key())
+            (Double) precalculatedValues.get(body.parallaxInRightAscensionCoord.key())
         );
     }
 }

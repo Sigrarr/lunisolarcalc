@@ -1,8 +1,12 @@
 package com.github.sigrarr.lunisolarcalc.subjects;
 
+import java.util.Objects;
+
 /**
  * The observer's position on Earth,
  * which includes geographical coordinates and elevation.
+ *
+ * In this representation the elevation is an integral number of meters.
  */
 public class GeoPosition {
     /**
@@ -12,9 +16,9 @@ public class GeoPosition {
     /**
      * Elevation (height above sea level), in meters.
      */
-    public final double elevation;
+    public final int elevation;
 
-    GeoPosition(GeoCoords coords, double elevation) {
+    GeoPosition(GeoCoords coords, int elevation) {
         this.coords = coords;
         this.elevation = elevation;
     }
@@ -26,7 +30,7 @@ public class GeoPosition {
      * @param elevation     elevation, in meters
      * @return              instance
      */
-    public static GeoPosition of(GeoCoords geoCoords, double elevation) {
+    public static GeoPosition of(GeoCoords geoCoords, int elevation) {
         return new GeoPosition(geoCoords, elevation);
     }
 
@@ -38,5 +42,18 @@ public class GeoPosition {
      */
     public static GeoPosition of(GeoCoords geoCoords) {
         return new GeoPosition(geoCoords, 0);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(coords, elevation);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof GeoPosition))
+            return false;
+        GeoPosition gp = (GeoPosition) o;
+        return coords.equals(gp.coords) && elevation == gp.elevation;
     }
 }

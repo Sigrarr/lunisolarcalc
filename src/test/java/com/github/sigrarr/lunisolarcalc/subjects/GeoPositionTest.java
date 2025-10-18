@@ -10,8 +10,8 @@ public class GeoPositionTest {
 
     @Test
     public void shouldEquate() {
-        assertEquivalence(GeoPosition.of(ExampleLocation.WROCLAW, 100), GeoPosition.of(ExampleLocation.WROCLAW, 100));
-        assertNonEquivalence(GeoPosition.of(ExampleLocation.WROCLAW, 99), GeoPosition.of(ExampleLocation.WROCLAW, 100));
+        assertEquivalence(GeoPosition.of(ExampleLocation.HONOLULU, 100), GeoPosition.of(ExampleLocation.HONOLULU, 100));
+        assertNonEquivalence(GeoPosition.of(ExampleLocation.ADELAIDE, 99), GeoPosition.of(ExampleLocation.ADELAIDE, 100));
         assertNonEquivalence(
             GeoPosition.of(GeoCoords.ofConventional(0, 0), 19),
             GeoPosition.of(GeoCoords.ofConventional(0, 0 + GeoCoords.EQUIV_UNIT_RADIANS), 19)

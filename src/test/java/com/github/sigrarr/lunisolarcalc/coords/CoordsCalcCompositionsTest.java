@@ -69,12 +69,12 @@ public class CoordsCalcCompositionsTest {
     private TopocentricLocalHourAngleCalculator sunTopocentricLocalHourAngleCalculator = new TopocentricLocalHourAngleCalculator(Body.SUN);
     private TopocentricAltitudeCalculator sunTopocentricAltitudeCalculator = new TopocentricAltitudeCalculator(Body.SUN, ExampleLocation.WROCLAW);
     private TopocentricAzimuthCalculator sunTopocentricAzimuthCalculator = new TopocentricAzimuthCalculator(Body.SUN, ExampleLocation.WROCLAW);
-    private RhoSinPhiPrimeCalculator rhoSinPhiPrimeCalculator = new RhoSinPhiPrimeCalculator(GeoPosition.of(ExampleLocation.WROCLAW));
-    private RhoCosPhiPrimeCalculator rhoCosPhiPrimeCalculator = new RhoCosPhiPrimeCalculator(GeoPosition.of(ExampleLocation.WROCLAW));
+    private RhoSinPhiPrimeCalculator rhoSinPhiPrimeCalculator = new RhoSinPhiPrimeCalculator(ExampleLocation.WROCLAW);
+    private RhoCosPhiPrimeCalculator rhoCosPhiPrimeCalculator = new RhoCosPhiPrimeCalculator(ExampleLocation.WROCLAW);
     private Map<Key, CalcComposition<Key, TimelinePoint>> keyToComposition = Stream.concat(
         Arrays.stream(GlobalCoord.values()).map(Key.QuantityIndetifier::key),
         Arrays.stream(LocalCoord.values()).map(Key.QuantityIndetifier::key)
-    ).collect(Collectors.toMap(k -> k, k -> CoordsCalcCompositions.compose(k, GeoPosition.of(ExampleLocation.WROCLAW))));
+    ).collect(Collectors.toMap(k -> k, k -> CoordsCalcCompositions.compose(k, ExampleLocation.WROCLAW)));
 
     private TimelinePoint tx;
     private int checkedSubjectsCount = 0;

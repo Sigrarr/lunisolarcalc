@@ -70,7 +70,7 @@ public class TopocentricDeclinationCalculator implements Provider<Key, TimelineP
     public Set<Key> requires() {
         return Sets.of(
             body.declinationCoord.key(),
-            body.parallaxInRrightAscensionCoord.key(),
+            body.parallaxInRightAscensionCoord.key(),
             body.localHourAngleCoord.key(),
             body.parallaxSineCoord.key(),
             LocalCoord.RHO_SIN_PHI_PRIME.key(),
@@ -82,7 +82,7 @@ public class TopocentricDeclinationCalculator implements Provider<Key, TimelineP
     public Object calculate(TimelinePoint tx, Map<Key, Object> precalculatedValues) {
         return calculate(
             (Double) precalculatedValues.get(body.declinationCoord.key()),
-            (Double) precalculatedValues.get(body.parallaxInRrightAscensionCoord.key()),
+            (Double) precalculatedValues.get(body.parallaxInRightAscensionCoord.key()),
             (Double) precalculatedValues.get(body.localHourAngleCoord.key()),
             (Double) precalculatedValues.get(body.parallaxSineCoord.key()),
             (Double) precalculatedValues.get(LocalCoord.RHO_SIN_PHI_PRIME.key()),

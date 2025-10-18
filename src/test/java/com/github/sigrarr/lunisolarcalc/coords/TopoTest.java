@@ -100,7 +100,7 @@ public class TopoTest {
                 LocalCoord.MOON_TOPOCENTRIC_ALTITUDE.key(),
                 GlobalCoord.MOON_PARALLAX_SINE.key()
             ),
-            GeoPosition.of(ExampleLocation.WROCLAW, 10)
+            ExampleLocation.WROCLAW
         ).calculate(Timeline.EPOCH_2000_UT);
 
         double geoAlt = (Double) v.get(LocalCoord.MOON_ALTITUDE.key());
@@ -108,7 +108,7 @@ public class TopoTest {
         double approxTopoAlt = Topo.approximateTopocentricAltitude(
             geoAlt,
             (Double) v.get(GlobalCoord.MOON_PARALLAX_SINE.key()),
-            Topo.calculateGeocentricRadius(ExampleLocation.WROCLAW.getLatitude())
+            Topo.calculateGeocentricRadius(ExampleLocation.WROCLAW.coords.getLatitude())
         );
 
         assumeTrue(formulaTopoAlt < geoAlt);

@@ -21,7 +21,7 @@ public class MoonDiurnalPhaseCalcCoreTransitResolverTest {
 
     @Test
     public void shouldFindEmptyTransitNearFullMoonInNonPolarSituation() {
-        GeoCoords[] exampleGeoCoords = {ExampleLocation.WROCLAW, ExampleLocation.LEJRE, ExampleLocation.HONOLULU, ExampleLocation.SYDNEY};
+        GeoCoords[] exampleGeoCoords = {ExampleLocation.WROCLAW.coords, ExampleLocation.LEJRE, ExampleLocation.HONOLULU, ExampleLocation.SYDNEY};
         TimelinePoint[] exampleAroundPoints = {Timeline.GREGORIAN_CALENDAR_START, Timeline.EPOCH_2000_UT};
 
         for (GeoCoords geoCoords : exampleGeoCoords)

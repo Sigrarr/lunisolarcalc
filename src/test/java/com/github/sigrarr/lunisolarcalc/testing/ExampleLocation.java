@@ -67,10 +67,14 @@ public abstract class ExampleLocation {
         Math.toRadians(toSingleDegreesValue(  49, 17, 0)),
         Math.toRadians(toSingleDegreesValue(-123,  7, 0))
     );
+
     // https://www.timeanddate.com/worldclock/poland/wroclaw
-    public final static GeoCoords WROCLAW = GeoCoords.ofConventional(
-        Math.toRadians(toSingleDegreesValue(  51, 07, 0)),
-        Math.toRadians(toSingleDegreesValue(  17, 02, 0))
+    public final static GeoPosition WROCLAW = GeoPosition.of(
+        GeoCoords.ofConventional(
+            Math.toRadians(toSingleDegreesValue(  51, 07, 0)),
+            Math.toRadians(toSingleDegreesValue(  17, 02, 0))
+        ),
+        123
     );
 
     // Meeus 1998: Example 11.a, p. 83 + Example 40.a, p. 280

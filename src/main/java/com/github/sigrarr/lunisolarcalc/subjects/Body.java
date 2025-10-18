@@ -175,7 +175,7 @@ public enum Body implements Titled {
      * @see LocalCoord#MOON_PARALLAX_IN_RIGHT_ASCENSION
      * @see LocalCoord#SUN_PARALLAX_IN_RIGHT_ASCENSION
      */
-    public final LocalCoord parallaxInRrightAscensionCoord;
+    public final LocalCoord parallaxInRightAscensionCoord;
     private final String title;
 
     private Body(
@@ -213,7 +213,7 @@ public enum Body implements Titled {
         this.topocentricAzimuthCoord = topocentricAzimuthCoord;
         this.parallaxCoord = parallaxCoord;
         this.parallaxSineCoord = parallaxSineCoord;
-        this.parallaxInRrightAscensionCoord = parallaxInRightAscensionCoord;
+        this.parallaxInRightAscensionCoord = parallaxInRightAscensionCoord;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class ParallaxInRightAscensionCalculator implements Provider<Key, Timelin
 
     @Override
     public Key provides() {
-        return body.parallaxInRrightAscensionCoord.key();
+        return body.parallaxInRightAscensionCoord.key();
     }
 
     @Override
