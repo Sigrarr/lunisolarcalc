@@ -17,8 +17,8 @@ class DiurnalPhaseCalcCoordsCombiner {
     }};
 
     protected final DiurnalPhaseCalcCore core;
-    private final SiderealMeanTimeCalculator siderealMeanTimeCalc = new SiderealMeanTimeCalculator();
-    private final SiderealApparentTimeCalculator sideralTimeCalc = new SiderealApparentTimeCalculator();
+    private final SiderealMeanTimeCalculator siderealMeanTime0Calc = new SiderealMeanTimeCalculator();
+    private final SiderealApparentTimeCalculator sideralTime0Calc = new SiderealApparentTimeCalculator();
     private final Interpolator centralInterpolator = new Interpolator(5);
     private final Interpolator closeInterpolator = new Interpolator(3);
 
@@ -52,13 +52,13 @@ class DiurnalPhaseCalcCoordsCombiner {
 
     private double combineLocalHourAngle(int dayPosition, double vector, Interpolator interpolator) {
         TimelinePoint tx = core.getDay(dayPosition).noon.add(vector);
-        double siderealTimeDeg = sideralTimeCalc.calculate(
-            siderealMeanTimeCalc.calculate(tx),
+        double siderealTime0 = sideralTime0Calc.calculate(
+            siderealMeanTime0Calc.calculate(tx),
             interpolator.interpolate(dayPosition, COORD_NUTUATION_IN_LONGITUDE, vector),
             interpolator.interpolate(dayPosition, COORD_ECLIPTIC_OBLIQUITY, vector)
         );
         return Transformations.calculateLocalHourAngle(
-            Math.toRadians(siderealTimeDeg),
+            siderealTime0,
             core.getRequest().longitude,
             interpolator.interpolate(dayPosition, COORD_RIGHT_ASCENSION, vector)
         );

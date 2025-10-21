@@ -19,12 +19,12 @@ public class SiderealMeanTimeCalculatorTest {
         double actualThetaZero = calculator.calculate(tx);
         double expectedThetaZeroDegrees = 360.0 * Calcs.Time.timeToDays(13, 10, 46.3668);
         double delta = 360.0 * Calcs.SECOND_TO_DAY * TestUtils.decimalAutoDelta(0.0001);
-        assertEquals(expectedThetaZeroDegrees, actualThetaZero, delta);
+        assertEquals(expectedThetaZeroDegrees, Math.toDegrees(actualThetaZero), delta);
 
         // Meeus 1998: Example 12.b, p. 89
         tx = UniversalTimelinePoint.ofCalendaricParameters(1987, 4, 10, 19, 21, 0);
         actualThetaZero = calculator.calculate(tx);
         expectedThetaZeroDegrees = 128.7378734;
-        assertEquals(expectedThetaZeroDegrees, actualThetaZero, delta);
+        assertEquals(expectedThetaZeroDegrees, Math.toDegrees(actualThetaZero), delta);
     }
 }

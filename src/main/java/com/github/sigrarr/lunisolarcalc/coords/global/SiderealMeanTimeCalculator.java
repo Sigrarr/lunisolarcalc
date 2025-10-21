@@ -16,21 +16,20 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public class SiderealMeanTimeCalculator implements Provider<GlobalCoord, TimelinePoint> {
     /**
-     * Calculates the {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time at the Greenwich meridian (θ0)},
-     * expressed in degrees: [0, 360°). 15° corresponds to 1 hour.
+     * Calculates the {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time at the Greenwich meridian (θ0)}.
      *
      * @param tx    time argument
      * @return      {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time at the Greenwich meridian (θ0)},
-     *              in degrees: [0, 360°)
+     *              in radians: [0, 2π)
      */
     public double calculate(TimelinePoint tx) {
-        TimelinePoint utX = tx.toUniversalTime();
-        double cT = utX.toCenturialT();
-        double thetaZero = 280.46061837
-            + 360.98564736629 * (utX.julianDay - Timeline.EPOCH_2000_JD)
+        TimelinePoint utx = tx.toUniversalTime();
+        double cT = utx.toCenturialT();
+        double thetaZeroDegrees = 280.46061837
+            + 360.98564736629 * (utx.julianDay - Timeline.EPOCH_2000_JD)
             + 0.000387933 * cT * cT
             - cT * cT * cT / 38710000.0;
-        return Calcs.Angle.toNormalLongitude(thetaZero, 360.0);
+        return Calcs.Angle.toNormalLongitude(Math.toRadians(thetaZeroDegrees));
     }
 
     @Override

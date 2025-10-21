@@ -16,24 +16,22 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public class SiderealApparentTimeCalculator implements Provider<GlobalCoord, TimelinePoint> {
     /**
-     * Calculates the {@linkplain GlobalCoord#SIDEREAL_APPARENT_TIME_0 apparent sidereal time at the Greenwich meridian (θ0)}
-     * expressed in degrees: [0, 360°). 15° corresponds to 1 hour.
+     * Calculates the {@linkplain GlobalCoord#SIDEREAL_APPARENT_TIME_0 apparent sidereal time at the Greenwich meridian (θ0)}.
      *
-     * @param meanSiderealTimeDegrees   {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time (θ0)}, in degrees
-     * @param nutuationInLongitude      {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)}, in radians
-     * @param eclipticObliquity         {@linkplain GlobalCoord#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians
-     * @return                          {@linkplain GlobalCoord#SIDEREAL_APPARENT_TIME_0 apparent sidereal time at the Greenwich meridian (θ0)},
-     *                                  in degrees: [0, 360°)
+     * @param meanSiderealTime      {@linkplain GlobalCoord#SIDEREAL_MEAN_TIME_0 mean sidereal time (θ0)}, in radians
+     * @param nutuationInLongitude  {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)}, in radians
+     * @param eclipticObliquity     {@linkplain GlobalCoord#ECLIPTIC_TRUE_OBLIQUITY true obliquity of the ecliptic (ε)}, in radians
+     * @return                      {@linkplain GlobalCoord#SIDEREAL_APPARENT_TIME_0 apparent sidereal time at the Greenwich meridian (θ0)},
+     *                              in radians: [0, 2π)
      */
-    public double calculate(double meanSiderealTimeDegrees, double nutuationInLongitude, double eclipticObliquity) {
+    public double calculate(double meanSiderealTime, double nutuationInLongitude, double eclipticObliquity) {
         return Calcs.Angle.toNormalLongitude(
-            meanSiderealTimeDegrees + calculateNutuationInRightAscensionDegrees(nutuationInLongitude, eclipticObliquity),
-            360.0
+            meanSiderealTime + calculateNutuationInRightAscension(nutuationInLongitude, eclipticObliquity)
         );
     }
 
-    protected double calculateNutuationInRightAscensionDegrees(double deltaPsi, double epsilon) {
-        return Math.toDegrees(deltaPsi * Math.cos(epsilon));
+    protected double calculateNutuationInRightAscension(double deltaPsi, double epsilon) {
+        return deltaPsi * Math.cos(epsilon);
     }
 
     @Override

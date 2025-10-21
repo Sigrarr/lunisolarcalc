@@ -231,7 +231,9 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
 
     /**
      * Mean sidereal time at the Greenwich meridian (θ0).
-     * Presumably in degrees (1h ~ 15°).
+     * Usually expressed in degrees or hours (1h ~ 15°),
+     * but in this project presumably represented in radians
+     * for the sake of consistency and operation readiness.
      *
      * @see SiderealMeanTimeCalculator
      */
@@ -241,7 +243,9 @@ public enum GlobalCoord implements Key.QuantityIndetifier {
 
     /**
      * Apparent sidereal time at the Greenwich meridian (θ0).
-     * Presumably in degrees (1h ~ 15°).
+     * Usually expressed in degrees or hours (1h ~ 15°),
+     * but in this project presumably represented in radians
+     * for the sake of consistency and operation readiness.
      *
      * @see SiderealApparentTimeCalculator
      */

@@ -37,13 +37,12 @@ public class HourAngleCalculator implements Provider<GlobalCoord, TimelinePoint>
      * the local hour angle will be returned (H).
      * Quick.
      *
-     * @param siderealTime0Degrees  {@linkplain GlobalCoord#SIDEREAL_APPARENT_TIME_0 sidereal time at the Greenwich meridian (θ0)}, in degrees
-     * @param rightAscension        right ascension (α), in radians
-     * @return                      hour angle at the Greenwich meridian (H0),
-     *                              in radians: [-π, +π)
+     * @param siderealTime0     {@linkplain GlobalCoord#SIDEREAL_APPARENT_TIME_0 sidereal time at the Greenwich meridian (θ0)}, in radians
+     * @param rightAscension    right ascension (α), in radians
+     * @return                  hour angle at the Greenwich meridian (H0), in radians: [-π, +π)
      */
-    public double calculate(double siderealTime0Degrees, double rightAscension) {
-        return Transformations.calculateHourAngle(Math.toRadians(siderealTime0Degrees), rightAscension);
+    public double calculate(double siderealTime0, double rightAscension) {
+        return Transformations.calculateHourAngle(siderealTime0, rightAscension);
     }
 
     @Override

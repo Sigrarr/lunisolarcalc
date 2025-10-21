@@ -51,13 +51,13 @@ public class LocalHourAngleCalculator implements Provider<Key, TimelinePoint> {
     /**
      * Calculates the celestial body's apparent geocentric local hour angle (H).
      *
-     * @param siderealTime0Degrees  sidereal time at the Greenwich meridian (θ0), in degrees
-     * @param rightAscension        right ascension (α), in radians
-     * @return                      geocentric local hour angle (H), in radians: [-π, π)
+     * @param siderealTime0     sidereal time at the Greenwich meridian (θ0), in radians
+     * @param rightAscension    right ascension (α), in radians
+     * @return                  geocentric local hour angle (H), in radians: [-π, π)
      */
-    public double calculate(double siderealTime0Degrees, double rightAscension) {
+    public double calculate(double siderealTime0, double rightAscension) {
         return Transformations.calculateLocalHourAngle(
-            Math.toRadians(siderealTime0Degrees),
+            siderealTime0,
             geoCoords.getPlanetographicLongitude(),
             rightAscension
         );
