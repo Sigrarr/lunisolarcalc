@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.github.sigrarr.lunisolarcalc.coords.global.*;
 import com.github.sigrarr.lunisolarcalc.coords.local.LocalCoord;
-import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.*;
 import com.github.sigrarr.lunisolarcalc.time.TimelinePoint;
 import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
 
@@ -42,38 +42,63 @@ public abstract class CoordsCalcCompositions {
     /**
      * Prepare a calc. composition which will calculate values
      * of the requested quantity ("target"),
-     * for given geographical coordinates of the observer (if applicable).
+     * for given observer's position on Earth (if applicable).
      *
      * @param target        key identifying the requested quantity
      *                      (e.g. obtained with {@link GlobalCoord#key()} or {@link LocalCoord#key()})
-     * @param geoCoords     geographical coordinates of the observer
+     * @param geoPosition   the observer's position on Earth
      * @return              calc. composition
      */
-    public static CalcComposition<Key, TimelinePoint> compose(Key target, GeoCoords geoCoords) {
-        CalculationComposer<Key, TimelinePoint> composer = prepareGeneralComposerWithGlobalProviders();
-        Arrays.stream(LocalCoord.values()).map(lc -> lc.getProvider(geoCoords)).forEach(composer::register);
-        return composer.compose(target);
+    public static CalcComposition<Key, TimelinePoint> compose(Key target, GeoPosition geoPosition) {
+        return prepareGeneralComposer(geoPosition).compose(target);
     }
 
     /**
      * Prepare a calc. composition which will calculate values
      * of the requested quantities ("targets"),
-     * for given geographical coordinates of the observer (if applicable).
+     * for given observer's position on Earth (if applicable).
      *
      * @param targets       set of keys identifying the requested quantities
      *                      (e.g. obtained with {@link GlobalCoord#key()} or {@link LocalCoord#key()})
-     * @param geoCoords     geographical coordinates of the observer
+     * @param geoPosition   the observer's position on Earth
      * @return              calc. composition
      */
-    public static MultiCalcComposition<Key, TimelinePoint> compose(Set<Key> targets, GeoCoords geoCoords) {
-        CalculationComposer<Key, TimelinePoint> composer = prepareGeneralComposerWithGlobalProviders();
-        Arrays.stream(LocalCoord.values()).map(lc -> lc.getProvider(geoCoords)).forEach(composer::register);
-        return composer.compose(targets);
+    public static MultiCalcComposition<Key, TimelinePoint> compose(Set<Key> targets, GeoPosition geoPosition) {
+        return prepareGeneralComposer(geoPosition).compose(targets);
     }
 
-    private static CalculationComposer<Key, TimelinePoint> prepareGeneralComposerWithGlobalProviders() {
+    /**
+     * Prepare a calc. composition which will calculate values
+     * of the requested quantity ("target"),
+     * for given observer's position on Earth at sea level (if applicable).
+     *
+     * @param target                key identifying the requested quantity
+     *                              (e.g. obtained with {@link GlobalCoord#key()} or {@link LocalCoord#key()})
+     * @param seaLevelGeoCoords     the sea-level observer's geographical coordinates
+     * @return                      calc. composition
+     */
+    public static CalcComposition<Key, TimelinePoint> compose(Key target, GeoCoords seaLevelGeoCoords) {
+        return prepareGeneralComposer(GeoPosition.of(seaLevelGeoCoords)).compose(target);
+    }
+
+    /**
+     * Prepare a calc. composition which will calculate values
+     * of the requested quantities ("targets"),
+     * for given observer's position on Earth at sea level (if applicable).
+     *
+     * @param targets               set of keys identifying the requested quantities
+     *                              (e.g. obtained with {@link GlobalCoord#key()} or {@link LocalCoord#key()})
+     * @param seaLevelGeoCoords     the sea-level observer's geographical coordinates
+     * @return                      calc. composition
+     */
+    public static MultiCalcComposition<Key, TimelinePoint> compose(Set<Key> targets, GeoCoords seaLevelGeoCoords) {
+        return prepareGeneralComposer(GeoPosition.of(seaLevelGeoCoords)).compose(targets);
+    }
+
+    private static CalculationComposer<Key, TimelinePoint> prepareGeneralComposer(GeoPosition geoPosition) {
         CalculationComposer<Key, TimelinePoint> composer = new CalculationComposer<>();
         Arrays.stream(GlobalCoord.values()).map(GlobalCoord::getProvider).map(GlobalCoordCalcKeyAdapter::new).forEach(composer::register);
+        Arrays.stream(LocalCoord.values()).map(lc -> lc.getProvider(geoPosition)).forEach(composer::register);
         return composer;
     }
 

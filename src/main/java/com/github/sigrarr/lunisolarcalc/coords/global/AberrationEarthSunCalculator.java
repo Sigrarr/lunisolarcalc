@@ -17,7 +17,6 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class AberrationEarthSunCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.ABERRATION_EARTH_SUN;
     private static final double AU_LIGHT_TIME_DAYS = (
         (double) ConstantsAndUnits.ASTRONOMICAL_UNIT_METERS / (double) ConstantsAndUnits.LIGHT_SPEED_METERS_PER_SECOND
     ) / Calcs.DAY_SECONDS;
@@ -25,8 +24,7 @@ public final class AberrationEarthSunCalculator implements Provider<GlobalCoord,
     private SunLongitudeVariationPeriodicTerms periodicTerms = new SunLongitudeVariationPeriodicTerms();
 
     /**
-     * Calculates the {@linkplain GlobalCoord#ABERRATION_EARTH_SUN aberration of the Sun's geocentric position},
-     * in radians.
+     * Calculates the {@linkplain GlobalCoord#ABERRATION_EARTH_SUN aberration of the Sun's geocentric position}.
      * Somewhat costly.
      *
      * @param tx        time argument
@@ -41,7 +39,7 @@ public final class AberrationEarthSunCalculator implements Provider<GlobalCoord,
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.ABERRATION_EARTH_SUN;
     }
 
     @Override

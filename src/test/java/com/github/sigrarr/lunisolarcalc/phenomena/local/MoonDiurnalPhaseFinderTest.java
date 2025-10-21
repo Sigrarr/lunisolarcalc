@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
-import static com.github.sigrarr.lunisolarcalc.tutil.ExampleLocation.*;
+import static com.github.sigrarr.lunisolarcalc.testing.ExampleLocation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;

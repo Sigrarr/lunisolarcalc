@@ -16,12 +16,8 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * @see "Meeus 1998: Ch. 17 (pp. 109, 115), Ch. 48 (p. 345)"
  */
 public class MoonSunElongationCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.MOON_SUN_ELONGATION;
-
     /**
-     * Calculates {@linkplain GlobalCoord#MOON_SUN_ELONGATION the geocentric elongation of the Moon from the Sun (ψ)}:
-     * [0, π].
+     * Calculates {@linkplain GlobalCoord#MOON_SUN_ELONGATION the geocentric elongation of the Moon from the Sun (ψ)}.
      *
      * You can use either ecliptical or equatorial coordinates as arguments,
      * but all arguments have to belong to the same system.
@@ -53,7 +49,7 @@ public class MoonSunElongationCalculator implements Provider<GlobalCoord, Timeli
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.MOON_SUN_ELONGATION;
     }
 
     @Override

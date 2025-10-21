@@ -17,16 +17,15 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class EarthLongitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.EARTH_LONGITUDE;
-
     private EarthLongitudePeriodicTerms periodicTerms = new EarthLongitudePeriodicTerms();
 
     /**
-     * Calculates {@linkplain GlobalCoord#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}: [0, 2π).
+     * Calculates {@linkplain GlobalCoord#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}.
      * Costly.
      *
      * @param tx    time argument
-     * @return      {@linkplain GlobalCoord#EARTH_LONGITUDE the Earth's heliocentric longitude (L)}: [0, 2π)
+     * @return      {@linkplain GlobalCoord#EARTH_LONGITUDE the Earth's heliocentric longitude (L)},
+     *              in radians: [0, 2π)
      */
     public double calculate(TimelinePoint tx) {
         return Calcs.Angle.toNormalLongitude(periodicTerms.evaluate(tx.toDynamicalTime()));
@@ -34,7 +33,7 @@ public final class EarthLongitudeCalculator implements Provider<GlobalCoord, Tim
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.EARTH_LONGITUDE;
     }
 
     @Override

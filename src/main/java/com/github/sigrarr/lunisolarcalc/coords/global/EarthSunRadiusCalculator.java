@@ -16,12 +16,10 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class EarthSunRadiusCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.EARTH_SUN_RADIUS;
-
     private EarthSunRadiusPeriodicTerms periodicTerms = new EarthSunRadiusPeriodicTerms();
 
     /**
-     * Calculates the Earth's {@linkplain GlobalCoord#EARTH_SUN_RADIUS radius vector (R)}, in AU.
+     * Calculates the Earth's {@linkplain GlobalCoord#EARTH_SUN_RADIUS radius vector (R)}.
      * Costly.
      *
      * @param tx    time argument
@@ -33,7 +31,7 @@ public final class EarthSunRadiusCalculator implements Provider<GlobalCoord, Tim
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.EARTH_SUN_RADIUS;
     }
 
     @Override

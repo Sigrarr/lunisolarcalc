@@ -17,16 +17,15 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class EarthLatitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.EARTH_LATITUDE;
-
     private EarthLatitudePeriodicTerms periodicTerms = new EarthLatitudePeriodicTerms();
 
     /**
-     * Calculates {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2].
+     * Calculates {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)}.
      * Somewhat costly.
      *
      * @param tx    time argument
-     * @return      {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)}: [-π/2, π/2]
+     * @return      {@linkplain GlobalCoord#EARTH_LATITUDE the Earth's heliocentric latitude (B)},
+     *              in radians: [-π/2, π/2]
      */
     public double calculate(TimelinePoint tx) {
         return Calcs.Angle.toNormalLatitude(periodicTerms.evaluate(tx.toDynamicalTime()));
@@ -34,7 +33,7 @@ public final class EarthLatitudeCalculator implements Provider<GlobalCoord, Time
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.EARTH_LATITUDE;
     }
 
     @Override

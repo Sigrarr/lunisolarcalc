@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import com.github.sigrarr.lunisolarcalc.phenomena.UniversalOccurrence;
 import com.github.sigrarr.lunisolarcalc.phenomena.exceptions.DiurnalPhaseSearchTooCloseToPeriodBoundaryException;
+import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
 import com.github.sigrarr.lunisolarcalc.time.calendar.CalendarPoint;
 import com.github.sigrarr.lunisolarcalc.time.exceptions.JulianDayOutOfPeriodException;
 import com.github.sigrarr.lunisolarcalc.util.Calcs;

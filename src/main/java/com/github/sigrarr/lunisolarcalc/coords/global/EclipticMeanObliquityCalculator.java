@@ -17,7 +17,6 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class EclipticMeanObliquityCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.ECLIPTIC_MEAN_OBLIQUITY;
     private static final double[] U_COEFFICIENTS_ARCSECONDS = {
         toSingleArcsecondsValue(23, 26, 21.448),
         -4680.93,
@@ -33,11 +32,12 @@ public final class EclipticMeanObliquityCalculator implements Provider<GlobalCoo
     };
 
     /**
-     * Calculates the {@linkplain GlobalCoord#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}, in radians.
+     * Calculates the {@linkplain GlobalCoord#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}.
      * Rather quick.
      *
      * @param tx        time argument
-     * @return          {@linkplain GlobalCoord#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)}, in radians
+     * @return          {@linkplain GlobalCoord#ECLIPTIC_MEAN_OBLIQUITY mean obliquity of the ecliptic (ε0)},
+     *                  in radians
      */
     public double calculate(TimelinePoint tx) {
         double u = (tx.toDynamicalTime().julianDay - Timeline.EPOCH_2000_JD) / (10 * Timeline.JULIAN_MILLENIUM_DAYS);
@@ -49,7 +49,7 @@ public final class EclipticMeanObliquityCalculator implements Provider<GlobalCoo
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.ECLIPTIC_MEAN_OBLIQUITY;
     }
 
     @Override

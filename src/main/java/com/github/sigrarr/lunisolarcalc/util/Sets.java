@@ -11,4 +11,8 @@ public class Sets {
         for(T elem : elements) set.add(elem);
         return set;
     }
+
+    public static <T> Set<T> empty() {
+        return new HashSet<>();
+    }
 }

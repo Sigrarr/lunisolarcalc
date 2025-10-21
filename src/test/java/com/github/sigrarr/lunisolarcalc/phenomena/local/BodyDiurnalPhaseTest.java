@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.Body;
+import com.github.sigrarr.lunisolarcalc.subjects.Body;
 
 public class BodyDiurnalPhaseTest {
 

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.github.sigrarr.lunisolarcalc.tutil.ExampleLocation;
+import com.github.sigrarr.lunisolarcalc.testing.ExampleLocation;
 
 public class LocalCoordTest {
 

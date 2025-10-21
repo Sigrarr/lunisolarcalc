@@ -1,6 +1,6 @@
 package com.github.sigrarr.lunisolarcalc.phenomena.local;
 
-import static com.github.sigrarr.lunisolarcalc.tutil.ExampleLocation.*;
+import static com.github.sigrarr.lunisolarcalc.testing.ExampleLocation.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
@@ -19,7 +19,7 @@ public class SunDiurnalPhaseFinderTest {
     private static final Example[] EXAMPLES_TYPICAL = {
         // https://www.timeanddate.com/sun/poland/wroclaw?month=1&year=2023
         new Example("Wrocław (moderate, contemporary)",
-            WROCLAW, +1.0, new CalendarPoint[] {
+            WROCLAW.coords, +1.0, new CalendarPoint[] {
                 new CalendarPoint(2023,  1, 07, 07, 54, 30),
                 new CalendarPoint(2023,  1, 07, 11, 57, 30),
                 new CalendarPoint(2023,  1, 07, 16, 02, 30),

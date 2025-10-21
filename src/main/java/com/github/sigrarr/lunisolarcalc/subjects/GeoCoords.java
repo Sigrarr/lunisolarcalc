@@ -1,4 +1,4 @@
-package com.github.sigrarr.lunisolarcalc.phenomena.local;
+package com.github.sigrarr.lunisolarcalc.subjects;
 
 import java.util.Objects;
 

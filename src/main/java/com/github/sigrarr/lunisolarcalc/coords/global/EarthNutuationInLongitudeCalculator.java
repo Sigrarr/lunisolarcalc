@@ -16,17 +16,16 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  */
 public final class EarthNutuationInLongitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
 
-    public static final GlobalCoord SUBJECT = GlobalCoord.EARTH_NUTUATION_IN_LONGITUDE;
-
     private EarthNutuationInLongitudePeriodicTerms periodicTerms = new EarthNutuationInLongitudePeriodicTerms();
 
     /**
-     * Calculates the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)}, in radians.
+     * Calculates the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)}.
      * Costly.
      *
      * @param tx        time argument
-     * @param elements  intermediate arguments used in {@linkplain EarthNutuationInLongitudePeriodicTerms periodic terms}
-     * @return          the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)}, in radians
+     * @param elements  intermediate arguments used in periodic terms
+     * @return          the Earth's {@linkplain GlobalCoord#EARTH_NUTUATION_IN_LONGITUDE nutuation in longitude (Δψ)},
+     *                  in radians
      */
     public double calculate(TimelinePoint tx, EarthNutuationElements elements) {
         return periodicTerms.evaluate(tx.toDynamicalTime(), elements);
@@ -34,7 +33,7 @@ public final class EarthNutuationInLongitudeCalculator implements Provider<Globa
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.EARTH_NUTUATION_IN_LONGITUDE;
     }
 
     @Override

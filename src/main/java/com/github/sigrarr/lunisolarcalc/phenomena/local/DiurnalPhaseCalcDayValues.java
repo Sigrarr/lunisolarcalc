@@ -3,9 +3,9 @@ package com.github.sigrarr.lunisolarcalc.phenomena.local;
 import java.util.*;
 import java.util.function.*;
 
+import com.github.sigrarr.lunisolarcalc.coords.Transformations;
 import com.github.sigrarr.lunisolarcalc.coords.global.GlobalCoord;
 import com.github.sigrarr.lunisolarcalc.time.UniversalTimelinePoint;
-import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 class DiurnalPhaseCalcDayValues {
 
@@ -73,8 +73,8 @@ class DiurnalPhaseCalcDayValues {
 
     protected void loadCoords() {
         Map<GlobalCoord, Object> values = core.coordsCalc.calculate(noon);
-        coordValues[COORD_LOCAL_HOUR_ANGLE] = Calcs.Angle.toNormalSignedLongitude(
-            (Double) values.get(core.body.hourAngleCoord) - core.getRequest().longitude
+        coordValues[COORD_LOCAL_HOUR_ANGLE] = Transformations.hourAngle0ToLocal(
+            (Double) values.get(core.body.hourAngle0Coord), core.getRequest().longitude
         );
         coordValues[COORD_DECLINATION] = (Double) values.get(core.body.declinationCoord);
         coordValues[COORD_RIGHT_ASCENSION] = (Double) values.get(core.body.rightAscensionCoord);

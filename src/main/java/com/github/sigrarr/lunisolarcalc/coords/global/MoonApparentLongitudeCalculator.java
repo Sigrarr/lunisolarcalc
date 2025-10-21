@@ -15,11 +15,8 @@ import com.github.sigrarr.lunisolarcalc.util.calccomposition.*;
  * @see "Meeus 1998: Ch. 47 (p. 337...)"
  */
 public final class MoonApparentLongitudeCalculator implements Provider<GlobalCoord, TimelinePoint> {
-
-    public static final GlobalCoord SUBJECT = GlobalCoord.MOON_APPARENT_LONGITUDE;
-
     /**
-     * Calculates the {@linkplain GlobalCoord#MOON_APPARENT_LONGITUDE apparent longitude of the center of the Moon (λ)}: [0, 2π).
+     * Calculates the {@linkplain GlobalCoord#MOON_APPARENT_LONGITUDE apparent longitude of the center of the Moon (λ)}.
      * Quick.
      *
      * @param longitude             {@linkplain GlobalCoord#MOON_LONGITUDE the Moon's geocentric longitude (λ)}, in radians
@@ -33,7 +30,7 @@ public final class MoonApparentLongitudeCalculator implements Provider<GlobalCoo
 
     @Override
     public GlobalCoord provides() {
-        return SUBJECT;
+        return GlobalCoord.MOON_APPARENT_LONGITUDE;
     }
 
     @Override

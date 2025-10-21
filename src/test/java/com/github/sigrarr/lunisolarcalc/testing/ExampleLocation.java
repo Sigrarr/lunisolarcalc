@@ -1,8 +1,10 @@
-package com.github.sigrarr.lunisolarcalc.tutil;
+package com.github.sigrarr.lunisolarcalc.testing;
 
 import static com.github.sigrarr.lunisolarcalc.util.Calcs.Angle.toSingleDegreesValue;
 
-import com.github.sigrarr.lunisolarcalc.phenomena.local.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.GeoCoords;
+import com.github.sigrarr.lunisolarcalc.subjects.GeoPosition;
+import com.github.sigrarr.lunisolarcalc.util.Calcs;
 
 public abstract class ExampleLocation {
     // https://www.timeanddate.com/worldclock/@6620709
@@ -65,9 +67,22 @@ public abstract class ExampleLocation {
         Math.toRadians(toSingleDegreesValue(  49, 17, 0)),
         Math.toRadians(toSingleDegreesValue(-123,  7, 0))
     );
+
     // https://www.timeanddate.com/worldclock/poland/wroclaw
-    public final static GeoCoords WROCLAW = GeoCoords.ofConventional(
-        Math.toRadians(toSingleDegreesValue(  51, 07, 0)),
-        Math.toRadians(toSingleDegreesValue(  17, 02, 0))
+    public final static GeoPosition WROCLAW = GeoPosition.of(
+        GeoCoords.ofConventional(
+            Math.toRadians(toSingleDegreesValue(  51, 07, 0)),
+            Math.toRadians(toSingleDegreesValue(  17, 02, 0))
+        ),
+        123
+    );
+
+    // Meeus 1998: Example 11.a, p. 83 + Example 40.a, p. 280
+    public final static GeoPosition PALOMAR_OBSERVATORY = GeoPosition.of(
+        GeoCoords.ofConventionalDegrees(
+            Calcs.Angle.toSingleDegreesValue(33, 21, 22),
+            -360.0 * Calcs.Time.timeToDays(7, 47, 27)
+        ),
+        1706
     );
 }
