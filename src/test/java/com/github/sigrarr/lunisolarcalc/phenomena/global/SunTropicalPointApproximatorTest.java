@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 
-public class SunSeasonPointApproximatorTest {
+public class SunTropicalPointApproximatorTest {
 
-    private SunSeasonPointApproximator approximatior = new SunSeasonPointApproximator();
+    private SunTropicalPointApproximator approximatior = new SunTropicalPointApproximator();
 
     @Test
-    public void shouldApproximateSunSeasonPointJde() {
+    public void shouldApproximateSunTropicalPointJde() {
         // Meeus 1998, Example 27.a, p. 180
-        double actualApproximationJde = approximatior.approximateJulianEphemerisDay(1962, SunSeasonPoint.JUNE_SOLSTICE);
+        double actualApproximationJde = approximatior.approximateJulianEphemerisDay(1962, SunTropicalPoint.JUNE_SOLSTICE);
         assertEquals(2437837.38589, actualApproximationJde, decimalAutoDelta(0.00001));
     }
 }

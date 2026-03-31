@@ -8,7 +8,7 @@ import com.github.sigrarr.lunisolarcalc.time.*;
  *
  * @param <T>   {@link Enum} representing a type or stage of astronomical phenomenon whose occurence is stored,
  *              eg. {@link com.github.sigrarr.lunisolarcalc.phenomena.global.MoonPhase MoonPhase}
- *              or {@link com.github.sigrarr.lunisolarcalc.phenomena.global.SunSeasonPoint SunSeasonPoint}
+ *              or {@link com.github.sigrarr.lunisolarcalc.phenomena.global.SunTropicalPoint SunTropicalPoint}
  * @see         DynamicalOccurrence
  */
 public class UniversalOccurrence<T extends Enum<T>> extends Occurrence<T> implements Comparable<UniversalOccurrence<?>> {

@@ -27,7 +27,7 @@ The package `com.github.sigrarr.lunisolarcalc.phenomena` provides tools for find
 The most important classes are:
 * `global.`
     * `MoonPhaseFinder`
-    * `SunSeasonPointFinder`
+    * `SunTropicalPointFinder`
 * `local.`
     * `MoonDiurnalPhaseFinder`
     * `SunDiurnalPhaseFinder`
@@ -50,7 +50,7 @@ Output: `+2023-01-06 23:07 UT`
 
 #### **Example Ph.2**
 ```java
-new SunSeasonPointFinder()
+new SunTropicalPointFinder()
     .findMany(1581)
     .limit(4)
     .map(occurrence -> String.format("%s\t%s",

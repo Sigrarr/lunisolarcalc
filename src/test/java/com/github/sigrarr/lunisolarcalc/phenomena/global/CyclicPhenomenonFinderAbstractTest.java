@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class CyclicPhenomenonFinderAbstractTest {
 
-    private final CyclicPhenomenonFinderAbstract[] finders = {new SunSeasonPointFinder(), new MoonPhaseFinder()};
+    private final CyclicPhenomenonFinderAbstract[] finders = {new SunTropicalPointFinder(), new MoonPhaseFinder()};
 
     @Test
     public void shouldThrowCalculationLimitExceededException() {

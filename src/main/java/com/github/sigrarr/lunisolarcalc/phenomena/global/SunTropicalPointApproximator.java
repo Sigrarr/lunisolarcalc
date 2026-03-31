@@ -4,11 +4,11 @@ package com.github.sigrarr.lunisolarcalc.phenomena.global;
  * A tool for approximating time of Equinoxes/Solstices.
  * Calculates a "mean" value (JDE0), not complete approximate,
  * which is sufficient and effective as the initial step
- * in a {@linkplain SunSeasonPointFinder more precise search}. Quick.
+ * in a {@linkplain SunTropicalPointFinder more precise search}. Quick.
  *
  * @see "Meeus 1998: Ch. 27, Table 27.A-B (p. 178)"
  */
-public final class SunSeasonPointApproximator {
+public final class SunTropicalPointApproximator {
 
     private static final double[][] COEFFICIENTS_FOR_YEARS_NEGATIVE_1K_TO_1K = {
         { 1721139.29189 , 365242.13740 , +0.06134 , +0.00111 , -0.00071 },
@@ -38,7 +38,7 @@ public final class SunSeasonPointApproximator {
      * @param point         Equinox/Solstice to look for
      * @return              approximate "mean" time of requested Equinox/Solstice (JDE0), in Julian Ephemeris Day
      */
-    public double approximateJulianEphemerisDay(int calendarYear, SunSeasonPoint point) {
+    public double approximateJulianEphemerisDay(int calendarYear, SunTropicalPoint point) {
         if (calendarYear != currentCalendarYear) {
             if (calendarYear > 1000) {
                 currentSubtable = COEFFICIENTS_FOR_YEARS_1K_TO_3K;

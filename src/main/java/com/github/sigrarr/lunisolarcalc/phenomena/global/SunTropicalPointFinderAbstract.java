@@ -7,11 +7,11 @@ import com.github.sigrarr.lunisolarcalc.phenomena.DynamicalOccurrence;
 import com.github.sigrarr.lunisolarcalc.phenomena.global.cyclicphenomenonfinders.StageIndicatingAngleCalculator;
 import com.github.sigrarr.lunisolarcalc.time.DynamicalTimelinePoint;
 
-abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstract {
+abstract class SunTropicalPointFinderAbstract extends CyclicPhenomenonFinderAbstract {
 
-    protected final SunSeasonPointApproximator approximator = new SunSeasonPointApproximator();
+    protected final SunTropicalPointApproximator approximator = new SunTropicalPointApproximator();
 
-    public SunSeasonPointFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
+    public SunTropicalPointFinderAbstract(StageIndicatingAngleCalculator coreCalculator) {
         super(coreCalculator);
     }
 
@@ -26,7 +26,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      * @param point         Equinox/Solstice to look for
      * @return              found occurrence
      */
-    public DynamicalOccurrence<SunSeasonPoint> find(int calendarYear, SunSeasonPoint point) {
+    public DynamicalOccurrence<SunTropicalPoint> find(int calendarYear, SunTropicalPoint point) {
         return new DynamicalOccurrence<>(new DynamicalTimelinePoint(findJulianEphemerisDay(calendarYear, point)), point);
     }
 
@@ -42,7 +42,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      * @param point         Equinox/Solstice to look for
      * @return              time of occurrence, in Julian Ephemeris Day
      */
-    public abstract double findJulianEphemerisDay(int calendarYear, SunSeasonPoint point);
+    public abstract double findJulianEphemerisDay(int calendarYear, SunTropicalPoint point);
 
     /**
      * Finds and streams subsequent occurrences of any Equinoxes/Solstices,
@@ -53,8 +53,8 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      *                              of the beginning of the tropical year to start at (in astronomical numbering)
      * @return                      unterminated {@link Stream} of found occurrences
      */
-    public Stream<DynamicalOccurrence<SunSeasonPoint>> findMany(int startCalendarYear) {
-        return findMany(startCalendarYear, EnumSet.allOf(SunSeasonPoint.class));
+    public Stream<DynamicalOccurrence<SunTropicalPoint>> findMany(int startCalendarYear) {
+        return findMany(startCalendarYear, EnumSet.allOf(SunTropicalPoint.class));
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      * @param point                 Equinox/Solstice to look for
      * @return                      unterminated {@link Stream} of found occurrences
      */
-    public Stream<DynamicalOccurrence<SunSeasonPoint>> findMany(int startCalendarYear, SunSeasonPoint point) {
+    public Stream<DynamicalOccurrence<SunTropicalPoint>> findMany(int startCalendarYear, SunTropicalPoint point) {
         return findMany(startCalendarYear, EnumSet.of(point));
     }
 
@@ -85,7 +85,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      * @param points                set of Equinoxes/Solstices to look for
      * @return                      unterminated {@link Stream} of found occurrences
      */
-    public Stream<DynamicalOccurrence<SunSeasonPoint>> findMany(int startCalendarYear, EnumSet<SunSeasonPoint> points) {
+    public Stream<DynamicalOccurrence<SunTropicalPoint>> findMany(int startCalendarYear, EnumSet<SunTropicalPoint> points) {
         return Stream.generate(new ResultSupplier(startCalendarYear, points));
     }
 
@@ -101,7 +101,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      *                              in Julian Ephemeris Days
      */
     public DoubleStream findManyJulianEphemerisDays(int startCalendarYear) {
-        return findManyJulianEphemerisDays(startCalendarYear, EnumSet.allOf(SunSeasonPoint.class));
+        return findManyJulianEphemerisDays(startCalendarYear, EnumSet.allOf(SunTropicalPoint.class));
     }
 
     /**
@@ -118,7 +118,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      * @return                      unterminated {@linkplain DoubleStream stream} of times of found occurrences,
      *                              in Julian Ephemeris Days
      */
-    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear, SunSeasonPoint point) {
+    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear, SunTropicalPoint point) {
         return findManyJulianEphemerisDays(startCalendarYear, EnumSet.of(point));
     }
 
@@ -136,7 +136,7 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
      * @return                      unterminated {@linkplain DoubleStream stream} of times of found occurrences,
      *                              in Julian Ephemeris Days
      */
-    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear, EnumSet<SunSeasonPoint> points) {
+    public DoubleStream findManyJulianEphemerisDays(int startCalendarYear, EnumSet<SunTropicalPoint> points) {
         return DoubleStream.generate(new ResultSupplier(startCalendarYear, points));
     }
 
@@ -145,11 +145,11 @@ abstract class SunSeasonPointFinderAbstract extends CyclicPhenomenonFinderAbstra
         return MeanCycle.TROPICAL_YEAR;
     }
 
-    private class ResultSupplier extends ResultSupplierAbstract<SunSeasonPoint> {
+    private class ResultSupplier extends ResultSupplierAbstract<SunTropicalPoint> {
 
         int currentYear;
 
-        ResultSupplier(int startYear, EnumSet<SunSeasonPoint> pointsInScope) {
+        ResultSupplier(int startYear, EnumSet<SunTropicalPoint> pointsInScope) {
             super(pointsInScope.stream().sorted().collect(Collectors.toList()));
             currentYear = startYear;
         }

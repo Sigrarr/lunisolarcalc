@@ -14,54 +14,54 @@ import com.github.sigrarr.lunisolarcalc.util.*;
 import org.junit.jupiter.api.*;
 import org.opentest4j.AssertionFailedError;
 
-public class SunSeasonPointFinderTest {
+public class SunTropicalPointFinderTest {
     /**
      * Meeus 1998, Table 27.E, p. 182
      */
-    private static final Map<CalendarPoint, SunSeasonPoint> VSOP87_SUN_SEASON_POINTS = new HashMap<CalendarPoint, SunSeasonPoint>() {{
-        put(new CalendarPoint(1996,  3, 20,   8,  4,  7), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(1997,  3, 20,  13, 55, 42), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(1998,  3, 20,  19, 55, 35), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(1999,  3, 21,   1, 46, 53), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2000,  3, 20,   7, 36, 19), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2001,  3, 20,  13, 31, 47), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2002,  3, 20,  19, 17, 13), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2003,  3, 21,   1,  0, 50), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2004,  3, 20,   6, 49, 42), SunSeasonPoint.MARCH_EQUINOX);
-        put(new CalendarPoint(2005,  3, 20,  12, 34, 29), SunSeasonPoint.MARCH_EQUINOX);
+    private static final Map<CalendarPoint, SunTropicalPoint> VSOP87_SUN_TROPICAL_POINTS = new HashMap<CalendarPoint, SunTropicalPoint>() {{
+        put(new CalendarPoint(1996,  3, 20,   8,  4,  7), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(1997,  3, 20,  13, 55, 42), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(1998,  3, 20,  19, 55, 35), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(1999,  3, 21,   1, 46, 53), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2000,  3, 20,   7, 36, 19), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2001,  3, 20,  13, 31, 47), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2002,  3, 20,  19, 17, 13), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2003,  3, 21,   1,  0, 50), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2004,  3, 20,   6, 49, 42), SunTropicalPoint.MARCH_EQUINOX);
+        put(new CalendarPoint(2005,  3, 20,  12, 34, 29), SunTropicalPoint.MARCH_EQUINOX);
 
-        put(new CalendarPoint(1996,  6, 21,   2, 24, 46), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(1997,  6, 21,   8, 20, 59), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(1998,  6, 21,  14, 03, 38), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(1999,  6, 21,  19, 50, 11), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(2000,  6, 21,   1, 48, 46), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(2001,  6, 21,   7, 38, 48), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(2002,  6, 21,  13, 25, 29), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(2003,  6, 21,  19, 11, 32), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(2004,  6, 21,   0, 57, 57), SunSeasonPoint.JUNE_SOLSTICE);
-        put(new CalendarPoint(2005,  6, 21,   6, 47, 12), SunSeasonPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1996,  6, 21,   2, 24, 46), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1997,  6, 21,   8, 20, 59), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1998,  6, 21,  14, 03, 38), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(1999,  6, 21,  19, 50, 11), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2000,  6, 21,   1, 48, 46), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2001,  6, 21,   7, 38, 48), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2002,  6, 21,  13, 25, 29), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2003,  6, 21,  19, 11, 32), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2004,  6, 21,   0, 57, 57), SunTropicalPoint.JUNE_SOLSTICE);
+        put(new CalendarPoint(2005,  6, 21,   6, 47, 12), SunTropicalPoint.JUNE_SOLSTICE);
 
-        put(new CalendarPoint(1996,  9, 22,  18,  1,  8), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(1997,  9, 22,  23, 56, 49), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(1998,  9, 23,   5, 38, 15), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(1999,  9, 23,  11, 32, 34), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(2000,  9, 22,  17, 28, 40), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(2001,  9, 22,  23, 05, 32), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(2002,  9, 23,   4, 56, 28), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(2003,  9, 23,  10, 47, 53), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(2004,  9, 22,  16, 30, 54), SunSeasonPoint.SEPTEMBER_EQUINOX);
-        put(new CalendarPoint(2005,  9, 22,  22, 24, 14), SunSeasonPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1996,  9, 22,  18,  1,  8), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1997,  9, 22,  23, 56, 49), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1998,  9, 23,   5, 38, 15), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(1999,  9, 23,  11, 32, 34), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2000,  9, 22,  17, 28, 40), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2001,  9, 22,  23, 05, 32), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2002,  9, 23,   4, 56, 28), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2003,  9, 23,  10, 47, 53), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2004,  9, 22,  16, 30, 54), SunTropicalPoint.SEPTEMBER_EQUINOX);
+        put(new CalendarPoint(2005,  9, 22,  22, 24, 14), SunTropicalPoint.SEPTEMBER_EQUINOX);
 
-        put(new CalendarPoint(1996, 12, 21,  14,  6, 56), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(1997, 12, 21,  20,  8,  5), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(1998, 12, 22,   1, 57, 31), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(1999, 12, 22,   7, 44, 52), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(2000, 12, 21,  13, 38, 30), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(2001, 12, 21,  19, 22, 34), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(2002, 12, 22,   1, 15, 26), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(2003, 12, 22,   7,  4, 53), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(2004, 12, 21,  12, 42, 40), SunSeasonPoint.DECEMBER_SOLSTICE);
-        put(new CalendarPoint(2005, 12, 21,  18, 36,  1), SunSeasonPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1996, 12, 21,  14,  6, 56), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1997, 12, 21,  20,  8,  5), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1998, 12, 22,   1, 57, 31), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(1999, 12, 22,   7, 44, 52), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2000, 12, 21,  13, 38, 30), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2001, 12, 21,  19, 22, 34), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2002, 12, 22,   1, 15, 26), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2003, 12, 22,   7,  4, 53), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2004, 12, 21,  12, 42, 40), SunTropicalPoint.DECEMBER_SOLSTICE);
+        put(new CalendarPoint(2005, 12, 21,  18, 36,  1), SunTropicalPoint.DECEMBER_SOLSTICE);
     }};
 
     /**
@@ -97,26 +97,26 @@ public class SunSeasonPointFinderTest {
      * https://aa.usno.navy.mil/calculated/seasons?year=1700&tz=0.00&tz_sign=1&tz_label=false&dst=false
      * The source precision is 1 minute. Seconds value :30 set as a midpoint.
      */
-    private static final CalendarPoint[] SEASON_POINTS_1700 = new CalendarPoint[] {
+    private static final CalendarPoint[] TROPICAL_POINTS_1700 = new CalendarPoint[] {
         new CalendarPoint(1700, 3, 20, 14, 26, 30),
         new CalendarPoint(1700, 6, 21, 13, 52, 30),
         new CalendarPoint(1700, 9, 23, 2, 28, 30),
         new CalendarPoint(1700, 12, 21, 17, 37, 30)
     };
 
-    private static SunSeasonPointFinder finder;
+    private static SunTropicalPointFinder finder;
 
     @BeforeEach
     public void reinitializeFinder() {
-        finder = new SunSeasonPointFinder();
+        finder = new SunTropicalPointFinder();
         finder.setCoreCalculationsLimit(4);
     }
 
     @Test
-    public void shouldFindSeasonPointsInModernScope() {
+    public void shouldFindTropicalPointsInModernScope() {
         Map<CalendarPoint, CalendarPoint> minuteNumberMismatches = new HashMap<>();
 
-        for (Entry<CalendarPoint, SunSeasonPoint> entry : VSOP87_SUN_SEASON_POINTS.entrySet()) {
+        for (Entry<CalendarPoint, SunTropicalPoint> entry : VSOP87_SUN_TROPICAL_POINTS.entrySet()) {
             CalendarPoint vsop87CalendarPoint = entry.getKey();
             double vsop87Jde = Timeline.normalCalendarToJulianDay(vsop87CalendarPoint);
             double actualJde = finder.findJulianEphemerisDay(vsop87CalendarPoint.y, entry.getValue());
@@ -130,13 +130,13 @@ public class SunSeasonPointFinderTest {
         }
 
         assertTrue(
-            minuteNumberMismatches.size() <= VSOP87_SUN_SEASON_POINTS.size() / 10,
+            minuteNumberMismatches.size() <= VSOP87_SUN_TROPICAL_POINTS.size() / 10,
             tooManyMinuteNumberMismatchesMsg(minuteNumberMismatches)
         );
     }
 
     @Test
-    public void shouldFindSeasonPointsInMoreDistantPast() {
+    public void shouldFindTropicalPointsInMoreDistantPast() {
         PrimitiveIterator.OfDouble actualJds = finder
             .findManyJulianEphemerisDays(1700)
             .limit(4)
@@ -144,7 +144,7 @@ public class SunSeasonPointFinderTest {
             .iterator();
 
         for (int i = 0; i < 4; i++) {
-            double expectedJd = Timeline.normalCalendarToJulianDay(SEASON_POINTS_1700[i]);
+            double expectedJd = Timeline.normalCalendarToJulianDay(TROPICAL_POINTS_1700[i]);
             assertEquals(expectedJd, actualJds.next(), Calcs.Time.timeToDays(0, 0, 40));
         }
     }
@@ -195,23 +195,23 @@ public class SunSeasonPointFinderTest {
                 });
         }
 
-        System.out.println("\t\t" + finder.getTotalFindingsCount() + " sun season points found, no anomalies detected.");
+        System.out.println("\t\t" + finder.getTotalFindingsCount() + " sun tropical points found, no anomalies detected.");
     }
 
     @Test
     public void shouldFindManyResultsWithVariousParameterLists() {
-        List<String> allYMDs = VSOP87_SUN_SEASON_POINTS.keySet().stream()
+        List<String> allYMDs = VSOP87_SUN_TROPICAL_POINTS.keySet().stream()
             .sorted()
             .map(gcp -> gcp.formatDate())
             .collect(Collectors.toList());
         List<String> marchEquinoxYMDs = allYMDs.stream()
             .filter(ymd -> ymd.matches(".*-03.*"))
             .collect(Collectors.toList());
-        assertEquals(VSOP87_SUN_SEASON_POINTS.size() / 4, marchEquinoxYMDs.size());
+        assertEquals(VSOP87_SUN_TROPICAL_POINTS.size() / 4, marchEquinoxYMDs.size());
         List<String> solsticeYMDs = allYMDs.stream()
             .filter(ymd -> ymd.matches(".*((-06-)|(-12-)).*"))
             .collect(Collectors.toList());
-        assertEquals(VSOP87_SUN_SEASON_POINTS.size() / 2, solsticeYMDs.size());
+        assertEquals(VSOP87_SUN_TROPICAL_POINTS.size() / 2, solsticeYMDs.size());
 
         Iterator<String> allIt1 = allYMDs.listIterator();
         finder.findMany(1996)
@@ -220,13 +220,13 @@ public class SunSeasonPointFinderTest {
             .forEach(ymd -> assertEquals(allIt1.next(), ymd));
 
         Iterator<String> marchEquinoxIt1 = marchEquinoxYMDs.listIterator();
-        finder.findMany(1996, SunSeasonPoint.MARCH_EQUINOX)
+        finder.findMany(1996, SunTropicalPoint.MARCH_EQUINOX)
             .limit(marchEquinoxYMDs.size())
             .map(r -> r.getTimelinePoint().toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(marchEquinoxIt1.next(), ymd));
 
         Iterator<String> solsticeIt1 = solsticeYMDs.listIterator();
-        finder.findMany(1996, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
+        finder.findMany(1996, EnumSet.of(SunTropicalPoint.JUNE_SOLSTICE, SunTropicalPoint.DECEMBER_SOLSTICE))
             .limit(solsticeYMDs.size())
             .map(r -> r.getTimelinePoint().toCalendarPoint().formatDate())
             .forEach(ymd -> assertEquals(solsticeIt1.next(), ymd));
@@ -238,23 +238,23 @@ public class SunSeasonPointFinderTest {
             .forEach(ymd -> assertEquals(allIt2.next(), ymd));
 
         Iterator<String> marchEquinoxIt2 = marchEquinoxYMDs.listIterator();
-        finder.findManyJulianEphemerisDays(1996, SunSeasonPoint.MARCH_EQUINOX)
+        finder.findManyJulianEphemerisDays(1996, SunTropicalPoint.MARCH_EQUINOX)
             .limit(marchEquinoxYMDs.size())
             .mapToObj(jde -> Timeline.julianDayToCalendar(jde).formatDate())
             .forEach(ymd -> assertEquals(marchEquinoxIt2.next(), ymd));
 
         Iterator<String> solsticeIt2 = solsticeYMDs.listIterator();
-        finder.findManyJulianEphemerisDays(1996, EnumSet.of(SunSeasonPoint.JUNE_SOLSTICE, SunSeasonPoint.DECEMBER_SOLSTICE))
+        finder.findManyJulianEphemerisDays(1996, EnumSet.of(SunTropicalPoint.JUNE_SOLSTICE, SunTropicalPoint.DECEMBER_SOLSTICE))
             .limit(solsticeYMDs.size())
             .mapToObj(jde -> Timeline.julianDayToCalendar(jde).formatDate())
             .forEach(ymd -> assertEquals(solsticeIt2.next(), ymd));
     }
 
     private void proveThatGivenDeltaIsOkButDecimalAutoDeltaWouldBeTooTightForSeasonDurationsFromSourceTable(double delta) {
-        double[] accurateWinter2000to2001BoundariesJDEs = VSOP87_SUN_SEASON_POINTS.entrySet().stream()
+        double[] accurateWinter2000to2001BoundariesJDEs = VSOP87_SUN_TROPICAL_POINTS.entrySet().stream()
             .filter(
-                (e) -> (e.getKey().y == 2000 && e.getValue() == SunSeasonPoint.DECEMBER_SOLSTICE)
-                    || (e.getKey().y == 2001 && e.getValue() == SunSeasonPoint.MARCH_EQUINOX)
+                (e) -> (e.getKey().y == 2000 && e.getValue() == SunTropicalPoint.DECEMBER_SOLSTICE)
+                    || (e.getKey().y == 2001 && e.getValue() == SunTropicalPoint.MARCH_EQUINOX)
             )
             .mapToDouble((e) -> Timeline.normalCalendarToJulianDay(e.getKey()))
             .sorted()

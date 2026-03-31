@@ -7,7 +7,7 @@ import com.github.sigrarr.lunisolarcalc.util.Titled;
  * A distinguished stage of the tropical year cycle.
  * Indicated by the Sun's apparent longitude (λ).
  */
-public enum SunSeasonPoint implements Titled {
+public enum SunTropicalPoint implements Titled {
 
     MARCH_EQUINOX(0.0, "March Equinox", "Spring Equinox", "Autumn Equinox"),
     JUNE_SOLSTICE(0.5 * Math.PI, "June Solstice", "Summer Solstice", "Winter Solstice"),
@@ -34,7 +34,7 @@ public enum SunSeasonPoint implements Titled {
      */
     public final String southernName;
 
-    private SunSeasonPoint(double apparentLongitude, String calendaricName, String northernName, String southernName) {
+    private SunTropicalPoint(double apparentLongitude, String calendaricName, String northernName, String southernName) {
         this.apparentLongitude = apparentLongitude;
         this.calendaricName = calendaricName;
         this.northernName = northernName;
